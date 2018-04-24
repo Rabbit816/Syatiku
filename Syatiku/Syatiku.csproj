@@ -85,6 +85,8 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Assets\Scripts\MiniGame\Drinking\DrinkMain.cs" />
+    <Compile Include="Assets\Scripts\MiniGame\Hacking\HackMain.cs" />
     <Compile Include="Assets\Scripts\MiniGame\Smoking\SmokingController.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
