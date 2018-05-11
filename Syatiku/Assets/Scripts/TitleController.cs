@@ -4,19 +4,9 @@ using UnityEngine;
 using UnityEngine.UI;
 
 public class TitleController : BaseController {
-    
-	// Use this for initialization
-	void Start () {
-		
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
-
     public void ChangeSelect()
     {
-        ChangeScene(SceneName.Select);
+        //ChangeScene(SceneName.Select);
+        ChangeScene(SceneName.Action);
     }
 }
