@@ -4,13 +4,27 @@ using UnityEngine;
 
 public class BossScene : MonoBehaviour {
 
-	// Use this for initialization
-	void Start () {
-		
+    static Vector3 touchStartPos;
+
+    void Start () {
+
 	}
 	
-	// Update is called once per frame
 	void Update () {
-		
+        if (Input.GetMouseButtonDown(0))
+        {
+            touchStartPos = Input.mousePosition;
+        }
 	}
+
+    public static void SetMoveForce(out Vector3 moveDir, out float moveSpeed)
+    {
+        //離した位置
+        Vector3 touchEndPos = Input.mousePosition;
+        //フリックの長さ
+        Vector3 flickLength = touchEndPos - touchStartPos;
+
+        moveDir = flickLength.normalized;
+        moveSpeed = flickLength.magnitude / 100;
+    }
 }
