@@ -12,4 +12,22 @@ public class ActionController : BaseController {
 	void Update () {
 		
 	}
+
+    public void ChangeMinigame(int num)
+    {
+        switch (num)
+        {
+            case 0:
+                ChangeScene(SceneName.Smoking);
+                break;
+            case 1:
+                ChangeScene(SceneName.Hacking);
+                break;
+            case 2:
+                ChangeScene(SceneName.Drinking);
+                break;
+            default:
+                break;
+        }
+    }
 }
