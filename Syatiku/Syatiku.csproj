@@ -86,6 +86,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\Scripts\Boss\BossScene.cs" />
+    <Compile Include="Assets\Scripts\Common.cs" />
     <Compile Include="Assets\Scripts\MiniGame\Drinking\DrinkMain.cs" />
     <Compile Include="Assets\Scripts\MiniGame\Hacking\HackMain.cs" />
     <Compile Include="Assets\Scripts\MiniGame\Smoking\SmokingController.cs" />
