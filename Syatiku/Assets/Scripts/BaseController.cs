@@ -1,10 +1,9 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 
-public class Common : MonoBehaviour {
+public class BaseController : MonoBehaviour {
 
 	public enum SceneName
     {
