@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class HackTap : MonoBehaviour
 {
@@ -21,8 +22,8 @@ public class HackTap : MonoBehaviour
     [SerializeField, Tooltip("全部の発見できる単語")]
     private string[] str;
 
-    private HashSet<int> rand_list = new HashSet<int>();
-    private int rand;
+    private List<int> rand_list = new List<int>();
+    private System.Random rand;
 
     //現在の場所
     private int place_current;
@@ -38,7 +39,9 @@ public class HackTap : MonoBehaviour
     
 	// Use this for initialization
 	void Start () {
+        place_list = new PlaceList[5];
         _placeAnim = false;
+        rand = new System.Random();
         AddPlaceWord();
 	}
 	
@@ -63,9 +66,9 @@ public class HackTap : MonoBehaviour
         // 一回もタップされてなかったら
         if(place[placeNum].transform.childCount == 0)
         {
-            place_list[placeNum].word.ToString();
             GameObject _prefab = Instantiate(Prefab);
             _prefab.transform.SetParent(place[placeNum].transform, false);  // SetParent(親の場所,大きさを変えるか)
+            place[placeNum].transform.GetComponentInChildren<Text>().text = place_list[placeNum].word.ToString();
             _placeAnim = true;
         }
         place_current = placeNum;
@@ -75,17 +78,23 @@ public class HackTap : MonoBehaviour
     /// ランダムで単語を選ぶ処理
     /// </summary>
     /// <returns></returns>
-    private string HackRandom() {
+    private string HackRandom(int i) {
         if (rand_list.Count > str.Length)
             rand_list.Clear();
+        HashSet<int> hashset = new HashSet<int>();
+        Debug.Log("rand:" + i.ToString());
+        int int_rand = 0;
         //randが重複したら回す
-        while (!rand_list.Add(rand))
+        while (!hashset.Add(i))
         {
-            rand = Random.Range(0, str.Length);
-            rand_list.Add(rand);
-            Debug.Log("rand:" + rand);
+            var a = new System.Random();
+            int_rand = a.Next(0, str.Length - 1);
+            hashset.Add(int_rand);
+            Debug.Log("rand:" + int_rand);
         }
-        return str[rand];
+        
+        rand_list.Add(int_rand);
+        return str[int_rand];
     }
 
     /// <summary>
@@ -93,10 +102,19 @@ public class HackTap : MonoBehaviour
     /// </summary>
     private void AddPlaceWord()
     {
-        for (int i=0; i<place.Length; i++)
+        int count = 0;
+        //foreach (var i in HackRandom())
+        //{
+        //    place_list[count].pos = place[count];
+        //    place_list[count].word = i.ToString();
+        //    count++;
+        //}
+        for (int i = 0; i < place.Length - 1; i++)
         {
-            place_list[i].word = HackRandom();
             place_list[i].pos = place[i];
+            place_list[i].word = HackRandom(rand.Next(0, str.Length - 1));
+            Debug.Log(i + "週目 place_list.pos: " + place_list[i].pos);
+            Debug.Log(i + "週目 place_list.word: " + place_list[i].word);
         }
     }
 }
