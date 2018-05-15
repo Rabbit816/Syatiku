@@ -88,10 +88,8 @@
     <Compile Include="Assets\Scripts\ActionController.cs" />
     <Compile Include="Assets\Scripts\Boss\BossScene.cs" />
     <Compile Include="Assets\Scripts\Boss\SarcasmText.cs" />
-    <Compile Include="Assets\Scripts\Common\BaseController.cs" />
     <Compile Include="Assets\Scripts\Common\Common.cs" />
     <Compile Include="Assets\Scripts\Common\ParticleController.cs" />
-    <Compile Include="Assets\Scripts\FadeTest.cs" />
     <Compile Include="Assets\Scripts\MiniGame\Drinking\DrinkMain.cs" />
     <Compile Include="Assets\Scripts\MiniGame\Drinking\ryouri.cs" />
     <Compile Include="Assets\Scripts\MiniGame\Hacking\HackBoss.cs" />
@@ -100,7 +98,6 @@
     <Compile Include="Assets\Scripts\MiniGame\Hacking\HackTap.cs" />
     <Compile Include="Assets\Scripts\MiniGame\Smoking\SmokingController.cs" />
     <Compile Include="Assets\Scripts\TitleController.cs" />
-    <Compile Include="Assets\test.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="GenerateTargetFrameworkMonikerAttribute" />
