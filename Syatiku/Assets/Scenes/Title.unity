@@ -773,6 +773,8 @@ GameObject:
   m_Component:
   - component: {fileID: 1930657664}
   - component: {fileID: 1930657663}
+  - component: {fileID: 1930657665}
+  - component: {fileID: 1930657666}
   m_Layer: 0
   m_Name: Controller
   m_TagString: Untagged
@@ -791,8 +793,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7c7bc75fbbd7f214eb325e4202613cb5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  s: 0
   alfa: 0
+  s: 0
   fadePanel: {fileID: 1279182118}
 --- !u!4 &1930657664
 Transform:
@@ -807,3 +809,26 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1930657665
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1930657662}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 107b3b3674b5ffe4c99d3a47744a1b31, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  panel: {fileID: 1279182118}
+--- !u!114 &1930657666
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1930657662}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4f1fe541f2a3b26489e83b86edd8a749, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

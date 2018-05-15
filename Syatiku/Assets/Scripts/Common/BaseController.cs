@@ -20,39 +20,47 @@ public class BaseController : MonoBehaviour {
     }
 
     [HideInInspector]
-    public float s;
+    public float alfa;
     [HideInInspector]
-    public float alfa = 0.01f;
+    public float s;
 
+    public virtual void Start()
+    {
+        alfa = 0.01f;
+    }
     public void ChangeScene(SceneName name)
     {
         SceneManager.LoadScene((int)name);
     }
 
-    public IEnumerator FadeIn(Image panel)
-    {
-        panel.gameObject.SetActive(true);
-        s = 0;
-        Debug.Log("In");
-        while (s < 1)
-        {
-            panel.GetComponent<Image>().color += new Color(0, 0, 0, alfa);
-            s += alfa;
-            yield return null;
-        }
-    }
+    //public IEnumerator FadeIn(Image panel)
+    //{
+    //    s = 0;
+    //    panel.gameObject.SetActive(true);
+    //    Debug.Log("In");
+    //    while (s < 1)
+    //    {
+    //        Debug.Log(s);
+    //        panel.GetComponent<Image>().color += new Color(0, 0, 0, alfa);
+    //        s += alfa;
+    //        yield return null;
+    //    }
+    //}
 
-    public IEnumerator FadeOut(Image panel)
-    {
-        s = 1;
-        Debug.Log("Out");
-        while (s > 0)
-        {
-            panel.GetComponent<Image>().color -= new Color(0, 0, 0, alfa);
-            s -= alfa;
-            yield return null;
-        }
-        //yield return new WaitForSeconds(1.0f);
-        //panel.gameObject.SetActive(false);
-    }
+    //public IEnumerator FadeOut(Image panel)
+    //{
+    //    s = 1;
+    //    Debug.Log("Out");
+    //    Debug.Log(s);
+    //    while (s > 0)
+    //    {
+            
+    //        panel.GetComponent<Image>().color -= new Color(0, 0, 0, alfa);
+    //        s -= alfa;
+    //        Debug.Log(s);
+    //        yield return null;
+    //    }
+    //    yield return new WaitForSeconds(1.0f);
+    //    panel.gameObject.SetActive(false);
+    //}
 }
