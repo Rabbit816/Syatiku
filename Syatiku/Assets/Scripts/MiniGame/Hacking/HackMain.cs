@@ -4,10 +4,14 @@ using UnityEngine;
 using UnityEngine.UI;
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 public class HackMain : BaseController {
 =======
 public class HackMain : MonoBehaviour {
 >>>>>>> akashi
+=======
+public class HackMain : MonoBehaviour{
+>>>>>>> Washizu
 
     [SerializeField,Tooltip("時間制限初期値")]
     private float timer = 30.0f;
