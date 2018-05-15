@@ -18,7 +18,7 @@ public class HackPC : MonoBehaviour {
     /// <summary>
     /// 欠けてる文章の処理
     /// </summary>
-    private void ChippedString()
+    public void ChippedString()
     {
         // ランダムで文章を選択
         // 表示
