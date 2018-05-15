@@ -90,6 +90,7 @@
     <Compile Include="Assets\Scripts\Boss\SarcasmText.cs" />
     <Compile Include="Assets\Scripts\Common\BaseController.cs" />
     <Compile Include="Assets\Scripts\Common\Common.cs" />
+    <Compile Include="Assets\Scripts\Common\ParticleController.cs" />
     <Compile Include="Assets\Scripts\FadeTest.cs" />
     <Compile Include="Assets\Scripts\MiniGame\Drinking\DrinkMain.cs" />
     <Compile Include="Assets\Scripts\MiniGame\Drinking\ryouri.cs" />
