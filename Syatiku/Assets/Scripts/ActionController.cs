@@ -13,6 +13,7 @@ public class ActionController : MonoBehaviour {
 		
 	}
 
+<<<<<<< HEAD
     //public void ChangeMinigame(int num)
     //{
     //    switch (num)
@@ -30,4 +31,23 @@ public class ActionController : MonoBehaviour {
     //            break;
     //    }
     //}
+=======
+    public void ChangeMinigame(int num)
+    {
+        switch (num)
+        {
+            case 0:
+                Common.Instance.FadeChangeScene(Common.SceneName.Smoking, 1.0f);
+                break;
+            case 1:
+                Common.Instance.FadeChangeScene(Common.SceneName.Hacking, 1.0f);
+                break;
+            case 2:
+                Common.Instance.FadeChangeScene(Common.SceneName.Drinking, 1.0f);
+                break;
+            default:
+                break;
+        }
+    }
+>>>>>>> da770ab9bb907ffa1ade7b243a51836978e4330f
 }
