@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class HackMain : BaseController {
+public class HackMain : Monovihavior {
 
     [SerializeField,Tooltip("時間制限初期値")]
     private float timer = 30.0f;
