@@ -137,9 +137,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5d607c159cb1f8e48a061c827a4c2bd8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  sarcasmTextPrefab: {fileID: 0}
-  sarcasmTextBox: {fileID: 0}
-  bossDamageGage: {fileID: 0}
+  sarcasmTextPrefab: {fileID: 1586700467652566, guid: 17f59855cb05d524daa4832e92746e88,
+    type: 2}
+  sarcasmTextBox: {fileID: 812280369}
+  bossDamageGageMask: {fileID: 1648265710}
 --- !u!4 &629166644
 Transform:
   m_ObjectHideFlags: 0
@@ -567,7 +568,7 @@ Canvas:
   m_SortingBucketNormalizedSize: 0
   m_AdditionalShaderChannelsFlag: 0
   m_SortingLayerID: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 2
   m_TargetDisplay: 0
 --- !u!224 &1795605960
 RectTransform:
@@ -669,7 +670,7 @@ GameObject:
   - component: {fileID: 1909595337}
   - component: {fileID: 1909595336}
   m_Layer: 5
-  m_Name: BossDamageGage
+  m_Name: EmptyBossDamageGage
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
