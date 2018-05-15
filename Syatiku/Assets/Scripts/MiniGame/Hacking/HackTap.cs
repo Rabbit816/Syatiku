@@ -43,15 +43,15 @@ public class HackTap : MonoBehaviour
 	
 	// Update is called once per frame
 	void Update () {
-        if (_placeAnim)
-        {
-            t -= Time.deltaTime;
-            if (t <= 0.0f)
-            {
-                place[place_current].transform.GetChild(0).gameObject.SetActive(false);
-                _placeAnim = false;
-            }
-        }
+        //if (_placeAnim)
+        //{
+        //    t -= Time.deltaTime;
+        //    if (t <= 0.0f)
+        //    {
+        //        place[place_current].transform.GetChild(0).gameObject.SetActive(false);
+        //        _placeAnim = false;
+        //    }
+        //}
 	}
 
     /// <summary>
@@ -71,48 +71,11 @@ public class HackTap : MonoBehaviour
     }
 
     /// <summary>
-    /// ランダムで単語を選ぶ処理
-    /// </summary>
-    /// <returns></returns>
-    //private string HackRandom(int a) {
-    //    //if (rand_list.Count > str.Length)
-    //    //    rand_list = new];
-    //    int int_rand = 0;
-    //    HashSet<int> hashset = new HashSet<int>();
-    //    for(int i=0; i<str.Length; i++)
-    //    {
-    //        int_rand = rand.Next(0, str.Length - 1);
-    //        int u = hashset.Count;
-    //        hashset.Add(int_rand);
-    //        //randが重複したら回す
-            
-    //        //while (hashset.Count == u)
-    //        //{
-    //        //    int_rand = rand.Next(0, str.Length - 1);
-    //        //    hashset.Add(int_rand);
-    //        //    Debug.Log("rand:" + int_rand);
-    //        //    if (hashset.Add(int_rand)) break;
-    //        //}
-            
-    //        rand_list[i] = int_rand;
-    //        rand_strList.Add(str[int_rand]);
-    //    }
-    //    Debug.Log("string配列: " + rand_strList);
-    //    return rand_strList[a];
-    //}
-
-    /// <summary>
     /// 各場所に単語を入れる
     /// </summary>
     private void AddPlaceWord()
     {
-        int count = 0;
-        //foreach (var i in HackRandom())
-        //{
-        //    place_list[count].pos = place[count];
-        //    place_list[count].word = i.ToString();
-        //    count++;
-        //}
+        Shuffle(str);
         for (int i = 0; i < place.Length - 1; i++)
         {
             place_list[i].pos = place[i];
@@ -121,7 +84,13 @@ public class HackTap : MonoBehaviour
             Debug.Log(i + "週目 place_list.word: " + place_list[i].word);
         }
     }
-    private void Shuffle(string[] s)
+
+    /// <summary>
+    /// 仮シャッフル（あとでわっしーに共通スクリプトに書いてもらう）
+    /// </summary>
+    /// <param name="s">シャッフルしたい配列</param>
+    /// <returns></returns>
+    private string[] Shuffle(string[] s)
     {
         int length = s.Length;
         string[] s_result = new string[length];
@@ -135,6 +104,6 @@ public class HackTap : MonoBehaviour
             s_result[i] = s_result[n];
             s_result[n] = tmp;
         }
-        //return s_result;
+        return s_result;
     }
 }
