@@ -23,6 +23,7 @@ public class HackTap : MonoBehaviour
     private string[] str;
 
     private List<int> rand_list = new List<int>();
+    private List<string> rand_strList = new List<string>();
     private System.Random rand;
 
     //現在の場所
@@ -78,23 +79,24 @@ public class HackTap : MonoBehaviour
     /// ランダムで単語を選ぶ処理
     /// </summary>
     /// <returns></returns>
-    private string HackRandom(int i) {
+    private string HackRandom()
+    {
         if (rand_list.Count > str.Length)
             rand_list.Clear();
-        HashSet<int> hashset = new HashSet<int>();
-        Debug.Log("rand:" + i.ToString());
+
         int int_rand = 0;
-        //randが重複したら回す
-        while (!hashset.Add(i))
-        {
-            var a = new System.Random();
-            int_rand = a.Next(0, str.Length - 1);
-            hashset.Add(int_rand);
-            Debug.Log("rand:" + int_rand);
-        }
-        
-        rand_list.Add(int_rand);
-        return str[int_rand];
+        HashSet<int> hashset = new HashSet<int>();
+        //foreach(var i in hashset[1])
+        //{
+        //    while (!i(int_rand))
+        //    {
+        //        int_rand = rand.Next(0, str.Length - 1);
+        //        hashset.Add(int_rand);
+        //        Debug.Log("きてるよrand:" + int_rand);
+        //    }
+        //    rand_list.Add(int_rand);
+        //}
+        return /*rand_strList.Add(str[int_rand])*/"";
     }
 
     /// <summary>
@@ -103,18 +105,21 @@ public class HackTap : MonoBehaviour
     private void AddPlaceWord()
     {
         int count = 0;
-        //foreach (var i in HackRandom())
-        //{
-        //    place_list[count].pos = place[count];
-        //    place_list[count].word = i.ToString();
-        //    count++;
-        //}
-        for (int i = 0; i < place.Length - 1; i++)
+        //randが重複したら回す
+
+        //var a = new System.Random();
+        foreach (var i in HackRandom())
         {
-            place_list[i].pos = place[i];
-            place_list[i].word = HackRandom(rand.Next(0, str.Length - 1));
-            Debug.Log(i + "週目 place_list.pos: " + place_list[i].pos);
-            Debug.Log(i + "週目 place_list.word: " + place_list[i].word);
+            place_list[count].pos = place[count];
+            place_list[count].word = i.ToString();
+            count++;
         }
+        //for (int i = 0; i < place.Length - 1; i++)
+        //{
+        //    place_list[i].pos = place[i];
+        //    place_list[i].word = HackRandom();
+        //    Debug.Log(i + "週目 place_list.pos: " + place_list[i].pos);
+        //    Debug.Log(i + "週目 place_list.word: " + place_list[i].word);
+        //}
     }
 }
