@@ -53,7 +53,7 @@ public class SarcasmText : MonoBehaviour
             || sarcasmText.rectTransform.localPosition.y > 200 || sarcasmText.rectTransform.localPosition.y < -200)
         {
             gameObject.SetActive(false);
-            BossScene.AttackPointUp();
+            BossScene.AttackGageAccumulate();
         }
     }
 

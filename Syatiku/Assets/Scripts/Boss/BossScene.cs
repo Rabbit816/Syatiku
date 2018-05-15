@@ -13,7 +13,7 @@ public class BossScene : MonoBehaviour {
 
     static Image attackGageMask;
     [SerializeField]
-    Image bossDamageGage;
+    Image bossDamageGageMask;
 
     float spawnTextTimer;
     float spawnTextTime = 3.0f;
@@ -30,6 +30,9 @@ public class BossScene : MonoBehaviour {
         {
             //フリックの開始
             touchStartPos = Input.mousePosition;
+
+            //確認用にマウスダウンで攻撃
+            HarisenAttack();
         }
 
         if(spawnTextTimer > spawnTextTime)
@@ -83,10 +86,19 @@ public class BossScene : MonoBehaviour {
     /// <summary>
     /// 攻撃ゲージの上昇
     /// </summary>
-    public static void AttackPointUp()
+    public static void AttackGageAccumulate()
     {
-        attackGageMask.fillAmount += 0.1f;
+        attackGageMask.fillAmount += 0.5f;
     }
 
+    public void HarisenAttack()
+    {
+        //攻撃ゲージが満タン時
+        if (attackGageMask.fillAmount >= 1.0f)
+        {
+            attackGageMask.fillAmount = 0;
+            bossDamageGageMask.fillAmount += 0.1f;
+        }
+    }
     
 }
