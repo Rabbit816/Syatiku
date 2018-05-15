@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class TitleController : BaseController {
+public class TitleController : MonoBehaviour {
 
     void Update()
     {
@@ -13,6 +13,6 @@ public class TitleController : BaseController {
     public void ChangeSelect()
     {
         //ChangeScene(SceneName.Select);
-        ChangeScene(SceneName.Action);
+        Common.Instance.FadeChangeScene(Common.SceneName.Action,1.0f);
     }
 }
