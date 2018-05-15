@@ -365,7 +365,7 @@ MonoBehaviour:
   m_Script: {fileID: 1980459831, guid: f70555f144d8491a825f0804e09c671c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_UiScaleMode: 0
+  m_UiScaleMode: 1
   m_ReferencePixelsPerUnit: 100
   m_ScaleFactor: 1
   m_ReferenceResolution: {x: 800, y: 600}
@@ -795,7 +795,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   alfa: 0
   s: 0
-  fadePanel: {fileID: 1279182118}
 --- !u!4 &1930657664
 Transform:
   m_ObjectHideFlags: 0
@@ -820,7 +819,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 107b3b3674b5ffe4c99d3a47744a1b31, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  panel: {fileID: 1279182118}
+  panel: {fileID: 0}
 --- !u!114 &1930657666
 MonoBehaviour:
   m_ObjectHideFlags: 0
