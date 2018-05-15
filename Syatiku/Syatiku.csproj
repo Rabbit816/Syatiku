@@ -51,6 +51,7 @@
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="UnityEngine">
+<<<<<<< HEAD
       <HintPath>C:/Program Files/Unity5.6.5/Editor/Data/Managed/UnityEngine.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.UI">
@@ -92,6 +93,60 @@
     <Compile Include="Assets\Scripts\Common\BaseController.cs" />
     <Compile Include="Assets\Scripts\Common\Common.cs" />
     <Compile Include="Assets\Scripts\FadeTest.cs" />
+=======
+      <HintPath>C:/Program Files/Unity/Editor/Data/Managed/UnityEngine.dll</HintPath>
+    </Reference>
+    <Reference Include="Facebook.Unity.Settings">
+      <HintPath>Library/FacebookSDK/Facebook.Unity.Settings.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.UI">
+      <HintPath>C:/Program Files/Unity/Editor/Data/UnityExtensions/Unity/GUISystem/UnityEngine.UI.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.Networking">
+      <HintPath>C:/Program Files/Unity/Editor/Data/UnityExtensions/Unity/Networking/UnityEngine.Networking.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.TestRunner">
+      <HintPath>C:/Program Files/Unity/Editor/Data/UnityExtensions/Unity/TestRunner/UnityEngine.TestRunner.dll</HintPath>
+    </Reference>
+    <Reference Include="nunit.framework">
+      <HintPath>C:/Program Files/Unity/Editor/Data/UnityExtensions/Unity/TestRunner/net35/unity-custom/nunit.framework.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.Analytics">
+      <HintPath>C:/Program Files/Unity/Editor/Data/UnityExtensions/Unity/UnityAnalytics/UnityEngine.Analytics.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.HoloLens">
+      <HintPath>C:/Program Files/Unity/Editor/Data/UnityExtensions/Unity/UnityHoloLens/RuntimeEditor/UnityEngine.HoloLens.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.VR">
+      <HintPath>C:/Program Files/Unity/Editor/Data/UnityExtensions/Unity/UnityVR/RuntimeEditor/UnityEngine.VR.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEditor">
+      <HintPath>C:/Program Files/Unity/Editor/Data/Managed/UnityEditor.dll</HintPath>
+    </Reference>
+    <Reference Include="Mono.Cecil">
+      <HintPath>C:/Program Files/Unity/Editor/Data/Managed/Mono.Cecil.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEditor.iOS.Extensions.Xcode">
+      <HintPath>C:/Program Files/Unity/Editor/Data/PlaybackEngines/iOSSupport/UnityEditor.iOS.Extensions.Xcode.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEditor.iOS.Extensions.Common">
+      <HintPath>C:/Program Files/Unity/Editor/Data/PlaybackEngines/iOSSupport/UnityEditor.iOS.Extensions.Common.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+<<<<<<< HEAD
+    <Compile Include="Assets\Scripts\Boss\BossScene.cs" />
+    <Compile Include="Assets\Scripts\Boss\EventText.cs" />
+    <Compile Include="Assets\Scripts\Common.cs" />
+=======
+    <Compile Include="Assets\Scripts\ActionController.cs" />
+    <Compile Include="Assets\Scripts\Boss\BossScene.cs" />
+    <Compile Include="Assets\Scripts\Boss\EventText.cs" />
+    <Compile Include="Assets\Scripts\Common\BaseController.cs" />
+    <Compile Include="Assets\Scripts\Common\Common.cs" />
+    <Compile Include="Assets\Scripts\FadeTest.cs" />
+>>>>>>> Washizu
+>>>>>>> 844e757826e9c4bd93dc7f01c7af1e976b5db062
     <Compile Include="Assets\Scripts\MiniGame\Drinking\DrinkMain.cs" />
     <Compile Include="Assets\Scripts\MiniGame\Drinking\ryouri.cs" />
     <Compile Include="Assets\Scripts\MiniGame\Hacking\HackBoss.cs" />
@@ -99,7 +154,10 @@
     <Compile Include="Assets\Scripts\MiniGame\Hacking\HackPC.cs" />
     <Compile Include="Assets\Scripts\MiniGame\Hacking\HackTap.cs" />
     <Compile Include="Assets\Scripts\MiniGame\Smoking\SmokingController.cs" />
+<<<<<<< HEAD
     <Compile Include="Assets\Scripts\TitleController.cs" />
+=======
+>>>>>>> 844e757826e9c4bd93dc7f01c7af1e976b5db062
     <Compile Include="Assets\test.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
