@@ -3,24 +3,22 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class HackMain : MonoBehaviour {
+public class HackMain : Common {
 
     [SerializeField,Tooltip("時間制限初期値")]
     private float timer = 30.0f;
 
-    [SerializeField]
+    [SerializeField,Tooltip("時間オブジェクト")]
     private Text time;
 
+    //お題のアニメーションが終わったかどうか
     bool _themeActive = false;
 
-    [SerializeField]
+    [SerializeField,Tooltip("お題の名前")]
     private string[] _chipped;
 
-    [SerializeField]
+    [SerializeField,Tooltip("お題のオブジェクト")]
     private GameObject theme_obj;
-
-    [HideInInspector]       //publicで宣言してもInspectorからは見えない
-    public int i = 10;
 
 	// Use this for initialization
 	void Start () {
@@ -33,8 +31,6 @@ public class HackMain : MonoBehaviour {
         if(_themeActive)
             if (Timer())
                 Timer();
-            else
-                Scene();
     }
 
     /// <summary>
@@ -45,8 +41,12 @@ public class HackMain : MonoBehaviour {
     {
         timer -= Time.deltaTime;
         time.text = "Timer: " + timer.ToString("f1");
-        bool _time = timer <= 0 ? true : false;
-        return _time;
+        if(timer < 0f)
+        {
+            time.text = "Timer: 0.0";
+            ChangeScene(SceneName.Title);
+        }
+        return (timer < 0f);
     }
 
     /// <summary>
@@ -57,18 +57,16 @@ public class HackMain : MonoBehaviour {
         //お題の内容ランダムで選択し出現（移動）
         int rand_theme = Random.Range(0, _chipped.Length-1);
         Debug.Log("お題 : " + rand_theme + ":" + _chipped[rand_theme]);
+
         theme_obj.GetComponentInChildren<Text>(true).text = _chipped[rand_theme].ToString();
         Animation anim = theme_obj.GetComponent<Animation>();
         anim.Play();
-        if (!anim.isPlaying)
+        if (anim.Play())
+            _themeActive = false;
+        else
             _themeActive = true;
 
         //出現中何もできないようにする
 
     }
-
-    /// <summary>
-    /// あとでわっしーがシーン移動関数を作るのでそれを使う
-    /// </summary>
-    void Scene() { }
 }
