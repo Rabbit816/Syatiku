@@ -12,26 +12,6 @@ public class ActionController : MonoBehaviour {
 	void Update () {
 		
 	}
-
-<<<<<<< HEAD
-    //public void ChangeMinigame(int num)
-    //{
-    //    switch (num)
-    //    {
-    //        case 0:
-    //            ChangeScene(SceneName.Smoking);
-    //            break;
-    //        case 1:
-    //            ChangeScene(SceneName.Hacking);
-    //            break;
-    //        case 2:
-    //            ChangeScene(SceneName.Drinking);
-    //            break;
-    //        default:
-    //            break;
-    //    }
-    //}
-=======
     public void ChangeMinigame(int num)
     {
         switch (num)
@@ -49,5 +29,4 @@ public class ActionController : MonoBehaviour {
                 break;
         }
     }
->>>>>>> da770ab9bb907ffa1ade7b243a51836978e4330f
 }
