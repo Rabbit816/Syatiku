@@ -53,6 +53,9 @@
     <Reference Include="UnityEngine">
       <HintPath>C:/Program Files/Unity/Editor/Data/Managed/UnityEngine.dll</HintPath>
     </Reference>
+    <Reference Include="Facebook.Unity.Settings">
+      <HintPath>Library/FacebookSDK/Facebook.Unity.Settings.dll</HintPath>
+    </Reference>
     <Reference Include="UnityEngine.UI">
       <HintPath>C:/Program Files/Unity/Editor/Data/UnityExtensions/Unity/GUISystem/UnityEngine.UI.dll</HintPath>
     </Reference>
@@ -77,6 +80,9 @@
     <Reference Include="UnityEditor">
       <HintPath>C:/Program Files/Unity/Editor/Data/Managed/UnityEditor.dll</HintPath>
     </Reference>
+    <Reference Include="Mono.Cecil">
+      <HintPath>C:/Program Files/Unity/Editor/Data/Managed/Mono.Cecil.dll</HintPath>
+    </Reference>
     <Reference Include="UnityEditor.iOS.Extensions.Xcode">
       <HintPath>C:/Program Files/Unity/Editor/Data/PlaybackEngines/iOSSupport/UnityEditor.iOS.Extensions.Xcode.dll</HintPath>
     </Reference>
@@ -89,18 +95,7 @@
     <Compile Include="Assets\Scripts\Boss\BossScene.cs" />
     <Compile Include="Assets\Scripts\Boss\SarcasmText.cs" />
     <Compile Include="Assets\Scripts\Common\Common.cs" />
-<<<<<<< HEAD
-<<<<<<< HEAD
     <Compile Include="Assets\Scripts\Common\ParticleController.cs" />
-=======
-=======
-    <Compile Include="Assets\Scripts\BaseController.cs" />
-    <Compile Include="Assets\Scripts\Boss\BossScene.cs" />
-    <Compile Include="Assets\Scripts\Boss\SarcasmText.cs" />
->>>>>>> akashi
->>>>>>> da770ab9bb907ffa1ade7b243a51836978e4330f
-=======
->>>>>>> akashi
     <Compile Include="Assets\Scripts\MiniGame\Drinking\DrinkMain.cs" />
     <Compile Include="Assets\Scripts\MiniGame\Drinking\ryouri.cs" />
     <Compile Include="Assets\Scripts\MiniGame\Hacking\HackBoss.cs" />
