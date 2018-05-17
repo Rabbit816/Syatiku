@@ -6,44 +6,45 @@ using System.Linq;//シャッフルする時に必要
 using System;
 
 public class DrinkMain : MonoBehaviour {
+
     [SerializeField]
-    private Image[] tnm;
+    public Image[] tnm;
+    [SerializeField]
+    private Sprite[] tnm2;
     private int[] num;
     private int[] num2;
     private float timer;
     private int count;
-    private int index;
+    public int index;
     private bool open;
-    private bool moyamoya;
+    private ryouri ryouri = new ryouri();
 
     // Use this for initialization
     void Start()
     {
         open = false;
-        moyamoya = false;
         //numの初期化       
-        num = new int[4] { 0, 1, 2, 3 };        
+        num = new int[4] { 0, 1, 2, 3 };
+        Randomtnm();
         //tnmの初期化
         for (int i = 0; i < tnm.Length; ++i)
         {
             tnm[i].enabled = false;
         }
-        transform.parent = GameObject.Find("tnm").transform;
+        //transform.parent = GameObject.Find("tnm").transform;
     }
 
     // Update is called once per frame
     void Update()
-    {        
-        //一秒毎にする
-        if (!moyamoya)
+    {
+        if (count == 4)
         {
-            fromleft();
-            //randomtnm();
-        }        
-    }
-   
-    public void fromleft()
-    {       
+            count = 0;
+            Randomtnm();
+            ryouri.Randomtnm();
+        }
+
+        //一秒毎にする
         timer += Time.deltaTime;
         if (timer > 1)
         {
@@ -51,6 +52,7 @@ public class DrinkMain : MonoBehaviour {
             {
                 open = false;
                 tnm[index].enabled = false;
+                tnm[index].transform.GetChild(0).GetComponent<Image>().color = new Color(1, 1, 1, 0);
                 count += 1;
                 timer = 0;
                 Debug.Log("2秒経過");
@@ -60,43 +62,21 @@ public class DrinkMain : MonoBehaviour {
                 timer = 0;
                 open = true;
                 index = Array.IndexOf(num, count);
+                tnm[index].transform.GetChild(0).GetComponent<Image>().sprite = tnm2[ryouri.GetSprite()];
+                tnm[index].transform.GetChild(0).GetComponent<Image>().color = new Color(1, 1, 1, 1);
                 tnm[index].enabled = true;
-                Debug.Log("1秒経過");
-            }
+                Debug.Log("Index" + index);
+            }  
         }
-        if (count == 4)
-        {
-            moyamoya = true;
-        }
-    }
+        
 
-    public void randomtnm()
+    }      
+
+    //ランダムに表示させる
+    public void Randomtnm()
     {
         num2 = num.OrderBy(i => Guid.NewGuid()).ToArray();
-        timer += Time.deltaTime;
-        if (timer > 1)
-        {
-            if (open)
-            {
-                open = false;
-                tnm[index].enabled = false;
-                count += 1;
-                timer = 0;
-                Debug.Log("2秒経過");
-            }
-            else
-            {
-                timer = 0;
-                open = true;
-                index = Array.IndexOf(num2, count);
-                tnm[index].enabled = true;
-                Debug.Log("1秒経過");
-            }
-        }
-        if (count == 4)
-        {
-            moyamoya = true;
-        }
+        num = num2;
     }
 }
 
