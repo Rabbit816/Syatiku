@@ -654,7 +654,6 @@ MonoBehaviour:
   - {fileID: 1952763476}
   - {fileID: 488162176}
   - {fileID: 1609361865}
-  num: 
 --- !u!1 &514284653
 GameObject:
   m_ObjectHideFlags: 0
@@ -1296,7 +1295,7 @@ MonoBehaviour:
   m_Script: {fileID: 1980459831, guid: f5f67c52d1564df4a8936ccd202a3bd8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_UiScaleMode: 0
+  m_UiScaleMode: 1
   m_ReferencePixelsPerUnit: 100
   m_ScaleFactor: 1
   m_ReferenceResolution: {x: 800, y: 600}
