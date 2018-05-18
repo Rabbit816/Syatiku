@@ -1,0 +1,12 @@
+﻿<Properties StartupItem="Syatiku.csproj">
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\MiniGame\Hacking\HackTap.cs">
+    <Files>
+      <File FileName="Assets\Scripts\MiniGame\Hacking\HackTap.cs" Line="36" Column="28" />
+    </Files>
+  </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore />
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+</Properties>

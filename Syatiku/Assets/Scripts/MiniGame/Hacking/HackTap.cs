@@ -22,8 +22,13 @@ public class HackTap : MonoBehaviour
     [SerializeField, Tooltip("全部の発見できる単語")]
     private string[] str;
 
+    private List<int> rand_list = new List<int>();
+    private List<string> rand_strList = new List<string>();
+
     //現在の場所
     private int place_current;
+    [SerializeField]
+    private GameObject IntoPC;
 
     //単語が表示されているかどうか
     private bool _placeAnim = false;
@@ -33,9 +38,16 @@ public class HackTap : MonoBehaviour
 
     [SerializeField,Tooltip("出す単語画像")]
     private GameObject Prefab;
-    
-	// Use this for initialization
-	void Start () {
+
+    [SerializeField, Tooltip("集めた単語")]
+    private GameObject CollectedPrefab;
+    private GameObject CollectedWord;
+    private Collider2D collected_position;
+
+    // Use this for initialization
+    void Start () {
+        CollectedWord = GameObject.Find("Canvas/IntoPC/CollectedWord");
+        collected_position = CollectedWord.GetComponent<Collider2D>().po
         place_list = new PlaceList[place.Length];
         _placeAnim = false;
         AddPlaceWord();
@@ -59,13 +71,24 @@ public class HackTap : MonoBehaviour
     /// </summary>
     /// <param name="placeNum">どの場所かを指定</param>
     public void PlaceButton(int placeNum){
+        //PC画面内を表示
+        //戻るボタンで画面外に移動
+        if (placeNum == 6) {
+            IntoPC.transform.position = new Vector2(0, 1);
+        }else if (placeNum == 7)
+        {
+            IntoPC.transform.position = new Vector2(0, 15);
+        }
         // 一回もタップされてなかったら
-        if(place[placeNum].transform.childCount == 0)
+        else if(place[placeNum].transform.childCount == 0)
         {
             GameObject _prefab = Instantiate(Prefab);
             _prefab.transform.SetParent(place[placeNum].transform, false);  // SetParent(親の場所,大きさを変えるか)
             place[placeNum].transform.GetComponentInChildren<Text>().text = place_list[placeNum].word.ToString();
             _placeAnim = true;
+
+            GameObject _collected_word = Instantiate(CollectedPrefab);
+            _collected_word.transform.SetParent(collected_position, false);
         }
         place_current = placeNum;
     }
@@ -76,12 +99,12 @@ public class HackTap : MonoBehaviour
     private void AddPlaceWord()
     {
         Shuffle(str);
-        for (int i = 0; i < place.Length - 1; i++)
+        for (int j = 0; j < place.Length - 1; j++)
         {
-            place_list[i].pos = place[i];
-            place_list[i].word = str[i];
-            Debug.Log(i + "週目 place_list.pos: " + place_list[i].pos);
-            Debug.Log(i + "週目 place_list.word: " + place_list[i].word);
+            place_list[j].pos = place[j];
+            place_list[j].word = str[j];
+            Debug.Log(j + "週目 place_list.pos: " + place_list[j].pos);
+            Debug.Log(j + "週目 place_list.word: " + place_list[j].word);
         }
     }
 
@@ -99,9 +122,9 @@ public class HackTap : MonoBehaviour
         while (1 < n)
         {
             n--;
-            int i = rand.Next(n + 1);
-            var tmp = s_result[i];
-            s_result[i] = s_result[n];
+            int rand_Num = rand.Next(n + 1);
+            var tmp = s_result[rand_Num];
+            s_result[rand_Num] = s_result[n];
             s_result[n] = tmp;
         }
         return s_result;
