@@ -2,48 +2,36 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using System.Linq;
+using System.Linq;//シャッフルする時に必要
 using System;
 
-
-public class ryouri : MonoBehaviour {
-    [SerializeField]
-    private Image[] tnm;    
+//表示
+//ランダム
+//時間計測
+public class ryouri
+{
+    private int[] num = new int[4] { 0, 1, 2, 3 };
+    private int count;
     private int index;
-    private bool open;
-    private int[] num;
-    private int[] num2;
-    private float timer;
 
-    // Use this for initialization
-    void Start () {
-        num = new int[4] { 0, 1, 2, 3 };
-        num2 = num.OrderBy(i => Guid.NewGuid()).ToArray();
-        for (int i = 0; i < tnm.Length; ++i)
-        {
-            tnm[i].enabled = false;
-        }
+
+    public ryouri()
+    {
+        Randomtnm();
     }
-	
-	// Update is called once per frame
-	void Update () {
-        timer += Time.deltaTime;
-        if(open == true)
-        {
-            if (timer > 1)
-            {
-                open = false;
-                tnm[index].enabled = false;          
-                Debug.Log("料理表示");
-            }
-            else
-            {
-                open = true;
-                index = Array.IndexOf(num2, 0);
-                tnm[index].enabled = true;
-                Debug.Log("料理非表示");
-            }
-        }
-        
-	}
+
+    public int GetSprite()
+    {
+        index = Array.IndexOf(num, count);
+        count++;
+        return index;
+    }
+
+    //ランダムに表示させる
+    public void Randomtnm()
+    {
+        num = num.OrderBy(i => Guid.NewGuid()).ToArray();
+        count = 0;
+    }
 }
+
