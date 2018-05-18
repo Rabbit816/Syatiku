@@ -12,6 +12,7 @@ public class HackMain : MonoBehaviour {
     [SerializeField,Tooltip("時間オブジェクト")]
     private Text time;
 
+
     //お題のアニメーションが終わったかどうか
     bool _themeActive = false;
 
@@ -20,6 +21,7 @@ public class HackMain : MonoBehaviour {
 
     [SerializeField,Tooltip("お題のオブジェクト")]
     private GameObject theme_obj;
+
 
 	// Use this for initialization
 	void Start () {
