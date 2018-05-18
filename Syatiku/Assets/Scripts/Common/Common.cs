@@ -4,6 +4,9 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 
+/// <summary>
+/// 汎用スクリプト(Common.Instance.○○)
+/// </summary>
 public class Common : MonoBehaviour {
 
     /// <summary>
@@ -35,15 +38,15 @@ public class Common : MonoBehaviour {
     /// <returns></returns>
     public T[] Shuffle<T>(T[] param)
     {
-        T[] randList = new T[param.Length];
-        for(int i = 0; i <= 10; i++)
+        //T[] randList = new T[param.Length];
+        for(int i = 0; i < param.Length; i++)
         {
-            var temp = randList[i];
-            int rand = Random.Range(0, param.Length);
-            randList[i] = randList[rand];
-            randList[rand] = temp;
+            T temp = param[i];
+            int rand = Random.Range(0, param.Length - 1);
+            param[i] = param[rand];
+            param[rand] = temp;
         }
-        return randList;
+        return param;
     }
 
     // 同じオブジェクト(Common)があるか判定
