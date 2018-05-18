@@ -27,7 +27,20 @@ public class Common : MonoBehaviour {
     private Color fadeColor = Color.black;
     private float fadeAlpha = 0;
 
-    // 同じオブジェクトがあるか判定
+    public ArrayList ShuffleList = new ArrayList();
+
+    public T[] Shuffle<T>(T[] param)
+    {
+        T[] randList = new T[param.Length];
+        for(int i = 0; i <= param.Length; i++)
+        {
+            var temp = randList[i];
+            
+        }
+        return randList;
+    }
+
+    // 同じオブジェクト(Common)があるか判定
     public static Common Instance
     {
         get
