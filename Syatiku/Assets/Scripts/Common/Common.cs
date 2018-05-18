@@ -27,15 +27,21 @@ public class Common : MonoBehaviour {
     private Color fadeColor = Color.black;
     private float fadeAlpha = 0;
 
-    public ArrayList ShuffleList = new ArrayList();
-
+    /// <summary>
+    /// シャッフル変数
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    /// <param name="param"></param>
+    /// <returns></returns>
     public T[] Shuffle<T>(T[] param)
     {
         T[] randList = new T[param.Length];
-        for(int i = 0; i <= param.Length; i++)
+        for(int i = 0; i <= 10; i++)
         {
             var temp = randList[i];
-            
+            int rand = Random.Range(0, param.Length);
+            randList[i] = randList[rand];
+            randList[rand] = temp;
         }
         return randList;
     }
