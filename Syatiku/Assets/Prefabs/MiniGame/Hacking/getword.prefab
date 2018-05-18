@@ -22,7 +22,7 @@ GameObject:
   - component: {fileID: 222437142769235250}
   - component: {fileID: 114336143702615512}
   m_Layer: 5
-  m_Name: WordText
+  m_Name: getword
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
