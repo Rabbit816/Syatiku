@@ -5,16 +5,13 @@ using UnityEngine.UI;
 using System.Linq;//シャッフルする時に必要
 using System;
 
-//表示
-//ランダム
-//時間計測
-public class ryouri
+public class Order
 {
     private int[] num = new int[4] { 0, 1, 2, 3 };
     private int count;
     private int index;
 
-    public ryouri()
+    public Order()
     {
         RandomBalloon();
     }
