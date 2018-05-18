@@ -91,6 +91,7 @@
     <Compile Include="Assets\Scripts\Common\Common.cs" />
     <Compile Include="Assets\Scripts\Common\Particle\ParticleController.cs" />
     <Compile Include="Assets\Scripts\Common\Particle\TapEffectController.cs" />
+    <Compile Include="Assets\Scripts\MiniGame\Drinking\Bottom.cs" />
     <Compile Include="Assets\Scripts\MiniGame\Drinking\DrinkMain.cs" />
     <Compile Include="Assets\Scripts\MiniGame\Drinking\ryouri.cs" />
     <Compile Include="Assets\Scripts\MiniGame\Hacking\HackBoss.cs" />
@@ -98,6 +99,7 @@
     <Compile Include="Assets\Scripts\MiniGame\Hacking\HackPC.cs" />
     <Compile Include="Assets\Scripts\MiniGame\Hacking\HackTap.cs" />
     <Compile Include="Assets\Scripts\MiniGame\Smoking\SmokingController.cs" />
+    <Compile Include="Assets\Scripts\ResultController.cs" />
     <Compile Include="Assets\Scripts\TitleController.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -50,12 +50,13 @@ public class HackTap : MonoBehaviour
     [SerializeField, Tooltip("PC内のposition")]
     private GameObject[] pos_list;
 
-    private int getWord_Num = 0;
+    private float getWord_Num = 0.0f;
 
     // Use this for initialization
     void Start () {
         CollectedWord = GameObject.Find("Canvas/IntoPC/CollectedWord");
         GetWord = GameObject.Find("Canvas/Check/GetWord");
+        Common.Instance.Shuffle(pos_list);
         getWord_Num = 0;
         place_list = new PlaceList[place.Length];
         _placeAnim = false;
@@ -86,25 +87,22 @@ public class HackTap : MonoBehaviour
             IntoPC.transform.position = new Vector2(0, 1);
         }else if (placeNum == 7)
         {
-            IntoPC.transform.position = new Vector2(0, 15);
+            IntoPC.transform.position = new Vector2(0, 11.1f);
         }
         // 一回もタップされてなかったら
+        // PC内とリスト内とその場所に表示
         else if(place[placeNum].transform.childCount == 0)
         {
-            GameObject _prefab = Instantiate(AppearPrefab);
-            _prefab.transform.SetParent(place[placeNum].transform, false);  // SetParent(親の場所,大きさを変えるか)
+            GameObject _prefab = Instantiate(AppearPrefab, place[placeNum].transform);
             place[placeNum].transform.GetComponentInChildren<Text>().text = place_list[placeNum].word.ToString();
             _placeAnim = true;
-            Common.Instance.Shuffle(pos_list);
+
             GameObject _collected_word = Instantiate(CollectedPrefab, CollectedWord.transform);
             _collected_word.transform.position = pos_list[placeNum].transform.position;
+            _collected_word.GetComponentInChildren<Text>().text = place_list[placeNum].word.ToString();
 
-            Vector2 GetWord_vec2 = new Vector2(0, GetWord.transform.position.y + getWord_Num);
             GameObject _get_word = Instantiate(GetWordPrefab,GetWord.transform);
-            _get_word.transform.position = GetWord_vec2;
-
-            _collected_word.GetComponentInChildren<Text>().text = place_list[place_current].word.ToString();
-            getWord_Num += 15;
+            _get_word.GetComponentInChildren<Text>().text = place_list[placeNum].word.ToString();
         }
         place_current = placeNum;
     }
@@ -115,7 +113,7 @@ public class HackTap : MonoBehaviour
     private void AddPlaceWord()
     {
         Common.Instance.Shuffle(str);
-        for (int j = 0; j < place.Length - 1; j++)
+        for (int j = 0; j < place.Length; j++)
         {
             place_list[j].pos = place[j];
             place_list[j].word = str[j];
