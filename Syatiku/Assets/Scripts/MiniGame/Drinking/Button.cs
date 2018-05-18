@@ -3,16 +3,15 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class Bottom : MonoBehaviour {
+public class Button : MonoBehaviour {
     
     [SerializeField]
-    public Image LearnBottom;
-    public int count;
+    private Image learnButton;
 
     // Use this for initialization
     void Start()
     {
-        LearnBottom.gameObject.SetActive(false);        
+        //LearnButton.gameObject.SetActive(false);        
     }
    
     void Update ()
@@ -20,7 +19,7 @@ public class Bottom : MonoBehaviour {
         
 	}
     public void OnClick()
-    {
+    {        
         transform.parent = GameObject.Find("Denmoku").transform;       
         GameObject.Find("Denmoku").transform.position = new Vector3(330f, 186f, 0);       
         Debug.Log("クリック");

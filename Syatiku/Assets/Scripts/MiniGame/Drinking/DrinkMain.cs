@@ -8,33 +8,38 @@ using System;
 public class DrinkMain : MonoBehaviour {
 
     [SerializeField]
-    public Image[] Balloon;
+    private Image[] balloon;
+
     [SerializeField]
-    private Sprite[] Balloon2;
+    private Sprite[] balloon2;
+
+    [SerializeField]
+    private GameObject button;
+
     private int[] num;
     private int[] num2;
     private float timer;
-    public int count;
-    public int index;
-    private bool open;
-    private ryouri ryouri = new ryouri();
+    private int count;
+    private int index;
+    private bool open = false;
+    private Order order = new Order();    
 
     // Use this for initialization
     void Start()
-    {
-        open = false;
-
+    {       
         //numの初期化       
         num = new int[4] { 0, 1, 2, 3 };
 
         //ランダムに吹き出しを表示する
-        RandomBalloon();
+        Randomballoon();
 
-        //tnmの初期化
-        for (int i = 0; i < Balloon.Length; ++i)
+        //balloonの初期化
+        for (int i = 0; i < balloon.Length; ++i)
         {
-            Balloon[i].enabled = false;
-        }        
+            balloon[i].enabled = false;
+        }
+
+        button.gameObject.SetActive(false);
     }
 
     // Update is called once per frame
@@ -42,7 +47,7 @@ public class DrinkMain : MonoBehaviour {
     {
         if (count == 4)
         {
-            GetComponent<Bottom>();          
+            StartCoroutine(Bo());         
             return;
         }
 
@@ -53,8 +58,8 @@ public class DrinkMain : MonoBehaviour {
             if (open)
             {
                 open = false;
-                Balloon[index].enabled = false;
-                Balloon[index].transform.GetChild(0).GetComponent<Image>().color = new Color(1, 1, 1, 0);
+                balloon[index].enabled = false;
+                balloon[index].transform.GetChild(0).GetComponent<Image>().color = new Color(1, 1, 1, 0);
                 count += 1;
                 timer = 0;
                 Debug.Log("2秒経過");
@@ -64,19 +69,24 @@ public class DrinkMain : MonoBehaviour {
                 timer = 0;
                 open = true;
                 index = Array.IndexOf(num, count);
-                Balloon[index].transform.GetChild(0).GetComponent<Image>().sprite = Balloon2[ryouri.GetSprite()];
-                Balloon[index].transform.GetChild(0).GetComponent<Image>().color = new Color(1, 1, 1, 1);
-                Balloon[index].enabled = true;
+                balloon[index].transform.GetChild(0).GetComponent<Image>().sprite = balloon2[order.GetSprite()];
+                balloon[index].transform.GetChild(0).GetComponent<Image>().color = new Color(1, 1, 1, 1);
+                balloon[index].enabled = true;
                 Debug.Log("Index" + index);
             }  
         }
     }  
 
     //ランダムに表示させる
-    public void RandomBalloon()
+    public void Randomballoon()
     {
         num2 = num.OrderBy(i => Guid.NewGuid()).ToArray();
         num = num2;
+    }
+    private IEnumerator Bo()
+    {
+        yield return new WaitForSeconds(1f);
+        button.gameObject.SetActive(true);
     }
 }
 
