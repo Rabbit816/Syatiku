@@ -14,8 +14,6 @@ public class BossScene : MonoBehaviour {
     static Image attackGageMask;
     [SerializeField]
     Image bossDamageGageMask;
-    [SerializeField]
-    GameObject tapEffect;
 
     float spawnTextTimer;
     float spawnTextTime = 3.0f;
@@ -35,13 +33,6 @@ public class BossScene : MonoBehaviour {
 
             //確認用にマウスダウンで攻撃
             HarisenAttack();
-
-            if (!tapEffect.activeSelf)
-            {
-                Vector3 mousePos = new Vector3(Input.mousePosition.x, Input.mousePosition.y, 0);
-                tapEffect.transform.position = Camera.main.ScreenToWorldPoint(mousePos);
-                tapEffect.SetActive(true);
-            }
         }
 
         if(spawnTextTimer > spawnTextTime)
