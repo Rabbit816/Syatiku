@@ -6,6 +6,9 @@ using UnityEngine.SceneManagement;
 
 public class Common : MonoBehaviour {
 
+    /// <summary>
+    /// シーン名
+    /// </summary>
     public enum SceneName
     {
         Title = 0,
@@ -23,6 +26,8 @@ public class Common : MonoBehaviour {
     private bool isFading = false;
     private Color fadeColor = Color.black;
     private float fadeAlpha = 0;
+
+    // 同じオブジェクトがあるか判定
     public static Common Instance
     {
         get
@@ -40,6 +45,7 @@ public class Common : MonoBehaviour {
         }
     }
 
+    // フェードのUIを描画
     public void OnGUI()
     {
         if (this.isFading)
@@ -60,11 +66,22 @@ public class Common : MonoBehaviour {
             DontDestroyOnLoad(gameObject);
     }
 
-    public void FadeChangeScene(SceneName name,float interval)
+    /// <summary>
+    /// シーン遷移処理
+    /// </summary>
+    /// <param name="name"></param>
+    /// <param name="interval"></param>
+    public void ChangeScene(SceneName name,float interval)
     {
         StartCoroutine(Fade(name , interval));
     }
 
+    /// <summary>
+    /// フェード処理
+    /// </summary>
+    /// <param name="name"></param>
+    /// <param name="interval"></param>
+    /// <returns></returns>
     public IEnumerator Fade(SceneName name, float interval)
     {
         this.isFading = true;
