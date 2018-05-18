@@ -14,10 +14,9 @@ public class ryouri
     private int count;
     private int index;
 
-
     public ryouri()
     {
-        Randomtnm();
+        RandomBalloon();
     }
 
     public int GetSprite()
@@ -28,7 +27,7 @@ public class ryouri
     }
 
     //ランダムに表示させる
-    public void Randomtnm()
+    public void RandomBalloon()
     {
         num = num.OrderBy(i => Guid.NewGuid()).ToArray();
         count = 0;
