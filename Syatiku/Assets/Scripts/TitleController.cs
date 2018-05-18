@@ -13,6 +13,6 @@ public class TitleController : MonoBehaviour {
     public void ChangeSelect()
     {
         //ChangeScene(SceneName.Select);
-        Common.Instance.FadeChangeScene(Common.SceneName.Action,1.0f);
+        Common.Instance.ChangeScene(Common.SceneName.Action,1.0f);
     }
 }
