@@ -47,7 +47,7 @@ public class HackTap : MonoBehaviour
     // Use this for initialization
     void Start () {
         CollectedWord = GameObject.Find("Canvas/IntoPC/CollectedWord");
-        collected_position = CollectedWord.GetComponent<Collider2D>().po
+        collected_position = CollectedWord.GetComponent<Collider2D>();
         place_list = new PlaceList[place.Length];
         _placeAnim = false;
         AddPlaceWord();
@@ -88,7 +88,7 @@ public class HackTap : MonoBehaviour
             _placeAnim = true;
 
             GameObject _collected_word = Instantiate(CollectedPrefab);
-            _collected_word.transform.SetParent(collected_position, false);
+            _collected_word.transform.SetParent(CollectedWord.transform, false);
         }
         place_current = placeNum;
     }
