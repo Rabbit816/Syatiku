@@ -4,7 +4,8 @@ using UnityEngine;
 using UnityEngine.UI;
 
 public class ActionController : MonoBehaviour {
-
+    [SerializeField]
+    private Text TMission,TActionCount;
 	void Start () {
 		
 	}
