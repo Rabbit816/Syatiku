@@ -5,7 +5,7 @@ using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 
 /// <summary>
-/// 汎用スクリプト(Common.Instance.○○)
+/// 汎用スクリプト(Common.Instance.関数、変数名)
 /// </summary>
 public class Common : MonoBehaviour {
 
@@ -25,29 +25,22 @@ public class Common : MonoBehaviour {
         Result,
     }
 
+    /// <summary>
+    /// ミニゲームの得点(Common.Instance.gameScore["ミニゲーム名"])
+    /// </summary>
+    public Dictionary<string,int> gameScore = new Dictionary<string, int>()
+    {
+        {"Smoking",0 },
+        {"Hacking",0},
+        {"Dreinking",0}
+    };
+
+    [SerializeField]
+    private float interval;
     private static Common instance;
     private bool isFading = false;
     private Color fadeColor = Color.black;
     private float fadeAlpha = 0;
-
-    /// <summary>
-    /// シャッフル変数
-    /// </summary>
-    /// <typeparam name="T"></typeparam>
-    /// <param name="param"></param>
-    /// <returns></returns>
-    public T[] Shuffle<T>(T[] param)
-    {
-        //T[] randList = new T[param.Length];
-        for(int i = 0; i < param.Length; i++)
-        {
-            T temp = param[i];
-            int rand = Random.Range(0, param.Length - 1);
-            param[i] = param[rand];
-            param[rand] = temp;
-        }
-        return param;
-    }
 
     // 同じオブジェクト(Common)があるか判定
     public static Common Instance
@@ -89,22 +82,20 @@ public class Common : MonoBehaviour {
     }
 
     /// <summary>
-    /// シーン遷移処理
+    /// シーン遷移処理(Common.Instance.ChangeScene(Common.SceneName.シーン名))
     /// </summary>
     /// <param name="name"></param>
-    /// <param name="interval"></param>
-    public void ChangeScene(SceneName name,float interval)
+    public void ChangeScene(SceneName name)
     {
-        StartCoroutine(Fade(name , interval));
+        StartCoroutine(Fade(name));
     }
 
     /// <summary>
     /// フェード処理
     /// </summary>
     /// <param name="name"></param>
-    /// <param name="interval"></param>
     /// <returns></returns>
-    public IEnumerator Fade(SceneName name, float interval)
+    public IEnumerator Fade(SceneName name)
     {
         this.isFading = true;
         float time = 0;
@@ -126,5 +117,24 @@ public class Common : MonoBehaviour {
         }
 
         this.isFading = false;
+    }
+
+    /// <summary>
+    /// シャッフル変数
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    /// <param name="param"></param>
+    /// <returns></returns>
+    public T[] Shuffle<T>(T[] param)
+    {
+        //T[] randList = new T[param.Length];
+        for (int i = 0; i < param.Length; i++)
+        {
+            T temp = param[i];
+            int rand = Random.Range(0, param.Length - 1);
+            param[i] = param[rand];
+            param[rand] = temp;
+        }
+        return param;
     }
 }

@@ -5,6 +5,11 @@ using UnityEngine.UI;
 
 public class TitleController : MonoBehaviour {
 
+    void Start()
+    {
+        Common.Instance.gameScore["Smoking"] += 0;
+        Debug.Log(Common.Instance.gameScore["Smoking"]);
+    }
     void Update()
     {
         
@@ -13,6 +18,6 @@ public class TitleController : MonoBehaviour {
     public void ChangeSelect()
     {
         //ChangeScene(SceneName.Select);
-        Common.Instance.ChangeScene(Common.SceneName.Action,1.0f);
+        Common.Instance.ChangeScene(Common.SceneName.Action);
     }
 }
