@@ -120,7 +120,7 @@ public class Common : MonoBehaviour {
     }
 
     /// <summary>
-    /// シャッフル変数
+    /// シャッフル変数(Common.Instance.Shuffle(配列))
     /// </summary>
     /// <typeparam name="T"></typeparam>
     /// <param name="param"></param>

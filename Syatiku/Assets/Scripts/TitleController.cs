@@ -4,20 +4,35 @@ using UnityEngine;
 using UnityEngine.UI;
 
 public class TitleController : MonoBehaviour {
-
+    [SerializeField]
+    private GameObject title;
     void Start()
     {
-        Common.Instance.gameScore["Smoking"] += 0;
-        Debug.Log(Common.Instance.gameScore["Smoking"]);
+        
     }
     void Update()
     {
         
     }
 
-    public void ChangeSelect()
+    public void ChangeMode(int mode)
     {
-        //ChangeScene(SceneName.Select);
-        Common.Instance.ChangeScene(Common.SceneName.Action);
+        switch (mode)
+        {
+            case 0:
+                Common.Instance.ChangeScene(Common.SceneName.Action);
+                break;
+            case 1:
+                Common.Instance.ChangeScene(Common.SceneName.Action);
+                break;
+            default:
+                break;
+        }
+        
+    }
+
+    public void Select()
+    {
+        title.SetActive(false);
     }
 }
