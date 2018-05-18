@@ -17,13 +17,13 @@ public class ActionController : MonoBehaviour {
         switch (num)
         {
             case 0:
-                Common.Instance.FadeChangeScene(Common.SceneName.Smoking, 1.0f);
+                Common.Instance.ChangeScene(Common.SceneName.Smoking, 1.0f);
                 break;
             case 1:
-                Common.Instance.FadeChangeScene(Common.SceneName.Hacking, 1.0f);
+                Common.Instance.ChangeScene(Common.SceneName.Hacking, 1.0f);
                 break;
             case 2:
-                Common.Instance.FadeChangeScene(Common.SceneName.Drinking, 1.0f);
+                Common.Instance.ChangeScene(Common.SceneName.Drinking, 1.0f);
                 break;
             default:
                 break;
