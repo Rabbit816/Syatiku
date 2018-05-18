@@ -20,6 +20,7 @@ public class ParticleController : MonoBehaviour {
         }
     }
 
+    /// <returns></returns>
     IEnumerator DisableParticle()
     {
         yield return new WaitWhile(() => particle.IsAlive(true));

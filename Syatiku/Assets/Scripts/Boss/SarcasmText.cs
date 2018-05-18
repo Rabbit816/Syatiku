@@ -73,8 +73,9 @@ public class SarcasmText : MonoBehaviour
         if (!isFlick)
         {
             BossScene.SetMoveForce(out moveDir, out moveSpeed);
-            isFlick = true;
+            isFlick = (moveDir.sqrMagnitude * moveSpeed > 0);
         }
+        
     }
 
 }
