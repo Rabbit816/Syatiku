@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 
 public class BossScene : MonoBehaviour {
+    public static BossScene Instance { get; private set; }
 
     [SerializeField]
     GameObject sarcasmTextPrefab;
@@ -11,17 +12,23 @@ public class BossScene : MonoBehaviour {
     RectTransform sarcasmTextBox;
     List<GameObject> sarcasmTextList = new List<GameObject>();
 
-    static Image attackGageMask;
     [SerializeField]
-    Image bossDamageGageMask;
+    int attackGageMax = 3;
+    int attackGage;
+    [SerializeField]
+    int damageGage;
+
+    //フリックの成功、失敗回数
+    int missCount;
+    int successCount;
 
     float spawnTextTimer;
     float spawnTextTime = 3.0f;
 
     private static Vector3 touchStartPos;
 
-    void Start () {
-        attackGageMask = GameObject.Find("AttackGageMask").GetComponent<Image>();
+    void Awake () {
+        Instance = this.GetComponent<BossScene>();
 	}
 	
 	void Update () {
@@ -68,36 +75,56 @@ public class BossScene : MonoBehaviour {
     }
 
     /// <summary>
-    /// テキストに移動速度、方向をセット
+    /// テキストの移動速度、方向を更新
     /// </summary>
     /// <param name="moveDir"></param>
     /// <param name="moveSpeed"></param>
-    public static void SetMoveForce(out Vector3 moveDir, out float moveSpeed)
+    public void SetMoveForce(ref Vector3 moveForce)
     {
         //離した位置
         Vector3 touchEndPos = Input.mousePosition;
         //フリックの長さ
         Vector3 flickLength = touchEndPos - touchStartPos;
+        Vector3 newMoveForce = flickLength.normalized * flickLength.sqrMagnitude / 10000;
 
-        moveDir = flickLength.normalized;
-        moveSpeed = flickLength.magnitude / 80;
+        //フリックが小さすぎなければ
+        if (newMoveForce.x > 0.1f || newMoveForce.x < -0.1f ||
+            newMoveForce.y > 0.1f || newMoveForce.y < -0.1f)
+        {
+            //値を変更
+            moveForce = newMoveForce;
+        }
+
     }
 
     /// <summary>
     /// 攻撃ゲージの上昇
     /// </summary>
-    public static void AttackGageAccumulate()
+    public void AttackGageAccumulate()
     {
-        attackGageMask.fillAmount += 0.5f;
+        if (attackGage < attackGageMax)
+        {
+            attackGage += 1;
+        }
     }
 
-    public void HarisenAttack()
+    public void MissCountUP()
+    {
+        missCount++;
+    }
+
+    public void SuccessCountUP()
+    {
+        successCount++;
+    }
+
+    void HarisenAttack()
     {
         //攻撃ゲージが満タン時
-        if (attackGageMask.fillAmount >= 1.0f)
+        if (attackGage == attackGageMax)
         {
-            attackGageMask.fillAmount = 0;
-            bossDamageGageMask.fillAmount += 0.1f;
+            attackGage = 0;
+            damageGage += 1;
         }
     }
     
