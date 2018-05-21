@@ -4,8 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 
 public class ActionController : MonoBehaviour {
-    [SerializeField]
-    private Text TMission,TActionCount;
+
 	void Start () {
 		
 	}
@@ -13,21 +12,22 @@ public class ActionController : MonoBehaviour {
 	void Update () {
 		
 	}
-    public void ChangeMinigame(int num)
-    {
-        switch (num)
-        {
-            case 0:
-                Common.Instance.ChangeScene(Common.SceneName.Smoking);
-                break;
-            case 1:
-                Common.Instance.ChangeScene(Common.SceneName.Hacking);
-                break;
-            case 2:
-                Common.Instance.ChangeScene(Common.SceneName.Drinking);
-                break;
-            default:
-                break;
-        }
-    }
+
+    //public void ChangeMinigame(int num)
+    //{
+    //    switch (num)
+    //    {
+    //        case 0:
+    //            ChangeScene(SceneName.Smoking);
+    //            break;
+    //        case 1:
+    //            ChangeScene(SceneName.Hacking);
+    //            break;
+    //        case 2:
+    //            ChangeScene(SceneName.Drinking);
+    //            break;
+    //        default:
+    //            break;
+    //    }
+    //}
 }

@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using System.IO;
 
 public class HackMain : MonoBehaviour {
 
@@ -23,16 +22,9 @@ public class HackMain : MonoBehaviour {
     [SerializeField,Tooltip("お題のオブジェクト")]
     private GameObject theme_obj;
 
-<<<<<<< HEAD
-=======
-    private int line = 0;
-    private char spliter = ',';
-    private string[] res;
->>>>>>> 02ea9bc031f6791a897b0d407586f9e6de4790ca
 
 	// Use this for initialization
 	void Start () {
-        ReadText();
         _themeActive = false;
         Theme();
 	}
@@ -60,18 +52,6 @@ public class HackMain : MonoBehaviour {
         return (timer < 0f);
     }
 
-    private void ReadText()
-    {
-        TextAsset csvfile = Resources.Load("Hacking/date1") as TextAsset;
-        StringReader stren = new StringReader(csvfile.text);
-        //while (stren.Peek() > -1)
-        //{
-            
-        //    line++;
-        //    Debug.Log(line);
-        //}
-
-    }
     /// <summary>
     /// お題の処理
     /// </summary>
