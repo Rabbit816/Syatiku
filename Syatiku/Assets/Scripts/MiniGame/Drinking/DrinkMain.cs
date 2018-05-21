@@ -6,60 +6,51 @@ using System.Linq;//シャッフルする時に必要
 using System;
 
 public class DrinkMain : MonoBehaviour {
-
     [SerializeField]
-    private Image[] balloon;
-
-    [SerializeField]
-    private Sprite[] balloon2;
-
-    [SerializeField]
-    private GameObject button;
-
+    private Image[] tnm;
     private int[] num;
     private int[] num2;
     private float timer;
     private int count;
     private int index;
-    private bool open = false;
-    private Order order = new Order();    
+    private bool open;
+    private bool moyamoya;
 
     // Use this for initialization
     void Start()
-    {       
+    {
+        open = false;
+        moyamoya = false;
         //numの初期化       
-        num = new int[4] { 0, 1, 2, 3 };
-
-        //ランダムに吹き出しを表示する
-        Randomballoon();
-
-        //balloonの初期化
-        for (int i = 0; i < balloon.Length; ++i)
+        num = new int[4] { 0, 1, 2, 3 };        
+        //tnmの初期化
+        for (int i = 0; i < tnm.Length; ++i)
         {
-            balloon[i].enabled = false;
+            tnm[i].enabled = false;
         }
-
-        button.gameObject.SetActive(false);
+        transform.parent = GameObject.Find("tnm").transform;
     }
 
     // Update is called once per frame
     void Update()
-    {
-        if (count == 4)
-        {
-            StartCoroutine(Bo());         
-            return;
-        }
-
+    {        
         //一秒毎にする
+        if (!moyamoya)
+        {
+            fromleft();
+            //randomtnm();
+        }        
+    }
+   
+    public void fromleft()
+    {       
         timer += Time.deltaTime;
         if (timer > 1)
         {
             if (open)
             {
                 open = false;
-                balloon[index].enabled = false;
-                balloon[index].transform.GetChild(0).GetComponent<Image>().color = new Color(1, 1, 1, 0);
+                tnm[index].enabled = false;
                 count += 1;
                 timer = 0;
                 Debug.Log("2秒経過");
@@ -69,24 +60,43 @@ public class DrinkMain : MonoBehaviour {
                 timer = 0;
                 open = true;
                 index = Array.IndexOf(num, count);
-                balloon[index].transform.GetChild(0).GetComponent<Image>().sprite = balloon2[order.GetSprite()];
-                balloon[index].transform.GetChild(0).GetComponent<Image>().color = new Color(1, 1, 1, 1);
-                balloon[index].enabled = true;
-                Debug.Log("Index" + index);
-            }  
+                tnm[index].enabled = true;
+                Debug.Log("1秒経過");
+            }
         }
-    }  
+        if (count == 4)
+        {
+            moyamoya = true;
+        }
+    }
 
-    //ランダムに表示させる
-    public void Randomballoon()
+    public void randomtnm()
     {
         num2 = num.OrderBy(i => Guid.NewGuid()).ToArray();
-        num = num2;
-    }
-    private IEnumerator Bo()
-    {
-        yield return new WaitForSeconds(1f);
-        button.gameObject.SetActive(true);
+        timer += Time.deltaTime;
+        if (timer > 1)
+        {
+            if (open)
+            {
+                open = false;
+                tnm[index].enabled = false;
+                count += 1;
+                timer = 0;
+                Debug.Log("2秒経過");
+            }
+            else
+            {
+                timer = 0;
+                open = true;
+                index = Array.IndexOf(num2, count);
+                tnm[index].enabled = true;
+                Debug.Log("1秒経過");
+            }
+        }
+        if (count == 4)
+        {
+            moyamoya = true;
+        }
     }
 }
 

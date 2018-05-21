@@ -4,14 +4,8 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 
-/// <summary>
-/// 汎用スクリプト(Common.Instance.関数、変数名)
-/// </summary>
 public class Common : MonoBehaviour {
 
-    /// <summary>
-    /// シーン名
-    /// </summary>
     public enum SceneName
     {
         Title = 0,
@@ -25,24 +19,10 @@ public class Common : MonoBehaviour {
         Result,
     }
 
-    /// <summary>
-    /// ミニゲームの得点(Common.Instance.gameScore["ミニゲーム名"])
-    /// </summary>
-    public Dictionary<string,int> gameScore = new Dictionary<string, int>()
-    {
-        {"Smoking",0 },
-        {"Hacking",0},
-        {"Dreinking",0}
-    };
-
-    [SerializeField]
-    private float interval;
     private static Common instance;
     private bool isFading = false;
     private Color fadeColor = Color.black;
     private float fadeAlpha = 0;
-
-    // 同じオブジェクト(Common)があるか判定
     public static Common Instance
     {
         get
@@ -60,7 +40,6 @@ public class Common : MonoBehaviour {
         }
     }
 
-    // フェードのUIを描画
     public void OnGUI()
     {
         if (this.isFading)
@@ -81,21 +60,12 @@ public class Common : MonoBehaviour {
             DontDestroyOnLoad(gameObject);
     }
 
-    /// <summary>
-    /// シーン遷移処理(Common.Instance.ChangeScene(Common.SceneName.シーン名))
-    /// </summary>
-    /// <param name="name"></param>
-    public void ChangeScene(SceneName name)
+    public void FadeChangeScene(SceneName name,float interval)
     {
-        StartCoroutine(Fade(name));
+        StartCoroutine(Fade(name , interval));
     }
 
-    /// <summary>
-    /// フェード処理
-    /// </summary>
-    /// <param name="name"></param>
-    /// <returns></returns>
-    public IEnumerator Fade(SceneName name)
+    public IEnumerator Fade(SceneName name, float interval)
     {
         this.isFading = true;
         float time = 0;
@@ -117,24 +87,5 @@ public class Common : MonoBehaviour {
         }
 
         this.isFading = false;
-    }
-
-    /// <summary>
-    /// シャッフル変数(Common.Instance.Shuffle(配列))
-    /// </summary>
-    /// <typeparam name="T"></typeparam>
-    /// <param name="param"></param>
-    /// <returns></returns>
-    public T[] Shuffle<T>(T[] param)
-    {
-        //T[] randList = new T[param.Length];
-        for (int i = 0; i < param.Length; i++)
-        {
-            T temp = param[i];
-            int rand = Random.Range(0, param.Length - 1);
-            param[i] = param[rand];
-            param[rand] = temp;
-        }
-        return param;
     }
 }

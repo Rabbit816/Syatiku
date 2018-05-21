@@ -6,8 +6,14 @@ using UnityEngine.UI;
 public class SarcasmText : MonoBehaviour
 {
     Text sarcasmText;
+<<<<<<< HEAD
     Vector3 moveForce;
     float alpha;
+=======
+    Vector3 moveDir;
+    float moveSpeed;
+    bool isFlick;
+>>>>>>> akashi
 
     void Awake()
     {
@@ -32,27 +38,32 @@ public class SarcasmText : MonoBehaviour
         float moveY = Random.Range(-0.1f, 0.1f);
         moveForce = new Vector3(moveX, moveY, 0);
 
+<<<<<<< HEAD
         //文字
         sarcasmText.fontSize = Random.Range(15, 41);
         alpha = 0;
+=======
+        //移動系
+        moveDir = Vector3.zero;
+        moveSpeed = 1.0f;
+        isFlick = false;
+>>>>>>> akashi
     }
 
     void Update()
     {
-        //透明度の更新
-        if (alpha >= 1)
+        //座標移動
+        if (isFlick)
         {
-            alpha = 1.0f;
-        }
-        else
-        {
-            alpha += 0.005f;
-            sarcasmText.color = new Color(1, 1, 1, alpha);
+            sarcasmText.rectTransform.localPosition += moveDir * moveSpeed;
         }
 
+<<<<<<< HEAD
         //移動
         sarcasmText.rectTransform.localPosition += moveForce;
 
+=======
+>>>>>>> akashi
         //画面外に外れた時
         if (sarcasmText.rectTransform.localPosition.x > 500 || sarcasmText.rectTransform.localPosition.x < -500
             || sarcasmText.rectTransform.localPosition.y > 200 || sarcasmText.rectTransform.localPosition.y < -200)
@@ -64,7 +75,15 @@ public class SarcasmText : MonoBehaviour
 
     public void FlickEnd()
     {
+<<<<<<< HEAD
         BossScene.Instance.SetMoveForce(ref moveForce);
+=======
+        if (!isFlick)
+        {
+            BossScene.SetMoveForce(out moveDir, out moveSpeed);
+            isFlick = true;
+        }
+>>>>>>> akashi
     }
 
     void OnCollisionEnter2D(Collision2D collision)
