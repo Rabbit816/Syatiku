@@ -6,19 +6,14 @@ using UnityEngine.UI;
 public class SarcasmText : MonoBehaviour
 {
     Text sarcasmText;
-<<<<<<< HEAD
     Vector3 moveForce;
     float alpha;
-=======
-    Vector3 moveDir;
-    float moveSpeed;
-    bool isFlick;
->>>>>>> akashi
 
     void Awake()
     {
         sarcasmText = GetComponent<Text>();
         Initialize();
+        gameObject.SetActive(true);
     }
 
     /// <summary>
@@ -29,65 +24,59 @@ public class SarcasmText : MonoBehaviour
         //座標
         float posX = Random.Range(0, 2);
         posX = (posX > 0 ? 200 : -200);
-        float posY = Random.Range(-80, 80);
+        float posY = Random.Range(-100, 100);
         Vector3 pos = new Vector3(posX, posY, 0);
         sarcasmText.rectTransform.localPosition = pos;
 
         //移動
         float moveX = posX / Random.Range(100, 800);
-        float moveY = Random.Range(-0.1f, 0.1f);
+        float moveY = Random.Range(-0.5f, 0.5f);
         moveForce = new Vector3(moveX, moveY, 0);
 
-<<<<<<< HEAD
         //文字
         sarcasmText.fontSize = Random.Range(15, 41);
         alpha = 0;
-=======
-        //移動系
-        moveDir = Vector3.zero;
-        moveSpeed = 1.0f;
-        isFlick = false;
->>>>>>> akashi
+
+        gameObject.SetActive(false);
     }
 
     void Update()
     {
-        //座標移動
-        if (isFlick)
+        //透明度の更新
+        if (alpha >= 1)
         {
-            sarcasmText.rectTransform.localPosition += moveDir * moveSpeed;
+            alpha = 1.0f;
+        }
+        else
+        {
+            alpha += 0.005f;
+            sarcasmText.color = new Color(1, 1, 1, alpha);
         }
 
-<<<<<<< HEAD
         //移動
         sarcasmText.rectTransform.localPosition += moveForce;
 
-=======
->>>>>>> akashi
         //画面外に外れた時
         if (sarcasmText.rectTransform.localPosition.x > 500 || sarcasmText.rectTransform.localPosition.x < -500
             || sarcasmText.rectTransform.localPosition.y > 200 || sarcasmText.rectTransform.localPosition.y < -200)
         {
+            BossScene.Instance.MissCountUP();
             Initialize();
-            gameObject.SetActive(false);
         }
     }
 
     public void FlickEnd()
     {
-<<<<<<< HEAD
         BossScene.Instance.SetMoveForce(ref moveForce);
-=======
-        if (!isFlick)
-        {
-            BossScene.SetMoveForce(out moveDir, out moveSpeed);
-            isFlick = true;
-        }
->>>>>>> akashi
     }
 
-    void OnCollisionEnter2D(Collision2D collision)
+    /// <summary>
+    /// ボスとの衝突判定
+    /// </summary>
+    /// <param name="collision"></param>
+    private void OnTriggerEnter2D(Collider2D collision)
     {
-        Debug.Log("textにhit");
+        BossScene.Instance.AttackGageAccumulate();
+        Initialize();
     }
 }
