@@ -13,6 +13,7 @@ public class SarcasmText : MonoBehaviour
     {
         sarcasmText = GetComponent<Text>();
         Initialize();
+        gameObject.SetActive(true);
     }
 
     /// <summary>
@@ -23,18 +24,20 @@ public class SarcasmText : MonoBehaviour
         //座標
         float posX = Random.Range(0, 2);
         posX = (posX > 0 ? 200 : -200);
-        float posY = Random.Range(-80, 80);
+        float posY = Random.Range(-100, 100);
         Vector3 pos = new Vector3(posX, posY, 0);
         sarcasmText.rectTransform.localPosition = pos;
 
         //移動
         float moveX = posX / Random.Range(100, 800);
-        float moveY = Random.Range(-0.1f, 0.1f);
+        float moveY = Random.Range(-0.5f, 0.5f);
         moveForce = new Vector3(moveX, moveY, 0);
 
         //文字
         sarcasmText.fontSize = Random.Range(15, 41);
         alpha = 0;
+
+        gameObject.SetActive(false);
     }
 
     void Update()
@@ -57,8 +60,8 @@ public class SarcasmText : MonoBehaviour
         if (sarcasmText.rectTransform.localPosition.x > 500 || sarcasmText.rectTransform.localPosition.x < -500
             || sarcasmText.rectTransform.localPosition.y > 200 || sarcasmText.rectTransform.localPosition.y < -200)
         {
+            BossScene.Instance.MissCountUP();
             Initialize();
-            gameObject.SetActive(false);
         }
     }
 
@@ -67,8 +70,13 @@ public class SarcasmText : MonoBehaviour
         BossScene.Instance.SetMoveForce(ref moveForce);
     }
 
-    void OnCollisionEnter2D(Collision2D collision)
+    /// <summary>
+    /// ボスとの衝突判定
+    /// </summary>
+    /// <param name="collision"></param>
+    private void OnTriggerEnter2D(Collider2D collision)
     {
-        Debug.Log("textにhit");
+        BossScene.Instance.AttackGageAccumulate();
+        Initialize();
     }
 }
