@@ -88,6 +88,8 @@
     <Compile Include="Assets\Scripts\MiniGame\Drinking\Button.cs" />
     <Compile Include="Assets\Scripts\MiniGame\Drinking\DrinkMain.cs" />
     <Compile Include="Assets\Scripts\MiniGame\Drinking\Order.cs" />
+    <Compile Include="Assets\Scripts\MiniGame\Hacking\Drag.cs" />
+    <Compile Include="Assets\Scripts\MiniGame\Hacking\Drop.cs" />
     <Compile Include="Assets\Scripts\MiniGame\Hacking\HackBoss.cs" />
     <Compile Include="Assets\Scripts\MiniGame\Hacking\HackMain.cs" />
     <Compile Include="Assets\Scripts\MiniGame\Hacking\HackPC.cs" />

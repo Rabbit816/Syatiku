@@ -51,6 +51,8 @@ public class HackTap : MonoBehaviour
     private GameObject[] pos_list;
 
     private float getWord_Num = 0.0f;
+    private HackPC hack_pc;
+    private int old_counter = 0;
 
     // Use this for initialization
     void Start () {
@@ -58,6 +60,8 @@ public class HackTap : MonoBehaviour
         GetWord = GameObject.Find("Canvas/Check/GetWord");
         Common.Instance.Shuffle(pos_list);
         getWord_Num = 0;
+        hack_pc = GetComponent<HackPC>();
+
         place_list = new PlaceList[place.Length];
         _placeAnim = false;
         AddPlaceWord();
@@ -65,6 +69,8 @@ public class HackTap : MonoBehaviour
 	
 	// Update is called once per frame
 	void Update () {
+        //if (hack_pc.counter != old_counter)
+        //    AddPlaceWord();
         //if (_placeAnim)
         //{
         //    t -= Time.deltaTime;
@@ -112,13 +118,13 @@ public class HackTap : MonoBehaviour
     /// </summary>
     private void AddPlaceWord()
     {
-        Common.Instance.Shuffle(str);
+        old_counter = hack_pc.counter;
+        //str = GetComponent<HackMain>().str_list.CopyTo(GetComponent<HackMain>().str_list[old_counter], 0, GetComponent<HackMain>().str_list[old_counter].Length);
+        //Common.Instance.Shuffle(str);
         for (int j = 0; j < place.Length; j++)
         {
             place_list[j].pos = place[j];
             place_list[j].word = str[j];
-            Debug.Log(j + "週目 place_list.pos: " + place_list[j].pos);
-            Debug.Log(j + "週目 place_list.word: " + place_list[j].word);
         }
     }
 }
