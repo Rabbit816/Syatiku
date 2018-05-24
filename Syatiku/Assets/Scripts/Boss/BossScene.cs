@@ -5,13 +5,6 @@ using UnityEngine.UI;
 
 public class BossScene : MonoBehaviour {
     public static BossScene Instance { get; private set; }
-    enum GameState
-    {
-        Flick,
-        Sanction,
-        GameEnd,
-    }
-    GameState gameState = 0;
 
     [SerializeField]
     GameObject sanctionPartCanvas;
@@ -19,17 +12,8 @@ public class BossScene : MonoBehaviour {
     GameObject flickPartCanvas;
 
     [SerializeField]
-    GameObject sarcasmTextPrefab;
-    [SerializeField]
-    RectTransform sarcasmTextBox;
-    List<GameObject> sarcasmTextList = new List<GameObject>();
+    int attackValue = 3;
 
-    float spawnTextTimer;
-    float spawnTextTime = 3.0f;
-
-    [SerializeField]
-    int attackGageMax = 3;
-    int attackGage;
     [SerializeField]
     int damageGageMax;
     int damageGage;
@@ -47,105 +31,28 @@ public class BossScene : MonoBehaviour {
     void Awake () {
         Instance = this.GetComponent<BossScene>();
 	}
+
+    public void ChangePart()
+    {
+        sanctionPartCanvas.SetActive(!sanctionPartCanvas.activeSelf);
+        flickPartCanvas.SetActive(!flickPartCanvas.activeSelf);
+    }
 	
 	void Update () {
 
-        switch (gameState)
-        {
-            case GameState.Flick:
-                UpdateFlickPart();
-                break;
-            case GameState.Sanction:
-                UpdateSanctionPart();
-                break;
-            case GameState.GameEnd:
-                Result();
-                break;
-        }
-
-        if(gameTime < 0)
-        {
-            gameState = GameState.GameEnd;
-        }
-	}
-
-    /// <summary>
-    /// フリックパートの動作
-    /// </summary>
-    void UpdateFlickPart()
-    {
         if (Input.GetMouseButtonDown(0))
         {
             //フリックの開始
             touchStartPos = Input.mousePosition;
 
-            //-- 仮
-            //攻撃ゲージが満タン時
-            if (attackGage == attackGageMax)
-            {
-                ChangePart();
-                attackGage = 0;
-            }
-            //--
         }
 
-        if (spawnTextTimer > spawnTextTime)
-        {
-            //テキストの生成
-            SpawnSarcasmText();
-        }
-        spawnTextTimer += Time.deltaTime;
         gameTime -= Time.deltaTime;
-    }
-
-    /// <summary>
-    /// 制裁パートの動作
-    /// </summary>
-    void UpdateSanctionPart()
-    {
-        if (Input.GetMouseButtonDown(0))
+        if(gameTime < 0)
         {
-            ChangePart();
+            Result();   
         }
-    }
-
-    void ChangePart()
-    {
-        flickPartCanvas.SetActive(!flickPartCanvas.activeSelf);
-        sanctionPartCanvas.SetActive(!sanctionPartCanvas.activeSelf);
-        if (gameState == GameState.Flick)
-        {
-            gameState = GameState.Sanction;
-        }
-        else
-        {
-            gameState = GameState.Flick;
-        }
-    }
-
-    void SpawnSarcasmText()
-    {
-        //タイマー初期化
-        spawnTextTimer = 0;
-        spawnTextTime = Random.Range(1, 5);
-
-        for (int i = 0; i < sarcasmTextList.Count; i++) {
-
-            //使われていない（非表示中の）ものがあれば再利用
-            if (!sarcasmTextList[i].activeSelf)
-            {
-                sarcasmTextList[i].SetActive(true);
-                return;
-            }
-        }
-
-        //全て使用中なら新しく生成
-        GameObject sarcasmText = Instantiate(sarcasmTextPrefab);
-        //sarcasmMessageBoxの子要素に
-        sarcasmText.transform.SetParent(sarcasmTextBox, false);
-        //リストに追加
-        sarcasmTextList.Add(sarcasmText);
-    }
+	}
 
     /// <summary>
     /// テキストの移動速度、方向を更新
@@ -175,16 +82,14 @@ public class BossScene : MonoBehaviour {
         missCount++;
     }
 
-    /// <summary>
-    /// 攻撃ゲージの上昇
-    /// </summary>
-    public void AttackGageAccumulate()
+    public void SuccessCountUP()
     {
-        if (attackGage < attackGageMax)
-        {
-            attackGage += 1;
-        }
         successCount++;
+
+        if (successCount % attackValue == 0)
+        {
+            ChangePart();
+        }
     }
 
     void Result()

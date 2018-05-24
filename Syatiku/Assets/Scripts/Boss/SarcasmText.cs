@@ -76,7 +76,7 @@ public class SarcasmText : MonoBehaviour
     /// <param name="collision"></param>
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        BossScene.Instance.AttackGageAccumulate();
+        BossScene.Instance.SuccessCountUP();
         Initialize();
     }
 }

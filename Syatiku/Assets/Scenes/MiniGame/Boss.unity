@@ -179,54 +179,6 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 576704837}
---- !u!1 &629166642
-GameObject:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  serializedVersion: 5
-  m_Component:
-  - component: {fileID: 629166644}
-  - component: {fileID: 629166643}
-  m_Layer: 0
-  m_Name: BossScene
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &629166643
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 629166642}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5d607c159cb1f8e48a061c827a4c2bd8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  sanctionPartCanvas: {fileID: 1390658831}
-  flickPartCanvas: {fileID: 2025717539}
-  sarcasmTextPrefab: {fileID: 1586700467652566, guid: 17f59855cb05d524daa4832e92746e88,
-    type: 2}
-  sarcasmTextBox: {fileID: 812280369}
-  attackGageMax: 3
-  damageGageMax: 5
-  gameTime: 50
---- !u!4 &629166644
-Transform:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 629166642}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 1
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &796061097
 GameObject:
   m_ObjectHideFlags: 0
@@ -522,6 +474,51 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1099495363}
+--- !u!1 &1274440716
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 1274440718}
+  - component: {fileID: 1274440717}
+  m_Layer: 0
+  m_Name: BossScene
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1274440717
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1274440716}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5d607c159cb1f8e48a061c827a4c2bd8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sanctionPartCanvas: {fileID: 1390658831}
+  flickPartCanvas: {fileID: 2025717539}
+  attackValue: 3
+  damageGageMax: 5
+  gameTime: 50
+--- !u!4 &1274440718
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1274440716}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 473.00812, y: 163.8893, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1310982374
 GameObject:
   m_ObjectHideFlags: 0
@@ -619,6 +616,7 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 1390658832}
+  - component: {fileID: 1390658833}
   m_Layer: 5
   m_Name: SanctionPartCanvas
   m_TagString: Untagged
@@ -646,6 +644,18 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1390658833
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1390658831}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 65705eda118b6914ea03d104de05f682, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sanctionDisplayTime: 1.5
 --- !u!1 &1795605956
 GameObject:
   m_ObjectHideFlags: 0
@@ -749,6 +759,7 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 2025717540}
+  - component: {fileID: 2025717541}
   m_Layer: 5
   m_Name: FlickPartCanvas
   m_TagString: Untagged
@@ -776,6 +787,20 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &2025717541
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 2025717539}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0a0aa87bb5199a5478cea5db25a12f7d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sarcasmTextPrefab: {fileID: 1586700467652566, guid: 17f59855cb05d524daa4832e92746e88,
+    type: 2}
+  sarcasmTextBox: {fileID: 812280369}
 --- !u!1 &2075255904
 GameObject:
   m_ObjectHideFlags: 0
