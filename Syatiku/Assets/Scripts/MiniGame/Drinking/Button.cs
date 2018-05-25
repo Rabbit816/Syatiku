@@ -7,7 +7,7 @@ public class Button : MonoBehaviour {
     
     [SerializeField]
     private Image learnButton;
-
+    public int number = 0;
     // Use this for initialization
     void Start()
     {
@@ -24,4 +24,16 @@ public class Button : MonoBehaviour {
         GameObject.Find("Denmoku").transform.position = new Vector3(330f, 186f, 0);       
         Debug.Log("クリック");
     }
+
+    public void OnClickpluc()
+    {
+        number = number + 1;
+        Debug.Log("クリック");
+    }
+    public void OnClickminus()
+    {
+        number = number - 1;
+        Debug.Log("クリック");
+    }
+
 }

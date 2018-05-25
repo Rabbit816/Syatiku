@@ -91,8 +91,9 @@
     <Compile Include="Assets\Scripts\Common\Common.cs" />
     <Compile Include="Assets\Scripts\Common\Particle\ParticleController.cs" />
     <Compile Include="Assets\Scripts\Common\Particle\TapEffectController.cs" />
+    <Compile Include="Assets\Scripts\MiniGame\Drinking\Button.cs" />
     <Compile Include="Assets\Scripts\MiniGame\Drinking\DrinkMain.cs" />
-    <Compile Include="Assets\Scripts\MiniGame\Drinking\ryouri.cs" />
+    <Compile Include="Assets\Scripts\MiniGame\Drinking\Order.cs" />
     <Compile Include="Assets\Scripts\MiniGame\Hacking\HackBoss.cs" />
     <Compile Include="Assets\Scripts\MiniGame\Hacking\HackMain.cs" />
     <Compile Include="Assets\Scripts\MiniGame\Hacking\HackPC.cs" />
