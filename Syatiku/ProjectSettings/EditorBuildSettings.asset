@@ -27,8 +27,8 @@ EditorBuildSettings:
     path: Assets/Scenes/MiniGame/Drinking.unity
     guid: 2554a0ec0d1302e4cb9c19ddf33cc956
   - enabled: 1
-    path: Assets/Scenes/Boss.unity
+    path: Assets/Scenes/MiniGame/Boss.unity
     guid: 963ab022930832445a2093d412672126
   - enabled: 1
     path: Assets/Scenes/Result.unity
-    guid: 00000000000000000000000000000000
+    guid: d3d73020811b01e4f945f555c8df6ec8
