@@ -31,7 +31,7 @@ public class HackMain : MonoBehaviour {
 
     // Use this for initialization
     void Start () {
-        ReadText();
+        //ReadText();
         _themeActive = false;
         Theme();
 	}

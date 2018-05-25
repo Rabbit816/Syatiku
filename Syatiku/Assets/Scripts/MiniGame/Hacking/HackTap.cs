@@ -118,9 +118,9 @@ public class HackTap : MonoBehaviour
     /// </summary>
     private void AddPlaceWord()
     {
-        old_counter = hack_pc.counter;
+        //old_counter = hack_pc.counter;
         //str = GetComponent<HackMain>().str_list.CopyTo(GetComponent<HackMain>().str_list[old_counter], 0, GetComponent<HackMain>().str_list[old_counter].Length);
-        //Common.Instance.Shuffle(str);
+        Common.Instance.Shuffle(str);
         for (int j = 0; j < place.Length; j++)
         {
             place_list[j].pos = place[j];

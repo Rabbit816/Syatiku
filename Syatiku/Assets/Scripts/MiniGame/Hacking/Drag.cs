@@ -18,7 +18,7 @@ public class Drag : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHand
 
     public void OnBeginDrag(PointerEventData pointer)
     {
-        dragText = t.text;
+        //dragText = t.text;
     }
     public void OnDrag(PointerEventData pointer)
     {
@@ -28,7 +28,7 @@ public class Drag : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHand
     public void OnEndDrag(PointerEventData pointer)
     {
         rect.localPosition = startR;
-        dragText = "";
+        //dragText = "";
 
     }
 }
