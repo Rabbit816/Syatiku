@@ -36,30 +36,19 @@ public class SarcasmText : MonoBehaviour
         //文字
         sarcasmText.fontSize = Random.Range(15, 41);
         alpha = 0;
-<<<<<<< HEAD
 
         gameObject.SetActive(false);
-=======
->>>>>>> akashi
     }
 
     void Update()
     {
         //透明度の更新
         if (alpha >= 1)
-<<<<<<< HEAD
         {
             alpha = 1.0f;
         }
         else
         {
-=======
-        {
-            alpha = 1.0f;
-        }
-        else
-        {
->>>>>>> akashi
             alpha += 0.005f;
             sarcasmText.color = new Color(1, 1, 1, alpha);
         }
