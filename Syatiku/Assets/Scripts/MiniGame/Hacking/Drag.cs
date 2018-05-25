@@ -7,8 +7,6 @@ public class Drag : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHand
 
     private Vector3 startR;
     private RectTransform rect;
-    public static string dragText = "";
-    private Text t;
 
     void Start()
     {
@@ -18,7 +16,7 @@ public class Drag : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHand
 
     public void OnBeginDrag(PointerEventData pointer)
     {
-        //dragText = t.text;
+        
     }
     public void OnDrag(PointerEventData pointer)
     {
@@ -28,7 +26,6 @@ public class Drag : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHand
     public void OnEndDrag(PointerEventData pointer)
     {
         rect.localPosition = startR;
-        //dragText = "";
-
     }
+
 }

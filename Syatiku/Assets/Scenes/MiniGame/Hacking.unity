@@ -124,7 +124,7 @@ GameObject:
   - component: {fileID: 100219743}
   m_Layer: 5
   m_Name: AnswerText_4
-  m_TagString: Untagged
+  m_TagString: answer
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -372,7 +372,7 @@ GameObject:
   - component: {fileID: 271675848}
   m_Layer: 5
   m_Name: AnswerText_5
-  m_TagString: Untagged
+  m_TagString: answer
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -627,6 +627,7 @@ GameObject:
   - component: {fileID: 405828317}
   - component: {fileID: 405828319}
   - component: {fileID: 405828318}
+  - component: {fileID: 405828320}
   m_Layer: 5
   m_Name: Check
   m_TagString: Untagged
@@ -687,6 +688,58 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 405828316}
+--- !u!114 &405828320
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 405828316}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 1392445389, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Navigation:
+    m_Mode: 3
+    m_SelectOnUp: {fileID: 0}
+    m_SelectOnDown: {fileID: 0}
+    m_SelectOnLeft: {fileID: 0}
+    m_SelectOnRight: {fileID: 0}
+  m_Transition: 1
+  m_Colors:
+    m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
+    m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
+    m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
+    m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
+    m_ColorMultiplier: 1
+    m_FadeDuration: 0.1
+  m_SpriteState:
+    m_HighlightedSprite: {fileID: 0}
+    m_PressedSprite: {fileID: 0}
+    m_DisabledSprite: {fileID: 0}
+  m_AnimationTriggers:
+    m_NormalTrigger: Normal
+    m_HighlightedTrigger: Highlighted
+    m_PressedTrigger: Pressed
+    m_DisabledTrigger: Disabled
+  m_Interactable: 1
+  m_TargetGraphic: {fileID: 405828318}
+  m_OnClick:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1906215261}
+        m_MethodName: CollectWords
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 1
+        m_CallState: 2
+    m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
+      Culture=neutral, PublicKeyToken=null
 --- !u!1 &411999787
 GameObject:
   m_ObjectHideFlags: 0
@@ -841,7 +894,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 85, y: -82.999985}
+  m_AnchoredPosition: {x: 84.7, y: -73}
   m_SizeDelta: {x: 156, y: 205}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &459674958
@@ -1429,7 +1482,7 @@ GameObject:
   - component: {fileID: 831149578}
   m_Layer: 5
   m_Name: AnswerText_3
-  m_TagString: Untagged
+  m_TagString: answer
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1584,7 +1637,7 @@ GameObject:
   - component: {fileID: 882650120}
   m_Layer: 5
   m_Name: AnswerText_2
-  m_TagString: Untagged
+  m_TagString: answer
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1882,7 +1935,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -409, y: -142.8}
+  m_AnchoredPosition: {x: -409, y: -142.80002}
   m_SizeDelta: {x: 247.1, y: 350.7}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1023608920
@@ -2039,7 +2092,7 @@ GameObject:
   - component: {fileID: 1223814205}
   m_Layer: 5
   m_Name: AnswerText_0
-  m_TagString: Untagged
+  m_TagString: answer
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -3486,7 +3539,7 @@ GameObject:
   - component: {fileID: 2021964949}
   m_Layer: 5
   m_Name: AnswerText_1
-  m_TagString: Untagged
+  m_TagString: answer
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
