@@ -8,7 +8,7 @@ public class ResultController : MonoBehaviour {
     private Text scoreText;
 	// Use this for initialization
 	void Start () {
-        scoreText.text = Common.Instance.gameScore["Hacking"] + "%";
+        //scoreText.text = Common.Instance.gameScore["Hacking"] + "%";
 	}
 	
 	// Update is called once per frame

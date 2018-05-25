@@ -6,13 +6,21 @@ using UnityEngine.UI;
 public class ActionController : MonoBehaviour {
     [SerializeField]
     private Text TMission,TActionCount;
+    [SerializeField]
+    private Image[] getData;
+
 	void Start () {
-		
-	}
+        
+    }
 	
 	void Update () {
 		
 	}
+
+    /// <summary>
+    /// ミニゲーム遷移
+    /// </summary>
+    /// <param name="num"></param>
     public void ChangeMinigame(int num)
     {
         switch (num)
