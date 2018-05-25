@@ -19,7 +19,6 @@ public class HackTap : MonoBehaviour
     [SerializeField, Tooltip("全部のタップできる場所格納")]
     private GameObject[] place;
 
-
     [SerializeField, Tooltip("全部の発見できる単語")]
     private string[] str;
 
@@ -28,6 +27,8 @@ public class HackTap : MonoBehaviour
 
     //現在の場所
     private int place_current;
+    [SerializeField]
+    private GameObject IntoPC;
 
     //単語が表示されているかどうか
     private bool _placeAnim = false;
@@ -35,11 +36,32 @@ public class HackTap : MonoBehaviour
     [SerializeField,Tooltip("単語が表示される時間")]
     private float t = 5.0f;
 
-    [SerializeField,Tooltip("出す単語画像")]
-    private GameObject Prefab;
-    
-	// Use this for initialization
-	void Start () {
+    [SerializeField,Tooltip("出現する単語")]
+    private GameObject AppearPrefab;
+
+    [SerializeField, Tooltip("集めた単語(PC内に出すObject)")]
+    private GameObject CollectedPrefab;
+    private GameObject CollectedWord;
+    private Collider2D collected_position;
+    [SerializeField, Tooltip("集めた単語(リスト内に出すObject)")]
+    private GameObject GetWordPrefab;
+    private GameObject GetWord;
+
+    [SerializeField, Tooltip("PC内のposition")]
+    private GameObject[] pos_list;
+
+    private float getWord_Num = 0.0f;
+    private HackPC hack_pc;
+    private int old_counter = 0;
+
+    // Use this for initialization
+    void Start () {
+        CollectedWord = GameObject.Find("Canvas/IntoPC/CollectedWord");
+        GetWord = GameObject.Find("Canvas/Check/GetWord");
+        Common.Instance.Shuffle(pos_list);
+        getWord_Num = 0;
+        hack_pc = GetComponent<HackPC>();
+
         place_list = new PlaceList[place.Length];
         _placeAnim = false;
         AddPlaceWord();
@@ -47,6 +69,8 @@ public class HackTap : MonoBehaviour
 	
 	// Update is called once per frame
 	void Update () {
+        //if (hack_pc.counter != old_counter)
+        //    AddPlaceWord();
         //if (_placeAnim)
         //{
         //    t -= Time.deltaTime;
@@ -63,52 +87,44 @@ public class HackTap : MonoBehaviour
     /// </summary>
     /// <param name="placeNum">どの場所かを指定</param>
     public void PlaceButton(int placeNum){
-        // 一回もタップされてなかったら
-        if(place[placeNum].transform.childCount == 0)
+        //PC画面内を表示
+        //戻るボタンで画面外に移動
+        if (placeNum == 6) {
+            IntoPC.transform.position = new Vector2(0, 1);
+        }else if (placeNum == 7)
         {
-            GameObject _prefab = Instantiate(Prefab);
-            _prefab.transform.SetParent(place[placeNum].transform, false);  // SetParent(親の場所,大きさを変えるか)
+            IntoPC.transform.position = new Vector2(0, 11.1f);
+        }
+        // 一回もタップされてなかったら
+        // PC内とリスト内とその場所に表示
+        else if(place[placeNum].transform.childCount == 0)
+        {
+            GameObject _prefab = Instantiate(AppearPrefab, place[placeNum].transform);
             place[placeNum].transform.GetComponentInChildren<Text>().text = place_list[placeNum].word.ToString();
             _placeAnim = true;
+
+            GameObject _collected_word = Instantiate(CollectedPrefab, CollectedWord.transform);
+            _collected_word.transform.position = pos_list[placeNum].transform.position;
+            _collected_word.GetComponentInChildren<Text>().text = place_list[placeNum].word.ToString();
+
+            GameObject _get_word = Instantiate(GetWordPrefab,GetWord.transform);
+            _get_word.GetComponentInChildren<Text>().text = place_list[placeNum].word.ToString();
         }
         place_current = placeNum;
     }
-    
+
     /// <summary>
     /// 各場所に単語を入れる
     /// </summary>
     private void AddPlaceWord()
     {
-        int count = 0;
-        Shuffle(str);
-        for (int i = 0; i < place.Length - 1; i++)
+        //old_counter = hack_pc.counter;
+        //str = GetComponent<HackMain>().str_list.CopyTo(GetComponent<HackMain>().str_list[old_counter], 0, GetComponent<HackMain>().str_list[old_counter].Length);
+        Common.Instance.Shuffle(str);
+        for (int j = 0; j < place.Length; j++)
         {
-            place_list[i].pos = place[i];
-            place_list[i].word = str[i];
-            Debug.Log(i + "週目 place_list.pos: " + place_list[i].pos);
-            Debug.Log(i + "週目 place_list.word: " + place_list[i].word);
+            place_list[j].pos = place[j];
+            place_list[j].word = str[j];
         }
-    }
-
-    /// <summary>
-    /// 仮シャッフル（あとでわっしーに共通スクリプトに書いてもらう）
-    /// </summary>
-    /// <param name="s">シャッフルしたい配列</param>
-    /// <returns></returns>
-    private string[] Shuffle(string[] s)
-    {
-        int length = s.Length;
-        string[] s_result = new string[length];
-        var rand = new System.Random();
-        int n = length;
-        while (1 < n)
-        {
-            n--;
-            int rand_Num = rand.Next(n + 1);
-			var tmp = s_result[rand_Num];
-			s_result[rand_Num] = s_result[n];
-            s_result[n] = tmp;
-        }
-        return s_result;
     }
 }

@@ -22,6 +22,8 @@ GameObject:
   - component: {fileID: 222849598865365328}
   - component: {fileID: 114222017484545856}
   - component: {fileID: 114213698533920348}
+  - component: {fileID: 114299778845101256}
+  - component: {fileID: 114470667591281494}
   m_Layer: 5
   m_Name: WordImage
   m_TagString: Untagged
@@ -117,18 +119,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 114222017484545856}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 0}
-        m_MethodName: 
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: 
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
 --- !u!114 &114222017484545856
@@ -158,6 +149,28 @@ MonoBehaviour:
   m_FillAmount: 1
   m_FillClockwise: 1
   m_FillOrigin: 0
+--- !u!114 &114299778845101256
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1418273942412078}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5720bf0933460834b93c18a2d85a4a53, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &114470667591281494
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1418273942412078}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ff17499579a75cc4287884100dfc3df9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!222 &222630198620682492
 CanvasRenderer:
   m_ObjectHideFlags: 1
@@ -185,7 +198,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -0.00000023842, y: 0.0000085831}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 89, y: 57.3}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!224 &224770867160796780
