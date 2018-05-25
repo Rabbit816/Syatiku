@@ -9,6 +9,8 @@ public class ActionController : MonoBehaviour {
     [SerializeField]
     private Image[] getData;
 
+    [SerializeField]
+    private GameObject dataFile;
 	void Start () {
         
     }

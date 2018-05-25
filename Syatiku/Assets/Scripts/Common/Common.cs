@@ -25,16 +25,6 @@ public class Common : MonoBehaviour {
     }
 
     /// <summary>
-    /// ミニゲームの得点(Common.Instance.gameScore["ミニゲーム名"])
-    /// </summary>
-    //public Dictionary<string,int> gameScore = new Dictionary<string, int>()
-    //{
-    //    {"Smoking",0 },
-    //    {"Hacking",0},
-    //    {"Drinking",0}
-    //};
-
-    /// <summary>
     /// ミニゲームで手に入る資料
     /// </summary>
     public GameObject[] data;
