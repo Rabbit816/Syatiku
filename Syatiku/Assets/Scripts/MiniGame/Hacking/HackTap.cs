@@ -36,18 +36,32 @@ public class HackTap : MonoBehaviour
     [SerializeField,Tooltip("単語が表示される時間")]
     private float t = 5.0f;
 
-    [SerializeField,Tooltip("出す単語画像")]
-    private GameObject Prefab;
+    [SerializeField,Tooltip("出現する単語")]
+    private GameObject AppearPrefab;
 
-    [SerializeField, Tooltip("集めた単語")]
+    [SerializeField, Tooltip("集めた単語(PC内に出すObject)")]
     private GameObject CollectedPrefab;
     private GameObject CollectedWord;
     private Collider2D collected_position;
+    [SerializeField, Tooltip("集めた単語(リスト内に出すObject)")]
+    private GameObject GetWordPrefab;
+    private GameObject GetWord;
+
+    [SerializeField, Tooltip("PC内のposition")]
+    private GameObject[] pos_list;
+
+    private float getWord_Num = 0.0f;
+    private HackPC hack_pc;
+    private int old_counter = 0;
 
     // Use this for initialization
     void Start () {
         CollectedWord = GameObject.Find("Canvas/IntoPC/CollectedWord");
-        collected_position = CollectedWord.GetComponent<Collider2D>();
+        GetWord = GameObject.Find("Canvas/Check/GetWord");
+        Common.Instance.Shuffle(pos_list);
+        getWord_Num = 0;
+        hack_pc = GetComponent<HackPC>();
+
         place_list = new PlaceList[place.Length];
         _placeAnim = false;
         AddPlaceWord();
@@ -55,6 +69,8 @@ public class HackTap : MonoBehaviour
 	
 	// Update is called once per frame
 	void Update () {
+        //if (hack_pc.counter != old_counter)
+        //    AddPlaceWord();
         //if (_placeAnim)
         //{
         //    t -= Time.deltaTime;
@@ -77,18 +93,22 @@ public class HackTap : MonoBehaviour
             IntoPC.transform.position = new Vector2(0, 1);
         }else if (placeNum == 7)
         {
-            IntoPC.transform.position = new Vector2(0, 15);
+            IntoPC.transform.position = new Vector2(0, 11.1f);
         }
         // 一回もタップされてなかったら
+        // PC内とリスト内とその場所に表示
         else if(place[placeNum].transform.childCount == 0)
         {
-            GameObject _prefab = Instantiate(Prefab);
-            _prefab.transform.SetParent(place[placeNum].transform, false);  // SetParent(親の場所,大きさを変えるか)
+            GameObject _prefab = Instantiate(AppearPrefab, place[placeNum].transform);
             place[placeNum].transform.GetComponentInChildren<Text>().text = place_list[placeNum].word.ToString();
             _placeAnim = true;
 
-            GameObject _collected_word = Instantiate(CollectedPrefab);
-            _collected_word.transform.SetParent(CollectedWord.transform, false);
+            GameObject _collected_word = Instantiate(CollectedPrefab, CollectedWord.transform);
+            _collected_word.transform.position = pos_list[placeNum].transform.position;
+            _collected_word.GetComponentInChildren<Text>().text = place_list[placeNum].word.ToString();
+
+            GameObject _get_word = Instantiate(GetWordPrefab,GetWord.transform);
+            _get_word.GetComponentInChildren<Text>().text = place_list[placeNum].word.ToString();
         }
         place_current = placeNum;
     }
@@ -98,35 +118,13 @@ public class HackTap : MonoBehaviour
     /// </summary>
     private void AddPlaceWord()
     {
-        Shuffle(str);
-        for (int j = 0; j < place.Length - 1; j++)
+        //old_counter = hack_pc.counter;
+        //str = GetComponent<HackMain>().str_list.CopyTo(GetComponent<HackMain>().str_list[old_counter], 0, GetComponent<HackMain>().str_list[old_counter].Length);
+        Common.Instance.Shuffle(str);
+        for (int j = 0; j < place.Length; j++)
         {
             place_list[j].pos = place[j];
             place_list[j].word = str[j];
-            Debug.Log(j + "週目 place_list.pos: " + place_list[j].pos);
-            Debug.Log(j + "週目 place_list.word: " + place_list[j].word);
         }
-    }
-
-    /// <summary>
-    /// 仮シャッフル（あとでわっしーに共通スクリプトに書いてもらう）
-    /// </summary>
-    /// <param name="s">シャッフルしたい配列</param>
-    /// <returns></returns>
-    private string[] Shuffle(string[] s)
-    {
-        int length = s.Length;
-        string[] s_result = new string[length];
-        var rand = new System.Random();
-        int n = length;
-        while (1 < n)
-        {
-            n--;
-            int rand_Num = rand.Next(n + 1);
-            var tmp = s_result[rand_Num];
-            s_result[rand_Num] = s_result[n];
-            s_result[n] = tmp;
-        }
-        return s_result;
     }
 }
