@@ -54,6 +54,7 @@ public class HackTap : MonoBehaviour
     private float getWord_Num = 0.0f;
     private HackPC hack_pc;
     private int old_counter = 0;
+    private int count = 0;
 
     // Use this for initialization
     void Start () {
@@ -62,8 +63,8 @@ public class HackTap : MonoBehaviour
         GetWord = GameObject.Find("Canvas/Check/GetWord");
         Common.Instance.Shuffle(pos_list);
         getWord_Num = 0;
+        count = 0;
         hack_pc = GetComponent<HackPC>();
-
         place_list = new PlaceList[place.Length];
         _placeAnim = false;
         AddPlaceWord();
@@ -130,14 +131,19 @@ public class HackTap : MonoBehaviour
         }
     }
 
-    public void CollectWords(bool _isTap)
+    public void CollectWordsOpen()
     {
-        _isTap = false;
-        collectObject.transform.position = new Vector2(collectObject.transform.position.x - 2.9f, collectObject.transform.position.y);
-        if (Input.GetMouseButtonDown(0) && !_isTap)
+        switch (count)
         {
-            _isTap = false;
-            collectObject.transform.position = new Vector2(collectObject.transform.position.x + 2.9f, collectObject.transform.position.y);
+            case 0:
+                count++;
+                Debug.Log("1回目");
+                collectObject.transform.localPosition = new Vector2(collectObject.transform.localPosition.x - 160, collectObject.transform.localPosition.y);
+                break;
+            case 1:
+                count--;
+                collectObject.transform.localPosition = new Vector2(collectObject.transform.localPosition.x + 160, collectObject.transform.localPosition.y);
+                break;
         }
     }
 }
