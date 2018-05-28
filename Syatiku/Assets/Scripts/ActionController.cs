@@ -8,16 +8,27 @@ public class ActionController : MonoBehaviour {
     private Text TMission,TActionCount;
     [SerializeField]
     private Image[] getData;
-
     [SerializeField]
-    private GameObject dataFile;
+    private Image missionSeat;
+
+    private bool isOpen = true;
 	void Start () {
-        
+        missionSeat.gameObject.SetActive(false);
     }
 	
 	void Update () {
 		
 	}
+
+    /// <summary>
+    /// 任務確認シート
+    /// </summary>
+    public void OpenMission()
+    {
+        missionSeat.gameObject.SetActive(isOpen);
+        if (isOpen) isOpen = false;
+        else isOpen = true;
+    }
 
     /// <summary>
     /// ミニゲーム遷移

@@ -27,7 +27,14 @@ public class Common : MonoBehaviour {
     /// <summary>
     /// ミニゲームで手に入る資料
     /// </summary>
-    public GameObject[] data;
+    private Dictionary<int, string> data = new Dictionary<int, string>
+    {
+        {0,"資料A" },
+        {1,"資料B" },
+        {2,"資料C" },
+        {3,"資料D" },
+        {4,"資料E" },
+    };
 
     [SerializeField]
     private float interval;

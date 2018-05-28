@@ -735,7 +735,7 @@ GameObject:
   - component: {fileID: 642482347}
   - component: {fileID: 642482346}
   m_Layer: 5
-  m_Name: Panel (1)
+  m_Name: MissionSeat
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -798,7 +798,18 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 642482347}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1415853185}
+        m_MethodName: OpenMission
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
 --- !u!114 &642482347
@@ -1188,7 +1199,18 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1115605325}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1415853185}
+        m_MethodName: OpenMission
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
 --- !u!1 &1148079696
@@ -1572,7 +1594,7 @@ MonoBehaviour:
   - {fileID: 97874841}
   - {fileID: 277192401}
   - {fileID: 1407865096}
-  dataFile: {fileID: 642482344}
+  missionSeat: {fileID: 642482347}
 --- !u!1 &1462878339
 GameObject:
   m_ObjectHideFlags: 0
