@@ -15,6 +15,7 @@ public class TitleController : MonoBehaviour {
         
     }
 
+    //モード選択
     public void ChangeMode(int mode)
     {
         switch (mode)
@@ -30,7 +31,7 @@ public class TitleController : MonoBehaviour {
         }
         
     }
-
+    //タイトルボタンを削除
     public void Select()
     {
         title.SetActive(false);

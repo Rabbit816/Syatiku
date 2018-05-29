@@ -36,6 +36,9 @@ public class Common : MonoBehaviour {
         {4,"資料E" },
     };
 
+    //ミニゲームクリアしたか（α用）
+    private bool gameClear = false;
+
     [SerializeField]
     private float interval;
     private static Common instance;
