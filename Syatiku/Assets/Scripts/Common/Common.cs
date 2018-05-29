@@ -141,4 +141,6 @@ public class Common : MonoBehaviour {
         }
         return param;
     }
+    /*Common.gameClear = false;
+      Common.Instance.ChangeScene(Common.SceneName.Result);*/
 }
