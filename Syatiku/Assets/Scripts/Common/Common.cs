@@ -27,17 +27,17 @@ public class Common : MonoBehaviour {
     /// <summary>
     /// ミニゲームで手に入る資料
     /// </summary>
-    private Dictionary<int, string> data = new Dictionary<int, string>
+    public string[] data =
     {
-        {0,"資料A" },
-        {1,"資料B" },
-        {2,"資料C" },
-        {3,"資料D" },
-        {4,"資料E" },
+        "資料A",
+        "資料B",
+        "資料C",
+        "資料D",
+        "資料E"
     };
 
     //ミニゲームクリアしたか（α用）
-    private bool gameClear = false;
+    public static bool gameClear = false;
 
     [SerializeField]
     private float interval;
