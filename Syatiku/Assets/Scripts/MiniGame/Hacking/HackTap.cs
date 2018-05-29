@@ -22,6 +22,7 @@ public class HackTap : MonoBehaviour
     [SerializeField, Tooltip("全部の発見できる単語")]
     private string[] str;
 
+    private GameObject collectObject;
     private List<int> rand_list = new List<int>();
     private List<string> rand_strList = new List<string>();
 
@@ -53,15 +54,17 @@ public class HackTap : MonoBehaviour
     private float getWord_Num = 0.0f;
     private HackPC hack_pc;
     private int old_counter = 0;
+    private int count = 0;
 
     // Use this for initialization
     void Start () {
+        collectObject = GameObject.Find("Canvas/Check");
         CollectedWord = GameObject.Find("Canvas/IntoPC/CollectedWord");
         GetWord = GameObject.Find("Canvas/Check/GetWord");
         Common.Instance.Shuffle(pos_list);
         getWord_Num = 0;
+        count = 0;
         hack_pc = GetComponent<HackPC>();
-
         place_list = new PlaceList[place.Length];
         _placeAnim = false;
         AddPlaceWord();
@@ -125,6 +128,22 @@ public class HackTap : MonoBehaviour
         {
             place_list[j].pos = place[j];
             place_list[j].word = str[j];
+        }
+    }
+
+    public void CollectWordsOpen()
+    {
+        switch (count)
+        {
+            case 0:
+                count++;
+                Debug.Log("1回目");
+                collectObject.transform.localPosition = new Vector2(collectObject.transform.localPosition.x - 160, collectObject.transform.localPosition.y);
+                break;
+            case 1:
+                count--;
+                collectObject.transform.localPosition = new Vector2(collectObject.transform.localPosition.x + 160, collectObject.transform.localPosition.y);
+                break;
         }
     }
 }

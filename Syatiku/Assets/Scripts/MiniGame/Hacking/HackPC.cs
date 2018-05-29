@@ -1,6 +1,5 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
-using System.Collections.Generic;
 
 public class HackPC : MonoBehaviour {
     
@@ -36,11 +35,27 @@ public class HackPC : MonoBehaviour {
 
     }
 
-    private bool CheckString()
+    public void CheckString()
     {
-        // 文字列があっているかどうか処理
-        counter++;
-        return true;
+        for (int i = 0; i <= 5; i++)
+        {
+            GameObject ans = GameObject.Find("Canvas/IntoPC/Answer/AnswerText_" + i);
+            GameObject quest = GameObject.Find("Canvas/IntoPC/Quest/QuestText_" + i);
+            Text que_text = quest.GetComponent<Text>();
+            Transform ans_child = ans.transform.GetChild(0).GetChild(0);
+            Text ansChild_text = ans_child.GetComponent<Text>();
+            if (ansChild_text.text.Substring(0, ansChild_text.text.Length) == que_text.text)
+            {
+                if (i == 5)
+                {
+                    //Common.Instance.gameScore("Hacking",100);
+                    Common.Instance.ChangeScene(Common.SceneName.Result);
+                }
+            }
+            else
+            {
+                break;
+            }
+        }
     }
-    
 }
