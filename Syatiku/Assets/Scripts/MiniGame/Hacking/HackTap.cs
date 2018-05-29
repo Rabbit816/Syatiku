@@ -93,7 +93,7 @@ public class HackTap : MonoBehaviour
         //PC画面内を表示
         //戻るボタンで画面外に移動
         if (placeNum == 6) {
-            IntoPC.transform.localPosition = new Vector2(0, -32);
+            IntoPC.transform.localPosition = new Vector2(0, -23);
         }else if (placeNum == 7)
         {
             IntoPC.transform.localPosition = new Vector2(0, 535);

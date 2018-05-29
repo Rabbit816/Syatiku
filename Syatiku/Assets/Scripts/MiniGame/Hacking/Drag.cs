@@ -5,16 +5,8 @@ using System.Collections.Generic;
 
 public class Drag : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler
 {
-    private Vector3 startR;
-    private RectTransform rect;
 
-    private Ray ray;
-    private RaycastHit2D hit;
-    int rayLayer = 0;
-
-    Vector3 dragVec;
-    Vector3 old_vec;
-
+    private Vector3 dragVec;
     private GameObject collect;
 
     void Start()
@@ -34,10 +26,11 @@ public class Drag : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHand
 
     public void OnDrag(PointerEventData pointer)
     {
-        if (gameObject.transform.transform.tag == "asnwer")
+        transform.SetParent(collect.transform, false);
+        if (gameObject.transform.tag == "asnwer")
         {
             Debug.Log("おとんみっけ");
-            transform.SetParent(collect.transform, false);
+            
         }
         dragVec = new Vector3(Input.mousePosition.x, Input.mousePosition.y, 5);
         gameObject.transform.position = Camera.main.ScreenToWorldPoint(dragVec);
