@@ -37,7 +37,7 @@ public class Common : MonoBehaviour {
     };
 
     //ミニゲームクリアしたか（α用）
-    public static bool gameClear = false;
+    public static bool gameClear = true;
 
     [SerializeField]
     private float interval;
