@@ -93,10 +93,10 @@ public class HackTap : MonoBehaviour
         //PC画面内を表示
         //戻るボタンで画面外に移動
         if (placeNum == 6) {
-            IntoPC.transform.position = new Vector2(0, 1);
+            IntoPC.transform.localPosition = new Vector2(0, -32);
         }else if (placeNum == 7)
         {
-            IntoPC.transform.position = new Vector2(0, 11.1f);
+            IntoPC.transform.localPosition = new Vector2(0, 535);
         }
         // 一回もタップされてなかったら
         // PC内とリスト内とその場所に表示
