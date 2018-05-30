@@ -34,13 +34,28 @@ public class HackMain : MonoBehaviour {
         //ReadText();
         _themeActive = false;
         Theme();
+        timeout = true;
 	}
-	
+
+    private bool timeout = false;
 	// Update is called once per frame
 	void Update () {
-        if(_themeActive)
-            if (Timer())
-                Timer();
+        //if(_themeActive)
+        //    if (Timer())
+        //        Timer();
+
+        timer -= Time.deltaTime;
+        if(timer < 0)
+        {
+            timer = 0;
+            if (timeout)
+            {
+                Common.gameClear = false;
+                Common.Instance.ChangeScene(Common.SceneName.Result);
+                timeout = false;
+            }
+        }
+        time.text = "Timer: " + timer.ToString("f1");
     }
 
     /// <summary>
