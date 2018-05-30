@@ -6,8 +6,7 @@ using UnityEngine.UI;
 public class Button : MonoBehaviour {
     
     [SerializeField]
-    private Image learnButton;
-    
+    private Image learnButton;    
 
     // Use this for initialization
     void Start()
@@ -22,10 +21,7 @@ public class Button : MonoBehaviour {
     public void OnClick()
     {        
         transform.parent = GameObject.Find("Denmoku").transform;       
-        GameObject.Find("Denmoku").transform.position = new Vector3(478f, 270f, 0);       
+        GameObject.Find("Denmoku").transform.position = new Vector3(235f, 131f, 0);       
         Debug.Log("クリック");
     }
-
-    
-
 }

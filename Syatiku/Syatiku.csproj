@@ -94,7 +94,9 @@
     <Compile Include="Assets\Scripts\Common\Particle\ParticleController.cs" />
     <Compile Include="Assets\Scripts\Common\Particle\TapEffectController.cs" />
     <Compile Include="Assets\Scripts\MiniGame\Drinking\Button.cs" />
+    <Compile Include="Assets\Scripts\MiniGame\Drinking\Choice.cs" />
     <Compile Include="Assets\Scripts\MiniGame\Drinking\DrinkMain.cs" />
+    <Compile Include="Assets\Scripts\MiniGame\Drinking\Number.cs" />
     <Compile Include="Assets\Scripts\MiniGame\Drinking\Order.cs" />
     <Compile Include="Assets\Scripts\MiniGame\Drinking\Score.cs" />
     <Compile Include="Assets\Scripts\MiniGame\Hacking\Drag.cs" />

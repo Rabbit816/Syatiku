@@ -75,14 +75,20 @@ public class DrinkMain : MonoBehaviour {
                 Debug.Log("Index" + index);
             }  
         }
-    }  
+    }
 
     //ランダムに表示させる
     public void Randomballoon()
     {
-        num2 = num.OrderBy(i => Guid.NewGuid()).ToArray();
         num = num2;
+        num2 = num.OrderBy(i => Guid.NewGuid()).ToArray();
     }
+
+    /*public void Randomballoon()
+    {
+        num = num2;
+        num2 = (Common.Instance.Shuffle(num));
+    }*/
     private IEnumerator Bo()
     {
         yield return new WaitForSeconds(1f);

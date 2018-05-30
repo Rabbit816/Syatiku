@@ -29,5 +29,10 @@ public class Order
         num = num.OrderBy(i => Guid.NewGuid()).ToArray();
         count = 0;
     }
+
+    /*public void RandomBalloon()
+    {
+        num = (Common.Instance.Shuffle(num));
+    }*/
 }
 
