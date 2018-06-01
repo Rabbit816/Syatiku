@@ -56,11 +56,14 @@ public class ImportScenarioInfo : MonoBehaviour {
             else
             {
                 //セリフの行
-                message.Append(text);
+                message.Append(text + "\n");
             }
         }
 
-        scenario.message = message.ToString();
+        if (message.Length != 0)
+        {
+            scenario.message = message.ToString();
+        }
 
         return scenario;
     }
@@ -75,7 +78,7 @@ public class ImportScenarioInfo : MonoBehaviour {
             scenario.commandActionList.Add(() =>
             {
                 //名前
-                window.name.text = TakeCommandInfo(text);
+                window.name.text = TakeTextInfo(text) ?? "";
             });
         }
         else if (text.Contains("bgi"))
@@ -83,7 +86,7 @@ public class ImportScenarioInfo : MonoBehaviour {
             //背景画像
             scenario.commandActionList.Add(() =>
             {
-                string imagePath = "Scenario/" + TakeCommandInfo(text);
+                string imagePath = "Scenario/" + TakeTextInfo(text);
                 SetSprite(window.bgi, imagePath);
             });
         }
@@ -97,8 +100,9 @@ public class ImportScenarioInfo : MonoBehaviour {
             //キャラクター画像表示
             scenario.commandActionList.Add(() =>
             {
-                string imagePath = "Scenario/" + TakeCommandInfo(text);
+                string imagePath = "Scenario/" + TakeTextInfo(text);
                 Image target = GetCharaPos(text);
+                target.gameObject.SetActive(true);
                 SetSprite(target, imagePath);
             });
         }
@@ -108,20 +112,19 @@ public class ImportScenarioInfo : MonoBehaviour {
             scenario.commandActionList.Add(() =>
             {
                 Image target = GetCharaPos(text);
-                target.sprite = null;
+                target.gameObject.SetActive(false);
             });
         }
         else if (text.Contains("se"))
         {
             //SE
-
         }
     }
 
     /// <summary>
-    /// コマンドの情報を取得
+    /// テキストの情報を抜き取る
     /// </summary>
-    string TakeCommandInfo(string text)
+    string TakeTextInfo(string text)
     {
         int beginNum = text.IndexOf("{") + 1;
         int lastNum = text.IndexOf("}");
@@ -153,6 +156,10 @@ public class ImportScenarioInfo : MonoBehaviour {
         else if (text.LastIndexOf("right") >= 0)
         {
             target = window.charaRight;
+        }
+        else
+        {
+            Debug.logger.LogError("NotSetCharacterPosition", "キャラクターの指定位置が設定されていません");
         }
         return target;
     }

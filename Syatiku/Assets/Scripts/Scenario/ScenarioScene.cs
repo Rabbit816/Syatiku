@@ -50,12 +50,24 @@ public class ScenarioScene : MonoBehaviour {
     /// <summary>
     /// 次の文字を表示
     /// </summary>
+    char n = '\n';
     void UpdateNextText()
     {
         messageViewElapsedTime = 0;
+        //改行
+        if(allMessage[nextMessageIndex] == n)
+        {
+            //少し待つ
+            StartCoroutine(WaitTime(0.8f));
+        }
         viewMessage.Append(allMessage[nextMessageIndex]);
         nextMessageIndex++;
         window.message.text = viewMessage.ToString();
+    }
+
+    IEnumerator WaitTime(float t)
+    {
+        yield return new WaitForSeconds(t);
     }
 
     /// <summary>
