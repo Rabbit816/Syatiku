@@ -1,20 +1,19 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
-
 
 public class ScenarioScene : MonoBehaviour {
 
     [SerializeField]
-    Text name;
-    [SerializeField]
-    Text message;
+    string filePath = "Text/chapter_0_0";
 
+    ScenarioWindow window;
     public List<ScenarioInfo> scenarioInfoList = new List<ScenarioInfo>();
-    //参照しているデータ番号
-    int dateIndex;
+    //参照している情報番号
+    int infoIndex;
+    //全ての情報量
     int allInfoNum;
+    //表示するセリフ
     System.Text.StringBuilder viewMessage = new System.Text.StringBuilder();
     string allMessage;
     int nextMessageIndex;
@@ -25,9 +24,10 @@ public class ScenarioScene : MonoBehaviour {
     float messageViewElapsedTime;
 
 	void Start () {
-        //ImportScenarioDate scenarioData = GetComponent<ImportScenarioDate>();
-        scenarioInfoList = GetComponent<ImportScenarioDate>().CreateScenarioInfo();
-        dateIndex = 0;
+        window = GetComponent<ScenarioWindow>();
+        //必要なデータを取得
+        new ImportScenarioInfo(filePath, ref scenarioInfoList, window);
+        infoIndex = 0;
         allInfoNum = scenarioInfoList.Count;
         messageViewElapsedTime = 0;
 
@@ -43,19 +43,19 @@ public class ScenarioScene : MonoBehaviour {
 
         if (messageViewElapsedTime > messageViewSpeed)
         {
-            UpdateNextCharacter();
+            UpdateNextText();
         }
     }
 
     /// <summary>
     /// 次の文字を表示
     /// </summary>
-    void UpdateNextCharacter()
+    void UpdateNextText()
     {
         messageViewElapsedTime = 0;
         viewMessage.Append(allMessage[nextMessageIndex]);
         nextMessageIndex++;
-        message.text = viewMessage.ToString();
+        window.message.text = viewMessage.ToString();
     }
 
     /// <summary>
@@ -66,11 +66,14 @@ public class ScenarioScene : MonoBehaviour {
     {
         viewMessage.Length = 0;
         nextMessageIndex = 0;
+        allMessage = scenarioInfoList[infoIndex].message;
 
-        allMessage = scenarioInfoList[dateIndex].message;
-        name.text = scenarioInfoList[dateIndex].name;
+        foreach (var action in scenarioInfoList[infoIndex].commandActionList)
+        {
+            action();
+        }
 
-        dateIndex++;
+        infoIndex++;
     }
 
     /// <summary>
@@ -89,7 +92,7 @@ public class ScenarioScene : MonoBehaviour {
     {
         viewMessage.Length = 0;
         viewMessage.Append(allMessage);
-        message.text = viewMessage.ToString();
+        window.message.text = viewMessage.ToString();
     }
 
     /// <summary>
@@ -99,7 +102,7 @@ public class ScenarioScene : MonoBehaviour {
     {
         if (IsShowAllMessage())
         {
-            if (allInfoNum == dateIndex)
+            if (allInfoNum == infoIndex)
             {
                 //すべてのセリフを表示し終えた
                 Debug.Log("end");
