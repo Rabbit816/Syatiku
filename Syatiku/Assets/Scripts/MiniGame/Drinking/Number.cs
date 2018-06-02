@@ -6,7 +6,8 @@ using UnityEngine.UI;
 public class Number : MonoBehaviour
 {
     public Text numberText;
-    private int number;
+    [HideInInspector]
+    public int number;
 
     // Use this for initialization
     void Start()

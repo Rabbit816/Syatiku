@@ -23,7 +23,11 @@ public class Score : MonoBehaviour {
     }
     public void OnClickminus()
     {
-        FindObjectOfType<Number>().Addpoint(-1);
-        Debug.Log("ック");
+
+        if (FindObjectOfType<Number>().number > 0)
+        {
+            FindObjectOfType<Number>().Addpoint(-1);
+            Debug.Log("ック");
+        }
     }   
 }
