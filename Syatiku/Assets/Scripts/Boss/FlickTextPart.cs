@@ -12,12 +12,7 @@ public class FlickTextPart : MonoBehaviour {
 
     float spawnTextTimer;
     float spawnTextTime = 3.0f;
-
-    void Start () {
-		
-	}
 	
-	// Update is called once per frame
 	void Update () {
         if (spawnTextTimer > spawnTextTime)
         {

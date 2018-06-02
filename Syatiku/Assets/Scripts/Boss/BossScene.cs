@@ -10,6 +10,8 @@ public class BossScene : MonoBehaviour {
     GameObject sanctionPartCanvas;
     [SerializeField]
     GameObject flickPartCanvas;
+    [SerializeField]
+    UnityEngine.UI.Text timerText;
 
     [SerializeField]
     int attackValue = 3;
@@ -44,21 +46,30 @@ public class BossScene : MonoBehaviour {
         {
             //フリックの開始
             touchStartPos = Input.mousePosition;
-
         }
 
-        gameTime -= Time.deltaTime;
-        if(gameTime < 0)
-        {
-            Result();   
-        }
+        UpdateTimer();
 	}
+
+    /// <summary>
+    /// タイマーの更新
+    /// </summary>
+    void UpdateTimer()
+    {
+        if (gameTime < 0)
+        {
+            Result();
+        }
+        else
+        {
+            gameTime -= Time.deltaTime;
+            timerText.text = gameTime.ToString("F0");
+        }
+    }
 
     /// <summary>
     /// テキストの移動速度、方向を更新
     /// </summary>
-    /// <param name="moveDir"></param>
-    /// <param name="moveSpeed"></param>
     public void SetMoveForce(ref Vector3 moveForce)
     {
         //離した位置
