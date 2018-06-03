@@ -9,10 +9,8 @@ public class DrinkMain : MonoBehaviour {
 
     [SerializeField]
     private Image[] balloon;
-
     [SerializeField]
     private Sprite[] balloon2;
-
     [SerializeField]
     private GameObject button;
 
@@ -22,7 +20,7 @@ public class DrinkMain : MonoBehaviour {
     private int count;
     private int index;
     private bool open = false;
-    private Order order = new Order();    
+    private Order order = new Order(); 
 
     // Use this for initialization
     void Start()
@@ -38,11 +36,9 @@ public class DrinkMain : MonoBehaviour {
         {
             balloon[i].enabled = false;
         }
-
         button.gameObject.SetActive(false);
     }
-
-    // Update is called once per frame
+    
     void Update()
     {
         if (count == 4)
@@ -55,6 +51,7 @@ public class DrinkMain : MonoBehaviour {
         timer += Time.deltaTime;
         if (timer > 1)
         {
+            //吹き出しの中の表示方法
             if (open)
             {
                 open = false;
@@ -73,7 +70,7 @@ public class DrinkMain : MonoBehaviour {
                 balloon[index].transform.GetChild(0).GetComponent<Image>().color = new Color(1, 1, 1, 1);
                 balloon[index].enabled = true;
                 Debug.Log("Index" + index);
-            }  
+            }
         }
     }
 
@@ -81,13 +78,13 @@ public class DrinkMain : MonoBehaviour {
     public void Randomballoon()
     {        
         num2 = num.OrderBy(i => Guid.NewGuid()).ToArray();
-        num = num2; 
+        num = num2;
     }
 
     /*public void Randomballoon()
-    {
-        num = num2;
+    {       
         num2 = (Common.Instance.Shuffle(num));
+        num = num2;
     }*/
     private IEnumerator Bo()
     {

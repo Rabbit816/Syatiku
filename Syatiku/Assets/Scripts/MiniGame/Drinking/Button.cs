@@ -20,9 +20,9 @@ public class Button : MonoBehaviour {
 	}
     public void OnClick()
     {        
+        //Denmokuの移動方法
         transform.parent = GameObject.Find("Denmoku").transform;       
-        GameObject.Find("Denmoku").transform.position = new Vector3(437f, 246f, 0);       
+        GameObject.Find("Denmoku").transform.position = new Vector3(436f, 246f, 0);       
         Debug.Log("クリック");
-    }
-    //437f
+    }   
 }

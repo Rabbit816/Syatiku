@@ -26,6 +26,7 @@ public class Number : MonoBehaviour
         number = 0;
     }
 
+    //+-を押して数値変更
     public void Addpoint(int point)
     {
         number = number + point;

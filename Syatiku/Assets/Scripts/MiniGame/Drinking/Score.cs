@@ -23,7 +23,8 @@ public class Score : MonoBehaviour {
     }
     public void OnClickminus()
     {
-
+        //-ボタンが押されたらNumberを呼び出す
+        //numberのカウントが0以上なら
         if (FindObjectOfType<Number>().number > 0)
         {
             FindObjectOfType<Number>().Addpoint(-1);

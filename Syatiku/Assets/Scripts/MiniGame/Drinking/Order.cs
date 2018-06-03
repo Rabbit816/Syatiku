@@ -8,6 +8,7 @@ using System;
 public class Order
 {
     private int[] num = new int[4] { 0, 1, 2, 3 };
+    private int[] num2;
     private int count;
     private int index;
 
