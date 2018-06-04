@@ -1189,14 +1189,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   menu:
-  - {fileID: 21300000, guid: f382b1d18232c3d4fa6c4a61a5546de2, type: 3}
+  - {fileID: 26167307}
   niku:
   - {fileID: 1018100155}
   sake:
   - {fileID: 26167307}
   sashimi:
   - {fileID: 1487362452}
-  - {fileID: 1018100155}
   salad:
   - {fileID: 26733534}
 --- !u!1 &382858024
@@ -2052,7 +2051,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   menu:
-  - {fileID: 21300000, guid: 8b7a0195558edab4fb9c6ff227528e28, type: 3}
+  - {fileID: 0}
   niku:
   - {fileID: 1018100155}
   sake:
@@ -2718,6 +2717,7 @@ GameObject:
   - component: {fileID: 1018100157}
   - component: {fileID: 1018100156}
   - component: {fileID: 1018100155}
+  - component: {fileID: 1018100158}
   m_Layer: 0
   m_Name: niku
   m_TagString: Untagged
@@ -2779,6 +2779,47 @@ RectTransform:
   m_AnchoredPosition: {x: -2.4018, y: 171.2}
   m_SizeDelta: {x: 3, y: 3}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!212 &1018100158
+SpriteRenderer:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1018100154}
+  m_Enabled: 1
+  m_CastShadows: 0
+  m_ReceiveShadows: 0
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_Materials:
+  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_SelectedEditorRenderState: 0
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+  m_Sprite: {fileID: 21300000, guid: 8b7a0195558edab4fb9c6ff227528e28, type: 3}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_FlipX: 0
+  m_FlipY: 0
+  m_DrawMode: 0
+  m_Size: {x: 3, y: 2}
+  m_AdaptiveModeThreshold: 0.5
+  m_SpriteTileMode: 0
+  m_WasSpriteAssigned: 1
 --- !u!1 &1055783765
 GameObject:
   m_ObjectHideFlags: 0
@@ -5430,7 +5471,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   menu:
-  - {fileID: 21300000, guid: 9e52428e2b11b02458c912136bf71bff, type: 3}
+  - {fileID: 0}
   niku:
   - {fileID: 1018100155}
   sake:
@@ -6190,7 +6231,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   menu:
-  - {fileID: 21300000, guid: 64fa1863c13b72e48922d51adb5044c6, type: 3}
+  - {fileID: 0}
   niku:
   - {fileID: 1018100155}
   sake:
