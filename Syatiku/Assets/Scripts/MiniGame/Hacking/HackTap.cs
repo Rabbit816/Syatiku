@@ -51,16 +51,29 @@ public class HackTap : MonoBehaviour
     [SerializeField, Tooltip("PC内のposition")]
     private GameObject[] pos_list;
 
+    [HideInInspector]
+    public List<string[]> Quest_list = new List<string[]>();
+    [HideInInspector]
+    public List<string[]> Answer_list = new List<string[]>();
+
     private float getWord_Num = 0.0f;
     private HackPC hack_pc;
     private int old_counter = 0;
     private int count = 0;
+    private int Maxline = 0;
+    private int currentline = 0;
+
+    private string str_quest;
+    private string str_answer;
 
     // Use this for initialization
     void Start () {
+        currentline = 0;
+        Maxline = 0;
         collectObject = GameObject.Find("Canvas/Check");
         CollectedWord = GameObject.Find("Canvas/IntoPC/CollectedWord");
         GetWord = GameObject.Find("Canvas/Check/GetWord");
+        ReadText();
         Common.Instance.Shuffle(pos_list);
         getWord_Num = 0;
         count = 0;
@@ -84,6 +97,26 @@ public class HackTap : MonoBehaviour
         //    }
         //}
 	}
+
+    private void ReadText()
+    {
+        TextAsset csvfile_quest = Resources.Load("Minigame/Hacking/Quest") as TextAsset;
+        TextAsset csvfile_answer = Resources.Load("Minigame/Hacking/Answer") as TextAsset;
+        System.IO.StringReader stren_quest = new System.IO.StringReader(csvfile_quest.text);
+        System.IO.StringReader stren_answer = new System.IO.StringReader(csvfile_answer.text);
+        Debug.Log("text: " + csvfile_quest.ToString());
+        // 表示
+        while (stren_quest.Peek() > -1)
+        {
+            str_quest = stren_quest.ReadLine();
+            str_answer = stren_answer.ReadLine();
+            Answer_list.Add(str_answer.Split(','));
+            Quest_list.Add(str_quest.Split(','));
+            Debug.Log("str_answer:" + Quest_list);
+
+            Maxline++; // 行数加算
+        }
+    }
 
     /// <summary>
     /// タップしたところから単語が出てくる処理
@@ -121,13 +154,12 @@ public class HackTap : MonoBehaviour
     /// </summary>
     private void AddPlaceWord()
     {
-        //old_counter = hack_pc.counter;
-        //str = GetComponent<HackMain>().str_list.CopyTo(GetComponent<HackMain>().str_list[old_counter], 0, GetComponent<HackMain>().str_list[old_counter].Length);
-        Common.Instance.Shuffle(str);
+        string[][] stren = Quest_list.ToArray();
+        //Common.Instance.Shuffle(stren);
         for (int j = 0; j < place.Length; j++)
         {
             place_list[j].pos = place[j];
-            place_list[j].word = str[j];
+            place_list[j].word = stren[1][j];
         }
     }
 

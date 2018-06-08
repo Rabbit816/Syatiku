@@ -25,9 +25,7 @@ public class HackMain : MonoBehaviour {
     private string[] res;
 
     private string current;
-    private int line = 0;
-    [HideInInspector]
-    public List<string[]> str_list = new List<string[]>();
+    
 
     // Use this for initialization
     void Start () {
@@ -69,25 +67,12 @@ public class HackMain : MonoBehaviour {
         if(timer < 0f)
         {
             time.text = "Timer: 0.0";
-            //ChangeScene(SceneName.Title);
+            Common.Instance.ChangeScene(Common.SceneName.Result);
         }
         return (timer < 0f);
     }
 
-    private void ReadText()
-    {
-        TextAsset csvfile = Resources.Load("Hacking/Quest") as TextAsset;
-        System.IO.StringReader stren = new System.IO.StringReader(csvfile.text);
-        Debug.Log("text: " + csvfile.ToString());
-        // 表示
-        while (stren.Peek() > -1)
-        {
-            string str = stren.ReadLine();
-            str_list.Add(str.Split(',')); // リストに入れる
-
-            line++; // 行数加算
-        }
-    }
+    
     /// <summary>
     /// お題の処理
     /// </summary>
