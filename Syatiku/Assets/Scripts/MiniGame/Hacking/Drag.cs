@@ -42,8 +42,6 @@ public class Drag : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHand
         EventSystem.current.RaycastAll(pointer, raycastResults);
         foreach (var hit in raycastResults)
         {
-            
-            Debug.Log("foreachの中");
             // もし answer の上なら、その位置のVector2(0,0)に固定する
             if (hit.gameObject.CompareTag("answer"))
             {

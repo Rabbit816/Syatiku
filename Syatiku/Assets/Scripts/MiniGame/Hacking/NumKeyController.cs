@@ -4,27 +4,28 @@ using UnityEngine;
 using UnityEngine.UI;
 
 public class NumKeyController : MonoBehaviour {
-    [SerializeField]
-    private Image isActiveDesk,isActiveKey;
-    [SerializeField]
+    [SerializeField, Tooltip("拡大一回目の時の画像")]
+    private Image isActiveDesk;
+    [SerializeField,Tooltip("拡大二回目の時の画像")]
+    private Image isActiveKey;
+    [SerializeField,Tooltip("拡大一回目の時のナンバー")]
     private Text[] t_num = new Text[3];
-    [SerializeField]
+    [SerializeField,Tooltip("拡大二回目の時のナンバー")]
     private Text[] t_num2 = new Text[3];
-    [SerializeField]
+    [SerializeField,Tooltip("拡大二回目の時の南京錠画像")]
     private Image lockImage;
     private int[] keyNum = new int[3];
-    private int[] answerNum = { 2, 1, 3 };
+    private int[] answerNum = new int[3];
     private bool[] checkFlag = { false, false, false };
+    private System.Random rand = new System.Random();
+
 	// Use this for initialization
 	void Start () {
         isActiveDesk.gameObject.SetActive(false);
         isActiveKey.gameObject.SetActive(false);
-        for(int i = 0; i < keyNum.Length; i++) {
-            int rand = Random.Range(0, 9);
-            keyNum[i] = rand;
-            t_num[i].text = keyNum[i].ToString();
-            t_num2[i].text = keyNum[i].ToString();
-        }
+        RandNum();
+        Debug.Log("answerNum:" + answerNum[0] + answerNum[1] + answerNum[2]);
+        Debug.Log("KeyNum:" + keyNum[0] + keyNum[1] + keyNum[2]);
     }
 	
 	// Update is called once per frame
@@ -44,6 +45,33 @@ public class NumKeyController : MonoBehaviour {
             isActiveDesk.gameObject.SetActive(false);
         else
             isActiveKey.gameObject.SetActive(false);
+    }
+
+    /// <summary>
+    /// 初期値ロックナンバーとロック解除ナンバーのランダム処理
+    /// </summary>
+    private void RandNum()
+    {
+        int rand_num = 0;
+        int counter = 0;
+        while (counter < answerNum.Length)
+        {
+            rand_num = rand.Next(0, 10);
+
+            answerNum[counter] = rand_num;
+            GameObject answerObject = GameObject.Find("Canvas/IntoPC/KeyNumber_" + counter);
+            answerObject.GetComponentInChildren<Text>().text = rand_num.ToString();
+
+            rand_num = rand.Next(0, 10);
+
+            keyNum[counter] = rand_num;
+            t_num[counter].text = keyNum[counter].ToString();
+            t_num2[counter].text = keyNum[counter].ToString();
+            //ansewrNumとkeyNumが全部一緒にならないように同じ配列の番号の時被らないようにする処理
+            if (answerNum[counter] == keyNum[counter])
+                counter--;
+            counter++;
+        }
     }
 
     public void NumChange(int num) {

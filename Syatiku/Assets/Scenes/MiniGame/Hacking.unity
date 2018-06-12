@@ -522,7 +522,7 @@ GameObject:
   - component: {fileID: 177011637}
   - component: {fileID: 177011636}
   m_Layer: 5
-  m_Name: Image (1)
+  m_Name: KeyNumber_1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -704,7 +704,7 @@ GameObject:
   - component: {fileID: 258847974}
   - component: {fileID: 258847973}
   m_Layer: 5
-  m_Name: Image (2)
+  m_Name: KeyNumber_2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -5264,7 +5264,7 @@ GameObject:
   - component: {fileID: 1663583841}
   - component: {fileID: 1663583840}
   m_Layer: 5
-  m_Name: Image
+  m_Name: KeyNumber_0
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -5874,15 +5874,7 @@ MonoBehaviour:
   - {fileID: 2076475724}
   - {fileID: 1331495895}
   - {fileID: 1234004093}
-  str:
-  - "\u53CE\u5165"
-  - "\u53CE\u652F\u6C7A\u7B97\u66F8"
-  - "\u958B\u767A\u8A2D\u8A08\u66F8"
-  - "\u4F5C\u6210\u66F8\u985E"
-  - "\u9ED2\u7530\u6210\u592B"
-  - "\u4EE3\u8868\u53D6\u7DE0\u5F79"
   IntoPC: {fileID: 1871347966}
-  t: 5
   AppearPrefab: {fileID: 1059258556607778, guid: d6c5a4b1cb85b764ea2e20bf922609b8,
     type: 2}
   CollectedPrefab: {fileID: 1418273942412078, guid: 113db15bd83150b4986c05096a5c54c9,
@@ -6348,7 +6340,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &2058877210
 RectTransform:
   m_ObjectHideFlags: 0
@@ -6366,8 +6358,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 1, y: 225.99997}
-  m_SizeDelta: {x: 797, y: 44}
+  m_AnchoredPosition: {x: 0.35196, y: 228.46}
+  m_SizeDelta: {x: 800.1, y: 44.09}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2058877211
 MonoBehaviour:
