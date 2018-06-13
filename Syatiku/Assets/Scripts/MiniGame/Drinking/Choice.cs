@@ -2,57 +2,43 @@
 using UnityEngine.UI;
 
 public class Choice : MonoBehaviour {    
-
-    [SerializeField]
-    private Image[] menu;
-    [SerializeField]
-    private Image[] niku;
-    [SerializeField]
-    private Image[] sake;
-    [SerializeField]
-    private Image[] sashimi;
-    [SerializeField]
-    private Image[] salad;    
-
-    private int i;
     
+    [SerializeField]
+    private Sprite menu;
+    [SerializeField]
+    private Image[] menu2;
+    private bool flg = true;
     void Start () {
         //画像を見えなくする
-        for (int i = 0; i < sake.Length; ++i)
+        for (int i = 0; i < menu2.Length; ++i)
         {            
-            niku[i].enabled = false;
-            sake[i].enabled = false;
-            sashimi[i].enabled = false;
-            salad[i].enabled = false;            
-        }
-        //gameObject.SetActive(false);
-    }
-	
-	void Update () {
-		
-	}
-
-    public void OnClick() {    
-        //ボタンを押してAnswerに表示
-        if (niku[i].enabled == false)
+            menu2[i].enabled = false;                   
+        }        
+    }		
+    //ボタンを押してAnswerに表示
+    public void OnClick() {            
+        if (menu2[0].enabled == false)
         {
-            niku[0] = menu[0];
-            niku[i].enabled = true;            
+            menu2[0].sprite = menu;
+            menu2[0].enabled = true;
             Debug.Log("肉");
         }
-        else if (sake[i].enabled == false)
+        else if (menu2[1].enabled == false)
         {
-            sake[i].enabled = true;
+            menu2[1].sprite = menu;
+            menu2[1].enabled = true;
             Debug.Log("酒");
         }
-        else if (sashimi[i].enabled == false)
+        else if (menu2[2].enabled == false)
         {
-            sashimi[i].enabled = true;
+            menu2[2].sprite = menu;
+            menu2[2].enabled = true;
             Debug.Log("刺身");
         }
-        else if (salad[i].enabled == false)
+        else  if(menu2[3].enabled == false)
         {
-            salad[i].enabled = true;
+            menu2[3].sprite = menu;
+            menu2[3].enabled = true;
             Debug.Log("サラダ");
         }            
     }

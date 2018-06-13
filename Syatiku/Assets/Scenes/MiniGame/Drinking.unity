@@ -1188,15 +1188,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b09f15fcfeaf42b4da6187ec66d186f8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  menu:
-  - {fileID: 26167307}
-  niku:
+  menu: {fileID: 21300000, guid: f382b1d18232c3d4fa6c4a61a5546de2, type: 3}
+  menu2:
   - {fileID: 1018100155}
-  sake:
   - {fileID: 26167307}
-  sashimi:
   - {fileID: 1487362452}
-  salad:
   - {fileID: 26733534}
 --- !u!1 &382858024
 GameObject:
@@ -2050,15 +2046,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b09f15fcfeaf42b4da6187ec66d186f8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  menu:
-  - {fileID: 0}
-  niku:
+  menu: {fileID: 21300000, guid: 8b7a0195558edab4fb9c6ff227528e28, type: 3}
+  menu2:
   - {fileID: 1018100155}
-  sake:
   - {fileID: 26167307}
-  sashimi:
   - {fileID: 1487362452}
-  salad:
   - {fileID: 26733534}
 --- !u!1 &587857926
 GameObject:
@@ -2716,8 +2708,8 @@ GameObject:
   m_Component:
   - component: {fileID: 1018100157}
   - component: {fileID: 1018100156}
-  - component: {fileID: 1018100155}
   - component: {fileID: 1018100158}
+  - component: {fileID: 1018100155}
   m_Layer: 0
   m_Name: niku
   m_TagString: Untagged
@@ -5470,15 +5462,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b09f15fcfeaf42b4da6187ec66d186f8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  menu:
-  - {fileID: 0}
-  niku:
+  menu: {fileID: 21300000, guid: 9e52428e2b11b02458c912136bf71bff, type: 3}
+  menu2:
   - {fileID: 1018100155}
-  sake:
   - {fileID: 26167307}
-  sashimi:
   - {fileID: 1487362452}
-  salad:
   - {fileID: 26733534}
 --- !u!1 &1952763474
 GameObject:
@@ -6230,15 +6218,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b09f15fcfeaf42b4da6187ec66d186f8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  menu:
-  - {fileID: 0}
-  niku:
+  menu: {fileID: 21300000, guid: 64fa1863c13b72e48922d51adb5044c6, type: 3}
+  menu2:
   - {fileID: 1018100155}
-  sake:
   - {fileID: 26167307}
-  sashimi:
   - {fileID: 1487362452}
-  salad:
   - {fileID: 26733534}
 --- !u!1 &2135548172
 GameObject:
