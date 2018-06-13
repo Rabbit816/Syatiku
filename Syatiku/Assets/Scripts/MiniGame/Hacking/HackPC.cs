@@ -15,10 +15,6 @@ public class HackPC : MonoBehaviour {
     [SerializeField, Tooltip("OKを押した結果を表示するGameObject")]
     private GameObject result_temp;
 
-    [SerializeField, Tooltip("成功時エフェクト")]
-    private GameObject SuccessEffect;
-    
-
     private Transform ans_child;
 
     // Use this for initialization
@@ -27,7 +23,6 @@ public class HackPC : MonoBehaviour {
         collect = GameObject.Find("Canvas/IntoPC/CollectedWord");
 =======
         result_temp.SetActive(false);
-        StartCoroutine(WaitTime(0f));
         _isResult = false;
 >>>>>>> 28e16f5bd3286929b5a04a3c81772ffbe166d95a
         ChippedString();
@@ -90,17 +85,12 @@ public class HackPC : MonoBehaviour {
 =======
     private IEnumerator WaitTime(float time)
     {
-        result_temp.SetActive(true);
         if (_isResult)
-        {
-            GameObject effect = Instantiate(SuccessEffect, result_temp.transform);
-            effect.transform.position = new Vector2(0, 0);
             result_temp.transform.GetChild(0).GetComponent<Text>().text = "〇";
-        }
-        else{
-            result_temp.transform.GetComponentInChildren<Text>().text = "×";
-        }
+        else
+            result_temp.transform.GetChild(0).GetComponent<Text>().text = "×";
 
+        result_temp.SetActive(true);
         yield return new WaitForSeconds(time);
         result_temp.SetActive(false);
     }
@@ -126,7 +116,7 @@ public class HackPC : MonoBehaviour {
                 if (i == 5)
                 {
                     _isResult = true;
-                    StartCoroutine(WaitTime(10f));
+                    StartCoroutine(WaitTime(2.5f));
                     //Common.Instance.gameScore("Hacking",100);
                     Common.Instance.ChangeScene(Common.SceneName.Result);
                 }
