@@ -19,23 +19,13 @@ public class HackTap : MonoBehaviour
     [SerializeField, Tooltip("全部のタップできる場所格納")]
     private GameObject[] place;
 
-    [SerializeField, Tooltip("全部の発見できる単語")]
+    //[SerializeField, Tooltip("全部の発見できる単語")]
     private string[] str;
 
     private GameObject collectObject;
-    private List<int> rand_list = new List<int>();
-    private List<string> rand_strList = new List<string>();
-
-    //現在の場所
-    private int place_current;
+    
     [SerializeField]
     private GameObject IntoPC;
-
-    //単語が表示されているかどうか
-    private bool _placeAnim = false;
-
-    [SerializeField,Tooltip("単語が表示される時間")]
-    private float t = 5.0f;
 
     [SerializeField,Tooltip("出現する単語")]
     private GameObject AppearPrefab;
@@ -51,10 +41,9 @@ public class HackTap : MonoBehaviour
     [SerializeField, Tooltip("PC内のposition")]
     private GameObject[] pos_list;
 
-    private float getWord_Num = 0.0f;
-    private HackPC hack_pc;
-    private int old_counter = 0;
+    private HackMain hack_main;
     private int count = 0;
+    
 
     // Use this for initialization
     void Start () {
@@ -62,27 +51,15 @@ public class HackTap : MonoBehaviour
         CollectedWord = GameObject.Find("Canvas/IntoPC/CollectedWord");
         GetWord = GameObject.Find("Canvas/Check/GetWord");
         Common.Instance.Shuffle(pos_list);
-        getWord_Num = 0;
         count = 0;
-        hack_pc = GetComponent<HackPC>();
+        hack_main = GetComponent<HackMain>();
         place_list = new PlaceList[place.Length];
-        _placeAnim = false;
         AddPlaceWord();
 	}
 	
 	// Update is called once per frame
 	void Update () {
-        //if (hack_pc.counter != old_counter)
-        //    AddPlaceWord();
-        //if (_placeAnim)
-        //{
-        //    t -= Time.deltaTime;
-        //    if (t <= 0.0f)
-        //    {
-        //        place[place_current].transform.GetChild(0).gameObject.SetActive(false);
-        //        _placeAnim = false;
-        //    }
-        //}
+        
 	}
 
     /// <summary>
@@ -93,18 +70,17 @@ public class HackTap : MonoBehaviour
         //PC画面内を表示
         //戻るボタンで画面外に移動
         if (placeNum == 6) {
-            IntoPC.transform.position = new Vector2(0, 1);
+            IntoPC.transform.localPosition = new Vector2(0, -23);
         }else if (placeNum == 7)
         {
-            IntoPC.transform.position = new Vector2(0, 11.1f);
+            IntoPC.transform.localPosition = new Vector2(0, 535);
         }
         // 一回もタップされてなかったら
         // PC内とリスト内とその場所に表示
         else if(place[placeNum].transform.childCount == 0)
         {
-            GameObject _prefab = Instantiate(AppearPrefab, place[placeNum].transform);
+            Instantiate(AppearPrefab, place[placeNum].transform);
             place[placeNum].transform.GetComponentInChildren<Text>().text = place_list[placeNum].word.ToString();
-            _placeAnim = true;
 
             GameObject _collected_word = Instantiate(CollectedPrefab, CollectedWord.transform);
             _collected_word.transform.position = pos_list[placeNum].transform.position;
@@ -113,7 +89,6 @@ public class HackTap : MonoBehaviour
             GameObject _get_word = Instantiate(GetWordPrefab,GetWord.transform);
             _get_word.GetComponentInChildren<Text>().text = place_list[placeNum].word.ToString();
         }
-        place_current = placeNum;
     }
 
     /// <summary>
@@ -121,13 +96,12 @@ public class HackTap : MonoBehaviour
     /// </summary>
     private void AddPlaceWord()
     {
-        //old_counter = hack_pc.counter;
-        //str = GetComponent<HackMain>().str_list.CopyTo(GetComponent<HackMain>().str_list[old_counter], 0, GetComponent<HackMain>().str_list[old_counter].Length);
-        Common.Instance.Shuffle(str);
+        string[][] stren = hack_main.Quest_list.ToArray();
+        //Common.Instance.Shuffle(stren);
         for (int j = 0; j < place.Length; j++)
         {
             place_list[j].pos = place[j];
-            place_list[j].word = str[j];
+            place_list[j].word = stren[1][j];
         }
     }
 

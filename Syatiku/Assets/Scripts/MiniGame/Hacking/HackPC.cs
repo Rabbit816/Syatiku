@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
-using UnityEngine.UI;
+using System.Collections;
 using System.Collections.Generic;
 
 public class HackPC : MonoBehaviour {
@@ -10,9 +10,26 @@ public class HackPC : MonoBehaviour {
     public int counter = 0;
     private GameObject collect;
 
+    private bool _isResult = false;
+
+    [SerializeField, Tooltip("OKを押した結果を表示するGameObject")]
+    private GameObject result_temp;
+
+    [SerializeField, Tooltip("成功時エフェクト")]
+    private GameObject SuccessEffect;
+    
+
+    private Transform ans_child;
+
     // Use this for initialization
     void Start () {
+<<<<<<< HEAD
         collect = GameObject.Find("Canvas/IntoPC/CollectedWord");
+=======
+        result_temp.SetActive(false);
+        StartCoroutine(WaitTime(0f));
+        _isResult = false;
+>>>>>>> 28e16f5bd3286929b5a04a3c81772ffbe166d95a
         ChippedString();
     }
 
@@ -40,6 +57,7 @@ public class HackPC : MonoBehaviour {
 
     }
 
+<<<<<<< HEAD
     public void CheckString()
     {
         bool _isCheck = false;
@@ -69,6 +87,57 @@ public class HackPC : MonoBehaviour {
         
         // 文字列があっているかどうか処理
         counter++;
+=======
+    private IEnumerator WaitTime(float time)
+    {
+        result_temp.SetActive(true);
+        if (_isResult)
+        {
+            GameObject effect = Instantiate(SuccessEffect, result_temp.transform);
+            effect.transform.position = new Vector2(0, 0);
+            result_temp.transform.GetChild(0).GetComponent<Text>().text = "〇";
+        }
+        else{
+            result_temp.transform.GetComponentInChildren<Text>().text = "×";
+        }
+
+        yield return new WaitForSeconds(time);
+        result_temp.SetActive(false);
     }
-    
+
+    public void CheckString()
+    {
+        for (int i = 0; i <= 5; i++)
+        {
+            GameObject ans = GameObject.Find("Canvas/IntoPC/Answer/AnswerText_" + i);
+            GameObject quest = GameObject.Find("Canvas/IntoPC/Quest/QuestText_" + i);
+            Text que_text = quest.GetComponent<Text>();
+            if (ans.transform.childCount != 0)
+                ans_child = ans.transform.GetChild(0).GetChild(0);
+            else
+            {
+                _isResult = false;
+                StartCoroutine(WaitTime(4f));
+                break;
+            }
+            Text ansChild_text = ans_child.GetComponent<Text>();
+            if (ansChild_text.text.Substring(0, ansChild_text.text.Length) == que_text.text)
+            {
+                if (i == 5)
+                {
+                    _isResult = true;
+                    StartCoroutine(WaitTime(10f));
+                    //Common.Instance.gameScore("Hacking",100);
+                    Common.Instance.ChangeScene(Common.SceneName.Result);
+                }
+            }
+            else
+            {
+                _isResult = false;
+                StartCoroutine(WaitTime(2.5f));
+                break;
+            }
+        }
+>>>>>>> 28e16f5bd3286929b5a04a3c81772ffbe166d95a
+    }
 }

@@ -6,13 +6,21 @@ using UnityEngine.UI;
 public class ResultController : MonoBehaviour {
     [SerializeField]
     private Text scoreText;
-	// Use this for initialization
+	// ミニゲームで獲得した資料を表示
 	void Start () {
-        scoreText.text = Common.Instance.gameScore["Hacking"] + "%";
-	}
+        if (Common.gameClear)
+            scoreText.text = Common.Instance.data[0] + "を手に入れた！\n" + Common.Instance.data[1] + "を手に入れた！\n";
+        else
+            scoreText.text = "何も手に入らなかった...";
+    }
 	
 	// Update is called once per frame
 	void Update () {
 		
 	}
+
+    public void TitleBack()
+    {
+        Common.Instance.ChangeScene(Common.SceneName.Title);
+    }
 }

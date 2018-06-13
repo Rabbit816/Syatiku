@@ -16,7 +16,6 @@ public class Common : MonoBehaviour {
     {
         Title = 0,
         Scenario,
-        Select,
         Action,
         Smoking,
         Hacking,
@@ -26,14 +25,19 @@ public class Common : MonoBehaviour {
     }
 
     /// <summary>
-    /// ミニゲームの得点(Common.Instance.gameScore["ミニゲーム名"])
+    /// ミニゲームで手に入る資料
     /// </summary>
-    public Dictionary<string,int> gameScore = new Dictionary<string, int>()
+    public string[] data =
     {
-        {"Smoking",0 },
-        {"Hacking",0},
-        {"Dreinking",0}
+        "資料A",
+        "資料B",
+        "資料C",
+        "資料D",
+        "資料E"
     };
+
+    //ミニゲームクリアしたか（α用）
+    public static bool gameClear = true;
 
     [SerializeField]
     private float interval;
@@ -137,4 +141,6 @@ public class Common : MonoBehaviour {
         }
         return param;
     }
+    /*Common.gameClear = false;
+      Common.Instance.ChangeScene(Common.SceneName.Result);*/
 }
