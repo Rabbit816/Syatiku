@@ -31,10 +31,7 @@ public class SmokingController : MonoBehaviour {
         answer.text = t_answer.Substring(0,5);
         tabacoSize = tabaco.rectTransform.sizeDelta;
         StartCoroutine(TimeDown());
-        Common.Instance.Shuffle(word);
-        for(int i = 0; i < wordText.Length; i++) {
-            wordText[i].text = word[i];
-        }
+        WordShuffle();
         Debug.Log(tabacoSize);
 	}
 	
@@ -57,6 +54,7 @@ public class SmokingController : MonoBehaviour {
             Debug.Log("〇");
             tabaco.rectTransform.sizeDelta = tabacoSize;
             answerCount = firstAnswerCount;
+            WordShuffle();
         } else {
             Debug.Log("×");
             int oldCount = answerCount;
@@ -79,6 +77,15 @@ public class SmokingController : MonoBehaviour {
                 default:
                     break;
             }
+        }
+    }
+
+    public void WordShuffle()
+    {
+        Common.Instance.Shuffle(word);
+        for (int i = 0; i < wordText.Length; i++)
+        {
+            wordText[i].text = word[i];
         }
     }
 }
