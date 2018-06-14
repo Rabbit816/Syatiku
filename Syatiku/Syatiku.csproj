@@ -96,6 +96,7 @@
     <Compile Include="Assets\Scripts\MiniGame\Drinking\Button.cs" />
     <Compile Include="Assets\Scripts\MiniGame\Drinking\Choice.cs" />
     <Compile Include="Assets\Scripts\MiniGame\Drinking\DrinkMain.cs" />
+    <Compile Include="Assets\Scripts\MiniGame\Drinking\Meter.cs" />
     <Compile Include="Assets\Scripts\MiniGame\Drinking\Number.cs" />
     <Compile Include="Assets\Scripts\MiniGame\Drinking\Order.cs" />
     <Compile Include="Assets\Scripts\MiniGame\Drinking\Score.cs" />

@@ -7,17 +7,7 @@ public class Button : MonoBehaviour {
     
     [SerializeField]
     private Image learnButton;    
-
-    // Use this for initialization
-    void Start()
-    {
-       
-    }
-   
-    void Update ()
-    {
-        
-	}
+      
     public void OnClick()
     {        
         //Denmokuの移動方法
