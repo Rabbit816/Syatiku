@@ -9,12 +9,10 @@ public class DrinkMain : MonoBehaviour {
 
     [SerializeField]
     private Image[] balloon;
-
     [SerializeField]
     private Sprite[] balloon2;
 
-    [SerializeField]
-    private GameObject button;
+    public GameObject button;
 
     private int[] num;
     private int[] num2;
@@ -22,39 +20,44 @@ public class DrinkMain : MonoBehaviour {
     private int count;
     private int index;
     private bool open = false;
-    private Order order = new Order();    
+    private Order order = new Order();
 
     // Use this for initialization
     void Start()
-    {       
-        //numの初期化       
-        num = new int[4] { 0, 1, 2, 3 };
-
-        //ランダムに吹き出しを表示する
-        Randomballoon();
-
-        //balloonの初期化
-        for (int i = 0; i < balloon.Length; ++i)
-        {
-            balloon[i].enabled = false;
-        }
-
-        button.gameObject.SetActive(false);
+    {
+        Invisible();
     }
 
-    // Update is called once per frame
     void Update()
     {
+        SpeechBalloon();
+    }
+
+    //ランダムに表示させる    
+    public void Randomballoon()
+    {
+        num2 = (Common.Instance.Shuffle(num));
+    }
+    private IEnumerator Bo()
+    {
+        //吹き出しの表示が終わったらボタンを表示する
+        yield return new WaitForSeconds(1f);
+        button.gameObject.SetActive(true);
+    }
+
+    public void SpeechBalloon()
+    {
+        //カウントが4になったら止める
         if (count == 4)
         {
-            StartCoroutine(Bo());         
+            StartCoroutine(Bo());
             return;
         }
-
         //一秒毎にする
         timer += Time.deltaTime;
         if (timer > 1)
         {
+            //吹き出しの中の表示方法
             if (open)
             {
                 open = false;
@@ -73,20 +76,22 @@ public class DrinkMain : MonoBehaviour {
                 balloon[index].transform.GetChild(0).GetComponent<Image>().color = new Color(1, 1, 1, 1);
                 balloon[index].enabled = true;
                 Debug.Log("Index" + index);
-            }  
+            }
         }
-    }  
-
-    //ランダムに表示させる
-    public void Randomballoon()
-    {
-        num2 = num.OrderBy(i => Guid.NewGuid()).ToArray();
-        num = num2;
     }
-    private IEnumerator Bo()
+    public void Invisible()
     {
-        yield return new WaitForSeconds(1f);
-        button.gameObject.SetActive(true);
+        //numの初期化       
+        num = new int[4] { 0, 1, 2, 3 };
+
+        //ランダムに吹き出しを表示する
+        Randomballoon();
+
+        //balloonの初期化
+        for (int i = 0; i < balloon.Length; ++i)
+        {
+            balloon[i].enabled = false;
+        }
+        button.gameObject.SetActive(false);
     }
 }
-
