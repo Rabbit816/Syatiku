@@ -65,8 +65,13 @@ public class Drag : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHand
         foreach (var hit in raycastResults)
         {
 <<<<<<< HEAD
+<<<<<<< HEAD
             // もし answer の上なら、その位置に固定する
 =======
+=======
+            
+            Debug.Log("foreachの中");
+>>>>>>> parent of 3ed5bff... Hacking 細かい調節
             // もし answer の上なら、その位置のVector2(0,0)に固定する
 >>>>>>> 28e16f5bd3286929b5a04a3c81772ffbe166d95a
             if (hit.gameObject.CompareTag("answer"))

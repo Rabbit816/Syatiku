@@ -21,7 +21,6 @@ GameObject:
   - component: {fileID: 224176308324322816}
   - component: {fileID: 222459027981811260}
   - component: {fileID: 114659854534893932}
-  - component: {fileID: 95328661816190408}
   m_Layer: 5
   m_Name: word
   m_TagString: Untagged
@@ -46,23 +45,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!95 &95328661816190408
-Animator:
-  serializedVersion: 3
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1059258556607778}
-  m_Enabled: 1
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 323667d78ad81f944b805b388cd170b0, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
 --- !u!114 &114659854534893932
 MonoBehaviour:
   m_ObjectHideFlags: 1

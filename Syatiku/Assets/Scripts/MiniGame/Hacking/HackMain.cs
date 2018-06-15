@@ -21,22 +21,15 @@ public class HackMain : MonoBehaviour {
     [SerializeField,Tooltip("お題のオブジェクト")]
     private GameObject theme_obj;
 
+    private char spliter = ',';
+    private string[] res;
+
     private string current;
-    private int Maxline = 0;
-
-    private string str_quest;
-    private string str_answer;
-
-    [HideInInspector]
-    public List<string[]> Quest_list = new List<string[]>();
-    [HideInInspector]
-    public List<string[]> Answer_list = new List<string[]>();
-
+    
 
     // Use this for initialization
     void Start () {
-        ReadText();
-        Maxline = 0;
+        //ReadText();
         _themeActive = false;
         Theme();
         timeout = true;
@@ -79,29 +72,7 @@ public class HackMain : MonoBehaviour {
         return (timer < 0f);
     }
 
-    /// <summary>
-    /// 文章、単語読み込み
-    /// </summary>
-    private void ReadText()
-    {
-        TextAsset csvfile_quest = Resources.Load("Minigame/Hacking/Quest") as TextAsset;
-        TextAsset csvfile_answer = Resources.Load("Minigame/Hacking/Answer") as TextAsset;
-        System.IO.StringReader stren_quest = new System.IO.StringReader(csvfile_quest.text);
-        System.IO.StringReader stren_answer = new System.IO.StringReader(csvfile_answer.text);
-        Debug.Log("text: " + csvfile_quest.ToString());
-        // 表示
-        while (stren_quest.Peek() > -1)
-        {
-            str_quest = stren_quest.ReadLine();
-            str_answer = stren_answer.ReadLine();
-            Answer_list.Add(str_answer.Split(','));
-            Quest_list.Add(str_quest.Split(','));
-            Debug.Log("str_answer:" + Quest_list[0][1].ToString());
-
-            Maxline++; // 行数加算
-        }
-    }
-
+    
     /// <summary>
     /// お題の処理
     /// </summary>
