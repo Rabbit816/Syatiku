@@ -1,6 +1,5 @@
 ﻿using UnityEngine;
 using UnityEngine.EventSystems;
-
 using System.Collections.Generic;
 
 public class Drag : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler
@@ -11,7 +10,7 @@ public class Drag : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHand
 
     void Start()
     {
-        collect = GameObject.Find("Canvas/IntoPC/CollectedWord");
+        collect = GameObject.Find("Canvas/PC/Collect");
     }
 
     private void Update()
