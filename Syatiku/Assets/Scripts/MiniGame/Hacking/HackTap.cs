@@ -47,8 +47,8 @@ public class HackTap : MonoBehaviour
 
     // Use this for initialization
     void Start () {
-        collectObject = GameObject.Find("Canvas/Check");
-        CollectedWord = GameObject.Find("Canvas/IntoPC/CollectedWord");
+        collectObject = GameObject.Find("Canvas/Check/GetWord");
+        CollectedWord = GameObject.Find("Canvas/PC/Collect");
         GetWord = GameObject.Find("Canvas/Check/GetWord");
         Common.Instance.Shuffle(pos_list);
         count = 0;
