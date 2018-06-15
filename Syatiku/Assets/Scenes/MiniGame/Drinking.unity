@@ -1884,7 +1884,6 @@ GameObject:
   - component: {fileID: 577586904}
   - component: {fileID: 577586903}
   - component: {fileID: 577586902}
-  - component: {fileID: 577586905}
   - component: {fileID: 577586906}
   m_Layer: 5
   m_Name: Button (2)
@@ -1997,24 +1996,6 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 577586900}
---- !u!114 &577586905
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 577586900}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b09f15fcfeaf42b4da6187ec66d186f8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  menu: {fileID: 21300000, guid: 8b7a0195558edab4fb9c6ff227528e28, type: 3}
-  menu2:
-  - {fileID: 1018100155}
-  - {fileID: 26167307}
-  - {fileID: 1487362452}
-  - {fileID: 26733534}
-  returnbutton: {fileID: 2094898029}
 --- !u!114 &577586906
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6300,7 +6281,6 @@ GameObject:
   - component: {fileID: 2119039017}
   - component: {fileID: 2119039016}
   - component: {fileID: 2119039019}
-  - component: {fileID: 2119039020}
   m_Layer: 5
   m_Name: Button (1)
   m_TagString: Untagged
@@ -6430,20 +6410,6 @@ MonoBehaviour:
   - {fileID: 1487362452}
   - {fileID: 26733534}
   returnbutton: {fileID: 2094898029}
---- !u!114 &2119039020
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 2119039014}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2aa57b07672a42a4b8e5f8ea96aee0c5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  menu: {fileID: 0}
-  menu2: []
-  returnbutton: {fileID: 0}
 --- !u!1 &2135548172
 GameObject:
   m_ObjectHideFlags: 0
