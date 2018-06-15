@@ -2,24 +2,24 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ScenarioScene : MonoBehaviour {
+public class ScenarioController : MonoBehaviour {
 
     #region variable
 
     [SerializeField]
     string filePath = "Text/chapter_0_0";
-
+    [SerializeField]
     ScenarioWindow window;
     public List<ScenarioInfo> scenarioInfoList = new List<ScenarioInfo>();
     //参照している情報番号
     int infoIndex;
-    //全ての情報量
+    //全ての情報数
     int allInfoNum;
     //表示するセリフ
     System.Text.StringBuilder viewMessage = new System.Text.StringBuilder();
     string allMessage;
     int nextMessageIndex;
-
+    //ログ
     System.Text.StringBuilder logMessage = new System.Text.StringBuilder();
     bool isLogView;
 
@@ -29,20 +29,74 @@ public class ScenarioScene : MonoBehaviour {
     float originMessageViewSpeed;
     float messageViewElapsedTime;
 
+    //スキップ中か
     bool isSkip;
     [SerializeField]
     int skipSpeed = 3;
 
+    //フェード中か
+    bool isFade;
+    //シナリオ中か
+    bool isScenario;
     #endregion
 
     void Start () {
-        window = GetComponent<ScenarioWindow>();
+        window.scenarioCanvas.alpha = 0;
+        isFade = false;
+        isScenario = false;
+
+        BeginScenario(filePath);
+	}
+
+    /// <summary>
+    /// シナリオパート開始
+    /// </summary>
+    /// <param name="path">読み込みたいtxtのパス</param>
+    public void BeginScenario(string path)
+    {
+        StartCoroutine(FadeCanvas(1f));
+
         //必要なデータを取得
-        new ImportScenarioInfo(filePath, ref scenarioInfoList, window);
+        new ImportScenarioInfo(path, ref scenarioInfoList, window);
+        isFade = true;
 
         Init();
         SetNextInfo();
-	}
+    }
+
+    /// <summary>
+    /// シナリオ画面のフェード
+    /// </summary>
+    public IEnumerator FadeCanvas(float targetAlpha)
+    {
+        if(targetAlpha != 0 && targetAlpha != 1f)
+        {
+            Debug.logger.LogWarning("notTargtetAlphaSet", "指定した透明度が0か1ではありません");
+            yield return null;
+        }
+
+        window.scenarioCanvas.gameObject.SetActive(true);
+        float waitTime = 1f / 60f;
+        float fadeSpeed = (targetAlpha == 1f ? waitTime : -waitTime);
+        while (window.scenarioCanvas.alpha != targetAlpha)
+        {
+            window.scenarioCanvas.alpha += fadeSpeed;
+
+            if (window.scenarioCanvas.alpha <= 0)
+            {
+                window.scenarioCanvas.alpha = 0;
+                window.scenarioCanvas.gameObject.SetActive(false);
+            }
+            else if (window.scenarioCanvas.alpha >= 1f)
+            {
+                window.scenarioCanvas.alpha = 1f;
+                isScenario = true;
+            }
+            yield return new WaitForSeconds(waitTime);
+        }
+
+        yield return new WaitForSeconds(1f);
+    }
 
     private void Init()
     {
@@ -75,7 +129,7 @@ public class ScenarioScene : MonoBehaviour {
 
     void Update()
     {
-        if (!isLogView)
+        if (!isLogView && isScenario)
         {
             if (!isSkip)
             {
@@ -103,6 +157,7 @@ public class ScenarioScene : MonoBehaviour {
         {
             ShowRecommendIcon();
         }
+
     }
 
     /// <summary>
@@ -177,6 +232,12 @@ public class ScenarioScene : MonoBehaviour {
 
     void UpdateInfoOrMessage(System.Action action)
     {
+        //シナリオ中でない時何もしない
+        if (!isScenario)
+        {
+            return;
+        }
+
         if (IsShowAllMessage())
         {
             if (allInfoNum == infoIndex)
@@ -200,7 +261,8 @@ public class ScenarioScene : MonoBehaviour {
     /// </summary>
     void EndScenario()
     {
-        Debug.Log("end");
+        isScenario = false;
+        StartCoroutine(FadeCanvas(0f));
     }
 
     void AddLogMessage()

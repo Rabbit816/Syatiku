@@ -855,8 +855,10 @@ GameObject:
   - component: {fileID: 659218379}
   - component: {fileID: 659218378}
   - component: {fileID: 659218377}
+  - component: {fileID: 659218381}
+  - component: {fileID: 659218382}
   m_Layer: 5
-  m_Name: Canvas
+  m_Name: ScenarioCanvas
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -945,6 +947,39 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0}
+--- !u!225 &659218381
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 659218376}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
+--- !u!114 &659218382
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 659218376}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bb9a7350f33e08242896200edbcb8c4c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  bgi: {fileID: 1824959818}
+  name: {fileID: 1057864897}
+  message: {fileID: 492235978}
+  skipText: {fileID: 1708660596}
+  logText: {fileID: 1440644042}
+  log: {fileID: 2085013370}
+  recommendIcon: {fileID: 1497963539}
+  charaLeft: {fileID: 1798852648}
+  charaCenter: {fileID: 1382941417}
+  charaRight: {fileID: 171007962}
+  scenarioCanvas: {fileID: 659218381}
 --- !u!1 &758613616
 GameObject:
   m_ObjectHideFlags: 0
@@ -1468,9 +1503,8 @@ GameObject:
   m_Component:
   - component: {fileID: 1079455890}
   - component: {fileID: 1079455889}
-  - component: {fileID: 1079455891}
   m_Layer: 0
-  m_Name: ScenarioScene
+  m_Name: ScenarioConotroller
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1488,6 +1522,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   filePath: Text/chapter1
+  window: {fileID: 659218382}
   scenarioInfoList: []
   messageViewSpeed: 0.05
   skipSpeed: 10
@@ -1504,27 +1539,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1079455891
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1079455888}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bb9a7350f33e08242896200edbcb8c4c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  bgi: {fileID: 1824959818}
-  name: {fileID: 1057864897}
-  message: {fileID: 492235978}
-  skipText: {fileID: 1708660596}
-  logText: {fileID: 1440644042}
-  log: {fileID: 2085013370}
-  recommendIcon: {fileID: 1497963539}
-  charaLeft: {fileID: 1798852648}
-  charaCenter: {fileID: 1382941417}
-  charaRight: {fileID: 171007962}
 --- !u!1 &1137786831
 GameObject:
   m_ObjectHideFlags: 0
@@ -2421,7 +2435,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1511879901}
   m_Layer: 5
-  m_Name: Window
+  m_Name: MessageWindow
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
