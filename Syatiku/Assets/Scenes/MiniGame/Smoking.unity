@@ -803,7 +803,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   tabaco: {fileID: 500936287}
   face: {fileID: 102168450}
-  time: 0.5
+  time: 3
   wordText:
   - {fileID: 1194486807}
   - {fileID: 255097595}
