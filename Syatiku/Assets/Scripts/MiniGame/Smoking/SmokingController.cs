@@ -37,7 +37,7 @@ public class SmokingController : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		
+        
 	}
 
     public IEnumerator TimeDown()
@@ -47,6 +47,8 @@ public class SmokingController : MonoBehaviour {
             tabaco.rectTransform.sizeDelta -= new Vector2(time,0);
             yield return null;
         }
+        Common.gameClear = false;
+        Common.Instance.ChangeScene(Common.SceneName.Result);
     }
 
     public void OnClick(Text text) {
