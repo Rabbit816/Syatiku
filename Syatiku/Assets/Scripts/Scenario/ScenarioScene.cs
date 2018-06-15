@@ -4,8 +4,6 @@ using UnityEngine;
 
 public class ScenarioScene : MonoBehaviour {
 
-    #region variable
-
     [SerializeField]
     string filePath = "Text/chapter_0_0";
 
@@ -20,38 +18,56 @@ public class ScenarioScene : MonoBehaviour {
     string allMessage;
     int nextMessageIndex;
 
-    System.Text.StringBuilder logMessage = new System.Text.StringBuilder();
-    bool isLogView;
-
     //文字の表示速度
     [SerializeField]
     float messageViewSpeed = 0.05f;
-    float originMessageViewSpeed;
     float messageViewElapsedTime;
 
-    bool isSkip;
-    [SerializeField]
-    int skipSpeed = 3;
-
-    #endregion
-
-    void Start () {
+	void Start () {
         window = GetComponent<ScenarioWindow>();
         //必要なデータを取得
         new ImportScenarioInfo(filePath, ref scenarioInfoList, window);
+        infoIndex = 0;
+        allInfoNum = scenarioInfoList.Count;
+        messageViewElapsedTime = 0;
 
-        Init();
         SetNextInfo();
 	}
 
-    private void Init()
+    void Update()
     {
-        infoIndex = 0;
-        allInfoNum = scenarioInfoList.Count;
-        originMessageViewSpeed = messageViewSpeed;
+        if (!IsShowAllMessage())
+        {
+            messageViewElapsedTime += Time.deltaTime;
+        }
+
+        if (messageViewElapsedTime > messageViewSpeed)
+        {
+            UpdateNextText();
+        }
+    }
+
+    /// <summary>
+    /// 次の文字を表示
+    /// </summary>
+    char n = '\n';
+    void UpdateNextText()
+    {
         messageViewElapsedTime = 0;
-        isSkip = false;
-        isLogView = false;
+        //改行
+        if(allMessage[nextMessageIndex] == n)
+        {
+            //少し待つ
+            StartCoroutine(WaitTime(0.8f));
+        }
+        viewMessage.Append(allMessage[nextMessageIndex]);
+        nextMessageIndex++;
+        window.message.text = viewMessage.ToString();
+    }
+
+    IEnumerator WaitTime(float t)
+    {
+        yield return new WaitForSeconds(t);
     }
 
     /// <summary>
@@ -60,7 +76,6 @@ public class ScenarioScene : MonoBehaviour {
     /// <param name="num"></param>
     void SetNextInfo()
     {
-        window.recommendIcon.SetActive(false);
         viewMessage.Length = 0;
         nextMessageIndex = 0;
         allMessage = scenarioInfoList[infoIndex].message;
@@ -71,89 +86,6 @@ public class ScenarioScene : MonoBehaviour {
         }
 
         infoIndex++;
-    }
-
-    void Update()
-    {
-        if (!isLogView)
-        {
-            if (!isSkip)
-            {
-                UpdateMessage();
-            }
-            else
-            {
-                UpdateInfoOrMessage(UpdateMessage);
-            }
-        }
-    }
-
-    void UpdateMessage()
-    {
-        if (!IsShowAllMessage())
-        {
-            messageViewElapsedTime += Time.deltaTime;
-
-            if (messageViewElapsedTime > messageViewSpeed)
-            {
-                ShowNextChar();
-            }
-        }
-        else
-        {
-            ShowRecommendIcon();
-        }
-    }
-
-    /// <summary>
-    /// タップうながしアイコン表示
-    /// </summary>
-    void ShowRecommendIcon()
-    {
-        if (!window.recommendIcon.activeSelf)
-        {
-            window.recommendIcon.SetActive(true);
-        }
-    }
-
-    //改行
-    char n = '\n';
-    /// <summary>
-    /// 次の文字を表示
-    /// </summary>
-    void ShowNextChar()
-    {
-        if (!isSkip)
-        {
-            messageViewElapsedTime = 0;
-            //改行
-            if (allMessage[nextMessageIndex] == n)
-            {
-                //少し待つ
-                StartCoroutine(WaitTime(0.8f));
-            }
-            viewMessage.Append(allMessage[nextMessageIndex]);
-            nextMessageIndex++;
-        }
-        else
-        {
-
-            for (int i = 0; i < skipSpeed; i++)
-            {
-                if (IsShowAllMessage()) break;
-
-                viewMessage.Append(allMessage[nextMessageIndex]);
-                nextMessageIndex++;
-            }
-
-        }
-
-        window.message.text = viewMessage.ToString();
-    }
-
-    IEnumerator WaitTime(float t)
-    {
-        yield return new WaitForSeconds(t);
     }
 
     /// <summary>
@@ -175,67 +107,26 @@ public class ScenarioScene : MonoBehaviour {
         window.message.text = viewMessage.ToString();
     }
 
-    void UpdateInfoOrMessage(System.Action action)
-    {
-        if (IsShowAllMessage())
-        {
-            if (allInfoNum == infoIndex)
-            {
-                EndScenario();
-            }
-            else
-            {
-                AddLogMessage();
-                SetNextInfo();
-            }
-        }
-        else
-        {
-            action();
-        }
-    }
-
-    /// <summary>
-    /// シナリオ終了
-    /// </summary>
-    void EndScenario()
-    {
-        Debug.Log("end");
-    }
-
-    void AddLogMessage()
-    {
-        logMessage.Insert(0, "【 " + window.name.text + " 】" + n + allMessage + n);
-        window.logText.text = logMessage.ToString();
-    }
-
-    #region  OnClickAction
-
     /// <summary>
     /// 画面を押したとき
     /// </summary>
     public void OnPointerClick()
     {
-        UpdateInfoOrMessage(ShowAllMessage);
+        if (IsShowAllMessage())
+        {
+            if (allInfoNum == infoIndex)
+            {
+                //すべてのセリフを表示し終えた
+                Debug.Log("end");
+            }
+            else
+            {
+                SetNextInfo();
+            }
+        }
+        else
+        {
+            ShowAllMessage();
+        }
     }
-
-    public void OnClickSkipButton()
-    {
-        isSkip = !isSkip;
-        window.skipText.text = isSkip ? "スキップ中" : "スキップ";
-    }
-
-    public void OnClickLogButton()
-    {
-        isLogView = true;
-        window.log.SetActive(true);
-    }
-
-    public void OnClickBackButton()
-    {
-        isLogView = false;
-        window.log.SetActive(false);
-    }
-
-    #endregion
 }

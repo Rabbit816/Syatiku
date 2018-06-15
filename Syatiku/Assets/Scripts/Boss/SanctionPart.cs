@@ -4,15 +4,14 @@ using UnityEngine;
 
 public class SanctionPart : MonoBehaviour {
 
-    //制裁画面の表示時間
     [SerializeField]
-    float sanctionTime = 1.5f;
+    float sanctionDisplayTime = 1.5f;
     float timer;
 
 	void Update () {
         timer += Time.deltaTime;
 
-        if(timer > sanctionTime)
+        if(timer > sanctionDisplayTime)
         {
             timer = 0;
             BossScene.Instance.ChangePart();

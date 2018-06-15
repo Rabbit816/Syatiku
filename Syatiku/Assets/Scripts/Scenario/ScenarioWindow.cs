@@ -8,10 +8,6 @@ public class ScenarioWindow : MonoBehaviour
 
     public Text name;
     public Text message;
-    public Text skipText;
-    public Text logText;
-    public GameObject log;
-    public GameObject recommendIcon;
 
     public Image charaLeft;
     public Image charaCenter;
