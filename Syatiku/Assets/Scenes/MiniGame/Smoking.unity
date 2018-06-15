@@ -810,6 +810,7 @@ MonoBehaviour:
   - {fileID: 252047616}
   - {fileID: 829758239}
   answer: {fileID: 473739869}
+  answerCount: 3
 --- !u!4 &930555886
 Transform:
   m_ObjectHideFlags: 0
@@ -1501,7 +1502,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: _________
+  m_Text: ________
 --- !u!222 &1743455793
 CanvasRenderer:
   m_ObjectHideFlags: 0

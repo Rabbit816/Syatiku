@@ -1,7 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 
 public class BossScene : MonoBehaviour {
     public static BossScene Instance { get; private set; }
@@ -18,7 +17,6 @@ public class BossScene : MonoBehaviour {
     int damageGageMax;
     int damageGage;
 
-    //フリックの成功、失敗回数
     int missCount;
     int successCount;
 

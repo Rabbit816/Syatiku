@@ -215,7 +215,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: -100}
-  m_SizeDelta: {x: 450, y: 450}
+  m_SizeDelta: {x: 362, y: 512}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &796061099
 MonoBehaviour:
@@ -262,7 +262,7 @@ BoxCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: -5, y: 55}
+  m_Offset: {x: -5, y: 45}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -273,7 +273,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 150, y: 180}
+  m_Size: {x: 150, y: 235}
   m_EdgeRadius: 0
 --- !u!58 &796061102
 CircleCollider2D:
@@ -287,9 +287,9 @@ CircleCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 180}
+  m_Offset: {x: 0, y: 205}
   serializedVersion: 2
-  m_Radius: 35
+  m_Radius: 40
 --- !u!50 &796061103
 Rigidbody2D:
   serializedVersion: 4
@@ -513,7 +513,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1274440716}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 473.00812, y: 163.8893, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -798,9 +798,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0a0aa87bb5199a5478cea5db25a12f7d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  sarcasmTextPrefab: {fileID: 1586700467652566, guid: 17f59855cb05d524daa4832e92746e88,
+  flickTextPrefab: {fileID: 1586700467652566, guid: 17f59855cb05d524daa4832e92746e88,
     type: 2}
-  sarcasmTextBox: {fileID: 812280369}
+  flickTextBox: {fileID: 812280369}
 --- !u!1 &2075255904
 GameObject:
   m_ObjectHideFlags: 0
