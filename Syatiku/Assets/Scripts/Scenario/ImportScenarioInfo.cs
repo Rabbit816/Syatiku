@@ -139,7 +139,7 @@ public class ImportScenarioInfo : MonoBehaviour {
         else if (text.Contains("end"))
         {
             scenario.commandActionList.Add(() =>
-            FadeManager.Instance.Fade(window.scenarioCanvas, 2f, 0, () => window.scenarioCanvas.gameObject.SetActive(false))
+                FadeManager.Instance.Fade(window.scenarioCanvas, 1f, 0f)
             );
         }
     }
@@ -194,6 +194,7 @@ public class ImportScenarioInfo : MonoBehaviour {
     {
         string targetName = TakeTextInfo(text);
         Image target = null;
+        float waitTime = GetTime(text);
 
         switch (targetName)
         {
@@ -205,7 +206,7 @@ public class ImportScenarioInfo : MonoBehaviour {
                 break;
         }
         target.color = new Color(1f, 1f, 1f, startAlpha);
-        FadeManager.Instance.Fade(target, GetTime(text), targetAlpha);
+        FadeManager.Instance.Fade(target, waitTime, targetAlpha);
     }
 
     /// <summary>

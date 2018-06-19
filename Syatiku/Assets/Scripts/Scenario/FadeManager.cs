@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using UnityEngine;
 using DG.Tweening;
 
 public class FadeManager : MonoBehaviour{
@@ -44,5 +45,4 @@ public class FadeManager : MonoBehaviour{
             time
         ).OnComplete(callback);
     }
-
 }

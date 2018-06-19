@@ -12,6 +12,7 @@ public class ScenarioController : MonoBehaviour {
     [SerializeField]
     ScenarioWindow window;
     public List<ScenarioInfo> scenarioInfoList = new List<ScenarioInfo>();
+
     //参照している情報番号
     int infoIndex;
     //全ての情報数
@@ -46,7 +47,7 @@ public class ScenarioController : MonoBehaviour {
         isPlayScenario = false;
 
         DontDestroyOnLoad(gameObject);
-        BeginScenario(filePath);
+        //BeginScenario(filePath);
 	}
 
     /// <summary>
@@ -57,15 +58,13 @@ public class ScenarioController : MonoBehaviour {
     {
         //必要なデータを取得
         new ImportScenarioInfo(path, ref scenarioInfoList, window);
+        Init();
+        SetNextInfo();
 
         FadeManager.Instance.Fade(window.scenarioCanvas, 2f, 1f, () =>
         {
-            //isFade = false;
             isPlayScenario = true;
         });
-
-        Init();
-        SetNextInfo();
     }
 
     private void Init()
@@ -76,6 +75,10 @@ public class ScenarioController : MonoBehaviour {
         messageViewElapsedTime = 0;
         isSkip = false;
         isLogView = false;
+        isPlayScenario = false;
+
+        window.name.text = "";
+        window.message.text = "";
     }
 
     /// <summary>
@@ -91,21 +94,19 @@ public class ScenarioController : MonoBehaviour {
 
         foreach (var action in scenarioInfoList[infoIndex].commandActionList)
         {
-            StartCoroutine(ActiveCommand(action));
-            //action();
+            action();
         }
 
         infoIndex++;
     }
 
-    IEnumerator ActiveCommand(System.Action action)
-    {
-        yield return StartCoroutine(ActiveCommand(action));
-        action();
-    }
-
     void Update()
     {
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            BeginScenario(filePath);
+        }
+
         //シナリオ中ではない、ログを表示中
         if (!isPlayScenario　|| isLogView)
         {
@@ -241,7 +242,6 @@ public class ScenarioController : MonoBehaviour {
     void EndScenario()
     {
         isPlayScenario = false;
-        //FadeManager.Instance.Fade(window.scenarioCanvas, 2f, 0, () => window.scenarioCanvas.gameObject.SetActive(false));
     }
 
     /// <summary>
