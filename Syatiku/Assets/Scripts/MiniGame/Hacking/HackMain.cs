@@ -12,9 +12,6 @@ public class HackMain : MonoBehaviour {
     [SerializeField,Tooltip("時間オブジェクト")]
     private Text time;
 
-    //お題のアニメーションが終わったかどうか
-    bool _themeActive = false;
-
     [SerializeField,Tooltip("お題の名前")]
     private string[] _chipped;
 
@@ -28,16 +25,15 @@ public class HackMain : MonoBehaviour {
     private string str_answer;
 
     [HideInInspector]
-    public List<string[]> Quest_list = new List<string[]>();
+    public List<string> Quest_list = new List<string>();
     [HideInInspector]
-    public List<string[]> Answer_list = new List<string[]>();
+    public List<string> Answer_list = new List<string>();
 
 
     // Use this for initialization
     void Start () {
         ReadText();
         Maxline = 0;
-        _themeActive = false;
         Theme();
         timeout = true;
 	}
@@ -94,9 +90,21 @@ public class HackMain : MonoBehaviour {
         {
             str_quest = stren_quest.ReadLine();
             str_answer = stren_answer.ReadLine();
-            Answer_list.Add(str_answer.Split(','));
-            Quest_list.Add(str_quest.Split(','));
-            Debug.Log("str_answer:" + Quest_list[0][1].ToString());
+            string[] s_a = str_answer.Split(',');
+            string[] s_q = str_quest.Split(',');
+            
+            for (int i=0; i< s_a.Length; i++)
+            {
+                Answer_list.Add(s_a[i]);
+            }
+            for (int i = 0; i < s_q.Length; i++)
+            {
+                Quest_list.Add(s_q[i]);
+            }
+
+            //Answer_list.Add(s_a[Maxline]);
+            //Quest_list.Add(s_q[Maxline]);
+            Debug.Log("str_answer:" + Quest_list[1].ToString());
 
             Maxline++; // 行数加算
         }
@@ -111,12 +119,8 @@ public class HackMain : MonoBehaviour {
         int rand_theme = Random.Range(0, _chipped.Length-1);
 
         theme_obj.GetComponentInChildren<Text>(true).text = _chipped[rand_theme].ToString();
-        Animation anim = theme_obj.GetComponent<Animation>();
-        anim.Play();
-        if (anim.Play())
-            _themeActive = false;
-        else
-            _themeActive = true;
+        Animator anim = theme_obj.GetComponent<Animator>();
+        anim.Play("ThemeAnimation");
 
         //出現中何もできないようにする
 
