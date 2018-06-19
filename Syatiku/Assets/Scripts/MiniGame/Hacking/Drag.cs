@@ -6,11 +6,15 @@ public class Drag : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHand
 {
 
     private Vector3 dragVec;
+    [SerializeField,Tooltip("入れる親の場所")]
     private GameObject collect;
 
     void Start()
     {
-        collect = GameObject.Find("Canvas/PC/Collect");
+        if(gameObject.tag == "string")
+        {
+            collect = GameObject.Find("Canvas/PC/PassWordFase/Collect");
+        }
     }
 
     private void Update()

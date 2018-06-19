@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Ui
   - answer
+  - string
   layers:
   - Default
   - TransparentFX
