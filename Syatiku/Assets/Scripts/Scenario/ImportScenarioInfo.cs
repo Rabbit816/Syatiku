@@ -68,6 +68,8 @@ public class ImportScenarioInfo : MonoBehaviour {
         return scenario;
     }
 
+    #region ParseFunction
+
     /// <summary>
     /// コマンドによって処理を分ける
     /// </summary>
@@ -90,11 +92,6 @@ public class ImportScenarioInfo : MonoBehaviour {
                 SetSprite(window.bgi, imagePath);
             });
         }
-        else if (text.Contains("bgm"))
-        {
-            //BGM
-
-        }
         else if (text.Contains("charaOn"))
         {
             //キャラクター画像表示
@@ -115,14 +112,40 @@ public class ImportScenarioInfo : MonoBehaviour {
                 target.gameObject.SetActive(false);
             });
         }
+        else if (text.Contains("fadeIn"))
+        {
+            scenario.commandActionList.Add(() =>
+            {
+                FadeImage(text, 0f, 1f);
+            });
+        }
+        else if (text.Contains("fadeOut"))
+        {
+            scenario.commandActionList.Add(() =>
+            {
+                FadeImage(text, 1f, 0f);
+            });
+        }
         else if (text.Contains("se"))
         {
             //SE
+
+        }
+        else if (text.Contains("bgm"))
+        {
+            //BGM
+
+        }
+        else if (text.Contains("end"))
+        {
+            scenario.commandActionList.Add(() =>
+            FadeManager.Instance.Fade(window.scenarioCanvas, 2f, 0, () => window.scenarioCanvas.gameObject.SetActive(false))
+            );
         }
     }
 
     /// <summary>
-    /// テキストの情報を抜き取る
+    /// テキストの情報を抜き取る ({ }の中身)
     /// </summary>
     string TakeTextInfo(string text)
     {
@@ -140,16 +163,16 @@ public class ImportScenarioInfo : MonoBehaviour {
     }
 
     /// <summary>
-    /// 変えるキャラクター画像の位置を取得
+    /// 対象キャラクター画像の位置を取得
     /// </summary>
     Image GetCharaPos(string text)
     {
         Image target = null;
-        if(text.LastIndexOf("left") >= 0)
+        if (text.LastIndexOf("left") >= 0)
         {
             target = window.charaLeft;
         }
-        else if(text.LastIndexOf("center") >= 0)
+        else if (text.LastIndexOf("center") >= 0)
         {
             target = window.charaCenter;
         }
@@ -163,5 +186,39 @@ public class ImportScenarioInfo : MonoBehaviour {
         }
         return target;
     }
+
+    /// <summary>
+    /// フェード
+    /// </summary>
+    void FadeImage(string text, float startAlpha, float targetAlpha)
+    {
+        string targetName = TakeTextInfo(text);
+        Image target = null;
+
+        switch (targetName)
+        {
+            case "character":
+                target = GetCharaPos(text);
+                break;
+            case "background":
+                target = window.bgi;
+                break;
+        }
+        target.color = new Color(1f, 1f, 1f, startAlpha);
+        FadeManager.Instance.Fade(target, GetTime(text), targetAlpha);
+    }
+
+    /// <summary>
+    /// 時間を取得
+    /// </summary>
+    float GetTime(string text)
+    {
+        int beginNum = text.IndexOf("[") + 1;
+        int lastNum = text.IndexOf("]");
+        float time = float.Parse(text.Substring(beginNum, lastNum - beginNum));
+
+        return time;
+    }
     
+    #endregion
 }

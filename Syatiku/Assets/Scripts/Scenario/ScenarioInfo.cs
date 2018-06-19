@@ -8,7 +8,7 @@ public class ScenarioInfo
     public string message;
     public List<System.Action> commandActionList;
 
-    public ScenarioInfo(string message = "セリフ")
+    public ScenarioInfo(string message = "")
     {
         this.message = message;
         commandActionList = new List<System.Action>();

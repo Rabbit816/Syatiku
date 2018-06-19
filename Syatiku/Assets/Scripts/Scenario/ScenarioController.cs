@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using DG.Tweening;
 
 public class ScenarioController : MonoBehaviour {
 
@@ -35,16 +36,16 @@ public class ScenarioController : MonoBehaviour {
     int skipSpeed = 3;
 
     //フェード中か
-    bool isFade;
+    //bool isFade;
     //シナリオ中か
-    bool isScenario;
+    bool isPlayScenario;
     #endregion
 
     void Start () {
         window.scenarioCanvas.alpha = 0;
-        isFade = false;
-        isScenario = false;
+        isPlayScenario = false;
 
+        DontDestroyOnLoad(gameObject);
         BeginScenario(filePath);
 	}
 
@@ -54,48 +55,17 @@ public class ScenarioController : MonoBehaviour {
     /// <param name="path">読み込みたいtxtのパス</param>
     public void BeginScenario(string path)
     {
-        StartCoroutine(FadeCanvas(1f));
-
         //必要なデータを取得
         new ImportScenarioInfo(path, ref scenarioInfoList, window);
-        isFade = true;
+
+        FadeManager.Instance.Fade(window.scenarioCanvas, 2f, 1f, () =>
+        {
+            //isFade = false;
+            isPlayScenario = true;
+        });
 
         Init();
         SetNextInfo();
-    }
-
-    /// <summary>
-    /// シナリオ画面のフェード
-    /// </summary>
-    public IEnumerator FadeCanvas(float targetAlpha)
-    {
-        if(targetAlpha != 0 && targetAlpha != 1f)
-        {
-            Debug.logger.LogWarning("notTargtetAlphaSet", "指定した透明度が0か1ではありません");
-            yield return null;
-        }
-
-        window.scenarioCanvas.gameObject.SetActive(true);
-        float waitTime = 1f / 60f;
-        float fadeSpeed = (targetAlpha == 1f ? waitTime : -waitTime);
-        while (window.scenarioCanvas.alpha != targetAlpha)
-        {
-            window.scenarioCanvas.alpha += fadeSpeed;
-
-            if (window.scenarioCanvas.alpha <= 0)
-            {
-                window.scenarioCanvas.alpha = 0;
-                window.scenarioCanvas.gameObject.SetActive(false);
-            }
-            else if (window.scenarioCanvas.alpha >= 1f)
-            {
-                window.scenarioCanvas.alpha = 1f;
-                isScenario = true;
-            }
-            yield return new WaitForSeconds(waitTime);
-        }
-
-        yield return new WaitForSeconds(1f);
     }
 
     private void Init()
@@ -121,24 +91,34 @@ public class ScenarioController : MonoBehaviour {
 
         foreach (var action in scenarioInfoList[infoIndex].commandActionList)
         {
-            action();
+            StartCoroutine(ActiveCommand(action));
+            //action();
         }
 
         infoIndex++;
     }
 
+    IEnumerator ActiveCommand(System.Action action)
+    {
+        yield return StartCoroutine(ActiveCommand(action));
+        action();
+    }
+
     void Update()
     {
-        if (!isLogView && isScenario)
+        //シナリオ中ではない、ログを表示中
+        if (!isPlayScenario　|| isLogView)
         {
-            if (!isSkip)
-            {
-                UpdateMessage();
-            }
-            else
-            {
-                UpdateInfoOrMessage(UpdateMessage);
-            }
+            return;
+        }
+
+        if (!isSkip)
+        {
+            UpdateMessage();
+        }
+        else
+        {
+            UpdateInfoOrMessage(UpdateMessage);
         }
     }
 
@@ -157,7 +137,6 @@ public class ScenarioController : MonoBehaviour {
         {
             ShowRecommendIcon();
         }
-
     }
 
     /// <summary>
@@ -233,7 +212,7 @@ public class ScenarioController : MonoBehaviour {
     void UpdateInfoOrMessage(System.Action action)
     {
         //シナリオ中でない時何もしない
-        if (!isScenario)
+        if (!isPlayScenario)
         {
             return;
         }
@@ -261,10 +240,13 @@ public class ScenarioController : MonoBehaviour {
     /// </summary>
     void EndScenario()
     {
-        isScenario = false;
-        StartCoroutine(FadeCanvas(0f));
+        isPlayScenario = false;
+        //FadeManager.Instance.Fade(window.scenarioCanvas, 2f, 0, () => window.scenarioCanvas.gameObject.SetActive(false));
     }
 
+    /// <summary>
+    /// ログにテキスト追加
+    /// </summary>
     void AddLogMessage()
     {
         logMessage.Insert(0, "【 " + window.name.text + " 】" + n + allMessage + n);
