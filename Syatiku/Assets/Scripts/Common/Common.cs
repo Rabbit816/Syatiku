@@ -36,13 +36,14 @@ public class Common : MonoBehaviour {
         "資料E"
     };
 
-    public Dictionary<bool, string> dataDic = new Dictionary<bool, string>()
+    public Dictionary<string, bool> dataDic = new Dictionary<string,bool>()
     {
-        { false,"資料A"},
-        { false,"資料B"},
-        { false,"資料C"},
-        { false,"資料D"},
-        { false,"資料E"},
+        {"資料A",false},
+        {"資料B",false},
+        {"資料C",false},
+        {"資料D",false},
+        {"資料E",false},
+
     };
 
     //ミニゲームクリアしたか（α用）

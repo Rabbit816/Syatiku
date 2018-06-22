@@ -9,11 +9,12 @@ public class ActionController : MonoBehaviour {
     [SerializeField]
     private Image[] getData;
     [SerializeField]
-    private Image missionSeat;
+    private Image missionSeat,isData;
 
-    private bool isOpen = true;
+    private bool mOpen = true,dOpen = false;
 	void Start () {
         missionSeat.gameObject.SetActive(false);
+        isData.gameObject.SetActive(false);
     }
 	
 	void Update () {
@@ -25,9 +26,16 @@ public class ActionController : MonoBehaviour {
     /// </summary>
     public void OpenMission()
     {
-        missionSeat.gameObject.SetActive(isOpen);
-        if (isOpen) isOpen = false;
-        else isOpen = true;
+        missionSeat.gameObject.SetActive(mOpen);
+        if (mOpen) mOpen = false;
+        else mOpen = true;
+    }
+
+    public void OpenDataList()
+    {
+        isData.gameObject.SetActive(mOpen);
+        if (dOpen) dOpen = false;
+        else dOpen = true;
     }
 
     /// <summary>
