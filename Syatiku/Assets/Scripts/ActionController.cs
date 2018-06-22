@@ -9,33 +9,46 @@ public class ActionController : MonoBehaviour {
     [SerializeField]
     private Image[] getData;
     [SerializeField]
-    private Image missionSeat,isData;
+    private Image missionSeat,isData,dataDetail;
 
-    private bool mOpen = true,dOpen = false;
-	void Start () {
+    private bool missionOpen = true;
+    private bool dataOpen = true;
+    private bool datailOpen = true;
+
+    void Start () {
         missionSeat.gameObject.SetActive(false);
         isData.gameObject.SetActive(false);
+        dataDetail.gameObject.SetActive(false);
     }
-	
-	void Update () {
-		
-	}
 
     /// <summary>
     /// 任務確認シート
     /// </summary>
     public void OpenMission()
     {
-        missionSeat.gameObject.SetActive(mOpen);
-        if (mOpen) mOpen = false;
-        else mOpen = true;
+        missionSeat.gameObject.SetActive(missionOpen);
+        if (missionOpen) missionOpen = false;
+        else missionOpen = true;
     }
 
-    public void OpenDataList()
+    /// <summary>
+    /// 獲得資料シート
+    /// </summary>
+    public void IsDataList()
     {
-        isData.gameObject.SetActive(mOpen);
-        if (dOpen) dOpen = false;
-        else dOpen = true;
+        isData.gameObject.SetActive(dataOpen);
+        if (dataOpen) dataOpen = false;
+        else dataOpen = true;
+    }
+
+    /// <summary>
+    /// 資料詳細
+    /// </summary>
+    public void IsDataDetail()
+    {
+        dataDetail.gameObject.SetActive(datailOpen);
+        if (datailOpen) datailOpen = false;
+        else datailOpen = true;
     }
 
     /// <summary>
