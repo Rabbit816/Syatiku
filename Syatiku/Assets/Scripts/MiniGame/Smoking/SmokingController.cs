@@ -15,24 +15,20 @@ public class SmokingController : MonoBehaviour {
     [SerializeField]
     private int answerCount;
     private int firstAnswerCount;
+
+    private int qNum;
     private string t_answer = "あけましておめでとう";
-    private string[] word = {
-        "こんにちは",
-        "こんばんわ",
-        "おはよう",
-        "おめでとう",
-    };
 
     private Vector2 tabacoSize;
 
     // Use this for initialization
     void Start () {
         firstAnswerCount = answerCount;
-        answer.text = t_answer.Substring(0,5);
+        Question();
         tabacoSize = tabaco.rectTransform.sizeDelta;
         StartCoroutine(TimeDown());
-        WordShuffle();
-        Debug.Log(tabacoSize);
+
+        Debug.Log(CSVLoad.csvData[qNum][0]);
 	}
 	
 	// Update is called once per frame
@@ -52,11 +48,18 @@ public class SmokingController : MonoBehaviour {
     }
 
     public void OnClick(Text text) {
-        if(text.text == t_answer.Substring(5, 5)) {
+        if (tabaco.rectTransform.sizeDelta.x <= 0) return;
+        Debug.Log(text.text);
+        if (text.text == "まる") {
             Debug.Log("〇");
+            face.color = Color.white;
+
             tabaco.rectTransform.sizeDelta = tabacoSize;
             answerCount = firstAnswerCount;
-            WordShuffle();
+
+            qNum++;
+            Question();
+
         } else {
             Debug.Log("×");
             int oldCount = answerCount;
@@ -64,8 +67,6 @@ public class SmokingController : MonoBehaviour {
             switch (answerCount)
             {
                 case 3:
-                    face.color = Color.yellow;
-                    break;
                 case 2:
                     face.color = Color.yellow;
                     break;
@@ -82,12 +83,14 @@ public class SmokingController : MonoBehaviour {
         }
     }
 
-    public void WordShuffle()
+    public void Question()
     {
-        Common.Instance.Shuffle(word);
-        for (int i = 0; i < wordText.Length; i++)
+        answer.text = CSVLoad.csvData[qNum][0];
+        int[] randNum = { 1,2,3,4 };
+        Common.Instance.Shuffle(randNum);
+        for(int i = 0; i < wordText.Length; i++)
         {
-            wordText[i].text = word[i];
+            wordText[i].text = CSVLoad.csvData[qNum][randNum[i]];
         }
     }
 }
