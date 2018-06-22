@@ -7,6 +7,7 @@ TagManager:
   - Ui
   - answer
   - string
+  - windows
   layers:
   - Default
   - TransparentFX

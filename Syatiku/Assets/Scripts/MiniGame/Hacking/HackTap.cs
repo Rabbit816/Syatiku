@@ -39,13 +39,18 @@ public class HackTap : MonoBehaviour
     private GameObject GetWordPrefab;
     private GameObject GetWord;
 
+    [SerializeField, Tooltip("単語を取得できるボタンの場所")]
+    private GameObject[] Getting_position;
+
     [SerializeField, Tooltip("PC内のposition")]
     private GameObject[] pos_list;
 
     private HackMain hack_main;
     private int count = 0;
     private GameObject DoorSide;
-    
+    private int GakuCount = 0;
+    private GameObject Gakubuti;
+    private GameObject Zoom;
 
     // Use this for initialization
     void Start () {
@@ -53,8 +58,12 @@ public class HackTap : MonoBehaviour
         CollectedWord = GameObject.Find("Canvas/PC/PassWordFase/Collect");
         GetWord = GameObject.Find("Canvas/Check/GetWord");
         DoorSide = GameObject.Find("Canvas/DoorSide");
+        Gakubuti = GameObject.Find("Canvas/Desk/Gakubuti");
+        Zoom = GameObject.Find("Canvas/Zoom");
+        
         Common.Instance.Shuffle(pos_list);
         count = 0;
+        GakuCount = 0;
         hack_main = GetComponent<HackMain>();
         place_list = new PlaceList[place.Length];
         AddPlaceWord();
@@ -72,29 +81,63 @@ public class HackTap : MonoBehaviour
     public void PlaceButton(int placeNum){
         //PC画面内を表示
         //戻るボタンで画面外に移動
-        if (placeNum == 7)
+        switch (placeNum)
         {
-            this.gameObject.transform.localPosition = new Vector2(0, 0);
-        }else if (placeNum == 8)
-        {
-            IntoPC.transform.localPosition = new Vector2(0, -500);
-        }else if (placeNum == 9)
-        {
-            DoorSide.transform.localPosition = new Vector2(-800, 0);
-        }
-        // 一回もタップされてなかったら
-        // PC内とリスト内とその場所に表示
-        else if(place[placeNum].transform.childCount == 0)
-        {
-            Instantiate(AppearPrefab, place[placeNum].transform);
-            place[placeNum].transform.GetComponentInChildren<Text>().text = place_list[placeNum].word.ToString();
+            case 0:
+            case 1:
+            case 2:
+            case 3:
+            case 4:
+            case 5:
+            case 6:
+                // 一回もタップされてなかったら
+                // PC内とリスト内とその場所に表示
+                if (Getting_position[placeNum].transform.childCount == 0)
+                {
+                    if (place_list[placeNum].word == null)
+                        return;
 
-            GameObject _collected_word = Instantiate(CollectedPrefab, CollectedWord.transform);
-            _collected_word.transform.position = pos_list[placeNum].transform.position;
-            _collected_word.GetComponentInChildren<Text>().text = place_list[placeNum].word.ToString();
+                    Instantiate(AppearPrefab, Getting_position[placeNum].transform);
+                    Getting_position[placeNum].transform.GetComponentInChildren<Text>().text = place_list[placeNum].word.ToString();
 
-            GameObject _get_word = Instantiate(GetWordPrefab,GetWord.transform);
-            _get_word.GetComponentInChildren<Text>().text = place_list[placeNum].word.ToString();
+                    GameObject _collected_word = Instantiate(CollectedPrefab, CollectedWord.transform);
+                    _collected_word.transform.position = pos_list[placeNum].transform.position;
+                    _collected_word.GetComponentInChildren<Text>().text = place_list[placeNum].word.ToString();
+
+                    GameObject _get_word = Instantiate(GetWordPrefab, GetWord.transform);
+                    _get_word.GetComponentInChildren<Text>().text = place_list[placeNum].word.ToString();
+                }
+                break;
+            case 7:
+                IntoPC.transform.localPosition = new Vector2(0, 0);
+                break;
+            case 8:
+                IntoPC.transform.localPosition = new Vector2(0, -500);
+                break;
+            case 9:
+                DoorSide.transform.localPosition = new Vector2(-800, 0);
+                break;
+            case 10:
+                DoorSide.transform.localPosition = new Vector2(0, 0);
+                break;
+            case 11:
+                GakuCount++;
+                if (GakuCount == 7)
+                    Gakubuti.GetComponent<Animator>().Play(0);
+                Debug.Log("GakuCount: " + GakuCount);
+                break;
+            case 12:
+                Zoom.transform.GetChild(0).gameObject.SetActive(true);
+                break;
+            case 13:
+                Zoom.transform.GetChild(0).gameObject.SetActive(false);
+                break;
+            case 14:
+                Zoom.transform.GetChild(1).gameObject.SetActive(true);
+                break;
+            case 15:
+                Zoom.transform.GetChild(1).gameObject.SetActive(false);
+                break;
         }
     }
 
@@ -103,7 +146,6 @@ public class HackTap : MonoBehaviour
     /// </summary>
     private void AddPlaceWord()
     {
-        //string[] stren = hack_main.Quest_list.ToArray();
         string[] stren = hack_main.Quest_list.ToArray();
 
         for (int j = 0; j < place.Length; j++)

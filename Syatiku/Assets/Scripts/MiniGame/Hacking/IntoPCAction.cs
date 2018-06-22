@@ -15,6 +15,7 @@ public class IntoPCAction : MonoBehaviour {
     private GameObject PC_login;
     private GameObject PC_notlogin;
     private GameObject PC;
+    private GameObject Window;
 
     //配置した結果の判断
     private bool _isResult = false;
@@ -26,12 +27,14 @@ public class IntoPCAction : MonoBehaviour {
             PC_login = GameObject.Find("Canvas/PC/PassWordFase/Title");
             PC_notlogin = GameObject.Find("Canvas/PC/PassWordFase/SubText");
             PC = GameObject.Find("Canvas/PC");
+            Window = GameObject.Find("Canvas/PC/WindowFase/Window");
         }
         catch (Exception e)
         {
             Debug.Log(e);
         }
         PC_notlogin.SetActive(false);
+        Window.SetActive(false);
         hack_main = GetComponent<HackMain>();
         _isResult = false;
 	}
@@ -50,21 +53,14 @@ public class IntoPCAction : MonoBehaviour {
     {
         if (_isResult)
         {
-            PC_login.GetComponent<Text>().text = "資料室PCにログインできました。";
             yield return new WaitForSeconds(wait);
             PC.transform.GetChild(0).SetAsLastSibling();
+            Window.SetActive(true);
         }
         else
         {
-            PC_login.GetComponent<Text>().text = "パスワードを入力してください。";
-            PC_notlogin.GetComponent<Text>().text = "パスワードが間違っています。";
-            PC_notlogin.SetActive(true);
             yield return new WaitForSeconds(wait);
-            PC_notlogin.SetActive(false);
         }
-        
-        
-        
     }
 
     /// <summary>
@@ -90,8 +86,6 @@ public class IntoPCAction : MonoBehaviour {
                 if(i == PassWordObject.Length - 1)
                 {
                     _isResult = true;
-                    GameObject Window = GameObject.Find("Canvas/PC/Window");
-                    Window.GetComponent<Canvas>().sortingOrder = 2;
                     StartCoroutine(WaitTime(2f));
                 }
             }

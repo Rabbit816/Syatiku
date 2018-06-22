@@ -7,12 +7,16 @@ public class Drag : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHand
 
     private Vector3 dragVec;
     private GameObject collect;
+    private Vector3 RefPosition;
 
     void Start()
     {
         if(gameObject.tag == "string")
         {
             collect = GameObject.Find("Canvas/PC/PassWordFase/Collect");
+        }else if (gameObject.tag == "windows")
+        {
+            collect = GameObject.Find("Canvas/PC/WindowFase/Window");
         }
     }
 
@@ -23,17 +27,12 @@ public class Drag : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHand
 
     public void OnBeginDrag(PointerEventData pointer)
     {
-        
+        RefPosition = (Vector2)transform.localPosition - pointer.position;
     }
 
     public void OnDrag(PointerEventData pointer)
     {
         transform.SetParent(collect.transform, false);
-        if (gameObject.transform.tag == "asnwer")
-        {
-            Debug.Log("おとんみっけ");
-            
-        }
         dragVec = new Vector3(Input.mousePosition.x, Input.mousePosition.y, 5);
         gameObject.transform.position = Camera.main.ScreenToWorldPoint(dragVec);
     }
