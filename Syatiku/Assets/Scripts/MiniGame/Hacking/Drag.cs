@@ -1,17 +1,20 @@
 ﻿using UnityEngine;
 using UnityEngine.EventSystems;
-
 using System.Collections.Generic;
 
 public class Drag : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler
 {
 
     private Vector3 dragVec;
+    [SerializeField,Tooltip("入れる親の場所")]
     private GameObject collect;
 
     void Start()
     {
-        collect = GameObject.Find("Canvas/IntoPC/CollectedWord");
+        if(gameObject.tag == "string")
+        {
+            collect = GameObject.Find("Canvas/PC/PassWordFase/Collect");
+        }
     }
 
     private void Update()

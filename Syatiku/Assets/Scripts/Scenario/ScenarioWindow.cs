@@ -17,4 +17,6 @@ public class ScenarioWindow : MonoBehaviour
     public Image charaCenter;
     public Image charaRight;
 
+    public CanvasGroup scenarioCanvas;
+
 }

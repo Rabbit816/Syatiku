@@ -4,11 +4,17 @@ using UnityEngine;
 
 public class FlickTextPart : MonoBehaviour {
 
+    string[,] textContents = new string[,]
+    {
+        { "あいうえお", "かきくけこ" },
+        { "さしすせそ", "たちつてと" },
+    };
+
     [SerializeField]
-    GameObject sarcasmTextPrefab;
+    GameObject flickTextPrefab;
     [SerializeField]
-    RectTransform sarcasmTextBox;
-    List<GameObject> sarcasmTextList = new List<GameObject>();
+    RectTransform flickTextBox;
+    List<FlickTextController> flickTextList = new List<FlickTextController>();
 
     float spawnTextTimer;
     float spawnTextTime = 3.0f;
@@ -17,33 +23,40 @@ public class FlickTextPart : MonoBehaviour {
         if (spawnTextTimer > spawnTextTime)
         {
             //テキストの生成
-            SpawnSarcasmText();
+            SpawnFlickText();
         }
         spawnTextTimer += Time.deltaTime;
     }
 
-    void SpawnSarcasmText()
+    void SpawnFlickText()
     {
         //タイマー初期化
         spawnTextTimer = 0;
         spawnTextTime = Random.Range(1, 5);
 
-        for (int i = 0; i < sarcasmTextList.Count; i++)
+        //タイプ決定(0:Wrong, 1:Correct)
+        int typeNum = Random.Range(0, 2);
+        //テキストの内容決定
+        int textNum = Random.Range(0, textContents.GetLength(typeNum));
+
+        for (int i = 0; i < flickTextList.Count; i++)
         {
 
             //使われていない（非表示中の）ものがあれば再利用
-            if (!sarcasmTextList[i].activeSelf)
+            if (!flickTextList[i].gameObject.activeSelf)
             {
-                sarcasmTextList[i].SetActive(true);
+                flickTextList[i].Initialize(typeNum, textContents[typeNum, textNum]);
+                flickTextList[i].gameObject.SetActive(true);
                 return;
             }
         }
 
         //全て使用中なら新しく生成
-        GameObject sarcasmText = Instantiate(sarcasmTextPrefab);
+        FlickTextController text = Instantiate(flickTextPrefab).GetComponent<FlickTextController>();
         //sarcasmMessageBoxの子要素に
-        sarcasmText.transform.SetParent(sarcasmTextBox, false);
+        text.transform.SetParent(flickTextBox, false);
+        text.Initialize(typeNum, textContents[typeNum, textNum]);
         //リストに追加
-        sarcasmTextList.Add(sarcasmText);
+        flickTextList.Add(text);
     }
 }

@@ -3,41 +3,48 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class SarcasmText : MonoBehaviour
+public class FlickTextController : MonoBehaviour
 {
-    Text sarcasmText;
+    Text text;
     Vector3 moveForce;
     float alpha;
 
+    enum Type
+    {
+        Wrong,
+        Correct,
+    }
+    Type type;
+
     void Awake()
     {
-        sarcasmText = GetComponent<Text>();
-        Initialize();
-        gameObject.SetActive(true);
+        text = GetComponent<Text>();
     }
 
     /// <summary>
     /// 初期化
     /// </summary>
-    void Initialize()
+    public void Initialize(int num, string t)
     {
         //座標
         float posX = Random.Range(0, 2);
         posX = (posX > 0 ? 200 : -200);
         float posY = Random.Range(-100, 100);
         Vector3 pos = new Vector3(posX, posY, 0);
-        sarcasmText.rectTransform.localPosition = pos;
+        text.rectTransform.localPosition = pos;
 
         //移動
         float moveX = posX / Random.Range(100, 800);
         float moveY = Random.Range(-0.5f, 0.5f);
         moveForce = new Vector3(moveX, moveY, 0);
 
-        //文字
-        sarcasmText.fontSize = Random.Range(15, 41);
+        //テキスト
+        text.fontSize = Random.Range(15, 41);
         alpha = 0;
+        this.type = (Type)num;
+        text.text = t;
 
-        gameObject.SetActive(false);
+        gameObject.SetActive(true);
     }
 
     void Update()
@@ -50,18 +57,18 @@ public class SarcasmText : MonoBehaviour
         else
         {
             alpha += 0.005f;
-            sarcasmText.color = new Color(1, 1, 1, alpha);
+            text.color = new Color(1, 1, 1, alpha);
         }
 
         //移動
-        sarcasmText.rectTransform.localPosition += moveForce;
+        text.rectTransform.localPosition += moveForce;
 
         //画面外に外れた時
-        if (sarcasmText.rectTransform.localPosition.x > 500 || sarcasmText.rectTransform.localPosition.x < -500
-            || sarcasmText.rectTransform.localPosition.y > 200 || sarcasmText.rectTransform.localPosition.y < -200)
+        if (text.rectTransform.localPosition.x > 500 || text.rectTransform.localPosition.x < -500
+            || text.rectTransform.localPosition.y > 200 || text.rectTransform.localPosition.y < -200)
         {
             BossScene.Instance.MissCountUP();
-            Initialize();
+            gameObject.SetActive(false);
         }
     }
 
@@ -76,7 +83,14 @@ public class SarcasmText : MonoBehaviour
     /// <param name="collision"></param>
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        BossScene.Instance.SuccessCountUP();
-        Initialize();
+        if (type == Type.Correct)
+        {
+            BossScene.Instance.SuccessCountUP();
+        }
+        else
+        {
+            BossScene.Instance.MissCountUP();
+        }
+        gameObject.SetActive(false);
     }
 }

@@ -4,36 +4,55 @@ using UnityEngine;
 using UnityEngine.UI;
 
 public class Button : MonoBehaviour {
-    
+
+    private GameObject obj;
+    private Vector2 me;
+    private bool bbb = false;
     [SerializeField]
-    private Image learnButton;
-    public int number = 0;
-    // Use this for initialization
+    private Image[] Meter;
+
     void Start()
     {
-        //LearnButton.gameObject.SetActive(false);        
+        obj = GameObject.Find("Image");
+        me = obj.transform.localScale;
     }
-   
-    void Update ()
+
+    void Update()
     {
-        
-	}
+        Timer();
+    }
+
+    //Denmokuの上への移動方法
     public void OnClick()
-    {        
-        transform.parent = GameObject.Find("Denmoku").transform;       
-        GameObject.Find("Denmoku").transform.position = new Vector3(330f, 186f, 0);       
-        Debug.Log("クリック");
+    {
+        bbb = true;
+        transform.parent = GameObject.Find("Denmoku").transform;
+        GameObject.Find("Denmoku").transform.position = new Vector2(0, 0);
     }
 
-    public void OnClickpluc()
+    //Denmokuの下への移動方法
+    public void OnClickReturn()
     {
-        number = number + 1;
-        Debug.Log("クリック");
-    }
-    public void OnClickminus()
-    {
-        number = number - 1;
-        Debug.Log("クリック");
+        bbb = false;
+        Debug.Log(bbb);
+        transform.parent = GameObject.Find("Denmoku").transform;
+        GameObject.Find("Denmoku").transform.position = new Vector2(0, -550f);
+        FindObjectOfType<DrinkMain>().button.gameObject.SetActive(false);
     }
 
+    //メーターを減少させる
+    private void Timer()
+    {
+        if (bbb)
+        {
+            me.x -= 0.1f * Time.deltaTime;
+            obj.transform.localScale = me;
+            if (me.x < 0)
+            {
+                bbb = false;
+                //シーンの移動
+                Common.Instance.ChangeScene(Common.SceneName.Drinking);
+            }
+        }
+    }
 }

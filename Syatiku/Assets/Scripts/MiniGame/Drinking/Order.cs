@@ -8,6 +8,7 @@ using System;
 public class Order
 {
     private int[] num = new int[4] { 0, 1, 2, 3 };
+    private int[] num2;
     private int count;
     private int index;
 
@@ -29,5 +30,9 @@ public class Order
         num = num.OrderBy(i => Guid.NewGuid()).ToArray();
         count = 0;
     }
-}
 
+    /*public void RandomBalloon()
+    {
+        num = (Common.Instance.Shuffle(num));
+    }*/
+}

@@ -36,6 +36,15 @@ public class Common : MonoBehaviour {
         "資料E"
     };
 
+    public Dictionary<bool, string> dataDic = new Dictionary<bool, string>()
+    {
+        { false,"資料A"},
+        { false,"資料B"},
+        { false,"資料C"},
+        { false,"資料D"},
+        { false,"資料E"},
+    };
+
     //ミニゲームクリアしたか（α用）
     public static bool gameClear = true;
 

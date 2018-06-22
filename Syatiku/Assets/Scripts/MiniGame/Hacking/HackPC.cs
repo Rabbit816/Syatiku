@@ -49,9 +49,9 @@ public class HackPC : MonoBehaviour {
     private IEnumerator WaitTime(float time)
     {
         if (_isResult)
-            result_temp.transform.GetChild(0).GetComponent<Text>().text = "〇";
+            result_temp.transform.GetComponentInChildren<Text>().text = "〇";
         else
-            result_temp.transform.GetChild(0).GetComponent<Text>().text = "×";
+            result_temp.transform.GetComponentInChildren<Text>().text = "×";
 
         result_temp.SetActive(true);
         yield return new WaitForSeconds(time);

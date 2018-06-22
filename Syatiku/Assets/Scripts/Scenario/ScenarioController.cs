@@ -1,25 +1,27 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using DG.Tweening;
 
-public class ScenarioScene : MonoBehaviour {
+public class ScenarioController : MonoBehaviour {
 
     #region variable
 
     [SerializeField]
     string filePath = "Text/chapter_0_0";
-
+    [SerializeField]
     ScenarioWindow window;
     public List<ScenarioInfo> scenarioInfoList = new List<ScenarioInfo>();
+
     //参照している情報番号
     int infoIndex;
-    //全ての情報量
+    //全ての情報数
     int allInfoNum;
     //表示するセリフ
     System.Text.StringBuilder viewMessage = new System.Text.StringBuilder();
     string allMessage;
     int nextMessageIndex;
-
+    //ログ
     System.Text.StringBuilder logMessage = new System.Text.StringBuilder();
     bool isLogView;
 
@@ -29,20 +31,41 @@ public class ScenarioScene : MonoBehaviour {
     float originMessageViewSpeed;
     float messageViewElapsedTime;
 
+    //スキップ中か
     bool isSkip;
     [SerializeField]
     int skipSpeed = 3;
 
+    //フェード中か
+    //bool isFade;
+    //シナリオ中か
+    bool isPlayScenario;
     #endregion
 
     void Start () {
-        window = GetComponent<ScenarioWindow>();
-        //必要なデータを取得
-        new ImportScenarioInfo(filePath, ref scenarioInfoList, window);
+        window.scenarioCanvas.alpha = 0;
+        isPlayScenario = false;
 
+        DontDestroyOnLoad(gameObject);
+        //BeginScenario(filePath);
+	}
+
+    /// <summary>
+    /// シナリオパート開始
+    /// </summary>
+    /// <param name="path">読み込みたいtxtのパス</param>
+    public void BeginScenario(string path)
+    {
+        //必要なデータを取得
+        new ImportScenarioInfo(path, ref scenarioInfoList, window);
         Init();
         SetNextInfo();
-	}
+
+        FadeManager.Instance.Fade(window.scenarioCanvas, 2f, 1f, () =>
+        {
+            isPlayScenario = true;
+        });
+    }
 
     private void Init()
     {
@@ -52,6 +75,10 @@ public class ScenarioScene : MonoBehaviour {
         messageViewElapsedTime = 0;
         isSkip = false;
         isLogView = false;
+        isPlayScenario = false;
+
+        window.name.text = "";
+        window.message.text = "";
     }
 
     /// <summary>
@@ -75,16 +102,24 @@ public class ScenarioScene : MonoBehaviour {
 
     void Update()
     {
-        if (!isLogView)
+        if (Input.GetKeyDown(KeyCode.Space))
         {
-            if (!isSkip)
-            {
-                UpdateMessage();
-            }
-            else
-            {
-                UpdateInfoOrMessage(UpdateMessage);
-            }
+            BeginScenario(filePath);
+        }
+
+        //シナリオ中ではない、ログを表示中
+        if (!isPlayScenario　|| isLogView)
+        {
+            return;
+        }
+
+        if (!isSkip)
+        {
+            UpdateMessage();
+        }
+        else
+        {
+            UpdateInfoOrMessage(UpdateMessage);
         }
     }
 
@@ -177,6 +212,12 @@ public class ScenarioScene : MonoBehaviour {
 
     void UpdateInfoOrMessage(System.Action action)
     {
+        //シナリオ中でない時何もしない
+        if (!isPlayScenario)
+        {
+            return;
+        }
+
         if (IsShowAllMessage())
         {
             if (allInfoNum == infoIndex)
@@ -200,9 +241,12 @@ public class ScenarioScene : MonoBehaviour {
     /// </summary>
     void EndScenario()
     {
-        Debug.Log("end");
+        isPlayScenario = false;
     }
 
+    /// <summary>
+    /// ログにテキスト追加
+    /// </summary>
     void AddLogMessage()
     {
         logMessage.Insert(0, "【 " + window.name.text + " 】" + n + allMessage + n);

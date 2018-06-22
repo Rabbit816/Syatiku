@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -47,8 +48,8 @@ public class HackTap : MonoBehaviour
 
     // Use this for initialization
     void Start () {
-        collectObject = GameObject.Find("Canvas/Check");
-        CollectedWord = GameObject.Find("Canvas/IntoPC/CollectedWord");
+        collectObject = GameObject.Find("Canvas/Check/GetWord");
+        CollectedWord = GameObject.Find("Canvas/PC/PassWordFase/Collect");
         GetWord = GameObject.Find("Canvas/Check/GetWord");
         Common.Instance.Shuffle(pos_list);
         count = 0;
@@ -69,11 +70,11 @@ public class HackTap : MonoBehaviour
     public void PlaceButton(int placeNum){
         //PC画面内を表示
         //戻るボタンで画面外に移動
-        if (placeNum == 6) {
-            IntoPC.transform.localPosition = new Vector2(0, -23);
-        }else if (placeNum == 7)
+        if (placeNum == 7) {
+            IntoPC.transform.localPosition = new Vector2(0, 0);
+        }else if (placeNum == 8)
         {
-            IntoPC.transform.localPosition = new Vector2(0, 535);
+            IntoPC.transform.localPosition = new Vector2(0, -500);
         }
         // 一回もタップされてなかったら
         // PC内とリスト内とその場所に表示
@@ -96,12 +97,16 @@ public class HackTap : MonoBehaviour
     /// </summary>
     private void AddPlaceWord()
     {
-        string[][] stren = hack_main.Quest_list.ToArray();
-        //Common.Instance.Shuffle(stren);
+        //string[] stren = hack_main.Quest_list.ToArray();
+        string[] stren = hack_main.Quest_list.ToArray();
+
         for (int j = 0; j < place.Length; j++)
         {
             place_list[j].pos = place[j];
-            place_list[j].word = stren[1][j];
+            if (j >= place.Length - (place.Length - pos_list.Length))
+                return;
+            else
+                place_list[j].word = stren[j];
         }
     }
 
