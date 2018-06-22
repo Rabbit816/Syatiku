@@ -41,6 +41,9 @@ TagManager:
   - 
   - 
   m_SortingLayers:
+  - name: Window
+    uniqueID: 1467467335
+    locked: 0
   - name: Effect
     uniqueID: 2621077945
     locked: 0

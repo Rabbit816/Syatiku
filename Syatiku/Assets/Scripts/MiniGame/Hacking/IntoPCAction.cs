@@ -90,6 +90,8 @@ public class IntoPCAction : MonoBehaviour {
                 if(i == PassWordObject.Length - 1)
                 {
                     _isResult = true;
+                    GameObject Window = GameObject.Find("Canvas/PC/Window");
+                    Window.GetComponent<Canvas>().sortingOrder = 2;
                     StartCoroutine(WaitTime(2f));
                 }
             }

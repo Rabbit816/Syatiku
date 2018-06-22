@@ -6,7 +6,6 @@ public class Drag : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHand
 {
 
     private Vector3 dragVec;
-    [SerializeField,Tooltip("入れる親の場所")]
     private GameObject collect;
 
     void Start()

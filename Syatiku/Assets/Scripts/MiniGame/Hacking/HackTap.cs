@@ -44,6 +44,7 @@ public class HackTap : MonoBehaviour
 
     private HackMain hack_main;
     private int count = 0;
+    private GameObject DoorSide;
     
 
     // Use this for initialization
@@ -51,6 +52,7 @@ public class HackTap : MonoBehaviour
         collectObject = GameObject.Find("Canvas/Check/GetWord");
         CollectedWord = GameObject.Find("Canvas/PC/PassWordFase/Collect");
         GetWord = GameObject.Find("Canvas/Check/GetWord");
+        DoorSide = GameObject.Find("Canvas/DoorSide");
         Common.Instance.Shuffle(pos_list);
         count = 0;
         hack_main = GetComponent<HackMain>();
@@ -75,6 +77,12 @@ public class HackTap : MonoBehaviour
         }else if (placeNum == 8)
         {
             IntoPC.transform.localPosition = new Vector2(0, -500);
+        }else if (placeNum == 9)
+        {
+            DoorSide.transform.localPosition = new Vector2(0, 0);
+        }else if (placeNum == 10)
+        {
+            DoorSide.transform.localPosition = new Vector2(-800, 0);
         }
         // 一回もタップされてなかったら
         // PC内とリスト内とその場所に表示
