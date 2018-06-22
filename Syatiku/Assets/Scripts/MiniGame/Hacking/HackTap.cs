@@ -72,15 +72,13 @@ public class HackTap : MonoBehaviour
     public void PlaceButton(int placeNum){
         //PC画面内を表示
         //戻るボタンで画面外に移動
-        if (placeNum == 7) {
-            IntoPC.transform.localPosition = new Vector2(0, 0);
+        if (placeNum == 7)
+        {
+            this.gameObject.transform.localPosition = new Vector2(0, 0);
         }else if (placeNum == 8)
         {
             IntoPC.transform.localPosition = new Vector2(0, -500);
         }else if (placeNum == 9)
-        {
-            DoorSide.transform.localPosition = new Vector2(0, 0);
-        }else if (placeNum == 10)
         {
             DoorSide.transform.localPosition = new Vector2(-800, 0);
         }
