@@ -1,7 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using DG.Tweening;
 
 public class ScenarioController : MonoBehaviour {
 
@@ -36,15 +35,16 @@ public class ScenarioController : MonoBehaviour {
     [SerializeField]
     int skipSpeed = 3;
 
-    //フェード中か
-    //bool isFade;
+    //オート中か
+    bool isAuto;
+    [SerializeField, Header("オート時セリフ更新待ち時間")]
+    float nextWaitTime = 1f;
     //シナリオ中か
     bool isPlayScenario;
     #endregion
 
     void Start () {
         window.scenarioCanvas.alpha = 0;
-        isPlayScenario = false;
 
         DontDestroyOnLoad(gameObject);
         //BeginScenario(filePath);
@@ -58,11 +58,11 @@ public class ScenarioController : MonoBehaviour {
     {
         //必要なデータを取得
         new ImportScenarioInfo(path, ref scenarioInfoList, window);
-        Init();
-        SetNextInfo();
 
         FadeManager.Instance.Fade(window.scenarioCanvas, 2f, 1f, () =>
         {
+            Init();
+            SetNextInfo();
             isPlayScenario = true;
         });
     }
@@ -74,6 +74,7 @@ public class ScenarioController : MonoBehaviour {
         originMessageViewSpeed = messageViewSpeed;
         messageViewElapsedTime = 0;
         isSkip = false;
+        isAuto = false;
         isLogView = false;
         isPlayScenario = false;
 
@@ -81,17 +82,23 @@ public class ScenarioController : MonoBehaviour {
         window.message.text = "";
     }
 
-    /// <summary>
-    /// 次のセリフデータをセット
+    /// <summary>v
+    /// 次のシナリオ情報をセット
     /// </summary>
     /// <param name="num"></param>
     void SetNextInfo()
     {
         window.recommendIcon.SetActive(false);
+        //感情アイコンの非表示
+        window.iconLeft.gameObject.SetActive(false);
+        window.iconCenter.gameObject.SetActive(false);
+        window.iconRight.gameObject.SetActive(false);
+        //セリフ部分の初期化
         viewMessage.Length = 0;
         nextMessageIndex = 0;
         allMessage = scenarioInfoList[infoIndex].message;
 
+        //各コマンド
         foreach (var action in scenarioInfoList[infoIndex].commandActionList)
         {
             action();
@@ -148,7 +155,20 @@ public class ScenarioController : MonoBehaviour {
         if (!window.recommendIcon.activeSelf)
         {
             window.recommendIcon.SetActive(true);
+            if (isAuto)
+            {
+                StartCoroutine(SetNextInfo(nextWaitTime));
+            }
         }
+    }
+
+    /// <summary>
+    /// オート時のセリフ更新メソッド
+    /// </summary>
+    IEnumerator SetNextInfo(float time)
+    {
+        yield return new WaitForSeconds(time);
+        UpdateInfoOrMessage();
     }
 
     //改行
@@ -161,12 +181,6 @@ public class ScenarioController : MonoBehaviour {
         if (!isSkip)
         {
             messageViewElapsedTime = 0;
-            //改行
-            if (allMessage[nextMessageIndex] == n)
-            {
-                //少し待つ
-                StartCoroutine(WaitTime(0.8f));
-            }
             viewMessage.Append(allMessage[nextMessageIndex]);
             nextMessageIndex++;
         }
@@ -184,11 +198,6 @@ public class ScenarioController : MonoBehaviour {
         }
 
         window.message.text = viewMessage.ToString();
-    }
-
-    IEnumerator WaitTime(float t)
-    {
-        yield return new WaitForSeconds(t);
     }
 
     /// <summary>
@@ -210,17 +219,11 @@ public class ScenarioController : MonoBehaviour {
         window.message.text = viewMessage.ToString();
     }
 
-    void UpdateInfoOrMessage(System.Action action)
+    void UpdateInfoOrMessage(System.Action action = null)
     {
-        //シナリオ中でない時何もしない
-        if (!isPlayScenario)
-        {
-            return;
-        }
-
         if (IsShowAllMessage())
         {
-            if (allInfoNum == infoIndex)
+            if (IsReachLastInfo())
             {
                 EndScenario();
             }
@@ -232,8 +235,16 @@ public class ScenarioController : MonoBehaviour {
         }
         else
         {
-            action();
+            if(action != null) action();
         }
+    }
+
+    /// <summary>
+    /// 最後のシナリオ情報まで到達しているか
+    /// </summary>
+    bool IsReachLastInfo()
+    {
+        return infoIndex == allInfoNum;
     }
 
     /// <summary>
@@ -260,13 +271,16 @@ public class ScenarioController : MonoBehaviour {
     /// </summary>
     public void OnPointerClick()
     {
-        UpdateInfoOrMessage(ShowAllMessage);
+        if (isPlayScenario) UpdateInfoOrMessage(ShowAllMessage);
     }
 
     public void OnClickSkipButton()
     {
-        isSkip = !isSkip;
-        window.skipText.text = isSkip ? "スキップ中" : "スキップ";
+        if (isPlayScenario)
+        {
+            isSkip = !isSkip;
+            window.skipText.text = isSkip ? "スキップ中" : "スキップ";
+        }
     }
 
     public void OnClickLogButton()
@@ -279,6 +293,13 @@ public class ScenarioController : MonoBehaviour {
     {
         isLogView = false;
         window.log.SetActive(false);
+    }
+
+    public void OnClickAutoButton()
+    {
+        isAuto = !isAuto;
+        window.autoText.text = isAuto ? "オート中" : "オート";
+        if (IsShowAllMessage()) StartCoroutine(SetNextInfo(nextWaitTime));
     }
 
     #endregion
