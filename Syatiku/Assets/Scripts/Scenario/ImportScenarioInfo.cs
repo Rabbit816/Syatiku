@@ -112,6 +112,16 @@ public class ImportScenarioInfo : MonoBehaviour {
                 target.gameObject.SetActive(false);
             });
         }
+        else if (text.Contains("emo"))
+        {
+            scenario.commandActionList.Add(() =>
+            {
+                string imagePath = "Scenario/" + TakeTextInfo(text);
+                Image target = GetIconPos(text);
+                target.gameObject.SetActive(true);
+                SetSprite(target, imagePath);
+            });
+        }
         else if (text.Contains("fadeIn"))
         {
             scenario.commandActionList.Add(() =>
@@ -163,6 +173,28 @@ public class ImportScenarioInfo : MonoBehaviour {
     }
 
     /// <summary>
+    /// 対象アイコン画像の位置を取得
+    /// </summary>
+    Image GetIconPos(string text)
+    {
+        Image target = null;
+        if (text.LastIndexOf("left") >= 0)
+        {
+            target = window.iconLeft;
+        }
+        else if (text.LastIndexOf("center") >= 0)
+        {
+            target = window.iconCenter;
+        }
+        else if (text.LastIndexOf("right") >= 0)
+        {
+            target = window.iconRight;
+        }
+
+        return target;
+    }
+
+    /// <summary>
     /// 対象キャラクター画像の位置を取得
     /// </summary>
     Image GetCharaPos(string text)
@@ -180,10 +212,7 @@ public class ImportScenarioInfo : MonoBehaviour {
         {
             target = window.charaRight;
         }
-        else
-        {
-            Debug.logger.LogError("NotSetCharacterPosition", "キャラクターの指定位置が設定されていません");
-        }
+
         return target;
     }
 
