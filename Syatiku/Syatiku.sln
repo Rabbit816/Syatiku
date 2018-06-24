@@ -1,7 +1,11 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Syatiku.Plugins", "Syatiku.Plugins.csproj", "{8CD73443-BE9D-37AE-8FEF-A5029F2A5877}"
+EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Syatiku", "Syatiku.csproj", "{C0C6557D-AA3B-3386-D626-AB2139383225}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Syatiku.Editor", "Syatiku.Editor.csproj", "{7CC5AD62-94A7-148F-EDC0-6816EE09FC93}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -9,10 +13,18 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{8CD73443-BE9D-37AE-8FEF-A5029F2A5877}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8CD73443-BE9D-37AE-8FEF-A5029F2A5877}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8CD73443-BE9D-37AE-8FEF-A5029F2A5877}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8CD73443-BE9D-37AE-8FEF-A5029F2A5877}.Release|Any CPU.Build.0 = Release|Any CPU
 		{C0C6557D-AA3B-3386-D626-AB2139383225}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{C0C6557D-AA3B-3386-D626-AB2139383225}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C0C6557D-AA3B-3386-D626-AB2139383225}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C0C6557D-AA3B-3386-D626-AB2139383225}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7CC5AD62-94A7-148F-EDC0-6816EE09FC93}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7CC5AD62-94A7-148F-EDC0-6816EE09FC93}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7CC5AD62-94A7-148F-EDC0-6816EE09FC93}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7CC5AD62-94A7-148F-EDC0-6816EE09FC93}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
