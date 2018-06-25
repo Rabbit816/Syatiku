@@ -2,10 +2,11 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEditor;
 
 public class ActionController : MonoBehaviour {
     [SerializeField]
-    private Text TMission,TActionCount;
+    private Text TActionCount;
     [SerializeField]
     private Image[] getData;
     [SerializeField]
@@ -16,9 +17,20 @@ public class ActionController : MonoBehaviour {
     private bool datailOpen = true;
 
     void Start () {
+        IsDataSelect();
         missionSeat.gameObject.SetActive(false);
         isData.gameObject.SetActive(false);
         dataDetail.gameObject.SetActive(false);
+    }
+
+    public void IsDataSelect() {
+        int num = 0;
+        foreach(var i in Common.Instance.dataDic) {
+            if (!i) {
+                getData[num].GetComponent<Image>().color = new Color(255, 255, 255, 125);
+                num++;
+            }
+        }
     }
 
     /// <summary>
