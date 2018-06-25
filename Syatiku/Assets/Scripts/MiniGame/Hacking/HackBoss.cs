@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class HackBoss : MonoBehaviour {
-
+    
     //ボスが動いた回数
     private int moveCout = 0;
 

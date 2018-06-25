@@ -138,6 +138,24 @@ public class HackTap : MonoBehaviour
             case 15:
                 Zoom.transform.GetChild(1).gameObject.SetActive(false);
                 break;
+            case 16:
+                Zoom.transform.GetChild(2).gameObject.SetActive(true);
+                break;
+            case 17:
+                Zoom.transform.GetChild(2).gameObject.SetActive(false);
+                break;
+            case 18:
+                Zoom.transform.GetChild(3).gameObject.SetActive(true);
+                break;
+            case 19:
+                Zoom.transform.GetChild(3).gameObject.SetActive(false);
+                break;
+            case 20:
+                Zoom.transform.GetChild(4).gameObject.SetActive(true);
+                break;
+            case 21:
+                Zoom.transform.GetChild(4).gameObject.SetActive(false);
+                break;
         }
     }
 
