@@ -27,23 +27,13 @@ public class Common : MonoBehaviour {
     /// <summary>
     /// ミニゲームで手に入る資料
     /// </summary>
-    public string[] data =
+    public bool[] dataDic =
     {
-        "資料A",
-        "資料B",
-        "資料C",
-        "資料D",
-        "資料E"
-    };
-
-    public Dictionary<string, bool> dataDic = new Dictionary<string,bool>()
-    {
-        {"資料A",false},
-        {"資料B",false},
-        {"資料C",false},
-        {"資料D",false},
-        {"資料E",false},
-
+        false,
+        false,
+        false,
+        false,
+        false,
     };
 
     //ミニゲームクリアしたか（α用）
@@ -151,6 +141,4 @@ public class Common : MonoBehaviour {
         }
         return param;
     }
-    /*Common.gameClear = false;
-      Common.Instance.ChangeScene(Common.SceneName.Result);*/
 }
