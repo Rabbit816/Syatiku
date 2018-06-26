@@ -8,9 +8,15 @@ public class IntoPCAction : MonoBehaviour {
 
     [SerializeField,Tooltip("PC内のでる場所")]
     private GameObject[] PassWordObject;
+    [SerializeField, Tooltip("資料比較グループObject")]
+    private GameObject Comparisoning;
+    [SerializeField, Tooltip("残り回数更新Text")]
+    private Text CountText;
+    private int tappingCount = 6;
 
     private Transform password_child;
 
+    private HackBoss hack_boss;
     private HackMain hack_main;
     private GameObject PC_login;
     private GameObject PC_notlogin;
@@ -20,8 +26,11 @@ public class IntoPCAction : MonoBehaviour {
     //配置した結果の判断
     private bool _isResult = false;
 
-	// Use this for initialization
-	void Start () {
+    private bool doc_0 = false;
+    private bool doc_1 = false;
+
+    // Use this for initialization
+    void Start () {
         try
         {
             PC_login = GameObject.Find("Canvas/PC/PassWordFase/Title");
@@ -33,10 +42,16 @@ public class IntoPCAction : MonoBehaviour {
         {
             Debug.Log(e);
         }
+        tappingCount = 6;
+        CountText.text = tappingCount.ToString();
         PC_notlogin.SetActive(false);
         Window.SetActive(false);
+        Comparisoning.SetActive(false);
+        hack_boss = GetComponent<HackBoss>();
         hack_main = GetComponent<HackMain>();
         _isResult = false;
+        doc_0 = false;
+        doc_1 = false;
 	}
 	
 	// Update is called once per frame
@@ -53,6 +68,8 @@ public class IntoPCAction : MonoBehaviour {
     {
         if (_isResult)
         {
+            PC_login.GetComponent<Text>().text = "ログインできました。";
+            PC_login.SetActive(true);
             yield return new WaitForSeconds(wait);
             PC.transform.GetChild(0).SetAsLastSibling();
             Window.SetActive(true);
@@ -60,6 +77,45 @@ public class IntoPCAction : MonoBehaviour {
         else
         {
             yield return new WaitForSeconds(wait);
+        }
+    }
+
+    public void DocumentsComparison()
+    {
+        Window.SetActive(false);
+        Comparisoning.SetActive(true);
+        
+        //Comparisoning.SetActive(false);
+        //Window.SetActive(true);
+
+    }
+
+    public void CheckDocuments(int docNum)
+    {
+        switch (docNum)
+        {
+            case 0:
+                doc_0 = true;
+                break;
+            case 1:
+                doc_1 = true;
+                break;
+            case 2:
+                tappingCount--;
+                CountText.text = tappingCount.ToString();
+                break;
+        }
+
+        if(doc_0 && doc_1)
+        {
+            Common.gameClear = true;
+            Common.Instance.ChangeScene(Common.SceneName.Result);
+        }
+
+        if(tappingCount == 0)
+        {
+            Common.gameClear = false;
+            Common.Instance.ChangeScene(Common.SceneName.Result);
         }
     }
 
@@ -77,6 +133,7 @@ public class IntoPCAction : MonoBehaviour {
             }
             else {
                 _isResult = false;
+                hack_boss.MoveBoss();
                 StartCoroutine(WaitTime(2f));
                 break;
             }
@@ -86,12 +143,14 @@ public class IntoPCAction : MonoBehaviour {
                 if(i == PassWordObject.Length - 1)
                 {
                     _isResult = true;
+                    hack_boss.MoveBoss();
                     StartCoroutine(WaitTime(2f));
                 }
             }
             else
             {
                 _isResult = false;
+                hack_boss.MoveBoss();
                 StartCoroutine(WaitTime(2f));
             }
         }
