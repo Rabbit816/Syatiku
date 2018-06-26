@@ -6,7 +6,7 @@ using UnityEngine.UI;
 public class ActionController : MonoBehaviour {
     // Canvas
     [SerializeField]
-    private Canvas canvas;
+    private GameObject humanClone;
     // 行動回数テキスト
     [SerializeField]
     private Text TActionCount;
@@ -21,15 +21,17 @@ public class ActionController : MonoBehaviour {
 
     // 人間生成座標
     [SerializeField]
-    private Vector2[] createPos = new Vector2[4];
+    private GameObject[] createPos = new GameObject[4];
 
     // ミニゲーム遷移のための数字
     private int[] sceneNum = { 0, 1, 2 };
 
     // フキダシ付き人間のPrefab配列
     [SerializeField]
-    private Image[] miniGamePrefab = new Image[3];
+    private Image[] humanPrefab = new Image[3];
 
+    [SerializeField]
+    private Sprite[] miniGameImage = new Sprite[3];
     // 各UI表示フラグ---------------------------------
     private bool missionOpen = true;  // 任務内容
     private bool dataOpen = true;   // 獲得資料リスト
@@ -38,11 +40,15 @@ public class ActionController : MonoBehaviour {
 
     void Start () {
         IsDataSelect();
+
         missionSeat.gameObject.SetActive(false);
         isData.gameObject.SetActive(false);
         dataDetail.gameObject.SetActive(false);
+
         Common.Instance.Shuffle(createPos);
         Common.Instance.Shuffle(sceneNum);
+
+        CreateHuman();
     }
 
     /// <summary>
@@ -91,23 +97,18 @@ public class ActionController : MonoBehaviour {
     /// <summary>
     /// ミニゲーム遷移
     /// </summary>
-    /// <param name="num"></param>
-    public void ChangeMinigame(int num)
+    public void CreateHuman()
     {
-        
         foreach (var i in sceneNum)
-        switch (i)
         {
-            case 0:
-            case 1:
-            case 2:
-                Image mini = Instantiate(miniGamePrefab[i], canvas.transform) as Image;
-                mini.transform.localPosition = createPos[i];
-                HukidashiController hukiCon = mini.GetComponent<HukidashiController>();
-                hukiCon.MiniGameNum(i);
-                break;
-            default:
-            break;
+            Image mini = Instantiate(humanPrefab[i], humanClone.transform) as Image;
+            mini.transform.localPosition = createPos[i].transform.localPosition;
+
+            Image s_mini = mini.transform.GetChild(1).transform.GetChild(0).GetComponent<Image>();
+            s_mini.sprite = miniGameImage[i];
+
+            HukidashiController hukiCon = mini.GetComponent<HukidashiController>();
+            hukiCon.MiniGameNum(i);
         }
     }
 }
