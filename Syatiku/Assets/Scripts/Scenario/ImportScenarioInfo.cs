@@ -68,7 +68,7 @@ public class ImportScenarioInfo : MonoBehaviour {
         return scenario;
     }
 
-    #region ParseFunction
+    #region ParseCommand
 
     /// <summary>
     /// コマンドによって処理を分ける
@@ -92,13 +92,13 @@ public class ImportScenarioInfo : MonoBehaviour {
                 SetSprite(window.bgi, imagePath);
             });
         }
-        else if (text.Contains("charaOn"))
+        else if (text.Contains("charaOn") || text.Contains("emo"))
         {
             //キャラクター画像表示
             scenario.commandActionList.Add(() =>
             {
                 string imagePath = "Scenario/" + TakeTextInfo(text);
-                Image target = GetCharaPos(text);
+                Image target = GetTargetImage(text);
                 target.gameObject.SetActive(true);
                 SetSprite(target, imagePath);
             });
@@ -108,18 +108,8 @@ public class ImportScenarioInfo : MonoBehaviour {
             //キャラクター画像非表示
             scenario.commandActionList.Add(() =>
             {
-                Image target = GetCharaPos(text);
+                Image target = GetTargetImage(text);
                 target.gameObject.SetActive(false);
-            });
-        }
-        else if (text.Contains("emo"))
-        {
-            scenario.commandActionList.Add(() =>
-            {
-                string imagePath = "Scenario/" + TakeTextInfo(text);
-                Image target = GetIconPos(text);
-                target.gameObject.SetActive(true);
-                SetSprite(target, imagePath);
             });
         }
         else if (text.Contains("fadeIn"))
@@ -173,44 +163,25 @@ public class ImportScenarioInfo : MonoBehaviour {
     }
 
     /// <summary>
-    /// 対象アイコン画像の位置を取得
+    /// 対象画像を取得
     /// </summary>
-    Image GetIconPos(string text)
+    Image GetTargetImage(string text)
     {
         Image target = null;
         if (text.LastIndexOf("left") >= 0)
         {
-            target = window.iconLeft;
+            if (text.IndexOf('c') == 1) target = window.charaLeft;
+            else target = window.iconLeft;
         }
         else if (text.LastIndexOf("center") >= 0)
         {
-            target = window.iconCenter;
+            if (text.IndexOf('c') == 1) target = window.charaCenter;
+            else target = window.iconCenter;
         }
         else if (text.LastIndexOf("right") >= 0)
         {
-            target = window.iconRight;
-        }
-
-        return target;
-    }
-
-    /// <summary>
-    /// 対象キャラクター画像の位置を取得
-    /// </summary>
-    Image GetCharaPos(string text)
-    {
-        Image target = null;
-        if (text.LastIndexOf("left") >= 0)
-        {
-            target = window.charaLeft;
-        }
-        else if (text.LastIndexOf("center") >= 0)
-        {
-            target = window.charaCenter;
-        }
-        else if (text.LastIndexOf("right") >= 0)
-        {
-            target = window.charaRight;
+            if (text.IndexOf('c') == 1) target = window.charaRight;
+            else target = window.iconRight;
         }
 
         return target;
@@ -228,7 +199,7 @@ public class ImportScenarioInfo : MonoBehaviour {
         switch (targetName)
         {
             case "character":
-                target = GetCharaPos(text);
+                target = GetTargetImage(text);
                 break;
             case "background":
                 target = window.bgi;

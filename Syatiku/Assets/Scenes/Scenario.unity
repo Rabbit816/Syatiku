@@ -2125,7 +2125,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   enableDebugPrintOnTerminal: 0
   enableForceCrashOnError: 0
-  dontDestroyOnLoad: 1
+  dontDestroyOnLoad: 0
 --- !u!4 &1227847483
 Transform:
   m_ObjectHideFlags: 0
@@ -2699,7 +2699,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d1e631c3b9947b54c823c6853a05529c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _playOnStart: 0
+  _playOnStart: 1
   _cueName: futta-rainbow
   _cueSheet: BGM_CueSheet
   _use3dPositioning: 1
@@ -3153,7 +3153,7 @@ Prefab:
     - target: {fileID: 114897144649213658, guid: 564aa75bff80a4f41b72007c100691a3,
         type: 2}
       propertyPath: _playOnStart
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1183574958434926, guid: 564aa75bff80a4f41b72007c100691a3, type: 2}
       propertyPath: m_Name
