@@ -4,13 +4,42 @@ using UnityEngine;
 
 public class SoundManager : MonoBehaviour {
 
-	// Use this for initialization
-	void Start () {
-		
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
+    static SoundManager instance;
+    public static SoundManager Instance {
+        get
+        {
+            if (instance != null) return instance;
+            instance = FindObjectOfType<SoundManager>();
+            return instance;
+        }
+    }
+
+    [SerializeField]
+    CriAtomSource bgmSource;
+    [SerializeField]
+    CriAtomSource seSource;
+    [SerializeField]
+    CriAtomSource voiceSource;
+
+    void Start()
+    {
+        //bgmSource.Play("futta-rainbow");
+        DontDestroyOnLoad(this);
+    }
+
+    public void PlayBGM(string cueName)
+    {
+        bgmSource.Play(cueName);
+    }
+
+    public void PlaySE(string cueName)
+    {
+        seSource.Play(cueName);
+    }
+
+    public void PlayVoice(string cueName)
+    {
+        voiceSource.Play(cueName);
+    }
+
 }

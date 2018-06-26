@@ -9,7 +9,7 @@ public class ResultController : MonoBehaviour {
 	// ミニゲームで獲得した資料を表示
 	void Start () {
         if (Common.gameClear)
-            scoreText.text = Common.Instance.data[0] + "を手に入れた！\n" + Common.Instance.data[1] + "を手に入れた！\n";
+            scoreText.text = "資料A" + "を手に入れた！\n" + "資料B" + "を手に入れた！\n";
         else
             scoreText.text = "何も手に入らなかった...";
     }
