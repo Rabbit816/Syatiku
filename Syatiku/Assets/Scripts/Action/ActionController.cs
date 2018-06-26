@@ -2,32 +2,57 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using UnityEditor;
 
 public class ActionController : MonoBehaviour {
+    // Canvas
+    [SerializeField]
+    private Canvas canvas;
+    // 行動回数テキスト
     [SerializeField]
     private Text TActionCount;
+
+    // 獲得資料配列
     [SerializeField]
     private Image[] getData;
+
+    // 任務内容、獲得資料背景、獲得資料詳細
     [SerializeField]
     private Image missionSeat,isData,dataDetail;
 
-    private bool missionOpen = true;
-    private bool dataOpen = true;
-    private bool datailOpen = true;
+    // 人間生成座標
+    [SerializeField]
+    private Vector2[] createPos = new Vector2[4];
+
+    // ミニゲーム遷移のための数字
+    private int[] sceneNum = { 0, 1, 2 };
+
+    // フキダシ付き人間のPrefab配列
+    [SerializeField]
+    private Image[] miniGamePrefab = new Image[3];
+
+    // 各UI表示フラグ---------------------------------
+    private bool missionOpen = true;  // 任務内容
+    private bool dataOpen = true;   // 獲得資料リスト
+    private bool datailOpen = true; // 獲得資料詳細
+    // -----------------------------------------------
 
     void Start () {
         IsDataSelect();
         missionSeat.gameObject.SetActive(false);
         isData.gameObject.SetActive(false);
         dataDetail.gameObject.SetActive(false);
+        Common.Instance.Shuffle(createPos);
+        Common.Instance.Shuffle(sceneNum);
     }
 
+    /// <summary>
+    /// 獲得資料
+    /// </summary>
     public void IsDataSelect() {
         int num = 0;
-        foreach(var i in Common.Instance.dataDic) {
+        foreach(var i in Common.Instance.dataFlag) {
             if (!i) {
-                getData[num].GetComponent<Image>().color = new Color(255, 255, 255, 125);
+                getData[num].GetComponent<Image>().color = new Color(1, 1, 1, 0.5f);
                 num++;
             }
         }
@@ -44,7 +69,7 @@ public class ActionController : MonoBehaviour {
     }
 
     /// <summary>
-    /// 獲得資料シート
+    /// 獲得資料シート表示
     /// </summary>
     public void IsDataList()
     {
@@ -54,7 +79,7 @@ public class ActionController : MonoBehaviour {
     }
 
     /// <summary>
-    /// 資料詳細
+    /// 資料詳細表示
     /// </summary>
     public void IsDataDetail()
     {
@@ -69,19 +94,20 @@ public class ActionController : MonoBehaviour {
     /// <param name="num"></param>
     public void ChangeMinigame(int num)
     {
-        switch (num)
+        
+        foreach (var i in sceneNum)
+        switch (i)
         {
             case 0:
-                Common.Instance.ChangeScene(Common.SceneName.Smoking);
-                break;
             case 1:
-                Common.Instance.ChangeScene(Common.SceneName.Hacking);
-                break;
             case 2:
-                Common.Instance.ChangeScene(Common.SceneName.Drinking);
+                Image mini = Instantiate(miniGamePrefab[i], canvas.transform) as Image;
+                mini.transform.localPosition = createPos[i];
+                HukidashiController hukiCon = mini.GetComponent<HukidashiController>();
+                hukiCon.MiniGameNum(i);
                 break;
             default:
-                break;
+            break;
         }
     }
 }
