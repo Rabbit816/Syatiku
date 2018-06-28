@@ -20,6 +20,26 @@ public class FadeManager : MonoBehaviour{
         }
     }
 
+    void Awake()
+    {
+        CheckInstance();
+    }
+
+    void CheckInstance()
+    {
+        if (instance == null)
+        {
+            instance = this;
+            return;
+        }
+        if (instance == this)
+        {
+            return;
+        }
+
+        Destroy(gameObject);
+    }
+
     public void Fade(CanvasGroup canvasGroup, float time, float targetAlpha, TweenCallback callback = null)
     {
         canvasGroup.gameObject.SetActive(true);

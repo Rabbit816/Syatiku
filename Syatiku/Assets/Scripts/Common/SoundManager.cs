@@ -14,6 +14,26 @@ public class SoundManager : MonoBehaviour {
         }
     }
 
+    void Awake()
+    {
+        CheckInstance();
+    }
+
+    void CheckInstance()
+    {
+        if (instance == null)
+        {
+            instance = this;
+            return;
+        }
+        if (instance == this)
+        {
+            return;
+        }
+
+        Destroy(gameObject);
+    }
+
     [SerializeField]
     CriAtomSource bgmSource;
     [SerializeField]

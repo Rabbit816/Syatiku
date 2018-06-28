@@ -129,12 +129,17 @@ public class ImportScenarioInfo : MonoBehaviour {
         else if (text.Contains("se"))
         {
             //SE
-
+            SoundManager.Instance.PlayBGM(TakeTextInfo(text));
         }
         else if (text.Contains("bgm"))
         {
             //BGM
-
+            SoundManager.Instance.PlaySE(TakeTextInfo(text));
+        }
+        else if (text.Contains("cv"))
+        {
+            //Voice
+            SoundManager.Instance.PlayVoice(TakeTextInfo(text));
         }
         else if (text.Contains("end"))
         {

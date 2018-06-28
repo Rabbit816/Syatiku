@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 using DG.Tweening;
 
@@ -15,18 +14,21 @@ public class BossScene : MonoBehaviour {
     [SerializeField]
     RectTransform flickTextBox;
     [SerializeField]
+    DamagePointerController damagePointer;
+    [SerializeField]
     UnityEngine.UI.Text timerText;
 
+    //ボスシーンのゲーム時間
+    [SerializeField]
+    float gameTime;
     [SerializeField, Header("ダメージ判定までの成功回数")]
     int attackValue = 3;
 
-    [SerializeField]
-    int damageGageMax;
-    int damageGage;
-
     string[,] textContents = new string[,]
     {
+        //Wrong
         { "あいうえお", "かきくけこ" },
+        //Correct
         { "さしすせそ", "たちつてと" },
     };
 
@@ -35,22 +37,26 @@ public class BossScene : MonoBehaviour {
     float spawnTextTimer;
     float spawnTextTime = 3.0f;
 
-    //ボスシーンのゲーム時間
-    [SerializeField]
-    float gameTime;
-
     int missCount;
     int successCount;
 
     private Vector3 touchStartPos;
 
+    [Header("フリック成功アニメーション")]
+    [SerializeField, Header("振動する時間")]
+    float successDuration = 0.5f;
+    [SerializeField, Header("振動する強さ")]
+    float successStrength = 5f;
+    [SerializeField, Header("振動する回数")]
+    int successVibrate = 5;
+
     [Header("ボスダメージアニメーション")]
     [SerializeField, Header("振動する時間")]
-    float duration = 1f;
+    float damageDuration = 1f;
     [SerializeField, Header("振動する強さ")]
-    float strength = 10f;
+    float damageStrength = 10f;
     [SerializeField, Header("振動する回数")]
-    int vibrate = 10;
+    int damageVibrate = 10;
 
     void Awake () {
         Instance = this.GetComponent<BossScene>();
@@ -146,6 +152,7 @@ public class BossScene : MonoBehaviour {
     public void MissCountUP()
     {
         missCount++;
+        damagePointer.DamagePointDown();
     }
 
     public void SuccessCountUP()
@@ -155,8 +162,13 @@ public class BossScene : MonoBehaviour {
         if (successCount % attackValue == 0)
         {
             ChangeBossState();
-            slappedBoss.transform.DOShakePosition(duration, strength, vibrate);
-            Invoke(((System.Action)ChangeBossState).Method.Name, duration + 0.5f);
+            damagePointer.DamagePointUp();
+            slappedBoss.transform.DOShakePosition(damageDuration, damageStrength, damageVibrate);
+            Invoke(((System.Action)ChangeBossState).Method.Name, damageDuration + 0.5f);
+        }
+        else
+        {
+            standingBoss.transform.DOShakePosition(successDuration, successStrength, successVibrate);
         }
     }
 
