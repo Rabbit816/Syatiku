@@ -12,12 +12,18 @@ public class IntoPCAction : MonoBehaviour {
     private GameObject Comparisoning;
     [SerializeField, Tooltip("残り回数更新Text")]
     private Text CountText;
+    [SerializeField, Tooltip("見つけた資料")]
+    private GameObject Document_1;
+    [SerializeField, Tooltip("資料見つけてない場合のテキストObject")]
+    private GameObject NotComp;
+
     private int tappingCount = 6;
 
     private Transform password_child;
 
     private HackBoss hack_boss;
     private HackMain hack_main;
+    private HackTap hack_tap;
     private GameObject PC_login;
     private GameObject PC_notlogin;
     private GameObject PC;
@@ -25,6 +31,8 @@ public class IntoPCAction : MonoBehaviour {
 
     //配置した結果の判断
     private bool _isResult = false;
+
+    private bool _comparisoning = false;
 
     private bool doc_0 = false;
     private bool doc_1 = false;
@@ -46,10 +54,14 @@ public class IntoPCAction : MonoBehaviour {
         CountText.text = tappingCount.ToString();
         PC_notlogin.SetActive(false);
         Window.SetActive(false);
+        Document_1.SetActive(false);
+        NotComp.SetActive(true);
         Comparisoning.SetActive(false);
         hack_boss = GetComponent<HackBoss>();
         hack_main = GetComponent<HackMain>();
+        hack_tap = GetComponent<HackTap>();
         _isResult = false;
+        _comparisoning = false;
         doc_0 = false;
         doc_1 = false;
 	}
@@ -62,7 +74,7 @@ public class IntoPCAction : MonoBehaviour {
     /// <summary>
     /// チェックした時のテキスト表示
     /// </summary>
-    /// <param name="wait"></param>
+    /// <param name="wait">待つ時間をfloat型で記入しなはれ</param>
     /// <returns></returns>
     private IEnumerator WaitTime(float wait)
     {
@@ -80,16 +92,27 @@ public class IntoPCAction : MonoBehaviour {
         }
     }
 
+    /// <summary>
+    /// 資料比較する時の処理
+    /// </summary>
     public void DocumentsComparison()
     {
+        if (hack_tap._getDocument)
+        {
+            Document_1.SetActive(true);
+            NotComp.SetActive(false);
+        }
+        _comparisoning = true;
         Window.SetActive(false);
         Comparisoning.SetActive(true);
-        
-        //Comparisoning.SetActive(false);
-        //Window.SetActive(true);
-
+        if (!_comparisoning)
+            Window.SetActive(true);
     }
 
+    /// <summary>
+    /// 資料比較の時のタップ処理
+    /// </summary>
+    /// <param name="docNum">0.当たり 1.当たり 2.はずれ 3.何もないとこ</param>
     public void CheckDocuments(int docNum)
     {
         switch (docNum)
@@ -104,12 +127,16 @@ public class IntoPCAction : MonoBehaviour {
                 tappingCount--;
                 CountText.text = tappingCount.ToString();
                 break;
+            case 3:
+                _comparisoning = false;
+                Comparisoning.SetActive(false);
+                break;
         }
 
         if(doc_0 && doc_1)
         {
-            Common.gameClear = true;
-            Common.Instance.ChangeScene(Common.SceneName.Result);
+            Window.SetActive(false);
+            PC.transform.GetChild(0).SetAsLastSibling();
         }
 
         if(tappingCount == 0)

@@ -57,6 +57,9 @@ public class HackTap : MonoBehaviour
     private RectTransform Gakubuti;
     private GameObject Zoom;
     private IntoPCAction intopc_action;
+    //比較する資料を取得したかどうか
+    [HideInInspector]
+    public bool _getDocument = false;
 
     // Use this for initialization
     void Start () {
@@ -190,6 +193,7 @@ public class HackTap : MonoBehaviour
                 Zoom.transform.GetChild(4).gameObject.SetActive(false);
                 break;
             case 25:
+                _getDocument = true;
                 Document.SetActive(true);
                 break;
             case 26:
