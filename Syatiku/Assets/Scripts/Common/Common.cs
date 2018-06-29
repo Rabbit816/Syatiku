@@ -40,6 +40,9 @@ public class Common : MonoBehaviour {
     //ミニゲームクリアしたか（α用）
     public static bool gameClear = true;
 
+    [System.NonSerialized]
+    public int gameMode;
+
     [SerializeField]
     private float interval;
     private static Common instance;
