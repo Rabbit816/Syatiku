@@ -27,7 +27,8 @@ public class Common : MonoBehaviour {
     /// <summary>
     /// ミニゲームで手に入る資料
     /// </summary>
-    public bool[] dataDic =
+    [System.NonSerialized]
+    public bool[] dataFlag =
     {
         false,
         false,
