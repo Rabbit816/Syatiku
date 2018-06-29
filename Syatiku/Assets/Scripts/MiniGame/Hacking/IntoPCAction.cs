@@ -4,6 +4,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
+//using UnityEngine.Events;
+
 public class IntoPCAction : MonoBehaviour {
 
     [SerializeField,Tooltip("PC内のでる場所")]
@@ -16,22 +18,27 @@ public class IntoPCAction : MonoBehaviour {
     private GameObject Document_1;
     [SerializeField, Tooltip("資料見つけてない場合のテキストObject")]
     private GameObject NotComp;
+    [SerializeField, Tooltip("色違いPaperObject")]
+    private GameObject Paper_1;
 
-    private int tappingCount = 6;
+    [Tooltip("資料比較の時に何回ミスしてもいいかの回数")]
+    public int tappingCount = 6;
 
     private Transform password_child;
 
     private HackBoss hack_boss;
     private HackMain hack_main;
     private HackTap hack_tap;
+    private PatteringEvent patte_event;
     private GameObject PC_login;
-    private GameObject PC_notlogin;
     private GameObject PC;
     private GameObject Window;
+    private Animation anim;
 
     //配置した結果の判断
     private bool _isResult = false;
 
+    //資料比較中かどうか
     private bool _comparisoning = false;
 
     private bool doc_0 = false;
@@ -42,7 +49,6 @@ public class IntoPCAction : MonoBehaviour {
         try
         {
             PC_login = GameObject.Find("Canvas/PC/PassWordFase/Title");
-            PC_notlogin = GameObject.Find("Canvas/PC/PassWordFase/SubText");
             PC = GameObject.Find("Canvas/PC");
             Window = GameObject.Find("Canvas/PC/WindowFase/Window");
         }
@@ -52,7 +58,6 @@ public class IntoPCAction : MonoBehaviour {
         }
         tappingCount = 6;
         CountText.text = tappingCount.ToString();
-        PC_notlogin.SetActive(false);
         Window.SetActive(false);
         Document_1.SetActive(false);
         NotComp.SetActive(true);
@@ -60,15 +65,25 @@ public class IntoPCAction : MonoBehaviour {
         hack_boss = GetComponent<HackBoss>();
         hack_main = GetComponent<HackMain>();
         hack_tap = GetComponent<HackTap>();
+        patte_event = GetComponent<PatteringEvent>();
+        anim = GetComponent<Animation>();
         _isResult = false;
         _comparisoning = false;
         doc_0 = false;
         doc_1 = false;
-	}
+        
+    }
 	
 	// Update is called once per frame
 	void Update () {
-		
+        if (Input.GetKeyDown(KeyCode.A))
+        {
+            hack_tap.PlaceButton(0); hack_tap.PlaceButton(1); hack_tap.PlaceButton(2); hack_tap.PlaceButton(3);
+            hack_tap.PlaceButton(4); hack_tap.PlaceButton(5); hack_tap.PlaceButton(6); hack_tap.PlaceButton(7); hack_tap.PlaceButton(8);
+        }else if (Input.GetKeyDown(KeyCode.Z))
+        {
+            hack_tap.PlaceButton(25);
+        }
 	}
     
     /// <summary>
@@ -93,6 +108,36 @@ public class IntoPCAction : MonoBehaviour {
     }
 
     /// <summary>
+    /// Patteringフェーズの成功イベント処理
+    /// </summary>
+    public void PatteringEvent()
+    {
+        Button paperbtn = Paper_1.GetComponent<Button>();
+        paperbtn.onClick.AddListener(PatteringEvent);
+        if (Input.GetButtonDown("Fire1"))
+        {
+            Debug.Log("Event Active");
+            anim.Stop();
+            Common.gameClear = true;
+            Common.Instance.ChangeScene(Common.SceneName.Result);
+        }
+    }
+
+    /// <summary>
+    /// Patteringフェーズのミスイベント処理
+    /// </summary>
+    public void MissPattering()
+    {
+        if (Input.GetButtonDown("Fire1"))
+        {
+            Debug.Log("Miss Event Active");
+            anim.Stop();
+            Common.gameClear = false;
+            Common.Instance.ChangeScene(Common.SceneName.Result);
+        }
+    }
+
+    /// <summary>
     /// 資料比較する時の処理
     /// </summary>
     public void DocumentsComparison()
@@ -105,8 +150,6 @@ public class IntoPCAction : MonoBehaviour {
         _comparisoning = true;
         Window.SetActive(false);
         Comparisoning.SetActive(true);
-        if (!_comparisoning)
-            Window.SetActive(true);
     }
 
     /// <summary>
@@ -126,10 +169,12 @@ public class IntoPCAction : MonoBehaviour {
             case 2:
                 tappingCount--;
                 CountText.text = tappingCount.ToString();
+                hack_boss.MoveBoss();
                 break;
             case 3:
                 _comparisoning = false;
                 Comparisoning.SetActive(false);
+                Window.SetActive(true);
                 break;
         }
 
@@ -137,6 +182,7 @@ public class IntoPCAction : MonoBehaviour {
         {
             Window.SetActive(false);
             PC.transform.GetChild(0).SetAsLastSibling();
+            anim.Play("PaperAnimation");
         }
 
         if(tappingCount == 0)

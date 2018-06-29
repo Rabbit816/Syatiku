@@ -104,7 +104,7 @@ public class HackTap : MonoBehaviour
             case 7:
             case 8:
             case 9:
-                // 一回もタップされてなかったら  PC内とリスト内とその場所に表示
+                // 一回もタップされてなかったらPC内とリスト内とその場所に表示
                 if (Getting_position[placeNum].transform.childCount == 0)
                 {
                     if (place_list[placeNum].word == null)

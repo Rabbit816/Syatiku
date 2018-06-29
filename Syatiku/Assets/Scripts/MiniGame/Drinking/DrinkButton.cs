@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class Button : MonoBehaviour {
+public class DrinkButton : MonoBehaviour {
 
     private GameObject obj;
     private Vector2 me;
