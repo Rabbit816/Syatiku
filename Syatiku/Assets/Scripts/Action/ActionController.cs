@@ -58,9 +58,9 @@ public class ActionController : MonoBehaviour {
         int num = 0;
         foreach(var i in Common.Instance.dataFlag) {
             if (!i) {
-                getData[num].GetComponent<Image>().color = new Color(1, 1, 1, 0.5f);
-                num++;
+                getData[num].GetComponent<Button>().interactable = false;
             }
+            num++;
         }
     }
 
