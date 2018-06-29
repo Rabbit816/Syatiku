@@ -27,7 +27,8 @@ public class Common : MonoBehaviour {
     /// <summary>
     /// ミニゲームで手に入る資料
     /// </summary>
-    public bool[] dataDic =
+    [System.NonSerialized]
+    public bool[] dataFlag =
     {
         false,
         false,
@@ -38,6 +39,9 @@ public class Common : MonoBehaviour {
 
     //ミニゲームクリアしたか（α用）
     public static bool gameClear = true;
+
+    [System.NonSerialized]
+    public int gameMode;
 
     [SerializeField]
     private float interval;
