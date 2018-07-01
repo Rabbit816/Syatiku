@@ -81,11 +81,11 @@ public class HackBoss : MonoBehaviour {
             hack_tap.PlaceButton(11);
             ComeOnBoss();
         }
-        else
-        {
-            ComeBoss.SetActive(false);
-            Worning.SetActive(false);
-        }
+        //else
+        //{
+        //    ComeBoss.SetActive(false);
+        //    Worning.SetActive(false);
+        //}
     }
 
     /// <summary>
