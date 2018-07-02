@@ -94,10 +94,13 @@ public class HackBoss : MonoBehaviour {
     private void ComeOnBoss()
     {
         hack_tap.PlaceButton(13);
-        ComeBoss.SetActive(true);
-        Worning.SetActive(true);
-        StartCoroutine(WatchBoss());
-        _commingboss = true;
+        if (!ComeBoss.activeSelf)
+        {
+            ComeBoss.SetActive(true);
+            Worning.SetActive(true);
+            StartCoroutine(WatchBoss());
+            _commingboss = true;
+        }
     }
 
     /// <summary>
@@ -105,10 +108,14 @@ public class HackBoss : MonoBehaviour {
     /// </summary>
     public void WorkButton()
     {
-        _worktap = true;
-        WorkingObject.SetActive(true);
-        //WorkingHuman.DOLocalJump(WorkingHuman.transform.localPosition, 3f, 5, 5f);
-        StartCoroutine(WatchBoss());
-        WorkingObject.SetActive(false);
+        
+        if (ComeBoss.activeSelf)
+        {
+            _worktap = true;
+            WorkingObject.SetActive(true);
+            //WorkingHuman.DOLocalJump(WorkingHuman.transform.localPosition, 3f, 5, 5f);
+            StartCoroutine(WatchBoss());
+            WorkingObject.SetActive(false);
+        }
     }
 }
