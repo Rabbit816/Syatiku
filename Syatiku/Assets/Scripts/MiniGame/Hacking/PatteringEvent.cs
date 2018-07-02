@@ -40,15 +40,17 @@ public class PatteringEvent : MonoBehaviour {
     /// </summary>
     private void AnimationEvent()
     {
-        for(int i=0; i<10; i++)
-        {
-            loopCount++;
-            seq.Append(Paper_1.DORotate(new Vector2(0, 180), 0.7f).SetDelay(0.1f));
-            Paper_1.transform.localPosition = Vector3.zero;
-        }
-        
+        Debug.Log("きてるよ");
+        loopCount++;
+        seq.Append(Paper_1.DOLocalRotate(new Vector2(0, 180), 0.5f).SetDelay(0.1f));
+        seq.Append(Paper_1.DOLocalRotate(new Vector2(0, Paper_1.localRotation.y + 180), 0.5f).SetDelay(0.1f));
+        seq.Append(Paper_1.DOLocalRotate(new Vector2(0, Paper_1.localRotation.y + 180), 0.5f).SetDelay(0.1f));
+        seq.Append(Paper_1.DOLocalRotate(new Vector2(0, Paper_1.localRotation.y + 180), 0.5f).SetDelay(0.1f));
+        //Paper_1.transform.localRotation = Vector2.zero;
+
+
         //seq.Append(Paper_0.DORotate(new Vector2(0, 180), 1.0f).SetDelay(0.5f));
-        
+
         //seq.Append(Paper_2.DORotate(new Vector2(0, 180), 1.0f).SetDelay(0.5f));
     }
 }
