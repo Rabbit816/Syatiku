@@ -123,17 +123,19 @@ public class BossScene : MonoBehaviour {
     {
         flickPart.gameObject.SetActive(!flickPart.gameObject.activeSelf);
         sanctionPart.gameObject.SetActive(!sanctionPart.gameObject.activeSelf);
+        standingBoss.SetActive(true);
     }
 
-    public void ChangeBossState(GameObject slappedBoss, float duration)
+    public void ChangeBossState(GameObject slappedBoss, float duration = 0, bool re = false)
     {
         standingBoss.SetActive(false);
         slappedBoss.SetActive(true);
-        StartCoroutine(ReturnBossState(slappedBoss, duration));
+        if(re) StartCoroutine(ReturnBossState(slappedBoss, duration));
     }
 
     IEnumerator ReturnBossState(GameObject slappedBoss, float duration)
     {
+        if (duration == 0) yield return null;
         yield return new WaitForSeconds(duration);
         standingBoss.SetActive(true);
         slappedBoss.SetActive(false);

@@ -89,9 +89,10 @@ public class ScenarioController : MonoBehaviour {
     {
         window.recommendIcon.SetActive(false);
         //感情アイコンの非表示
-        window.iconLeft.gameObject.SetActive(false);
-        window.iconCenter.gameObject.SetActive(false);
-        window.iconRight.gameObject.SetActive(false);
+        for (int i = 0; i < window.characters.Length; i++)
+        {
+            window.icons[i].gameObject.SetActive(false);
+        }
         //セリフウィンドウの初期化
         viewMessage.Length = 0;
         nextMessageIndex = 0;

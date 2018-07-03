@@ -20,7 +20,7 @@ public class SanctionPartController : MonoBehaviour {
 	void Update () {
         if (Input.GetMouseButton(0))
         {
-            slappedBoss.gameObject.SetActive(true);
+            if(!slappedBoss.gameObject.activeSelf) BossScene.Instance.ChangeBossState(slappedBoss.gameObject);
 
             Vector3 scale = slappedBoss.localScale;
             scale.x *= -1;

@@ -81,7 +81,8 @@ public class ImportScenarioInfo : MonoBehaviour {
             {
                 //名前
                 window.name.text = TakeTextInfo(text) ?? "";
-                Image talker = GetTargetImage(text);
+                int pos = GetTargetPosNum(text);
+                ShadeOffCharacters(pos);
             });
         }
         else if (text.Contains("bgi"))
@@ -177,6 +178,19 @@ public class ImportScenarioInfo : MonoBehaviour {
     }
 
     /// <summary>
+    /// キャラクターの色合い変更
+    /// </summary>
+    /// <param name="pos"></param>
+    void ShadeOffCharacters(int pos)
+    {
+        for (int i = 0; i < window.characters.Length; i++)
+        {
+            if (i == pos) window.characters[i].color = Color.white;
+            else window.characters[i].color = new Color(0.5f, 0.5f, 0.5f, 1f);
+        }
+    }
+
+    /// <summary>
     /// 画像をセット
     /// </summary>
     void SetSprite(Image image, string path)
@@ -190,24 +204,39 @@ public class ImportScenarioInfo : MonoBehaviour {
     Image GetTargetImage(string text)
     {
         Image target = null;
+        int pos = GetTargetPosNum(text);
 
-        if (text.LastIndexOf("left") >= 0)
+        if (pos >= 0)
         {
-            if (text.IndexOf('e') == 1) target = window.iconLeft;
-            else target = window.charaLeft;
-        }
-        else if (text.LastIndexOf("center") >= 0)
-        {
-            if (text.IndexOf('e') == 1) target = window.iconCenter;
-            else target = window.charaCenter;
-        }
-        else if (text.LastIndexOf("right") >= 0)
-        {
-            if (text.IndexOf('e') == 1) target = window.iconRight;
-            else target = window.charaRight;
+            //感情アイコン
+            if (text.IndexOf('e') == 1) target = window.icons[pos];
+            //キャラクター
+            else target = window.characters[pos];
         }
 
         return target;
+    }
+
+    /// <summary>
+    /// 指定したイメージの位置番号を返す（0: 左 1:中央 2: 右）
+    /// </summary>
+    int GetTargetPosNum(string text)
+    {
+
+        if (text.LastIndexOf("left") >= 0)
+        {
+            return 0;
+        }
+        else if (text.LastIndexOf("center") >= 0)
+        {
+            return 1;
+        }
+        else if (text.LastIndexOf("right") >= 0)
+        {
+            return 2;
+        }
+
+        return -1;
     }
 
     /// <summary>

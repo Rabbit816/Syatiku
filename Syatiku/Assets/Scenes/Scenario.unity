@@ -1276,13 +1276,12 @@ MonoBehaviour:
   recommendIcon: {fileID: 1497963539}
   characters:
   - {fileID: 1798852648}
-  charaLeft: {fileID: 1798852648}
-  charaCenter: {fileID: 1382941417}
-  charaRight: {fileID: 171007962}
-  icons: []
-  iconLeft: {fileID: 821501309}
-  iconCenter: {fileID: 602305389}
-  iconRight: {fileID: 1567292904}
+  - {fileID: 1382941417}
+  - {fileID: 171007962}
+  icons:
+  - {fileID: 821501309}
+  - {fileID: 602305389}
+  - {fileID: 1567292904}
   scenarioCanvas: {fileID: 659218381}
 --- !u!1 &729351556
 GameObject:

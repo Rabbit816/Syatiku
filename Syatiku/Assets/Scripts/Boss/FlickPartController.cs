@@ -76,7 +76,7 @@ public class FlickPartController : MonoBehaviour {
 
     public void FlickSuccess()
     {
-        BossScene.Instance.ChangeBossState(slappedBoss, duration);
+        BossScene.Instance.ChangeBossState(slappedBoss, duration, true);
         slappedBoss.transform.DOShakePosition(duration, strength, vibrate);
     }
 }
