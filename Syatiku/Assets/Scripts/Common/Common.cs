@@ -37,13 +37,13 @@ public class Common : MonoBehaviour {
         false,
     };
 
-    [System.NonSerialized]
-    private bool[] miniClear =
+    public struct miniClear
     {
-        false,
-        false,
-        false,
+        public bool hackClear;
+        public bool smokeClear;
+        public bool drinkClear;
     };
+
 
     //ミニゲームクリアしたか（α用）
     public static bool gameClear = true;
