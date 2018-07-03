@@ -15,8 +15,8 @@ public class SmokingController : MonoBehaviour {
     [SerializeField]
     private int answerCount;
     private int firstAnswerCount;
+    private Mushikui mushikui;
 
-    private int qNum;
     private string t_answer = "あけましておめでとう";
     private string filePath = "CSV/MushikuiTest_2";
 
@@ -25,12 +25,13 @@ public class SmokingController : MonoBehaviour {
     // Use this for initialization
     void Start () {
         firstAnswerCount = answerCount;
-        Question();
+        
         tabacoSize = tabaco.rectTransform.sizeDelta;
         StartCoroutine(TimeDown());
 
-        Debug.Log(CSVLoad.csvData[qNum][0]);
-        new Mushikui(filePath);
+        mushikui = new Mushikui(filePath);
+
+        Question();
 	}
 
     public IEnumerator TimeDown()
@@ -46,6 +47,7 @@ public class SmokingController : MonoBehaviour {
 
     public void OnClick(Text text) {
         if (tabaco.rectTransform.sizeDelta.x <= 0) return;
+
         Debug.Log(text.text);
         if (text.text == "まる") {
             Debug.Log("〇");
@@ -54,7 +56,6 @@ public class SmokingController : MonoBehaviour {
             tabaco.rectTransform.sizeDelta = tabacoSize;
             answerCount = firstAnswerCount;
 
-            qNum++;
             Question();
 
         } else {
@@ -82,12 +83,9 @@ public class SmokingController : MonoBehaviour {
 
     public void Question()
     {
-        answer.text = CSVLoad.csvData[qNum][0];
-        int[] randNum = { 1,2,3,4 };
-        Common.Instance.Shuffle(randNum);
-        for(int i = 0; i < wordText.Length; i++)
+        for(int i = 0; i < mushikui.data[0].Select.Length; i++)
         {
-            wordText[i].text = CSVLoad.csvData[qNum][randNum[i]];
+            wordText[i].text = mushikui.data[0].Select[i];
         }
     }
 }
