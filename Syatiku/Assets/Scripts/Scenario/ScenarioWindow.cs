@@ -12,8 +12,8 @@ public class ScenarioWindow : MonoBehaviour
     public Text logText;
     public Text autoText;
     public GameObject log;
-    //public GameObject recommendIcon;
-    public Image[] characters;
+    public GameObject recommendIcon;
+    //public Image[] characters;
     public Image charaLeft;
     public Image charaCenter;
     public Image charaRight;
