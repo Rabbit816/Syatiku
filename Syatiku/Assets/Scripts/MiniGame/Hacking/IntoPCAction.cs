@@ -72,7 +72,6 @@ public class IntoPCAction : MonoBehaviour {
         _comparisoning = false;
         doc_0 = false;
         doc_1 = false;
-        
     }
 	
 	// Update is called once per frame
@@ -156,7 +155,7 @@ public class IntoPCAction : MonoBehaviour {
         {
             Window.SetActive(false);
             PC.transform.GetChild(0).SetAsLastSibling();
-            //patte_event.AnimationEvent();
+            patte_event.AnimLoop();
         }
 
         if(tappingCount == 0)
@@ -178,7 +177,8 @@ public class IntoPCAction : MonoBehaviour {
             {
                 password_child = password_parent.transform.GetChild(0).GetChild(0);
             }
-            else {
+            else
+            {
                 _isResult = false;
                 hack_boss.MoveBoss();
                 StartCoroutine(WaitTime(1.5f));

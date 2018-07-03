@@ -6,26 +6,28 @@ public class PatteringEvent : MonoBehaviour {
 
     [SerializeField, Tooltip("Paper_1")]
     private RectTransform Paper_1;
+    [SerializeField, Tooltip("Paper_2")]
+    private RectTransform Paper_2;
 
     private IntoPCAction intopc_action;
 
     private Sequence seq;
+    Sequence se;
+    //いいタイミングかどうか
     private bool _success = false;
-    [SerializeField, Tooltip("もう一回ボタン")]
-    private GameObject Onemore;
 
 	// Use this for initialization
 	void Start () {
-        Onemore.SetActive(false);
         intopc_action = GetComponent<IntoPCAction>();
         seq = DOTween.Sequence();
+         se = DOTween.Sequence();
         _success = false;
-        AnimationEvent();
+        AnimLoop();
     }
 	
 	// Update is called once per frame
 	void Update () {
-        
+
     }
 
     /// <summary>
@@ -38,23 +40,16 @@ public class PatteringEvent : MonoBehaviour {
         {
             case 0:
                 Paper_1.GetComponent<Image>().color = new Color(255, 255, 0);
+                Paper_2.GetComponent<Image>().color = new Color(255, 255, 0);
                 break;
             case 1:
-                Paper_1.GetComponent<Image>().color = new Color(255,255,255);
+                Paper_1.GetComponent<Image>().color = new Color(255, 255, 255);
+                Paper_2.GetComponent<Image>().color = new Color(255, 255, 255);
                 break;
             default:
                 Debug.Log("ColorNum :" + num);
                 break;
         }
-    }
-
-    /// <summary>
-    /// もう一回ボタンの処理
-    /// </summary>
-    public void OneMore()
-    {
-        Onemore.SetActive(false);
-        AnimationEvent();
     }
 
     /// <summary>
@@ -72,22 +67,26 @@ public class PatteringEvent : MonoBehaviour {
             Common.gameClear = true;
             Common.Instance.ChangeScene(Common.SceneName.Result);
         }
-            
     }
 
     /// <summary>
-    /// Animationのイベント処理
+    /// Animationのイベント処理（Loopバージョン）
     /// </summary>
-    public void AnimationEvent()
+    public void AnimLoop()
     {
-        Button btn = Paper_1.GetComponent<Button>();
-        seq.Append(Paper_1.DOLocalRotate(new Vector2(0, Paper_1.localRotation.y + 180), 0.8f).SetDelay(0.5f).SetLoops(10, LoopType.Restart))
-            .InsertCallback(0f, () => _success = false)
-            .InsertCallback(4.49f, () => ChangeColor(0))
-            .InsertCallback(4.49f, () => _success = true)
-            .InsertCallback(5.2f, () => _success = false)
-            .InsertCallback(5.2f, () => ChangeColor(1))
-            .Play();
-        Onemore.SetActive(true);
+        se.Append(Paper_1.DOLocalRotate(new Vector2(0, Paper_1.localRotation.y + 180), 0.5f).SetDelay(0.5f).SetLoops(70, LoopType.Restart))
+           .InsertCallback(2.5f, () => ChangeColor(0))
+           .InsertCallback(2.5f, () => _success = true)
+           .InsertCallback(3.0f, () => _success = false)
+           .InsertCallback(3.0f, () => ChangeColor(1))
+           .InsertCallback(15.0f, () => ChangeColor(0))
+           .InsertCallback(15.0f, () => _success = true)
+           .InsertCallback(15.5f, () => _success = false)
+           .InsertCallback(15.5f, () => ChangeColor(1))
+           .InsertCallback(30.0f, () => ChangeColor(0))
+           .InsertCallback(30.0f, () => _success = true)
+           .InsertCallback(30.5f, () => _success = false)
+           .InsertCallback(30.5f, () => ChangeColor(1))
+           .OnComplete(() => { Common.gameClear = _success; Common.Instance.ChangeScene(Common.SceneName.Result); });
     }
 }

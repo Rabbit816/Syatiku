@@ -23,8 +23,6 @@ public class HackTap : MonoBehaviour
 
     private string[] str;
 
-    private GameObject collectObject;
-    
     [SerializeField]
     private GameObject IntoPC;
 
@@ -34,7 +32,8 @@ public class HackTap : MonoBehaviour
     [SerializeField, Tooltip("集めた単語(PC内に出すObject)")]
     private GameObject CollectedPrefab;
     private GameObject CollectedWord;
-    private Collider2D collected_position;
+    private GameObject collectObject;
+
     [SerializeField, Tooltip("集めた単語(リスト内に出すObject)")]
     private GameObject GetWordPrefab;
     private GameObject GetWord;
@@ -75,7 +74,6 @@ public class HackTap : MonoBehaviour
 
         Document.SetActive(false);
         Common.Instance.Shuffle(pos_list);
-        Common.Instance.Shuffle(place);
         count = 0;
         GakuCount = 0;
         hack_main = GetComponent<HackMain>();
@@ -139,35 +137,8 @@ public class HackTap : MonoBehaviour
                 DoorSide.transform.localPosition = new Vector2(0, 0);
                 break;
             case 14:
-                GakuCount++;
-                Sequence seq = DOTween.Sequence();
-                //Gakubuti.DOShakeRotation(1f, new Vector3(80, 80, 0),10);
-                Gakubuti.DOPunchRotation(new Vector3(0,0,30),1f);
-                if (GakuCount == 7)
-                {
-                    seq.Append(Gakubuti.DOLocalMoveY(-122, 1.0f));
-                }
+                
                 break;
-            //case 15:
-            //case 16:
-            //case 17:
-            //case 18:
-            //case 19:
-            //case 20:
-            //case 21:
-            //case 22:
-            //case 23:
-            //case 24:
-            //    if (placeNum % 2 == 0)
-            //        selectNum = placeNum % 16;
-            //    else
-            //        selectNum = placeNum % 15;
-            //    Debug.Log("selectNum: " + selectNum);
-            //    if (Zoom.transform.GetChild(placeNum - selectNum).gameObject.activeSelf)
-            //        Zoom.transform.GetChild(placeNum - selectNum).gameObject.SetActive(false);
-            //    else
-            //        Zoom.transform.GetChild(placeNum - selectNum).gameObject.SetActive(true);
-            //    break;
             case 15:
                 Zoom.transform.GetChild(0).gameObject.SetActive(true);
                 break;
@@ -207,6 +178,20 @@ public class HackTap : MonoBehaviour
             case 26:
                 intopc_action.DocumentsComparison();
                 break;
+        }
+    }
+
+    /// <summary>
+    /// 額縁イベント処理
+    /// </summary>
+    public void GakuEvent()
+    {
+        GakuCount++;
+        Sequence seq = DOTween.Sequence();
+        Gakubuti.DOPunchRotation(new Vector3(0, 0, 30), 0.7f);
+        if (GakuCount == 7)
+        {
+            seq.Append(Gakubuti.DOLocalMoveY(-122, 0.6f));
         }
     }
 
