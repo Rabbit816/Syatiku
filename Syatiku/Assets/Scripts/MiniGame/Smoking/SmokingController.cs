@@ -18,7 +18,7 @@ public class SmokingController : MonoBehaviour {
 
     private int qNum;
     private string t_answer = "あけましておめでとう";
-    private string filePath = "CSV/MushikuiTest";
+    private string filePath = "CSV/MushikuiTest_2";
 
     private Vector2 tabacoSize;
 
