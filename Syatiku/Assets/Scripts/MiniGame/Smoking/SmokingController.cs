@@ -18,6 +18,7 @@ public class SmokingController : MonoBehaviour {
 
     private int qNum;
     private string t_answer = "あけましておめでとう";
+    private string filePath = "CSV/MushikuiTest";
 
     private Vector2 tabacoSize;
 
@@ -29,11 +30,7 @@ public class SmokingController : MonoBehaviour {
         StartCoroutine(TimeDown());
 
         Debug.Log(CSVLoad.csvData[qNum][0]);
-	}
-	
-	// Update is called once per frame
-	void Update () {
-        
+        new Mushikui(filePath);
 	}
 
     public IEnumerator TimeDown()
