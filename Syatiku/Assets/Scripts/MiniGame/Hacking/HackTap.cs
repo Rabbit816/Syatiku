@@ -55,6 +55,7 @@ public class HackTap : MonoBehaviour
 
     private GameObject DoorSide;
     private GameObject Zoom;
+    private GameObject PC;
     private HackMain hack_main;
     private IntoPCAction intopc_action;
     private int count = 0;
@@ -70,6 +71,7 @@ public class HackTap : MonoBehaviour
         GetWord = GameObject.Find("Canvas/Check/GetWord");
         DoorSide = GameObject.Find("Canvas/DoorSide");
         Zoom = GameObject.Find("Canvas/Zoom");
+        PC = GameObject.Find("Canvas/PC");
         intopc_action = GetComponent<IntoPCAction>();
 
         Document.SetActive(false);
@@ -137,7 +139,9 @@ public class HackTap : MonoBehaviour
                 DoorSide.transform.localPosition = new Vector2(0, 0);
                 break;
             case 14:
-                
+                IntoPC.transform.localPosition = new Vector2(0, 0);
+                GameObject pat = GameObject.Find("Canvas/PC/PatteringFase");
+                pat.transform.SetSiblingIndex(2);
                 break;
             case 15:
                 Zoom.transform.GetChild(0).gameObject.SetActive(true);

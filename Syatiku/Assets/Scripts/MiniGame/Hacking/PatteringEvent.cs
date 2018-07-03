@@ -22,7 +22,8 @@ public class PatteringEvent : MonoBehaviour {
         seq = DOTween.Sequence();
          se = DOTween.Sequence();
         _success = false;
-        AnimLoop();
+        //AnimLoop();
+        LowAnim();
     }
 	
 	// Update is called once per frame
@@ -70,23 +71,43 @@ public class PatteringEvent : MonoBehaviour {
     }
 
     /// <summary>
+    /// 遅めのアニメーション処理
+    /// </summary>
+    public void LowAnim()
+    {
+        se.Append(Paper_1.DOLocalRotate(new Vector2(0, Paper_1.localRotation.y + 180), 1.0f).SetDelay(0.5f).SetLoops(70, LoopType.Restart))
+           .InsertCallback(3.9f, () => ChangeColor(0))
+           .InsertCallback(3.9f, () => _success = true)
+           .InsertCallback(4.5f, () => _success = false)
+           .InsertCallback(4.5f, () => ChangeColor(1))
+           .InsertCallback(14.9f, () => ChangeColor(0))
+           .InsertCallback(14.9f, () => _success = true)
+           .InsertCallback(15.5f, () => _success = false)
+           .InsertCallback(15.5f, () => ChangeColor(1))
+           .InsertCallback(29.9f, () => ChangeColor(0))
+           .InsertCallback(29.9f, () => _success = true)
+           .InsertCallback(30.5f, () => _success = false)
+           .InsertCallback(30.5f, () => ChangeColor(1));
+    }
+
+    /// <summary>
     /// Animationのイベント処理（Loopバージョン）
     /// </summary>
     public void AnimLoop()
     {
-        se.Append(Paper_1.DOLocalRotate(new Vector2(0, Paper_1.localRotation.y + 180), 0.5f).SetDelay(0.5f).SetLoops(70, LoopType.Restart))
-           .InsertCallback(2.5f, () => ChangeColor(0))
-           .InsertCallback(2.5f, () => _success = true)
-           .InsertCallback(3.0f, () => _success = false)
-           .InsertCallback(3.0f, () => ChangeColor(1))
-           .InsertCallback(15.0f, () => ChangeColor(0))
-           .InsertCallback(15.0f, () => _success = true)
-           .InsertCallback(15.5f, () => _success = false)
-           .InsertCallback(15.5f, () => ChangeColor(1))
-           .InsertCallback(30.0f, () => ChangeColor(0))
-           .InsertCallback(30.0f, () => _success = true)
-           .InsertCallback(30.5f, () => _success = false)
-           .InsertCallback(30.5f, () => ChangeColor(1))
+        se.Append(Paper_1.DOLocalRotate(new Vector2(0, Paper_1.localRotation.y + 180), 0.5f).SetDelay(0.3f).SetLoops(70, LoopType.Restart))
+           .InsertCallback(3.0f, () => ChangeColor(0))
+           .InsertCallback(3.0f, () => _success = true)
+           .InsertCallback(3.3f, () => _success = false)
+           .InsertCallback(3.3f, () => ChangeColor(1))
+           .InsertCallback(12.0f, () => ChangeColor(0))
+           .InsertCallback(12.0f, () => _success = true)
+           .InsertCallback(12.3f, () => _success = false)
+           .InsertCallback(12.3f, () => ChangeColor(1))
+           .InsertCallback(18.0f, () => ChangeColor(0))
+           .InsertCallback(18.0f, () => _success = true)
+           .InsertCallback(18.3f, () => _success = false)
+           .InsertCallback(18.3f, () => ChangeColor(1))
            .OnComplete(() => { Common.gameClear = _success; Common.Instance.ChangeScene(Common.SceneName.Result); });
     }
 }
