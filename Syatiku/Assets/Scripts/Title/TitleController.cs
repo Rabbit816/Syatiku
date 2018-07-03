@@ -11,6 +11,10 @@ public class TitleController : MonoBehaviour {
     public void ChangeMode(int mode)
     {
         Common.Instance.gameMode = mode;
+        if (mode == 0)
+            Common.Instance.actionCount = 1;
+        else
+            Common.Instance.actionCount = 3;
         Common.Instance.ChangeScene(Common.SceneName.Scenario);
     }
     //タイトルボタンを削除

@@ -11,6 +11,9 @@ public class ActionController : MonoBehaviour {
     [SerializeField]
     private Text TActionCount;
 
+    [SerializeField]
+    private Text action;
+
     // 獲得資料配列
     [SerializeField]
     private Image[] getData;
@@ -41,6 +44,7 @@ public class ActionController : MonoBehaviour {
 
     void Start () {
         IsDataSelect();
+        action.text = Common.Instance.actionCount.ToString();
 
         missionSeat.gameObject.SetActive(false);
         isData.gameObject.SetActive(false);
@@ -53,6 +57,10 @@ public class ActionController : MonoBehaviour {
         CreateHuman();
     }
 
+    public void GetDataList() {
+        
+    }
+
     /// <summary>
     /// 獲得資料
     /// </summary>
@@ -61,6 +69,8 @@ public class ActionController : MonoBehaviour {
         foreach(var i in Common.Instance.dataFlag) {
             if (!i) {
                 getData[num].GetComponent<Button>().interactable = false;
+            }else {
+                getData[num].GetComponent<Button>().interactable = true;
             }
             num++;
         }
