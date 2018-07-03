@@ -21,7 +21,6 @@ GameObject:
   - component: {fileID: 4178073030176854}
   - component: {fileID: 114955599125649836}
   - component: {fileID: 114936969779699294}
-  - component: {fileID: 114915858526959860}
   m_Layer: 0
   m_Name: Common
   m_TagString: Untagged
@@ -85,17 +84,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ba2177cfc4e212e4690adba484636e56, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &114915858526959860
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1496496294365858}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e2d0c94bb58e27d4e820a7505d8bac3e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &114936969779699294
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -119,12 +107,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4f1fe541f2a3b26489e83b86edd8a749, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  data:
-  - "\u8CC7\u6599A"
-  - "\u8CC7\u6599B"
-  - "\u8CC7\u6599C"
-  - "\u8CC7\u6599D"
-  - "\u8CC7\u6599E"
+  isClear: 
   interval: 1
 --- !u!198 &198727843915840698
 ParticleSystem:

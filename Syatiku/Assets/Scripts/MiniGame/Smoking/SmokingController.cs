@@ -22,8 +22,6 @@ public class SmokingController : MonoBehaviour {
     [SerializeField]
     private int qLength; // 合計問題数
 
-    public Common.miniClear mClearFlag; // ミニゲームクリアフラグ
-
     private string filePath = "CSV/Smoking"; // CSVパス名
 
     private Vector2 tabacoSize;
@@ -45,9 +43,14 @@ public class SmokingController : MonoBehaviour {
         while (tabaco.rectTransform.sizeDelta.x > 0)
         {
             tabaco.rectTransform.sizeDelta -= new Vector2(time,0);
+            if(tabaco.rectTransform.sizeDelta.x <= tabacoSize.x / 2 &&
+                tabaco.rectTransform.sizeDelta.x >= tabacoSize.x / 4) {
+                tabaco.color = Color.yellow;
+            } else if(tabaco.rectTransform.sizeDelta.x < tabacoSize.x / 4) {
+                tabaco.color = Color.red;
+            }
             yield return null;
         }
-        Common.gameClear = false;
         Common.Instance.ChangeScene(Common.SceneName.Result);
     }
 
@@ -62,8 +65,13 @@ public class SmokingController : MonoBehaviour {
             tabaco.rectTransform.sizeDelta = tabacoSize;
             answerCount = firstAnswerCount;
 
+            qNum++;
             qLength--;
-            Question();
+            if (qLength <= 0) {
+                Result();
+                return;
+            }
+                Question();
 
         } else {
             Debug.Log("×");
@@ -79,7 +87,7 @@ public class SmokingController : MonoBehaviour {
                     face.color = Color.red;
                     break;
                 case 0:
-                    Common.gameClear = false;
+                    Common.Instance.clearFlag["Smoking"] = false;
                     Common.Instance.ChangeScene(Common.SceneName.Result);
                     break;
                 default:
@@ -90,6 +98,7 @@ public class SmokingController : MonoBehaviour {
 
     public void Question()
     {
+        answer.text = mushikui.data[qNum].Question;
         for(int i = 0; i < mushikui.data[qNum].Select.Length; i++)
         {
             wordText[i].text = mushikui.data[qNum].Select[i];
@@ -98,12 +107,10 @@ public class SmokingController : MonoBehaviour {
 
     public void Result() {
 
-        if (qLength > 0)return;
-        if(succesCount > 8) {
-            mClearFlag.smokeClear = true;
-        } else {
-
-        }
+        if(succesCount >= 8) {
+            Common.Instance.clearFlag["Smoking"] = true;
+            Common.Instance.isClear = "Smoking";
+        } 
         Common.Instance.ChangeScene(Common.SceneName.Result);
     }
 }

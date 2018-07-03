@@ -37,35 +37,43 @@ public class Common : MonoBehaviour {
         false,
     };
 
-    public struct miniClear
-    {
-        public bool hackClear;
-        public bool smokeClear;
-        public bool drinkClear;
+    // ミニゲームクリアフラグ
+    public Dictionary<string, bool> clearFlag = new Dictionary<string, bool>() {
+        {"Hacking",false},
+        {"Smoking",false},
+        {"Drinking",false}
     };
 
+    [System.NonSerialized]
+    public string isClear; // 何のミニゲームをクリアしたか
 
     //ミニゲームクリアしたか（α用）
     public static bool gameClear = true;
 
     [System.NonSerialized]
-    public int gameMode;
+    public int gameMode; // シナリオがどちらか
 
-    [SerializeField]
-    private float interval;
+    [SerializeField,Header("シーン遷移時の時間")]
+    private float interval; // シーン遷移時の時間
     private static Common instance;
     private bool isFading = false;
     private Color fadeColor = Color.black;
     private float fadeAlpha = 0;
+
+    [System.NonSerialized]
+    public int actionCount;
 
     // 同じオブジェクト(Common)があるか判定
     public static Common Instance
     {
         get
         {
-            if (instance == null)
-            {
-                instance = GameObject.Find("Common").GetComponent<Common>();
+            if (instance == null) {
+                instance = (Common)FindObjectOfType(typeof(Common));
+
+                if (instance == null) {
+                    Debug.LogError(typeof(Common) + "is nothing");
+                }
             }
             return instance;
         }

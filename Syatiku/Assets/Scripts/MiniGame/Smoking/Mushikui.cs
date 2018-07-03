@@ -7,7 +7,7 @@ public class Mushikui {
 
     public struct MushikuiData
     {
-        private string musikui;         // 「」の中の文字
+        private string musikui; 
         private string question;
         private string answer;
         private string[] select;
