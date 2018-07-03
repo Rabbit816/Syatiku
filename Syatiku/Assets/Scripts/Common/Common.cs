@@ -37,6 +37,14 @@ public class Common : MonoBehaviour {
         false,
     };
 
+    public struct miniClear
+    {
+        public bool hackClear;
+        public bool smokeClear;
+        public bool drinkClear;
+    };
+
+
     //ミニゲームクリアしたか（α用）
     public static bool gameClear = true;
 
@@ -57,12 +65,7 @@ public class Common : MonoBehaviour {
         {
             if (instance == null)
             {
-                instance = (Common)FindObjectOfType(typeof(Common));
-
-                if (instance == null)
-                {
-                    Debug.LogError(typeof(Common) + "is nothing");
-                }
+                instance = GameObject.Find("Common").GetComponent<Common>();
             }
             return instance;
         }
