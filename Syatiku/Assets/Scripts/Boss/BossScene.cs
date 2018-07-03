@@ -1,69 +1,44 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
-using DG.Tweening;
+using System.Collections;
 
 public class BossScene : MonoBehaviour {
     public static BossScene Instance { get; private set; }
 
     [SerializeField]
-    GameObject standingBoss;
+    UnityEngine.UI.Text timerText;
     [SerializeField]
-    GameObject slappedBoss;
+    FlickPartController flickPart;
     [SerializeField]
-    GameObject flickTextPrefab;
-    [SerializeField]
-    RectTransform flickTextBox;
+    SanctionPartController sanctionPart;
     [SerializeField]
     DamagePointerController damagePointer;
     [SerializeField]
-    UnityEngine.UI.Text timerText;
+    GameObject standingBoss;
 
     //ボスシーンのゲーム時間
     [SerializeField]
     float gameTime;
-    [SerializeField, Header("ダメージ判定までの成功回数")]
-    int attackValue = 3;
 
-    string[,] textContents = new string[,]
-    {
-        //Wrong
-        { "あいうえお", "かきくけこ" },
-        //Correct
-        { "さしすせそ", "たちつてと" },
-    };
-
-    List<FlickTextController> flickTextList = new List<FlickTextController>();
-
-    float spawnTextTimer;
-    float spawnTextTime = 3.0f;
+    [SerializeField, Header("ハリセンモード移行への区切り値")]
+    int[] Separatevalues;
+    //区切り値への到達状態
+    bool[] isReachStates;
 
     int missCount;
     int successCount;
 
     private Vector3 touchStartPos;
 
-    [Header("フリック成功アニメーション")]
-    [SerializeField, Header("振動する時間")]
-    float successDuration = 0.5f;
-    [SerializeField, Header("振動する強さ")]
-    float successStrength = 5f;
-    [SerializeField, Header("振動する回数")]
-    int successVibrate = 5;
-
-    [Header("ボスダメージアニメーション")]
-    [SerializeField, Header("振動する時間")]
-    float damageDuration = 1f;
-    [SerializeField, Header("振動する強さ")]
-    float damageStrength = 10f;
-    [SerializeField, Header("振動する回数")]
-    int damageVibrate = 10;
-
     void Awake () {
-        Instance = this.GetComponent<BossScene>();
+        Instance = this;
+        isReachStates = new bool[Separatevalues.Length];
+
+        flickPart.gameObject.SetActive(true);
+        sanctionPart.gameObject.SetActive(false);
 	}
 
 	void Update () {
-
         if (Input.GetMouseButtonDown(0))
         {
             //フリックの開始
@@ -87,45 +62,6 @@ public class BossScene : MonoBehaviour {
             gameTime -= Time.deltaTime;
             timerText.text = gameTime.ToString("F0");
         }
-
-        if (spawnTextTimer > spawnTextTime)
-        {
-            //テキストの生成
-            SpawnFlickText();
-        }
-        spawnTextTimer += Time.deltaTime;
-    }
-
-    void SpawnFlickText()
-    {
-        //タイマー初期化
-        spawnTextTimer = 0;
-        spawnTextTime = Random.Range(1, 5);
-
-        //タイプ決定(0:Wrong, 1:Correct)
-        int typeNum = Random.Range(0, 2);
-        //テキストの内容決定
-        int textNum = Random.Range(0, textContents.GetLength(typeNum));
-
-        for (int i = 0; i < flickTextList.Count; i++)
-        {
-
-            //使われていない（非表示中の）ものがあれば再利用
-            if (!flickTextList[i].gameObject.activeSelf)
-            {
-                flickTextList[i].Initialize(typeNum, textContents[typeNum, textNum]);
-                flickTextList[i].gameObject.SetActive(true);
-                return;
-            }
-        }
-
-        //全て使用中なら新しく生成
-        FlickTextController text = Instantiate(flickTextPrefab).GetComponent<FlickTextController>();
-        //sarcasmMessageBoxの子要素に
-        text.transform.SetParent(flickTextBox, false);
-        text.Initialize(typeNum, textContents[typeNum, textNum]);
-        //リストに追加
-        flickTextList.Add(text);
     }
 
     /// <summary>
@@ -158,24 +94,49 @@ public class BossScene : MonoBehaviour {
     public void SuccessCountUP()
     {
         successCount++;
+        damagePointer.DamagePointUp();
 
-        if (successCount % attackValue == 0)
+        int separateValue = -1;
+        int i;
+        //到達していない区切り値を探す
+        for (i = 0; i < isReachStates.Length; i++)
         {
-            ChangeBossState();
-            damagePointer.DamagePointUp();
-            slappedBoss.transform.DOShakePosition(damageDuration, damageStrength, damageVibrate);
-            Invoke(((System.Action)ChangeBossState).Method.Name, damageDuration + 0.5f);
+            if (!isReachStates[i]) {
+                separateValue = Separatevalues[i];
+                break;
+            }
+        }
+
+        //区切り値へ到達
+        if (damagePointer.damagePoint == separateValue)
+        {
+            if(i >= 0) isReachStates[i] = true;
+            ChangePart();
         }
         else
         {
-            standingBoss.transform.DOShakePosition(successDuration, successStrength, successVibrate);
+            flickPart.FlickSuccess();
         }
     }
 
-    public void ChangeBossState()
+    public void ChangePart()
     {
-        standingBoss.SetActive(!standingBoss.activeSelf);
-        slappedBoss.SetActive(!slappedBoss.activeSelf);
+        flickPart.gameObject.SetActive(!flickPart.gameObject.activeSelf);
+        sanctionPart.gameObject.SetActive(!sanctionPart.gameObject.activeSelf);
+    }
+
+    public void ChangeBossState(GameObject slappedBoss, float duration)
+    {
+        standingBoss.SetActive(false);
+        slappedBoss.SetActive(true);
+        StartCoroutine(ReturnBossState(slappedBoss, duration));
+    }
+
+    IEnumerator ReturnBossState(GameObject slappedBoss, float duration)
+    {
+        yield return new WaitForSeconds(duration);
+        standingBoss.SetActive(true);
+        slappedBoss.SetActive(false);
     }
 
     void Result()

@@ -62,4 +62,19 @@ public class SoundManager : MonoBehaviour {
         voiceSource.Play(cueName);
     }
 
+    public void StopBGM()
+    {
+        bgmSource.Stop();
+    }
+
+    public void StopSE()
+    {
+        seSource.Stop();
+    }
+
+    public void StopVoice()
+    {
+        voiceSource.Stop();
+    }
+
 }

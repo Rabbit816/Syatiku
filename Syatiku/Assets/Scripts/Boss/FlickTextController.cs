@@ -16,9 +16,10 @@ public class FlickTextController : MonoBehaviour
     }
     Type type;
 
-    void Awake()
+    void Start()
     {
         text = GetComponent<Text>();
+        Debug.Log(text.rectTransform.localPosition);
     }
 
     /// <summary>
@@ -26,10 +27,13 @@ public class FlickTextController : MonoBehaviour
     /// </summary>
     public void Initialize(int num, string t)
     {
+        if(text == null) text = GetComponent<Text>();
+
         //座標
         float posX = Random.Range(0, 2);
         posX = (posX > 0 ? 200 : -200);
         float posY = Random.Range(-100, 100);
+        Debug.Log(text.rectTransform.localPosition);
         Vector3 pos = new Vector3(posX, posY, 0);
         text.rectTransform.localPosition = pos;
 

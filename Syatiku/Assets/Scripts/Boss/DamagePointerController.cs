@@ -14,7 +14,8 @@ public class DamagePointerController : MonoBehaviour {
 
     [SerializeField, Header("最大ダメージ量")]
     int damagePointMax;
-    static int damagePoint;
+    [HideInInspector]
+    public int damagePoint;
 
     [SerializeField, Header("移動速度")]
     float moveSpeed = 2f;

@@ -81,6 +81,7 @@ public class ImportScenarioInfo : MonoBehaviour {
             {
                 //名前
                 window.name.text = TakeTextInfo(text) ?? "";
+                Image talker = GetTargetImage(text);
             });
         }
         else if (text.Contains("bgi"))
@@ -99,6 +100,7 @@ public class ImportScenarioInfo : MonoBehaviour {
             {
                 string imagePath = "Scenario/" + TakeTextInfo(text);
                 Image target = GetTargetImage(text);
+                target.color = Color.white;
                 target.gameObject.SetActive(true);
                 SetSprite(target, imagePath);
             });
@@ -129,22 +131,37 @@ public class ImportScenarioInfo : MonoBehaviour {
         else if (text.Contains("se"))
         {
             //SE
-            SoundManager.Instance.PlayBGM(TakeTextInfo(text));
+            scenario.commandActionList.Add(() =>
+            {
+                string cueName = TakeTextInfo(text);
+                if (string.IsNullOrEmpty(cueName)) SoundManager.Instance.StopBGM();
+                else SoundManager.Instance.PlayBGM(TakeTextInfo(text));
+            });
         }
         else if (text.Contains("bgm"))
         {
             //BGM
-            SoundManager.Instance.PlaySE(TakeTextInfo(text));
+            scenario.commandActionList.Add(() =>
+            {
+                string cueName = TakeTextInfo(text);
+                if (string.IsNullOrEmpty(cueName)) SoundManager.Instance.StopSE();
+                else SoundManager.Instance.PlaySE(cueName);
+            });
         }
         else if (text.Contains("cv"))
         {
-            //Voice
-            SoundManager.Instance.PlayVoice(TakeTextInfo(text));
+            //Voices
+            scenario.commandActionList.Add(() =>
+            {
+                string cueName = TakeTextInfo(text);
+                if (string.IsNullOrEmpty(cueName)) SoundManager.Instance.StopVoice();
+                else SoundManager.Instance.PlayVoice(cueName);
+            });
         }
         else if (text.Contains("end"))
-        {
+        { 
             scenario.commandActionList.Add(() =>
-                FadeManager.Instance.Fade(window.scenarioCanvas, 1f, 0f)
+                FadeManager.Instance.Fade(window.scenarioCanvas, GetTime(text), 0f)
             );
         }
     }
@@ -173,20 +190,21 @@ public class ImportScenarioInfo : MonoBehaviour {
     Image GetTargetImage(string text)
     {
         Image target = null;
+
         if (text.LastIndexOf("left") >= 0)
         {
-            if (text.IndexOf('c') == 1) target = window.charaLeft;
-            else target = window.iconLeft;
+            if (text.IndexOf('e') == 1) target = window.iconLeft;
+            else target = window.charaLeft;
         }
         else if (text.LastIndexOf("center") >= 0)
         {
-            if (text.IndexOf('c') == 1) target = window.charaCenter;
-            else target = window.iconCenter;
+            if (text.IndexOf('e') == 1) target = window.iconCenter;
+            else target = window.charaCenter;
         }
         else if (text.LastIndexOf("right") >= 0)
         {
-            if (text.IndexOf('c') == 1) target = window.charaRight;
-            else target = window.iconRight;
+            if (text.IndexOf('e') == 1) target = window.iconRight;
+            else target = window.charaRight;
         }
 
         return target;
@@ -198,6 +216,7 @@ public class ImportScenarioInfo : MonoBehaviour {
     void FadeImage(string text, float startAlpha, float targetAlpha)
     {
         string targetName = TakeTextInfo(text);
+
         Image target = null;
         float waitTime = GetTime(text);
 
@@ -210,6 +229,12 @@ public class ImportScenarioInfo : MonoBehaviour {
                 target = window.bgi;
                 break;
         }
+
+        //Debug.Log(targetName);
+        //Debug.Log(target.name + target.color);
+
+        if (target == null) Debug.logger.LogError("ArgumentNullException", "ターゲットが指定されていません");
+
         target.color = new Color(1f, 1f, 1f, startAlpha);
         FadeManager.Instance.Fade(target, waitTime, targetAlpha);
     }
@@ -221,7 +246,10 @@ public class ImportScenarioInfo : MonoBehaviour {
     {
         int beginNum = text.IndexOf("[") + 1;
         int lastNum = text.IndexOf("]");
-        float time = float.Parse(text.Substring(beginNum, lastNum - beginNum));
+        string timeString = text.Substring(beginNum, lastNum - beginNum);
+        float time;
+        //中身がなければ0を返す
+        float.TryParse(timeString, out time);
 
         return time;
     }
