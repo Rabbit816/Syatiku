@@ -11,11 +11,10 @@ public class ImportScenarioInfo : MonoBehaviour {
     public ImportScenarioInfo(string filePath, ref List<ScenarioInfo> scenarioList, ScenarioWindow window)
     {
         this.window = window;
-
         List<ScenarioInfo> scenarioInfos = new List<ScenarioInfo>();
-
         //テキストファイルの読み込み
         TextAsset textAsset = Resources.Load<TextAsset>(filePath);
+
         //@brでシナリオを区切る
         string[] scenarios = textAsset.text.Split(new string[] { "@br" }, System.StringSplitOptions.None);
 
@@ -160,10 +159,19 @@ public class ImportScenarioInfo : MonoBehaviour {
             });
         }
         else if (text.Contains("end"))
-        { 
+        {
             scenario.commandActionList.Add(() =>
                 FadeManager.Instance.Fade(window.scenarioCanvas, GetTime(text), 0f)
             );
+        }
+        else if (text.Contains("scene"))
+        {
+            scenario.commandActionList.Add(() =>
+            {
+                string sceneName = TakeTextInfo(text);
+                UnityEngine.SceneManagement.SceneManager.LoadScene(sceneName);
+                window.Init();
+            });
         }
     }
 

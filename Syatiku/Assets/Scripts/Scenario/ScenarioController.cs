@@ -3,6 +3,21 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class ScenarioController : MonoBehaviour {
+    static ScenarioController instance;
+
+    public static ScenarioController Instance
+    {
+        get
+        {
+            if (instance != null)
+            {
+                return instance;
+            }
+
+            instance = FindObjectOfType<ScenarioController>();
+            return instance;
+        }
+    }
 
     #region variable
 
@@ -43,11 +58,28 @@ public class ScenarioController : MonoBehaviour {
     bool isPlayScenario;
     #endregion
 
-    void Start () {
+    void CheckInstance()
+    {
+        if (instance == null)
+        {
+            instance = this;
+            return;
+        }
+        if (instance == this)
+        {
+            return;
+        }
+
+        Destroy(gameObject);
+    }
+
+    void Awake () {
+        CheckInstance();
+
         window.scenarioCanvas.alpha = 0;
 
         DontDestroyOnLoad(gameObject);
-	}
+    }
 
     /// <summary>
     /// シナリオパート開始
@@ -108,11 +140,6 @@ public class ScenarioController : MonoBehaviour {
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            BeginScenario(filePath);
-        }
-
         //シナリオ中ではない、ログを表示中
         if (!isPlayScenario　|| isLogView)
         {
