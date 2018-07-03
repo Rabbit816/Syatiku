@@ -47,7 +47,6 @@ public class ScenarioController : MonoBehaviour {
         window.scenarioCanvas.alpha = 0;
 
         DontDestroyOnLoad(gameObject);
-        //BeginScenario(filePath);
 	}
 
     /// <summary>
@@ -59,9 +58,9 @@ public class ScenarioController : MonoBehaviour {
         //必要なデータを取得
         new ImportScenarioInfo(path, ref scenarioInfoList, window);
 
+        Init();
         FadeManager.Instance.Fade(window.scenarioCanvas, 2f, 1f, () =>
         {
-            Init();
             SetNextInfo();
             isPlayScenario = true;
         });
@@ -90,14 +89,14 @@ public class ScenarioController : MonoBehaviour {
     {
         window.recommendIcon.SetActive(false);
         //感情アイコンの非表示
-        window.iconLeft.gameObject.SetActive(false);
-        window.iconCenter.gameObject.SetActive(false);
-        window.iconRight.gameObject.SetActive(false);
-        //セリフ部分の初期化
+        for (int i = 0; i < window.characters.Length; i++)
+        {
+            window.icons[i].gameObject.SetActive(false);
+        }
+        //セリフウィンドウの初期化
         viewMessage.Length = 0;
         nextMessageIndex = 0;
         allMessage = scenarioInfoList[infoIndex].message;
-
         //各コマンド
         foreach (var action in scenarioInfoList[infoIndex].commandActionList)
         {

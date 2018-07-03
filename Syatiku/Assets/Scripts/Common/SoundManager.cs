@@ -14,6 +14,26 @@ public class SoundManager : MonoBehaviour {
         }
     }
 
+    void Awake()
+    {
+        CheckInstance();
+    }
+
+    void CheckInstance()
+    {
+        if (instance == null)
+        {
+            instance = this;
+            return;
+        }
+        if (instance == this)
+        {
+            return;
+        }
+
+        Destroy(gameObject);
+    }
+
     [SerializeField]
     CriAtomSource bgmSource;
     [SerializeField]
@@ -40,6 +60,21 @@ public class SoundManager : MonoBehaviour {
     public void PlayVoice(string cueName)
     {
         voiceSource.Play(cueName);
+    }
+
+    public void StopBGM()
+    {
+        bgmSource.Stop();
+    }
+
+    public void StopSE()
+    {
+        seSource.Stop();
+    }
+
+    public void StopVoice()
+    {
+        voiceSource.Stop();
     }
 
 }

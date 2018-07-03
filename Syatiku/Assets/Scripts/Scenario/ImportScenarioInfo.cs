@@ -68,7 +68,7 @@ public class ImportScenarioInfo : MonoBehaviour {
         return scenario;
     }
 
-    #region ParseFunction
+    #region ParseCommand
 
     /// <summary>
     /// コマンドによって処理を分ける
@@ -81,6 +81,8 @@ public class ImportScenarioInfo : MonoBehaviour {
             {
                 //名前
                 window.name.text = TakeTextInfo(text) ?? "";
+                int pos = GetTargetPosNum(text);
+                ShadeOffCharacters(pos);
             });
         }
         else if (text.Contains("bgi"))
@@ -92,13 +94,14 @@ public class ImportScenarioInfo : MonoBehaviour {
                 SetSprite(window.bgi, imagePath);
             });
         }
-        else if (text.Contains("charaOn"))
+        else if (text.Contains("charaOn") || text.Contains("emo"))
         {
             //キャラクター画像表示
             scenario.commandActionList.Add(() =>
             {
                 string imagePath = "Scenario/" + TakeTextInfo(text);
-                Image target = GetCharaPos(text);
+                Image target = GetTargetImage(text);
+                target.color = Color.white;
                 target.gameObject.SetActive(true);
                 SetSprite(target, imagePath);
             });
@@ -108,18 +111,8 @@ public class ImportScenarioInfo : MonoBehaviour {
             //キャラクター画像非表示
             scenario.commandActionList.Add(() =>
             {
-                Image target = GetCharaPos(text);
+                Image target = GetTargetImage(text);
                 target.gameObject.SetActive(false);
-            });
-        }
-        else if (text.Contains("emo"))
-        {
-            scenario.commandActionList.Add(() =>
-            {
-                string imagePath = "Scenario/" + TakeTextInfo(text);
-                Image target = GetIconPos(text);
-                target.gameObject.SetActive(true);
-                SetSprite(target, imagePath);
             });
         }
         else if (text.Contains("fadeIn"))
@@ -139,17 +132,37 @@ public class ImportScenarioInfo : MonoBehaviour {
         else if (text.Contains("se"))
         {
             //SE
-
+            scenario.commandActionList.Add(() =>
+            {
+                string cueName = TakeTextInfo(text);
+                if (string.IsNullOrEmpty(cueName)) SoundManager.Instance.StopBGM();
+                else SoundManager.Instance.PlayBGM(TakeTextInfo(text));
+            });
         }
         else if (text.Contains("bgm"))
         {
             //BGM
-
+            scenario.commandActionList.Add(() =>
+            {
+                string cueName = TakeTextInfo(text);
+                if (string.IsNullOrEmpty(cueName)) SoundManager.Instance.StopSE();
+                else SoundManager.Instance.PlaySE(cueName);
+            });
+        }
+        else if (text.Contains("cv"))
+        {
+            //Voices
+            scenario.commandActionList.Add(() =>
+            {
+                string cueName = TakeTextInfo(text);
+                if (string.IsNullOrEmpty(cueName)) SoundManager.Instance.StopVoice();
+                else SoundManager.Instance.PlayVoice(cueName);
+            });
         }
         else if (text.Contains("end"))
-        {
+        { 
             scenario.commandActionList.Add(() =>
-                FadeManager.Instance.Fade(window.scenarioCanvas, 1f, 0f)
+                FadeManager.Instance.Fade(window.scenarioCanvas, GetTime(text), 0f)
             );
         }
     }
@@ -165,6 +178,19 @@ public class ImportScenarioInfo : MonoBehaviour {
     }
 
     /// <summary>
+    /// キャラクターの色合い変更
+    /// </summary>
+    /// <param name="pos"></param>
+    void ShadeOffCharacters(int pos)
+    {
+        for (int i = 0; i < window.characters.Length; i++)
+        {
+            if (i == pos) window.characters[i].color = Color.white;
+            else window.characters[i].color = new Color(0.5f, 0.5f, 0.5f, 1f);
+        }
+    }
+
+    /// <summary>
     /// 画像をセット
     /// </summary>
     void SetSprite(Image image, string path)
@@ -173,47 +199,44 @@ public class ImportScenarioInfo : MonoBehaviour {
     }
 
     /// <summary>
-    /// 対象アイコン画像の位置を取得
+    /// 対象画像を取得
     /// </summary>
-    Image GetIconPos(string text)
+    Image GetTargetImage(string text)
     {
         Image target = null;
-        if (text.LastIndexOf("left") >= 0)
+        int pos = GetTargetPosNum(text);
+
+        if (pos >= 0)
         {
-            target = window.iconLeft;
-        }
-        else if (text.LastIndexOf("center") >= 0)
-        {
-            target = window.iconCenter;
-        }
-        else if (text.LastIndexOf("right") >= 0)
-        {
-            target = window.iconRight;
+            //感情アイコン
+            if (text.IndexOf('e') == 1) target = window.icons[pos];
+            //キャラクター
+            else target = window.characters[pos];
         }
 
         return target;
     }
 
     /// <summary>
-    /// 対象キャラクター画像の位置を取得
+    /// 指定したイメージの位置番号を返す（0: 左 1:中央 2: 右）
     /// </summary>
-    Image GetCharaPos(string text)
+    int GetTargetPosNum(string text)
     {
-        Image target = null;
+
         if (text.LastIndexOf("left") >= 0)
         {
-            target = window.charaLeft;
+            return 0;
         }
         else if (text.LastIndexOf("center") >= 0)
         {
-            target = window.charaCenter;
+            return 1;
         }
         else if (text.LastIndexOf("right") >= 0)
         {
-            target = window.charaRight;
+            return 2;
         }
 
-        return target;
+        return -1;
     }
 
     /// <summary>
@@ -222,18 +245,25 @@ public class ImportScenarioInfo : MonoBehaviour {
     void FadeImage(string text, float startAlpha, float targetAlpha)
     {
         string targetName = TakeTextInfo(text);
+
         Image target = null;
         float waitTime = GetTime(text);
 
         switch (targetName)
         {
             case "character":
-                target = GetCharaPos(text);
+                target = GetTargetImage(text);
                 break;
             case "background":
                 target = window.bgi;
                 break;
         }
+
+        //Debug.Log(targetName);
+        //Debug.Log(target.name + target.color);
+
+        if (target == null) Debug.logger.LogError("ArgumentNullException", "ターゲットが指定されていません");
+
         target.color = new Color(1f, 1f, 1f, startAlpha);
         FadeManager.Instance.Fade(target, waitTime, targetAlpha);
     }
@@ -245,7 +275,10 @@ public class ImportScenarioInfo : MonoBehaviour {
     {
         int beginNum = text.IndexOf("[") + 1;
         int lastNum = text.IndexOf("]");
-        float time = float.Parse(text.Substring(beginNum, lastNum - beginNum));
+        string timeString = text.Substring(beginNum, lastNum - beginNum);
+        float time;
+        //中身がなければ0を返す
+        float.TryParse(timeString, out time);
 
         return time;
     }
