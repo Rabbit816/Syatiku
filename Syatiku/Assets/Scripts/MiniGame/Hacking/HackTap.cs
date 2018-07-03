@@ -21,7 +21,6 @@ public class HackTap : MonoBehaviour
     [SerializeField, Tooltip("全部のタップできる場所格納")]
     private GameObject[] place;
 
-    //[SerializeField, Tooltip("全部の発見できる単語")]
     private string[] str;
 
     private GameObject collectObject;
@@ -40,6 +39,9 @@ public class HackTap : MonoBehaviour
     private GameObject GetWordPrefab;
     private GameObject GetWord;
 
+    [SerializeField, Tooltip("集めたリストに出す資料Object")]
+    private GameObject DocPrefab;
+
     [SerializeField, Tooltip("単語を取得できるボタンの場所")]
     private GameObject[] Getting_position;
 
@@ -49,14 +51,15 @@ public class HackTap : MonoBehaviour
     [SerializeField, Tooltip("資料Object")]
     private GameObject Document;
 
-    private HackMain hack_main;
-    private int count = 0;
-    private GameObject DoorSide;
-    private int GakuCount = 0;
     [SerializeField, Tooltip("額縁Object")]
     private RectTransform Gakubuti;
+
+    private GameObject DoorSide;
     private GameObject Zoom;
+    private HackMain hack_main;
     private IntoPCAction intopc_action;
+    private int count = 0;
+    private int GakuCount = 0;
     //比較する資料を取得したかどうか
     [HideInInspector]
     public bool _getDocument = false;
@@ -72,6 +75,7 @@ public class HackTap : MonoBehaviour
 
         Document.SetActive(false);
         Common.Instance.Shuffle(pos_list);
+        Common.Instance.Shuffle(place);
         count = 0;
         GakuCount = 0;
         hack_main = GetComponent<HackMain>();
@@ -118,6 +122,7 @@ public class HackTap : MonoBehaviour
                     _collected_word.GetComponentInChildren<Text>().text = place_list[placeNum].word.ToString();
 
                     GameObject _get_word = Instantiate(GetWordPrefab, GetWord.transform);
+                    _get_word.transform.SetAsFirstSibling();
                     _get_word.GetComponentInChildren<Text>().text = place_list[placeNum].word.ToString();
                 }
                 break;
@@ -136,7 +141,8 @@ public class HackTap : MonoBehaviour
             case 14:
                 GakuCount++;
                 Sequence seq = DOTween.Sequence();
-                Gakubuti.DOShakeRotation(1f);
+                //Gakubuti.DOShakeRotation(1f, new Vector3(80, 80, 0),10);
+                Gakubuti.DOPunchRotation(new Vector3(0,0,30),1f);
                 if (GakuCount == 7)
                 {
                     seq.Append(Gakubuti.DOLocalMoveY(-122, 1.0f));
@@ -193,6 +199,8 @@ public class HackTap : MonoBehaviour
                 Zoom.transform.GetChild(4).gameObject.SetActive(false);
                 break;
             case 25:
+                GameObject _get_doc = Instantiate(DocPrefab, GetWord.transform);
+                _get_doc.transform.SetAsLastSibling();
                 _getDocument = true;
                 Document.SetActive(true);
                 break;
@@ -219,6 +227,9 @@ public class HackTap : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// 集めた単語を確認するUIの処理
+    /// </summary>
     public void CollectWordsOpen()
     {
         switch (count)

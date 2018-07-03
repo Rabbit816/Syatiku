@@ -1,56 +1,93 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using DG.Tweening;
+using UnityEngine.UI;
 
 public class PatteringEvent : MonoBehaviour {
 
-    [SerializeField, Tooltip("Paper_0")]
-    private RectTransform Paper_0;
     [SerializeField, Tooltip("Paper_1")]
     private RectTransform Paper_1;
-    [SerializeField, Tooltip("Paper_2")]
-    private RectTransform Paper_2;
 
     private IntoPCAction intopc_action;
 
     private Sequence seq;
-
-    private int loopCount = 1;
-    private Animator anim;
-    private bool _eventResult = false;
+    private bool _success = false;
+    [SerializeField, Tooltip("もう一回ボタン")]
+    private GameObject Onemore;
 
 	// Use this for initialization
 	void Start () {
-        anim = GetComponent<Animator>();
+        Onemore.SetActive(false);
         intopc_action = GetComponent<IntoPCAction>();
         seq = DOTween.Sequence();
-        _eventResult = false;
-        loopCount = 1;
+        _success = false;
         AnimationEvent();
-	}
+    }
 	
 	// Update is called once per frame
 	void Update () {
-		
-	}
+        
+    }
+
+    /// <summary>
+    /// アニメーション中の色変更
+    /// </summary>
+    /// <param name="num">0.黄色,1.白</param>
+    private void ChangeColor(int num)
+    {
+        switch (num)
+        {
+            case 0:
+                Paper_1.GetComponent<Image>().color = new Color(255, 255, 0);
+                break;
+            case 1:
+                Paper_1.GetComponent<Image>().color = new Color(255,255,255);
+                break;
+            default:
+                Debug.Log("ColorNum :" + num);
+                break;
+        }
+    }
+
+    /// <summary>
+    /// もう一回ボタンの処理
+    /// </summary>
+    public void OneMore()
+    {
+        Onemore.SetActive(false);
+        AnimationEvent();
+    }
+
+    /// <summary>
+    /// アニメーション中のタップの時処理
+    /// </summary>
+    public void TapResult()
+    {
+        if (!_success)
+        {
+            Common.gameClear = false;
+            Common.Instance.ChangeScene(Common.SceneName.Result);
+        }
+        else
+        {
+            Common.gameClear = true;
+            Common.Instance.ChangeScene(Common.SceneName.Result);
+        }
+            
+    }
 
     /// <summary>
     /// Animationのイベント処理
     /// </summary>
-    private void AnimationEvent()
+    public void AnimationEvent()
     {
-        Debug.Log("きてるよ");
-        loopCount++;
-        seq.Append(Paper_1.DOLocalRotate(new Vector2(0, 180), 0.5f).SetDelay(0.1f));
-        seq.Append(Paper_1.DOLocalRotate(new Vector2(0, Paper_1.localRotation.y + 180), 0.5f).SetDelay(0.1f));
-        seq.Append(Paper_1.DOLocalRotate(new Vector2(0, Paper_1.localRotation.y + 180), 0.5f).SetDelay(0.1f));
-        seq.Append(Paper_1.DOLocalRotate(new Vector2(0, Paper_1.localRotation.y + 180), 0.5f).SetDelay(0.1f));
-        //Paper_1.transform.localRotation = Vector2.zero;
-
-
-        //seq.Append(Paper_0.DORotate(new Vector2(0, 180), 1.0f).SetDelay(0.5f));
-
-        //seq.Append(Paper_2.DORotate(new Vector2(0, 180), 1.0f).SetDelay(0.5f));
+        Button btn = Paper_1.GetComponent<Button>();
+        seq.Append(Paper_1.DOLocalRotate(new Vector2(0, Paper_1.localRotation.y + 180), 0.8f).SetDelay(0.5f).SetLoops(10, LoopType.Restart))
+            .InsertCallback(0f, () => _success = false)
+            .InsertCallback(4.49f, () => ChangeColor(0))
+            .InsertCallback(4.49f, () => _success = true)
+            .InsertCallback(5.2f, () => _success = false)
+            .InsertCallback(5.2f, () => ChangeColor(1))
+            .Play();
+        Onemore.SetActive(true);
     }
 }

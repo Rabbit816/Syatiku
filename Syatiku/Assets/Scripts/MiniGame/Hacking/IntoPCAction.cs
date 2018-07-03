@@ -33,7 +33,7 @@ public class IntoPCAction : MonoBehaviour {
     private GameObject PC_login;
     private GameObject PC;
     private GameObject Window;
-    private Animation anim;
+    private GameObject Patte;
 
     //配置した結果の判断
     private bool _isResult = false;
@@ -41,6 +41,7 @@ public class IntoPCAction : MonoBehaviour {
     //資料比較中かどうか
     private bool _comparisoning = false;
 
+    //資料比較の時の間違っている部分をタップできたかどうか
     private bool doc_0 = false;
     private bool doc_1 = false;
 
@@ -51,6 +52,7 @@ public class IntoPCAction : MonoBehaviour {
             PC_login = GameObject.Find("Canvas/PC/PassWordFase/Title");
             PC = GameObject.Find("Canvas/PC");
             Window = GameObject.Find("Canvas/PC/WindowFase/Window");
+            Patte = GameObject.Find("Canvas/PC/PatteringFase");
         }
         catch (Exception e)
         {
@@ -66,7 +68,6 @@ public class IntoPCAction : MonoBehaviour {
         hack_main = GetComponent<HackMain>();
         hack_tap = GetComponent<HackTap>();
         patte_event = GetComponent<PatteringEvent>();
-        anim = GetComponent<Animation>();
         _isResult = false;
         _comparisoning = false;
         doc_0 = false;
@@ -103,40 +104,13 @@ public class IntoPCAction : MonoBehaviour {
         }
         else
         {
+            PC_login.GetComponent<Text>().text = "パスワードが違います。";
+            PC_login.SetActive(true);
             yield return new WaitForSeconds(wait);
+            PC_login.SetActive(false);
         }
     }
-
-    /// <summary>
-    /// Patteringフェーズの成功イベント処理
-    /// </summary>
-    public void PatteringEvent()
-    {
-        Button paperbtn = Paper_1.GetComponent<Button>();
-        paperbtn.onClick.AddListener(PatteringEvent);
-        if (Input.GetButtonDown("Fire1"))
-        {
-            Debug.Log("Event Active");
-            anim.Stop();
-            Common.gameClear = true;
-            Common.Instance.ChangeScene(Common.SceneName.Result);
-        }
-    }
-
-    /// <summary>
-    /// Patteringフェーズのミスイベント処理
-    /// </summary>
-    public void MissPattering()
-    {
-        if (Input.GetButtonDown("Fire1"))
-        {
-            Debug.Log("Miss Event Active");
-            anim.Stop();
-            Common.gameClear = false;
-            Common.Instance.ChangeScene(Common.SceneName.Result);
-        }
-    }
-
+    
     /// <summary>
     /// 資料比較する時の処理
     /// </summary>
@@ -182,7 +156,7 @@ public class IntoPCAction : MonoBehaviour {
         {
             Window.SetActive(false);
             PC.transform.GetChild(0).SetAsLastSibling();
-            anim.Play("PaperAnimation");
+            //patte_event.AnimationEvent();
         }
 
         if(tappingCount == 0)
@@ -207,7 +181,7 @@ public class IntoPCAction : MonoBehaviour {
             else {
                 _isResult = false;
                 hack_boss.MoveBoss();
-                StartCoroutine(WaitTime(2f));
+                StartCoroutine(WaitTime(1.5f));
                 break;
             }
             Text child_text = password_child.GetComponent<Text>();
@@ -217,14 +191,14 @@ public class IntoPCAction : MonoBehaviour {
                 {
                     _isResult = true;
                     hack_boss.MoveBoss();
-                    StartCoroutine(WaitTime(2f));
+                    StartCoroutine(WaitTime(1.5f));
                 }
             }
             else
             {
                 _isResult = false;
                 hack_boss.MoveBoss();
-                StartCoroutine(WaitTime(2f));
+                StartCoroutine(WaitTime(1.5f));
             }
         }
     }
