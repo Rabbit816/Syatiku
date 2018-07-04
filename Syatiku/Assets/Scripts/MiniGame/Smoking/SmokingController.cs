@@ -15,6 +15,14 @@ public class SmokingController : MonoBehaviour {
     [SerializeField]
     private int answerCount;
     private int firstAnswerCount;
+    
+    private ScenarioController scenario;
+
+    [SerializeField]
+    private GameObject scenarioCanvas;
+
+    [SerializeField]
+    private GameObject[] nonActive;
 
     private Mushikui mushikui; // Mushikuiコンストラクタ
     private int qNum; // 今が何番目の問題か
@@ -28,8 +36,17 @@ public class SmokingController : MonoBehaviour {
 
     // Use this for initialization
     void Start () {
+        //scenarioCanvas.SetActive(false);
+        scenario = new ScenarioController();
+        foreach(var i in nonActive)
+        {
+            i.SetActive(false);
+        }
+        
         firstAnswerCount = answerCount;
         
+        succesCount = 0;
+
         tabacoSize = tabaco.rectTransform.sizeDelta;
         StartCoroutine(TimeDown());
 
@@ -37,6 +54,21 @@ public class SmokingController : MonoBehaviour {
 
         Question();
 	}
+
+    void Update()
+    {
+        //if (scenario.IsShowAllMessage())
+        //{
+        //    StartCoroutine(ChangeSelect());
+        //}
+    }
+
+    public IEnumerator ChangeSelect()
+    {
+        new WaitForSeconds(1.0f);
+        scenarioCanvas.SetActive(false);
+        yield return null;
+    }
 
     public IEnumerator TimeDown()
     {
@@ -65,6 +97,7 @@ public class SmokingController : MonoBehaviour {
             tabaco.rectTransform.sizeDelta = tabacoSize;
             answerCount = firstAnswerCount;
 
+            succesCount++;
             qNum++;
             qLength--;
             if (qLength <= 0) {
@@ -75,11 +108,13 @@ public class SmokingController : MonoBehaviour {
 
         } else {
             Debug.Log("×");
-            int oldCount = answerCount;
             answerCount--;
+            tabaco.rectTransform.sizeDelta -= new Vector2(50f, 0);
             switch (answerCount)
             {
                 case 3:
+                    face.color = Color.white;
+                    break;
                 case 2:
                     face.color = Color.yellow;
                     break;
@@ -87,7 +122,8 @@ public class SmokingController : MonoBehaviour {
                     face.color = Color.red;
                     break;
                 case 0:
-                    Common.Instance.clearFlag["Smoking"] = false;
+                    StopCoroutine(TimeDown());
+                    Common.Instance.clearFlag[Common.Instance.isClear] = false;
                     Common.Instance.ChangeScene(Common.SceneName.Result);
                     break;
                 default:
@@ -107,10 +143,14 @@ public class SmokingController : MonoBehaviour {
 
     public void Result() {
 
-        if(succesCount >= 8) {
-            Common.Instance.clearFlag["Smoking"] = true;
-            Common.Instance.isClear = "Smoking";
-        } 
+        if(succesCount >= 8)
+        {
+            Common.Instance.clearFlag[Common.Instance.isClear] = true;
+        }
+        else
+        {
+            Common.Instance.clearFlag[Common.Instance.isClear] = false;
+        }
         Common.Instance.ChangeScene(Common.SceneName.Result);
     }
 }

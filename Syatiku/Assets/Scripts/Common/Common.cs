@@ -38,14 +38,18 @@ public class Common : MonoBehaviour {
     };
 
     // ミニゲームクリアフラグ
-    public Dictionary<string, bool> clearFlag = new Dictionary<string, bool>() {
-        {"Hacking",false},
-        {"Smoking",false},
-        {"Drinking",false}
+    [System.NonSerialized]
+    public bool[] clearFlag =  {
+        false, // hack
+        false, // drink
+        false  // smoke
     };
 
+    /// <summary>
+    /// 何のミニゲームやったか(0:hack,1:drink,2:smoke)
+    /// </summary>
     [System.NonSerialized]
-    public string isClear; // 何のミニゲームをクリアしたか
+    public int isClear; 
 
     //ミニゲームクリアしたか（α用）
     public static bool gameClear = true;
@@ -69,11 +73,7 @@ public class Common : MonoBehaviour {
         get
         {
             if (instance == null) {
-                instance = (Common)FindObjectOfType(typeof(Common));
-
-                if (instance == null) {
-                    Debug.LogError(typeof(Common) + "is nothing");
-                }
+                instance = FindObjectOfType<Common>();
             }
             return instance;
         }
@@ -97,7 +97,8 @@ public class Common : MonoBehaviour {
             Destroy(this.gameObject);
             return;
         }
-            DontDestroyOnLoad(gameObject);
+        
+        DontDestroyOnLoad(gameObject);
     }
 
     /// <summary>

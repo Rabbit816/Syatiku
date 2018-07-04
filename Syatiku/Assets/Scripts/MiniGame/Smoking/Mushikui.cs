@@ -34,7 +34,6 @@ public class Mushikui {
                     select[i - 1] = messageList[i];
                 }
             }
-            Log();
         }
 
         private void LoadMessage(string message)
@@ -57,6 +56,8 @@ public class Mushikui {
         public string Answer { get { return answer; } }
         // 選択肢取得
         public string[] Select { get { return select; } }
+
+
         public void Log()
         {
             Debug.Log("Mushikui=" + Musikui);

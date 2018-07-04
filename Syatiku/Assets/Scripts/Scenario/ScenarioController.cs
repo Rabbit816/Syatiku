@@ -40,14 +40,20 @@ public class ScenarioController : MonoBehaviour {
     [SerializeField, Header("オート時セリフ更新待ち時間")]
     float nextWaitTime = 1f;
     //シナリオ中か
-    bool isPlayScenario;
+    public bool isPlayScenario;
+
+    [System.NonSerialized]
+    // 今がどのシーンか
+    public int nowScene;
+
     #endregion
+
 
     void Start () {
         window.scenarioCanvas.alpha = 0;
-
-        DontDestroyOnLoad(gameObject);
-	}
+        BeginScenario(filePath);
+        //DontDestroyOnLoad(gameObject);
+    }
 
     /// <summary>
     /// シナリオパート開始
@@ -110,7 +116,7 @@ public class ScenarioController : MonoBehaviour {
     {
         if (Input.GetKeyDown(KeyCode.Space))
         {
-            BeginScenario(filePath);
+            //BeginScenario(filePath);
         }
 
         //シナリオ中ではない、ログを表示中
@@ -142,6 +148,7 @@ public class ScenarioController : MonoBehaviour {
         }
         else
         {
+
             ShowRecommendIcon();
         }
     }
@@ -203,7 +210,7 @@ public class ScenarioController : MonoBehaviour {
     ///　セリフが全て表示されているか
     /// </summary>
     /// <returns></returns>
-    bool IsShowAllMessage()
+    public bool IsShowAllMessage()
     {
         return viewMessage.Length == allMessage.Length;
     }
@@ -252,6 +259,15 @@ public class ScenarioController : MonoBehaviour {
     void EndScenario()
     {
         isPlayScenario = false;
+        switch (nowScene)
+        {
+            case 0:
+                Common.Instance.ChangeScene(Common.SceneName.Action);
+                break;
+            case 1:
+                //Common.Instance.ChangeScene(Common.SceneName.Result);
+                break;
+        }
     }
 
     /// <summary>
