@@ -15,6 +15,11 @@ public class SmokingController : MonoBehaviour {
     [SerializeField]
     private int answerCount;
     private int firstAnswerCount;
+    [SerializeField]
+    private ScenarioController controller;
+
+    [SerializeField]
+    private GameObject[] nonActive;
 
     private Mushikui mushikui; // Mushikuiコンストラクタ
     private int qNum; // 今が何番目の問題か
@@ -28,8 +33,15 @@ public class SmokingController : MonoBehaviour {
 
     // Use this for initialization
     void Start () {
-        firstAnswerCount = answerCount;
+        foreach(var i in nonActive)
+        {
+            i.SetActive(false);
+        }
         
+        firstAnswerCount = answerCount;
+        Common.Instance.isClear = 2;
+        succesCount = 0;
+
         tabacoSize = tabaco.rectTransform.sizeDelta;
         StartCoroutine(TimeDown());
 
@@ -65,6 +77,7 @@ public class SmokingController : MonoBehaviour {
             tabaco.rectTransform.sizeDelta = tabacoSize;
             answerCount = firstAnswerCount;
 
+            succesCount++;
             qNum++;
             qLength--;
             if (qLength <= 0) {
@@ -77,6 +90,7 @@ public class SmokingController : MonoBehaviour {
             Debug.Log("×");
             int oldCount = answerCount;
             answerCount--;
+            tabaco.rectTransform.sizeDelta -= new Vector2(50f, 0);
             switch (answerCount)
             {
                 case 3:
@@ -87,7 +101,8 @@ public class SmokingController : MonoBehaviour {
                     face.color = Color.red;
                     break;
                 case 0:
-                    Common.Instance.clearFlag["Smoking"] = false;
+                    StopCoroutine(TimeDown());
+                    Common.Instance.clearFlag[Common.Instance.isClear] = false;
                     Common.Instance.ChangeScene(Common.SceneName.Result);
                     break;
                 default:
@@ -107,10 +122,14 @@ public class SmokingController : MonoBehaviour {
 
     public void Result() {
 
-        if(succesCount >= 8) {
-            Common.Instance.clearFlag["Smoking"] = true;
-            Common.Instance.isClear = "Smoking";
-        } 
+        if(succesCount >= 8)
+        {
+            Common.Instance.clearFlag[Common.Instance.isClear] = true;
+        }
+        else
+        {
+            Common.Instance.clearFlag[Common.Instance.isClear] = false;
+        }
         Common.Instance.ChangeScene(Common.SceneName.Result);
     }
 }

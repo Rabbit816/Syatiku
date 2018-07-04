@@ -25,6 +25,8 @@ public class HukidashiController : MonoBehaviour {
         switch (miniGameNum)
         {
             case 0:
+                ScenarioController sc = new ScenarioController();
+                sc.nowScene = 1;
                 Common.Instance.ChangeScene(Common.SceneName.Smoking);
                 break;
             case 1:
