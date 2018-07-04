@@ -15,55 +15,106 @@ public class SmokingController : MonoBehaviour {
     [SerializeField]
     private int answerCount;
     private int firstAnswerCount;
+    
+    private ScenarioController scenario;
 
-    private int qNum;
-    private string t_answer = "あけましておめでとう";
-    private string filePath = "CSV/MushikuiTest_2";
+    [SerializeField]
+    private GameObject scenarioCanvas;
+
+    [SerializeField]
+    private GameObject[] nonActive;
+
+    private Mushikui mushikui; // Mushikuiコンストラクタ
+    private int qNum; // 今が何番目の問題か
+    private int succesCount; // 正解数
+    [SerializeField]
+    private int qLength; // 合計問題数
+
+    private string filePath = "CSV/Smoking"; // CSVパス名
 
     private Vector2 tabacoSize;
 
     // Use this for initialization
     void Start () {
+        //scenarioCanvas.SetActive(false);
+        scenario = new ScenarioController();
+        foreach(var i in nonActive)
+        {
+            i.SetActive(false);
+        }
+        
         firstAnswerCount = answerCount;
-        Question();
+        
+        succesCount = 0;
+
         tabacoSize = tabaco.rectTransform.sizeDelta;
         StartCoroutine(TimeDown());
 
-        Debug.Log(CSVLoad.csvData[qNum][0]);
-        new Mushikui(filePath);
+        mushikui = new Mushikui(filePath);
+
+        Question();
 	}
+
+    void Update()
+    {
+        //if (scenario.IsShowAllMessage())
+        //{
+        //    StartCoroutine(ChangeSelect());
+        //}
+    }
+
+    public IEnumerator ChangeSelect()
+    {
+        new WaitForSeconds(1.0f);
+        scenarioCanvas.SetActive(false);
+        yield return null;
+    }
 
     public IEnumerator TimeDown()
     {
         while (tabaco.rectTransform.sizeDelta.x > 0)
         {
             tabaco.rectTransform.sizeDelta -= new Vector2(time,0);
+            if(tabaco.rectTransform.sizeDelta.x <= tabacoSize.x / 2 &&
+                tabaco.rectTransform.sizeDelta.x >= tabacoSize.x / 4) {
+                tabaco.color = Color.yellow;
+            } else if(tabaco.rectTransform.sizeDelta.x < tabacoSize.x / 4) {
+                tabaco.color = Color.red;
+            }
             yield return null;
         }
-        Common.gameClear = false;
         Common.Instance.ChangeScene(Common.SceneName.Result);
     }
 
     public void OnClick(Text text) {
         if (tabaco.rectTransform.sizeDelta.x <= 0) return;
+
         Debug.Log(text.text);
-        if (text.text == "まる") {
+        if (text.text == mushikui.data[qNum].Musikui) {
             Debug.Log("〇");
             face.color = Color.white;
 
             tabaco.rectTransform.sizeDelta = tabacoSize;
             answerCount = firstAnswerCount;
 
+            succesCount++;
             qNum++;
-            Question();
+            qLength--;
+            if (qLength <= 0) {
+                Result();
+                return;
+            }
+                Question();
 
         } else {
             Debug.Log("×");
-            int oldCount = answerCount;
             answerCount--;
+            tabaco.rectTransform.sizeDelta -= new Vector2(50f, 0);
             switch (answerCount)
             {
                 case 3:
+                    face.color = Color.white;
+                    break;
                 case 2:
                     face.color = Color.yellow;
                     break;
@@ -71,7 +122,8 @@ public class SmokingController : MonoBehaviour {
                     face.color = Color.red;
                     break;
                 case 0:
-                    Common.gameClear = false;
+                    StopCoroutine(TimeDown());
+                    Common.Instance.clearFlag[Common.Instance.isClear] = false;
                     Common.Instance.ChangeScene(Common.SceneName.Result);
                     break;
                 default:
@@ -82,12 +134,23 @@ public class SmokingController : MonoBehaviour {
 
     public void Question()
     {
-        answer.text = CSVLoad.csvData[qNum][0];
-        int[] randNum = { 1,2,3,4 };
-        Common.Instance.Shuffle(randNum);
-        for(int i = 0; i < wordText.Length; i++)
+        answer.text = mushikui.data[qNum].Question;
+        for(int i = 0; i < mushikui.data[qNum].Select.Length; i++)
         {
-            wordText[i].text = CSVLoad.csvData[qNum][randNum[i]];
+            wordText[i].text = mushikui.data[qNum].Select[i];
         }
+    }
+
+    public void Result() {
+
+        if(succesCount >= 8)
+        {
+            Common.Instance.clearFlag[Common.Instance.isClear] = true;
+        }
+        else
+        {
+            Common.Instance.clearFlag[Common.Instance.isClear] = false;
+        }
+        Common.Instance.ChangeScene(Common.SceneName.Result);
     }
 }

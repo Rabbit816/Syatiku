@@ -54,7 +54,7 @@ public class HackBoss : MonoBehaviour {
             }
             else if(BossTimer <= 0.0f)
             {
-                Common.gameClear = false;
+                Common.Instance.clearFlag[Common.Instance.isClear] = true;
                 Common.Instance.ChangeScene(Common.SceneName.Result);
             }
         }

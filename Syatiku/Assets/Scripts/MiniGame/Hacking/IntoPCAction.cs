@@ -32,7 +32,9 @@ public class IntoPCAction : MonoBehaviour {
     private PatteringEvent patte_event;
     private GameObject PC_login;
     private GameObject PC;
+    private GameObject WindowFase;
     private GameObject Window;
+    private GameObject PassWordFase;
     private GameObject Patte;
 
     //配置した結果の判断
@@ -53,11 +55,14 @@ public class IntoPCAction : MonoBehaviour {
             PC = GameObject.Find("Canvas/PC");
             Window = GameObject.Find("Canvas/PC/WindowFase/Window");
             Patte = GameObject.Find("Canvas/PC/PatteringFase");
+            WindowFase = GameObject.Find("Canvas/PC/WindowFase");
+            PassWordFase = GameObject.Find("Canvas/PC/PassWordFase");
         }
         catch (Exception e)
         {
             Debug.Log(e);
         }
+        PassWordFase.transform.SetSiblingIndex(2);
         tappingCount = 6;
         CountText.text = tappingCount.ToString();
         Window.SetActive(false);
@@ -72,7 +77,6 @@ public class IntoPCAction : MonoBehaviour {
         _comparisoning = false;
         doc_0 = false;
         doc_1 = false;
-        
     }
 	
 	// Update is called once per frame
@@ -99,7 +103,8 @@ public class IntoPCAction : MonoBehaviour {
             PC_login.GetComponent<Text>().text = "ログインできました。";
             PC_login.SetActive(true);
             yield return new WaitForSeconds(wait);
-            PC.transform.GetChild(0).SetAsLastSibling();
+            //PC.transform.GetChild(0).SetAsLastSibling();
+            WindowFase.transform.SetSiblingIndex(2);
             Window.SetActive(true);
         }
         else
@@ -156,7 +161,7 @@ public class IntoPCAction : MonoBehaviour {
         {
             Window.SetActive(false);
             PC.transform.GetChild(0).SetAsLastSibling();
-            //patte_event.AnimationEvent();
+            patte_event.AnimLoop();
         }
 
         if(tappingCount == 0)
@@ -178,7 +183,8 @@ public class IntoPCAction : MonoBehaviour {
             {
                 password_child = password_parent.transform.GetChild(0).GetChild(0);
             }
-            else {
+            else
+            {
                 _isResult = false;
                 hack_boss.MoveBoss();
                 StartCoroutine(WaitTime(1.5f));

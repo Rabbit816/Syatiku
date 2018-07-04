@@ -37,32 +37,44 @@ public class Common : MonoBehaviour {
         false,
     };
 
+    // ミニゲームクリアフラグ
+    [System.NonSerialized]
+    public bool[] clearFlag = 
+    {
+        false, // hack
+        false, // drink
+        false  // smoke
+    };
+
+    /// <summary>
+    /// 何のミニゲームやったか(0:hack,1:drink,2:smoke)
+    /// </summary>
+    [System.NonSerialized]
+    public int isClear; 
+
     //ミニゲームクリアしたか（α用）
     public static bool gameClear = true;
 
     [System.NonSerialized]
-    public int gameMode;
+    public int gameMode; // シナリオがどちらか
 
-    [SerializeField]
-    private float interval;
-    private static Common instance;
+    [SerializeField,Header("シーン遷移時の時間")]
+    private float interval; // シーン遷移時の時間
     private bool isFading = false;
     private Color fadeColor = Color.black;
     private float fadeAlpha = 0;
+    private static Common instance;
+
+    [System.NonSerialized]
+    public int actionCount;
 
     // 同じオブジェクト(Common)があるか判定
     public static Common Instance
     {
         get
         {
-            if (instance == null)
-            {
-                instance = (Common)FindObjectOfType(typeof(Common));
-
-                if (instance == null)
-                {
-                    Debug.LogError(typeof(Common) + "is nothing");
-                }
+            if (instance == null) {
+                instance = FindObjectOfType<Common>();
             }
             return instance;
         }
@@ -81,12 +93,7 @@ public class Common : MonoBehaviour {
 
     void Awake()
     {
-        if (!this == Instance)
-        {
-            Destroy(this.gameObject);
-            return;
-        }
-            DontDestroyOnLoad(gameObject);
+        
     }
 
     /// <summary>

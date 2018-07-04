@@ -4,7 +4,17 @@ using UnityEngine;
 using UnityEngine.UI;
 
 public class HackMain : MonoBehaviour {
+    
+    /*
+     * 
+     * やること 
+     * 1.パラパラ遅くなるやつ実装とWindowFase終わった後じゃなく本棚で発動させる   △
+     * 2.額縁揺らしたら名刺が落ちてそれをタップしたら名刺の裏が見えて文字をタップさせる
+     * 3.WindowFaseのWindow増やす   〇
+     * 
+     */
 
+    
     [SerializeField,Tooltip("時間制限初期値")]
     private float timer = 30.0f;
     [SerializeField,Tooltip("時間オブジェクト")]
@@ -51,15 +61,15 @@ public class HackMain : MonoBehaviour {
             timer = 0;
             if (timeout)
             {
-                Common.gameClear = false;
-                //Common.Instance.ChangeScene(Common.SceneName.Result);
+                Common.Instance.clearFlag[Common.Instance.isClear] = true;
+                Common.Instance.ChangeScene(Common.SceneName.Result);
                 timeout = false;
             }
         }
         time.text = "Timer: " + timer.ToString("f1");
     }
 
-    private IEnumerator Wait_Time(float time)
+    public IEnumerator Wait_Time(float time)
     {
 
         yield return new WaitForSeconds(time);

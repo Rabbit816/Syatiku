@@ -11,6 +11,9 @@ public class ActionController : MonoBehaviour {
     [SerializeField]
     private Text TActionCount;
 
+    [SerializeField]
+    private Text action;
+
     // 獲得資料配列
     [SerializeField]
     private Image[] getData;
@@ -25,11 +28,15 @@ public class ActionController : MonoBehaviour {
     private GameObject pos2;
 
     // ミニゲーム遷移のための数字
-    private int[] sceneNum = { 0, 1, 2 };
+    private int[] sceneNum = { 0, 1, 0 };
 
     // フキダシ付き人間のPrefab配列
     [SerializeField]
     private Image[] humanPrefab = new Image[3];
+
+    // ボスボタン
+    [SerializeField]
+    private Image bossButton;
 
     [SerializeField]
     private Sprite[] miniGameImage = new Sprite[3];
@@ -41,6 +48,11 @@ public class ActionController : MonoBehaviour {
 
     void Start () {
         IsDataSelect();
+        if (Common.Instance.actionCount <= 0)
+            bossButton.gameObject.SetActive(true);
+        else
+            bossButton.gameObject.SetActive(false);
+        action.text = Common.Instance.actionCount.ToString();
 
         missionSeat.gameObject.SetActive(false);
         isData.gameObject.SetActive(false);
@@ -53,6 +65,10 @@ public class ActionController : MonoBehaviour {
         CreateHuman();
     }
 
+    public void GetDataList() {
+        
+    }
+
     /// <summary>
     /// 獲得資料
     /// </summary>
@@ -61,6 +77,8 @@ public class ActionController : MonoBehaviour {
         foreach(var i in Common.Instance.dataFlag) {
             if (!i) {
                 getData[num].GetComponent<Button>().interactable = false;
+            }else {
+                getData[num].GetComponent<Button>().interactable = true;
             }
             num++;
         }
@@ -96,16 +114,22 @@ public class ActionController : MonoBehaviour {
         else datailOpen = true;
     }
 
+    public void ChangeBoss()
+    {
+        Common.Instance.ChangeScene(Common.SceneName.Boss);
+    }
+
     /// <summary>
     /// ミニゲーム遷移
     /// </summary>
     public void CreateHuman()
     {
+        int num = 0; // 仮
         foreach (var i in sceneNum)
         {
             Image mini = Instantiate(humanPrefab[i], humanClone.transform) as Image;
-            mini.transform.localPosition = createPos[i].transform.localPosition;
-            if (createPos[i] == pos2)
+            mini.transform.localPosition = createPos[num].transform.localPosition;
+            if (createPos[num] == pos2)
                 mini.transform.localScale = new Vector2(-1, 1);
 
             Image s_mini = mini.transform.GetChild(1).transform.GetChild(0).GetComponent<Image>();
@@ -113,6 +137,7 @@ public class ActionController : MonoBehaviour {
 
             HukidashiController hukiCon = mini.GetComponent<HukidashiController>();
             hukiCon.MiniGameNum(i);
+            num++;
         }
     }
 }
