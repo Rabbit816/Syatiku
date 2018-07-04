@@ -58,6 +58,7 @@ public class HackTap : MonoBehaviour
     private GameObject PC;
     private HackMain hack_main;
     private IntoPCAction intopc_action;
+    private PatteringEvent patte;
     private int count = 0;
     private int GakuCount = 0;
     //比較する資料を取得したかどうか
@@ -79,6 +80,7 @@ public class HackTap : MonoBehaviour
         count = 0;
         GakuCount = 0;
         hack_main = GetComponent<HackMain>();
+        patte = GetComponent<PatteringEvent>();
         place_list = new PlaceList[Getting_position.Length];
         AddPlaceWord();
 	}
@@ -142,6 +144,7 @@ public class HackTap : MonoBehaviour
                 IntoPC.transform.localPosition = new Vector2(0, 0);
                 GameObject pat = GameObject.Find("Canvas/PC/PatteringFase");
                 pat.transform.SetSiblingIndex(2);
+                patte.LowAnim();
                 break;
             case 15:
                 Zoom.transform.GetChild(0).gameObject.SetActive(true);
@@ -181,6 +184,9 @@ public class HackTap : MonoBehaviour
                 break;
             case 26:
                 intopc_action.DocumentsComparison();
+                break;
+            case 27:
+                patte.AnimLoop();
                 break;
         }
     }

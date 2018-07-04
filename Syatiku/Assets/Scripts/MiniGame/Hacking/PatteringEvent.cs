@@ -1,6 +1,9 @@
 ﻿using UnityEngine;
 using DG.Tweening;
 using UnityEngine.UI;
+using System;
+using System.Collections;
+using System.Collections.Generic;
 
 public class PatteringEvent : MonoBehaviour {
 
@@ -8,8 +11,18 @@ public class PatteringEvent : MonoBehaviour {
     private RectTransform Paper_1;
     [SerializeField, Tooltip("Paper_2")]
     private RectTransform Paper_2;
+    [SerializeField, Tooltip("Patteringfaseのtext")]
+    private Text tx;
+    [SerializeField, Tooltip("取得するDocument")]
+    private RectTransform getDocument;
+    [SerializeField, Tooltip("取得するDocument")]
+    private GameObject getDocument_obj;
+    [SerializeField, Tooltip("place_button_6")]
+    private GameObject place_button_6;
 
     private IntoPCAction intopc_action;
+    private HackTap hack_tap;
+    private HackMain hack_main;
 
     private Sequence seq;
     Sequence se;
@@ -18,12 +31,14 @@ public class PatteringEvent : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
+        tx.text = "黄色のページをタップしよう！";
         intopc_action = GetComponent<IntoPCAction>();
+        hack_tap = GetComponent<HackTap>();
+        hack_main = GetComponent<HackMain>();
+        getDocument_obj.SetActive(false);
         seq = DOTween.Sequence();
          se = DOTween.Sequence();
         _success = false;
-        //AnimLoop();
-        LowAnim();
     }
 	
 	// Update is called once per frame
@@ -53,21 +68,38 @@ public class PatteringEvent : MonoBehaviour {
         }
     }
 
+    private IEnumerator StopTime(float time)
+    {
+        yield return new WaitForSeconds(time);
+    }
+
     /// <summary>
     /// アニメーション中のタップの時処理
     /// </summary>
     public void TapResult()
     {
+        _success = true;
         if (!_success)
         {
-            Common.Instance.clearFlag[Common.Instance.isClear] = false;
-            Common.Instance.ChangeScene(Common.SceneName.Result);
+            tx.text = "資料を取得できませんでした。";
         }
         else
         {
-            Common.Instance.clearFlag[Common.Instance.isClear] = true;
-            Common.Instance.ChangeScene(Common.SceneName.Result);
+            Sequence sequ = DOTween.Sequence();
+            getDocument_obj.SetActive(true);
+            tx.text = "資料を取得しました。";
+            Image img_alpha = getDocument.GetComponent<Image>();
+            sequ.Append(getDocument.DOLocalMove(new Vector3(332, 147, 0), 1f))
+                .Join(getDocument.DOLocalRotate(new Vector3(0, 0, 720), 1f, RotateMode.FastBeyond360))
+                .OnComplete(() => DOTween.ToAlpha(
+                    () => img_alpha.color,
+                    color => img_alpha.color = color,
+                    0f,
+                    0.3f));
         }
+        StartCoroutine(StopTime(5.0f));
+        hack_tap.PlaceButton(11);
+        place_button_6.GetComponent<Button>().onClick.RemoveAllListeners();
     }
 
     /// <summary>
@@ -87,7 +119,8 @@ public class PatteringEvent : MonoBehaviour {
            .InsertCallback(29.9f, () => ChangeColor(0))
            .InsertCallback(29.9f, () => _success = true)
            .InsertCallback(30.5f, () => _success = false)
-           .InsertCallback(30.5f, () => ChangeColor(1));
+           .InsertCallback(30.5f, () => ChangeColor(1))
+           .OnComplete(() => TapResult());
     }
 
     /// <summary>
@@ -108,6 +141,6 @@ public class PatteringEvent : MonoBehaviour {
            .InsertCallback(18.0f, () => _success = true)
            .InsertCallback(18.3f, () => _success = false)
            .InsertCallback(18.3f, () => ChangeColor(1))
-           .OnComplete(() => { Common.gameClear = _success; Common.Instance.ChangeScene(Common.SceneName.Result); });
+           .OnComplete(() => TapResult());
     }
 }
