@@ -7,6 +7,12 @@ public class TitleController : MonoBehaviour {
     [SerializeField]
     private GameObject title;
 
+    void Start()
+    {
+        var common = Instantiate(Resources.Load("Prefabs/Common/Common"));
+        DontDestroyOnLoad(common);
+    }
+
     //モード選択
     public void ChangeMode(int mode)
     {
