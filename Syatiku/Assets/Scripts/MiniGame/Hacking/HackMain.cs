@@ -69,7 +69,7 @@ public class HackMain : MonoBehaviour {
         time.text = "Timer: " + timer.ToString("f1");
     }
 
-    private IEnumerator Wait_Time(float time)
+    public IEnumerator Wait_Time(float time)
     {
 
         yield return new WaitForSeconds(time);
