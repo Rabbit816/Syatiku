@@ -32,6 +32,8 @@ public class ScenarioWindow : MonoBehaviour
             icons[i].gameObject.SetActive(false);
         }
         scenarioCanvas.alpha = 0;
+        name.text = "";
+        message.text = "";
         gameObject.SetActive(false);
     }
 }

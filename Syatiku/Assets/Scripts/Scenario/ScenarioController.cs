@@ -104,13 +104,13 @@ public class ScenarioController : MonoBehaviour {
         allInfoNum = scenarioInfoList.Count;
         originMessageViewSpeed = messageViewSpeed;
         messageViewElapsedTime = 0;
+        logMessage = new System.Text.StringBuilder();
         isSkip = false;
         isAuto = false;
         isLogView = false;
         isPlayScenario = false;
 
-        window.name.text = "";
-        window.message.text = "";
+        window.Init();
     }
 
     /// <summary>v
@@ -140,6 +140,7 @@ public class ScenarioController : MonoBehaviour {
 
     void Update()
     {
+        Debug.Log(isPlayScenario);
         //シナリオ中ではない、ログを表示中
         if (!isPlayScenario　|| isLogView)
         {
@@ -278,6 +279,7 @@ public class ScenarioController : MonoBehaviour {
     /// </summary>
     void EndScenario()
     {
+        Debug.Log(123);
         isPlayScenario = false;
     }
 
