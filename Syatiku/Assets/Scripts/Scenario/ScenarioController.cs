@@ -42,17 +42,13 @@ public class ScenarioController : MonoBehaviour {
     //シナリオ中か
     public bool isPlayScenario;
 
-    [System.NonSerialized]
-    // 今がどのシーンか
-    public int nowScene;
-
     #endregion
 
 
     void Start () {
         window.scenarioCanvas.alpha = 0;
         BeginScenario(filePath);
-        //DontDestroyOnLoad(gameObject);
+        DontDestroyOnLoad(gameObject);
     }
 
     /// <summary>
@@ -115,7 +111,7 @@ public class ScenarioController : MonoBehaviour {
     {
         if (Input.GetKeyDown(KeyCode.Space))
         {
-            //BeginScenario(filePath);
+            BeginScenario(filePath);
         }
 
         //シナリオ中ではない、ログを表示中
@@ -258,15 +254,6 @@ public class ScenarioController : MonoBehaviour {
     void EndScenario()
     {
         isPlayScenario = false;
-        switch (nowScene)
-        {
-            case 0:
-                Common.Instance.ChangeScene(Common.SceneName.Action);
-                break;
-            case 1:
-                //Common.Instance.ChangeScene(Common.SceneName.Result);
-                break;
-        }
     }
 
     /// <summary>
