@@ -143,6 +143,7 @@ public class BossScene : MonoBehaviour {
 
     void Result()
     {
+        UnityEngine.SceneManagement.SceneManager.LoadScene("Title");
         Debug.Log("ゲーム終了：結果発表");
     }
     
