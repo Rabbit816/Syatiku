@@ -52,7 +52,14 @@ public class HackTap : MonoBehaviour
 
     [SerializeField, Tooltip("額縁Object")]
     private RectTransform Gakubuti;
-
+    [SerializeField, Tooltip("名刺Object")]
+    private GameObject Meishi;
+    [SerializeField, Tooltip("名刺RectTransform")]
+    private RectTransform Meishi_obj;
+    [SerializeField, Tooltip("名刺裏のテキストObject")]
+    private RectTransform place_button_10;
+    [SerializeField, Tooltip("PC内のFの場所（急ぎ）")]
+    private GameObject place_F;
     private GameObject DoorSide;
     private GameObject Zoom;
     private GameObject PC;
@@ -81,6 +88,7 @@ public class HackTap : MonoBehaviour
         GakuCount = 0;
         hack_main = GetComponent<HackMain>();
         patte = GetComponent<PatteringEvent>();
+        Meishi.SetActive(false);
         place_list = new PlaceList[Getting_position.Length];
         AddPlaceWord();
 	}
@@ -188,6 +196,12 @@ public class HackTap : MonoBehaviour
             case 27:
                 patte.AnimLoop();
                 break;
+            case 28:
+                Zoom.transform.GetChild(5).gameObject.SetActive(false);
+                break;
+            case 29:
+                Zoom.transform.GetChild(5).gameObject.SetActive(true);
+                break;
         }
     }
 
@@ -202,7 +216,19 @@ public class HackTap : MonoBehaviour
         if (GakuCount == 7)
         {
             seq.Append(Gakubuti.DOLocalMoveY(-122, 0.6f));
+            Meishi.SetActive(true);
         }
+    }
+
+    public void MeishiTap()
+    {
+        GameObject _get_doc = Instantiate(DocPrefab, GetWord.transform);
+        _get_doc.transform.SetAsLastSibling();
+
+        Sequence s = DOTween.Sequence();
+        s.Append(place_button_10.DOLocalMove(new Vector3(374, 221, 0), 0.7f))
+            .Join(place_button_10.DOScale(0.5f, 0.7f))
+            .OnComplete(() => place_button_10.gameObject.SetActive(false));
     }
 
     /// <summary>
