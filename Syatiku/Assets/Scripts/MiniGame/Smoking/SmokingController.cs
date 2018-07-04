@@ -15,8 +15,11 @@ public class SmokingController : MonoBehaviour {
     [SerializeField]
     private int answerCount;
     private int firstAnswerCount;
+    
+    private ScenarioController scenario;
+
     [SerializeField]
-    private ScenarioController controller;
+    private GameObject scenarioCanvas;
 
     [SerializeField]
     private GameObject[] nonActive;
@@ -33,13 +36,15 @@ public class SmokingController : MonoBehaviour {
 
     // Use this for initialization
     void Start () {
+        //scenarioCanvas.SetActive(false);
+        scenario = new ScenarioController();
         foreach(var i in nonActive)
         {
             i.SetActive(false);
         }
         
         firstAnswerCount = answerCount;
-        Common.Instance.isClear = 2;
+        
         succesCount = 0;
 
         tabacoSize = tabaco.rectTransform.sizeDelta;
@@ -49,6 +54,21 @@ public class SmokingController : MonoBehaviour {
 
         Question();
 	}
+
+    void Update()
+    {
+        //if (scenario.IsShowAllMessage())
+        //{
+        //    StartCoroutine(ChangeSelect());
+        //}
+    }
+
+    public IEnumerator ChangeSelect()
+    {
+        new WaitForSeconds(1.0f);
+        scenarioCanvas.SetActive(false);
+        yield return null;
+    }
 
     public IEnumerator TimeDown()
     {
@@ -88,12 +108,13 @@ public class SmokingController : MonoBehaviour {
 
         } else {
             Debug.Log("×");
-            int oldCount = answerCount;
             answerCount--;
             tabaco.rectTransform.sizeDelta -= new Vector2(50f, 0);
             switch (answerCount)
             {
                 case 3:
+                    face.color = Color.white;
+                    break;
                 case 2:
                     face.color = Color.yellow;
                     break;

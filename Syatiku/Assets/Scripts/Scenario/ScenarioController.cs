@@ -147,6 +147,7 @@ public class ScenarioController : MonoBehaviour {
         }
         else
         {
+
             ShowRecommendIcon();
         }
     }
@@ -208,7 +209,7 @@ public class ScenarioController : MonoBehaviour {
     ///　セリフが全て表示されているか
     /// </summary>
     /// <returns></returns>
-    bool IsShowAllMessage()
+    public bool IsShowAllMessage()
     {
         return viewMessage.Length == allMessage.Length;
     }

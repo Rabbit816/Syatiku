@@ -22,6 +22,7 @@ public class HukidashiController : MonoBehaviour {
 
     public void ChangeMiniGame()
     {
+        Common.Instance.isClear = miniGameNum;
         switch (miniGameNum)
         {
             case 0:

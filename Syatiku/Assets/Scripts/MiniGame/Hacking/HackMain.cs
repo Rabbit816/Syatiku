@@ -51,8 +51,8 @@ public class HackMain : MonoBehaviour {
             timer = 0;
             if (timeout)
             {
-                Common.gameClear = false;
-                //Common.Instance.ChangeScene(Common.SceneName.Result);
+                Common.Instance.clearFlag[Common.Instance.isClear] = true;
+                Common.Instance.ChangeScene(Common.SceneName.Result);
                 timeout = false;
             }
         }

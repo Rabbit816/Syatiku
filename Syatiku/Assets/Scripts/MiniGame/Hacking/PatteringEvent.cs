@@ -64,12 +64,12 @@ public class PatteringEvent : MonoBehaviour {
     {
         if (!_success)
         {
-            Common.gameClear = false;
+            Common.Instance.clearFlag[Common.Instance.isClear] = false;
             Common.Instance.ChangeScene(Common.SceneName.Result);
         }
         else
         {
-            Common.gameClear = true;
+            Common.Instance.clearFlag[Common.Instance.isClear] = true;
             Common.Instance.ChangeScene(Common.SceneName.Result);
         }
             

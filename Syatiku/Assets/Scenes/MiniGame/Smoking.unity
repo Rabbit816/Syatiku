@@ -716,6 +716,10 @@ Prefab:
       propertyPath: m_RootOrder
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 1771397379589352, guid: 77db41429cd14754c9e8cc09c9be2b1c, type: 2}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 77db41429cd14754c9e8cc09c9be2b1c, type: 2}
   m_IsPrefabParent: 0
@@ -835,7 +839,7 @@ MonoBehaviour:
   - {fileID: 829758239}
   answer: {fileID: 1053199033}
   answerCount: 3
-  controller: {fileID: 1680116920}
+  scenarioCanvas: {fileID: 1722641678}
   nonActive:
   - {fileID: 629662069}
   - {fileID: 1413730966}
@@ -1420,12 +1424,11 @@ MonoBehaviour:
         m_CallState: 2
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
---- !u!114 &1680116920 stripped
-MonoBehaviour:
-  m_PrefabParentObject: {fileID: 114175926027256870, guid: 77db41429cd14754c9e8cc09c9be2b1c,
+--- !u!1 &1722641678 stripped
+GameObject:
+  m_PrefabParentObject: {fileID: 1771397379589352, guid: 77db41429cd14754c9e8cc09c9be2b1c,
     type: 2}
   m_PrefabInternal: {fileID: 818720834}
-  m_Script: {fileID: 11500000, guid: eea39fe5b7e4c884cb38c2fb17bc1a65, type: 3}
 --- !u!1 &1737548313
 GameObject:
   m_ObjectHideFlags: 0
