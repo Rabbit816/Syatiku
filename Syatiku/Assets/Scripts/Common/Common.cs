@@ -39,7 +39,8 @@ public class Common : MonoBehaviour {
 
     // ミニゲームクリアフラグ
     [System.NonSerialized]
-    public bool[] clearFlag =  {
+    public bool[] clearFlag = 
+    {
         false, // hack
         false, // drink
         false  // smoke
@@ -59,10 +60,10 @@ public class Common : MonoBehaviour {
 
     [SerializeField,Header("シーン遷移時の時間")]
     private float interval; // シーン遷移時の時間
-    private static Common instance;
     private bool isFading = false;
     private Color fadeColor = Color.black;
     private float fadeAlpha = 0;
+    private static Common instance;
 
     [System.NonSerialized]
     public int actionCount;
@@ -92,13 +93,7 @@ public class Common : MonoBehaviour {
 
     void Awake()
     {
-        if (!this == Instance)
-        {
-            Destroy(this.gameObject);
-            return;
-        }
         
-        //DontDestroyOnLoad(gameObject);
     }
 
     /// <summary>

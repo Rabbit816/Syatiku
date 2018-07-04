@@ -9,15 +9,18 @@ public class TitleController : MonoBehaviour {
 
     void Start()
     {
-        var common = Instantiate(Resources.Load("Prefabs/Common/Common"));
-        DontDestroyOnLoad(common);
+        if (!Common.Instance)
+        {
+            var common = Instantiate(Resources.Load("Prefabs/Common/Common"));
+            DontDestroyOnLoad(common);
+        }
     }
 
     //モード選択
     public void ChangeMode(int mode)
     {
-        ScenarioController sc = new ScenarioController();
-        sc.nowScene = 0;
+        //ScenarioController sc = new ScenarioController();
+        //sc.nowScene = 0;
 
         Common.Instance.gameMode = mode;
         if (mode == 0)
@@ -31,4 +34,5 @@ public class TitleController : MonoBehaviour {
     {
         title.SetActive(false);
     }
+
 }
