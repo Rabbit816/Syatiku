@@ -98,7 +98,7 @@ public class Common : MonoBehaviour {
             return;
         }
         
-        DontDestroyOnLoad(gameObject);
+        //DontDestroyOnLoad(gameObject);
     }
 
     /// <summary>
