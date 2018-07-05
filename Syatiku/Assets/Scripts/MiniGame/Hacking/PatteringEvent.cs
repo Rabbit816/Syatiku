@@ -7,10 +7,14 @@ using System.Collections.Generic;
 
 public class PatteringEvent : MonoBehaviour {
 
-    [SerializeField, Tooltip("Paper_1")]
-    private RectTransform Paper_1;
-    [SerializeField, Tooltip("Paper_2")]
-    private RectTransform Paper_2;
+    [SerializeField, Tooltip("LowのPaper_1")]
+    private RectTransform Low_Paper_1;
+    [SerializeField, Tooltip("SpeedyのPaper_1")]
+    private RectTransform Speedy_Paper_1;
+    [SerializeField, Tooltip("LowのPaper_2")]
+    private RectTransform Low_Paper_2;
+    [SerializeField, Tooltip("SpeedyのPaper_2")]
+    private RectTransform Speedy_Paper_2;
     [SerializeField, Tooltip("Patteringfaseのtext")]
     private Text tx;
     [SerializeField, Tooltip("取得するDocument")]
@@ -21,6 +25,10 @@ public class PatteringEvent : MonoBehaviour {
     private GameObject place_button_6;
     [SerializeField, Tooltip("PaperPrefab")]
     private GameObject paper_prefab;
+    [SerializeField, Tooltip("LowAnimationで使うObject")]
+    private GameObject LowObject;
+    [SerializeField, Tooltip("SpeedyAnimationで使うObject")]
+    private GameObject SpeedyObject;
 
     private IntoPCAction intopc_action;
     private HackTap hack_tap;
@@ -47,6 +55,8 @@ public class PatteringEvent : MonoBehaviour {
         hack_main = GetComponent<HackMain>();
         hack_boss = GetComponent<HackBoss>();
         getDocument_obj.SetActive(false);
+        SpeedyObject.SetActive(false);
+        LowObject.SetActive(false);
         _lowAnimClear = false;
         successCount = 0;
     }
@@ -65,12 +75,20 @@ public class PatteringEvent : MonoBehaviour {
         switch (num)
         {
             case 0:
-                Paper_1.GetComponent<Image>().color = new Color(255, 255, 0);
-                Paper_2.GetComponent<Image>().color = new Color(255, 255, 0);
+                Low_Paper_1.GetComponent<Image>().color = new Color(255, 255, 0);
+                Low_Paper_2.GetComponent<Image>().color = new Color(255, 255, 0);
                 break;
             case 1:
-                Paper_1.GetComponent<Image>().color = new Color(255, 255, 255);
-                Paper_2.GetComponent<Image>().color = new Color(255, 255, 255);
+                Low_Paper_1.GetComponent<Image>().color = new Color(255, 255, 255);
+                Low_Paper_2.GetComponent<Image>().color = new Color(255, 255, 255);
+                break;
+            case 2:
+                Speedy_Paper_1.GetComponent<Image>().color = new Color(255, 255, 0);
+                Speedy_Paper_2.GetComponent<Image>().color = new Color(255, 255, 0);
+                break;
+            case 3:
+                Speedy_Paper_1.GetComponent<Image>().color = new Color(255, 255, 255);
+                Speedy_Paper_2.GetComponent<Image>().color = new Color(255, 255, 255);
                 break;
             default:
                 Debug.Log("ColorNum :" + num);
@@ -120,9 +138,10 @@ public class PatteringEvent : MonoBehaviour {
     /// </summary>
     public void LowAnim()
     {
+        LowObject.SetActive(true);
         Sequence se = DOTween.Sequence();
 
-        se.Append(Paper_1.DOLocalRotate(new Vector2(0, Paper_1.localRotation.y + 180), 1.0f).SetDelay(0.5f).SetLoops(32, LoopType.Restart))
+        se.Append(Low_Paper_1.DOLocalRotate(new Vector2(0, Low_Paper_1.localRotation.y + 180), 1.0f).SetDelay(0.5f).SetLoops(31, LoopType.Restart))
            .InsertCallback(3.7f, () => ChangeColor(0))
            .InsertCallback(3.7f, () => _success = true)
            .InsertCallback(4.5f, () => _success = false)
@@ -135,7 +154,7 @@ public class PatteringEvent : MonoBehaviour {
            .InsertCallback(27.7f, () => _success = true)
            .InsertCallback(28.5f, () => _success = false)
            .InsertCallback(28.5f, () => ChangeColor(1))
-           .OnComplete(() => PatteResult());
+           .OnComplete(() => { PatteResult(); LowObject.SetActive(false); });
     }
 
     /// <summary>
@@ -143,20 +162,21 @@ public class PatteringEvent : MonoBehaviour {
     /// </summary>
     public void AnimLoop()
     {
-        Sequence se = DOTween.Sequence();
-        se.Append(Paper_1.DOLocalRotate(new Vector2(0, Paper_1.localRotation.y + 180), 0.6f).SetDelay(0.3f).SetLoops(38, LoopType.Restart))
-           .InsertCallback(3.0f, () => ChangeColor(0))
-           .InsertCallback(3.0f, () => _success = true)
+        SpeedyObject.SetActive(true);
+        Sequence seq = DOTween.Sequence();
+        seq.Append(Speedy_Paper_1.DOLocalRotate(new Vector2(0, Speedy_Paper_1.localRotation.y + 180), 0.6f).SetDelay(0.3f).SetLoops(38, LoopType.Restart))
+           .InsertCallback(2.8f, () => ChangeColor(2))
+           .InsertCallback(2.8f, () => _success = true)
            .InsertCallback(3.3f, () => _success = false)
-           .InsertCallback(3.3f, () => ChangeColor(1))
-           .InsertCallback(10.8f, () => ChangeColor(0))
-           .InsertCallback(10.8f, () => _success = true)
+           .InsertCallback(3.3f, () => ChangeColor(3))
+           .InsertCallback(10.6f, () => ChangeColor(2))
+           .InsertCallback(10.6f, () => _success = true)
            .InsertCallback(11.1f, () => _success = false)
-           .InsertCallback(11.1f, () => ChangeColor(1))
-           .InsertCallback(18.0f, () => ChangeColor(0))
-           .InsertCallback(18.0f, () => _success = true)
+           .InsertCallback(11.1f, () => ChangeColor(3))
+           .InsertCallback(17.8f, () => ChangeColor(2))
+           .InsertCallback(17.8f, () => _success = true)
            .InsertCallback(18.3f, () => _success = false)
-           .InsertCallback(18.3f, () => ChangeColor(1))
-           .OnComplete(() => PatteResult());
+           .InsertCallback(18.3f, () => ChangeColor(3))
+           .OnComplete(() => { PatteResult(); SpeedyObject.SetActive(false); });
     }
 }
