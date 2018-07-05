@@ -44,7 +44,7 @@ public class FlickTextController : MonoBehaviour
         text.fontSize = Random.Range(14, 32);
         alpha = 0;
         this.type = (Type)num;
-        text.color = (type == Type.Correct ? new Color(240 / 255f, 179 / 255f, 37 / 255f) : new Color(33 / 255f, 30 / 255f, 45 / 255f));
+        text.color = (type == Type.Correct ? new Color(240 / 255f, 179 / 255f, 37 / 255f) : new Color(33 / 255f, 100 / 255f, 150 / 255f));
         text.text = t;
 
         gameObject.SetActive(true);
