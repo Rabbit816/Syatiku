@@ -93,7 +93,7 @@ public class Common : MonoBehaviour {
 
     void Awake()
     {
-        
+        DontDestroyOnLoad(gameObject);
     }
 
     /// <summary>

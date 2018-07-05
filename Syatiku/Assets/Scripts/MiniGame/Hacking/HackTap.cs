@@ -46,12 +46,23 @@ public class HackTap : MonoBehaviour
 
     [SerializeField, Tooltip("PC内のposition")]
     private GameObject[] pos_list;
-
     [SerializeField, Tooltip("資料Object")]
     private GameObject Document;
+    [SerializeField, Tooltip("資料Object")]
+    private RectTransform Doc_rect;
 
     [SerializeField, Tooltip("額縁Object")]
     private RectTransform Gakubuti;
+    [SerializeField, Tooltip("名刺Object")]
+    private GameObject Meishi;
+    [SerializeField, Tooltip("名刺RectTransform")]
+    private RectTransform Meishi_obj;
+    [SerializeField, Tooltip("名刺裏のテキストObject")]
+    private RectTransform place_button_10;
+    [SerializeField, Tooltip("PaperPrefab")]
+    private GameObject paper_prefab;
+    [SerializeField, Tooltip("WindowObject")]
+    private GameObject Window;
 
     private GameObject DoorSide;
     private GameObject Zoom;
@@ -59,11 +70,19 @@ public class HackTap : MonoBehaviour
     private HackMain hack_main;
     private IntoPCAction intopc_action;
     private PatteringEvent patte;
+    private GameObject pat;
     private int count = 0;
     private int GakuCount = 0;
     //比較する資料を取得したかどうか
     [HideInInspector]
     public bool _getDocument = false;
+
+    //LowAnimが終わったかどうか
+    private bool _lowAnim = false;
+    [HideInInspector]
+    public bool _document = false;
+    [HideInInspector]
+    public bool _windowFase = false;
 
     // Use this for initialization
     void Start () {
@@ -73,6 +92,8 @@ public class HackTap : MonoBehaviour
         DoorSide = GameObject.Find("Canvas/DoorSide");
         Zoom = GameObject.Find("Canvas/Zoom");
         PC = GameObject.Find("Canvas/PC");
+        pat = GameObject.Find("Canvas/PC/PatteringFase");
+
         intopc_action = GetComponent<IntoPCAction>();
 
         Document.SetActive(false);
@@ -81,7 +102,12 @@ public class HackTap : MonoBehaviour
         GakuCount = 0;
         hack_main = GetComponent<HackMain>();
         patte = GetComponent<PatteringEvent>();
+        Meishi.SetActive(false);
         place_list = new PlaceList[Getting_position.Length];
+        _getDocument = false;
+        _lowAnim = false;
+        _document = false;
+        _windowFase = false;
         AddPlaceWord();
 	}
 	
@@ -129,10 +155,14 @@ public class HackTap : MonoBehaviour
                 }
                 break;
             case 10:
+                if (_windowFase)
+                    Window.SetActive(true);
+
                 IntoPC.transform.localPosition = new Vector2(0, 0);
                 break;
             case 11:
                 IntoPC.transform.localPosition = new Vector2(0, -500);
+                pat.transform.SetSiblingIndex(0);
                 break;
             case 12:
                 DoorSide.transform.localPosition = new Vector2(-800, 0);
@@ -141,10 +171,13 @@ public class HackTap : MonoBehaviour
                 DoorSide.transform.localPosition = new Vector2(0, 0);
                 break;
             case 14:
+                if (_lowAnim)
+                    return;
                 IntoPC.transform.localPosition = new Vector2(0, 0);
-                GameObject pat = GameObject.Find("Canvas/PC/PatteringFase");
+                Window.SetActive(false);
                 pat.transform.SetSiblingIndex(2);
                 patte.LowAnim();
+                _lowAnim = true;
                 break;
             case 15:
                 Zoom.transform.GetChild(0).gameObject.SetActive(true);
@@ -177,10 +210,7 @@ public class HackTap : MonoBehaviour
                 Zoom.transform.GetChild(4).gameObject.SetActive(false);
                 break;
             case 25:
-                GameObject _get_doc = Instantiate(DocPrefab, GetWord.transform);
-                _get_doc.transform.SetAsLastSibling();
-                _getDocument = true;
-                Document.SetActive(true);
+                
                 break;
             case 26:
                 intopc_action.DocumentsComparison();
@@ -188,7 +218,25 @@ public class HackTap : MonoBehaviour
             case 27:
                 patte.AnimLoop();
                 break;
+            case 28:
+                Zoom.transform.GetChild(5).gameObject.SetActive(false);
+                break;
+            case 29:
+                Zoom.transform.GetChild(5).gameObject.SetActive(true);
+                break;
         }
+    }
+
+    /// <summary>
+    /// 待つ時間処理
+    /// </summary>
+    /// <param name="time">待つ時間</param>
+    /// <returns></returns>
+    private IEnumerator Wait_time(float time)
+    {
+        yield return new WaitForSeconds(time);
+        Document.SetActive(true);
+
     }
 
     /// <summary>
@@ -197,12 +245,58 @@ public class HackTap : MonoBehaviour
     public void GakuEvent()
     {
         GakuCount++;
+        if (GakuCount > 7)
+            return;
         Sequence seq = DOTween.Sequence();
         Gakubuti.DOPunchRotation(new Vector3(0, 0, 30), 0.7f);
         if (GakuCount == 7)
         {
             seq.Append(Gakubuti.DOLocalMoveY(-122, 0.6f));
+            Meishi.SetActive(true);
         }
+    }
+
+    /// <summary>
+    /// 比較する資料を取得した時のアニメーションと処理
+    /// </summary>
+    public void DocumentAnim()
+    {
+        if (_getDocument)
+            return;
+        GameObject _get_doc = Instantiate(DocPrefab, GetWord.transform);
+        _get_doc.transform.SetAsLastSibling();
+        _getDocument = true;
+        Document.SetActive(true);
+        Sequence seq = DOTween.Sequence();
+        Image img_alpha = Document.GetComponent<Image>();
+        seq.Append(Doc_rect.DOLocalMove(new Vector3(474, 377, 0), 1.3f).SetDelay(0.3f))
+            .OnComplete(() =>
+            {
+                DOTween.ToAlpha(
+                () => img_alpha.color,
+                color => img_alpha.color = color,
+                0f, 0.3f);
+            });
+        StartCoroutine(Wait_time(3f));
+    }
+
+    /// <summary>
+    /// 名刺タップの処理
+    /// </summary>
+    public void MeishiTap()
+    {
+        if (place_button_10.transform.childCount != 0)
+            return;
+        GameObject _get_doc = Instantiate(paper_prefab, GetWord.transform);
+        _get_doc.transform.SetAsLastSibling();
+        GameObject obj = new GameObject();
+        obj.transform.SetParent(place_button_10.transform, false);
+        _document = true;
+
+        Sequence s = DOTween.Sequence();
+        s.Append(place_button_10.DOLocalMove(new Vector3(374, 221, 0), 0.7f))
+            .Join(place_button_10.DOScale(0.5f, 0.7f))
+            .OnComplete(() => place_button_10.gameObject.SetActive(false));
     }
 
     /// <summary>

@@ -20,6 +20,8 @@ public class IntoPCAction : MonoBehaviour {
     private GameObject NotComp;
     [SerializeField, Tooltip("色違いPaperObject")]
     private GameObject Paper_1;
+    [SerializeField, Tooltip("資料比較するボタン")]
+    private GameObject comp_btn;
 
     [Tooltip("資料比較の時に何回ミスしてもいいかの回数")]
     public int tappingCount = 6;
@@ -42,6 +44,8 @@ public class IntoPCAction : MonoBehaviour {
 
     //資料比較中かどうか
     private bool _comparisoning = false;
+    [HideInInspector]
+    public bool _compariClear = false;
 
     //資料比較の時の間違っている部分をタップできたかどうか
     private bool doc_0 = false;
@@ -62,6 +66,7 @@ public class IntoPCAction : MonoBehaviour {
         {
             Debug.Log(e);
         }
+        _compariClear = false;
         PassWordFase.transform.SetSiblingIndex(2);
         tappingCount = 6;
         CountText.text = tappingCount.ToString();
@@ -69,6 +74,7 @@ public class IntoPCAction : MonoBehaviour {
         Document_1.SetActive(false);
         NotComp.SetActive(true);
         Comparisoning.SetActive(false);
+        comp_btn.SetActive(true);
         hack_boss = GetComponent<HackBoss>();
         hack_main = GetComponent<HackMain>();
         hack_tap = GetComponent<HackTap>();
@@ -103,7 +109,7 @@ public class IntoPCAction : MonoBehaviour {
             PC_login.GetComponent<Text>().text = "ログインできました。";
             PC_login.SetActive(true);
             yield return new WaitForSeconds(wait);
-            //PC.transform.GetChild(0).SetAsLastSibling();
+            hack_tap._windowFase = true;
             WindowFase.transform.SetSiblingIndex(2);
             Window.SetActive(true);
         }
@@ -132,11 +138,23 @@ public class IntoPCAction : MonoBehaviour {
     }
 
     /// <summary>
+    /// 資料比較中の周りの何もない部分タップ処理
+    /// </summary>
+    public void OutTap()
+    {
+        _comparisoning = false;
+        Comparisoning.SetActive(false);
+        Window.SetActive(true);
+    }
+
+    /// <summary>
     /// 資料比較の時のタップ処理
     /// </summary>
     /// <param name="docNum">0.当たり 1.当たり 2.はずれ 3.何もないとこ</param>
     public void CheckDocuments(int docNum)
     {
+        if (!hack_tap._getDocument)
+            return;
         switch (docNum)
         {
             case 0:
@@ -150,18 +168,13 @@ public class IntoPCAction : MonoBehaviour {
                 CountText.text = tappingCount.ToString();
                 hack_boss.MoveBoss();
                 break;
-            case 3:
-                _comparisoning = false;
-                Comparisoning.SetActive(false);
-                Window.SetActive(true);
-                break;
         }
 
         if(doc_0 && doc_1)
         {
-            Window.SetActive(false);
-            PC.transform.GetChild(0).SetAsLastSibling();
-            patte_event.AnimLoop();
+            comp_btn.SetActive(false);
+            _compariClear = true;
+            OutTap();
         }
 
         if(tappingCount == 0)

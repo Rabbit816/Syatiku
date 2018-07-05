@@ -40,10 +40,18 @@ public class HackMain : MonoBehaviour {
     [HideInInspector]
     public List<string> Answer_list = new List<string>();
 
+    private IntoPCAction into_pc;
+    private PatteringEvent patte;
+    private HackTap hack_tap;
+
     private bool timeout = false;
 
     // Use this for initialization
     void Start () {
+        Common.Instance.isClear = 0;
+        into_pc = GetComponent<IntoPCAction>();
+        patte = GetComponent<PatteringEvent>();
+        hack_tap = GetComponent<HackTap>();
         Dont_Tap.SetActive(true);
         ReadText();
         Maxline = 0;
@@ -54,24 +62,28 @@ public class HackMain : MonoBehaviour {
 
 	// Update is called once per frame
 	void Update () {
-
-        timer -= Time.deltaTime;
-        if(timer < 0)
+        if (into_pc._compariClear && patte._lowAnimClear && hack_tap._document)
         {
-            timer = 0;
-            if (timeout)
-            {
-                Common.Instance.clearFlag[Common.Instance.isClear] = true;
-                Common.Instance.ChangeScene(Common.SceneName.Result);
-                timeout = false;
-            }
+            Common.Instance.clearFlag[Common.Instance.isClear] = true;
+            Common.Instance.ChangeScene(Common.SceneName.Result);
         }
-        time.text = "Timer: " + timer.ToString("f1");
+
+        //timer -= Time.deltaTime;
+        //if(timer < 0)
+        //{
+        //    timer = 0;
+        //    if (timeout)
+        //    {
+        //        Common.Instance.clearFlag[Common.Instance.isClear] = true;
+        //        Common.Instance.ChangeScene(Common.SceneName.Result);
+        //        timeout = false;
+        //    }
+        //}
+        //time.text = "Timer: " + timer.ToString("f1");
     }
 
-    public IEnumerator Wait_Time(float time)
+    private IEnumerator Wait_Time(float time)
     {
-
         yield return new WaitForSeconds(time);
     }
 
