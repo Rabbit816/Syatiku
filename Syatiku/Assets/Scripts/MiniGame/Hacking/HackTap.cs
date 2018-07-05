@@ -63,6 +63,8 @@ public class HackTap : MonoBehaviour
     private GameObject paper_prefab;
     [SerializeField, Tooltip("WindowObject")]
     private GameObject Window;
+    [SerializeField, Tooltip("Image 5こ")]
+    private Sprite[] img_list;
 
     private GameObject DoorSide;
     private GameObject Zoom;
@@ -79,6 +81,7 @@ public class HackTap : MonoBehaviour
 
     //LowAnimが終わったかどうか
     private bool _lowAnim = false;
+    private bool _animloop = false;
     [HideInInspector]
     public bool _document = false;
     [HideInInspector]
@@ -108,6 +111,7 @@ public class HackTap : MonoBehaviour
         _lowAnim = false;
         _document = false;
         _windowFase = false;
+        _animloop = false;
         AddPlaceWord();
 	}
 	
@@ -144,6 +148,7 @@ public class HackTap : MonoBehaviour
 
                     Instantiate(AppearPrefab, Getting_position[placeNum].transform);
                     Getting_position[placeNum].transform.GetComponentInChildren<Text>().text = place_list[placeNum].word.ToString();
+                    AppearPrefab.GetComponent<Image>().sprite = img_list[placeNum];
 
                     GameObject _collected_word = Instantiate(CollectedPrefab, CollectedWord.transform);
                     _collected_word.transform.position = pos_list[placeNum].transform.position;
@@ -210,7 +215,13 @@ public class HackTap : MonoBehaviour
                 Zoom.transform.GetChild(4).gameObject.SetActive(false);
                 break;
             case 25:
-                
+                if (_animloop)
+                    return;
+                IntoPC.transform.localPosition = new Vector2(0, 0);
+                Window.SetActive(false);
+                pat.transform.SetSiblingIndex(2);
+                patte.AnimLoop();
+                _animloop = true;
                 break;
             case 26:
                 intopc_action.DocumentsComparison();
@@ -251,8 +262,8 @@ public class HackTap : MonoBehaviour
         Gakubuti.DOPunchRotation(new Vector3(0, 0, 30), 0.7f);
         if (GakuCount == 7)
         {
-            seq.Append(Gakubuti.DOLocalMoveY(-122, 0.6f));
-            Meishi.SetActive(true);
+            seq.Append(Gakubuti.DOLocalMoveY(-122, 0.6f))
+                .OnComplete(() => { Meishi.SetActive(true); Meishi_obj.DOLocalMove(new Vector3(253, -226, 0), 0.5f); });
         }
     }
 
@@ -285,7 +296,7 @@ public class HackTap : MonoBehaviour
     /// </summary>
     public void MeishiTap()
     {
-        if (place_button_10.transform.childCount != 0)
+        if (place_button_10.transform.childCount == 2)
             return;
         GameObject _get_doc = Instantiate(paper_prefab, GetWord.transform);
         _get_doc.transform.SetAsLastSibling();
@@ -326,11 +337,11 @@ public class HackTap : MonoBehaviour
             case 0:
                 count++;
                 Debug.Log("1回目");
-                collectObject.transform.localPosition = new Vector2(collectObject.transform.localPosition.x - 160, collectObject.transform.localPosition.y);
+                collectObject.transform.localPosition = new Vector2(collectObject.transform.localPosition.x - 155, collectObject.transform.localPosition.y);
                 break;
             case 1:
                 count--;
-                collectObject.transform.localPosition = new Vector2(collectObject.transform.localPosition.x + 160, collectObject.transform.localPosition.y);
+                collectObject.transform.localPosition = new Vector2(collectObject.transform.localPosition.x + 155, collectObject.transform.localPosition.y);
                 break;
         }
     }

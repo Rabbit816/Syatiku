@@ -15,6 +15,8 @@ public class HackBoss : MonoBehaviour {
     private GameObject WorkingObject;
     [SerializeField, Tooltip("警告テキストobject")]
     private GameObject Worning;
+    [SerializeField, Tooltip("DontTap")]
+    private GameObject DontTap;
 
     private HackTap hack_tap;
     [Tooltip("上司が待機してる時間")]
@@ -54,8 +56,8 @@ public class HackBoss : MonoBehaviour {
             }
             else if(BossTimer <= 0.0f)
             {
-                Common.Instance.clearFlag[Common.Instance.isClear] = true;
-                Common.Instance.ChangeScene(Common.SceneName.Result);
+                //Common.Instance.clearFlag[Common.Instance.isClear] = true;
+                //Common.Instance.ChangeScene(Common.SceneName.Result);
             }
         }
 	}
@@ -64,9 +66,11 @@ public class HackBoss : MonoBehaviour {
     /// 上司が来て待ってる時の処理
     /// </summary>
     /// <returns></returns>
-    private IEnumerator WatchBoss()
+    private IEnumerator WatchBoss(float time)
     {
-        yield return new WaitForSeconds(1.0f);
+        yield return new WaitForSeconds(time);
+        Common.Instance.clearFlag[Common.Instance.isClear] = false;
+        Common.Instance.ChangeScene(Common.SceneName.Result);
     }
 
     /// <summary>
@@ -74,11 +78,14 @@ public class HackBoss : MonoBehaviour {
     /// </summary>
     public void MoveBoss()
     {
-        Boss.transform.localPosition = new Vector2(Boss.transform.localPosition.x + 265, -130);
+        Boss.transform.localPosition = new Vector2(Boss.transform.localPosition.x + 265/2, -130);
         hack_main.comingCount++;
-        if (hack_main.comingCount % 2 == 0)
+        if (hack_main.comingCount % 4 == 0)
         {
+            hack_tap.PlaceButton(24);
+            hack_tap.PlaceButton(22);
             hack_tap.PlaceButton(11);
+            DontTap.SetActive(true);
             ComeOnBoss();
         }
         //else
@@ -91,14 +98,14 @@ public class HackBoss : MonoBehaviour {
     /// <summary>
     /// 上司が部屋に来た時の処理
     /// </summary>
-    private void ComeOnBoss()
+    public void ComeOnBoss()
     {
         hack_tap.PlaceButton(13);
         if (!ComeBoss.activeSelf)
         {
             ComeBoss.SetActive(true);
             Worning.SetActive(true);
-            StartCoroutine(WatchBoss());
+            StartCoroutine(WatchBoss(3.5f));
             _commingboss = true;
         }
     }
@@ -114,7 +121,7 @@ public class HackBoss : MonoBehaviour {
             _worktap = true;
             WorkingObject.SetActive(true);
             //WorkingHuman.DOLocalJump(WorkingHuman.transform.localPosition, 3f, 5, 5f);
-            StartCoroutine(WatchBoss());
+            StartCoroutine(WatchBoss(1));
             WorkingObject.SetActive(false);
         }
     }
