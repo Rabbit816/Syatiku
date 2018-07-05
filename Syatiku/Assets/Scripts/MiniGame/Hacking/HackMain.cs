@@ -85,6 +85,7 @@ public class HackMain : MonoBehaviour {
     private IEnumerator Wait_Time(float time)
     {
         yield return new WaitForSeconds(time);
+        Dont_Tap.SetActive(false);
     }
 
     /// <summary>
@@ -139,7 +140,6 @@ public class HackMain : MonoBehaviour {
         Animator anim = theme_obj.GetComponent<Animator>();
         anim.Play("ThemeAnimation");
         
-        StartCoroutine(Wait_Time(10f));
-        Dont_Tap.SetActive(false);
+        StartCoroutine(Wait_Time(1.7f));
     }
 }
