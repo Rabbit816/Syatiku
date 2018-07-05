@@ -7,10 +7,7 @@ public class TitleController : MonoBehaviour {
     [SerializeField]
     private GameObject title;
 
-    [SerializeField]
-    private AudioClip aClip;
-
-    void Start()
+    void Awake()
     {
         if (!Common.Instance)
         {
@@ -21,7 +18,6 @@ public class TitleController : MonoBehaviour {
 
             //SoundManager.Instance.PlayBGM(BGMName.Title);
         }
-        Common.Instance.PlayBGM(aClip);
     }
 
     //モード選択
@@ -34,7 +30,7 @@ public class TitleController : MonoBehaviour {
         if (mode == 0)
             Common.Instance.actionCount = 1;
         else
-            Common.Instance.actionCount = 3;
+            Common.Instance.actionCount = 1;
         Common.Instance.ChangeScene(Common.SceneName.Scenario);
     }
     //タイトルボタンを削除
