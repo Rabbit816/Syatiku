@@ -216,6 +216,7 @@ public class IntoPCAction : MonoBehaviour {
                 _isResult = false;
                 hack_boss.MoveBoss();
                 StartCoroutine(WaitTime(1.5f));
+                break;
             }
         }
     }
