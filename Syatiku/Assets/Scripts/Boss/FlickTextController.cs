@@ -19,6 +19,7 @@ public class FlickTextController : MonoBehaviour
     void Start()
     {
         text = GetComponent<Text>();
+        Debug.Log(text.rectTransform.localPosition);
     }
 
     /// <summary>
@@ -30,21 +31,21 @@ public class FlickTextController : MonoBehaviour
 
         //座標
         float posX = Random.Range(0, 2);
-        posX = (posX > 0 ? 160 : -160);
+        posX = (posX > 0 ? 200 : -200);
         float posY = Random.Range(-100, 100);
+        Debug.Log(text.rectTransform.localPosition);
         Vector3 pos = new Vector3(posX, posY, 0);
         text.rectTransform.localPosition = pos;
 
         //移動
-        float moveX = posX / Random.Range(200, 800);
+        float moveX = posX / Random.Range(100, 800);
         float moveY = Random.Range(-0.5f, 0.5f);
         moveForce = new Vector3(moveX, moveY, 0);
 
         //テキスト
-        text.fontSize = Random.Range(14, 32);
+        text.fontSize = Random.Range(15, 41);
         alpha = 0;
         this.type = (Type)num;
-        text.color = (type == Type.Correct ? new Color(240 / 255f, 179 / 255f, 37 / 255f) : new Color(33 / 255f, 100 / 255f, 150 / 255f));
         text.text = t;
 
         gameObject.SetActive(true);
@@ -60,9 +61,7 @@ public class FlickTextController : MonoBehaviour
         else
         {
             alpha += 0.005f;
-            Color c = text.color;
-            c.a = alpha;
-            text.color = c;
+            text.color = new Color(1, 1, 1, alpha);
         }
 
         //移動
@@ -72,7 +71,7 @@ public class FlickTextController : MonoBehaviour
         if (text.rectTransform.localPosition.x > 500 || text.rectTransform.localPosition.x < -500
             || text.rectTransform.localPosition.y > 200 || text.rectTransform.localPosition.y < -200)
         {
-            if(type == Type.Correct) BossScene.Instance.MissCountUP();
+            BossScene.Instance.MissCountUP();
             gameObject.SetActive(false);
         }
     }

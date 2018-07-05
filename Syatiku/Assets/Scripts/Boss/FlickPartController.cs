@@ -5,7 +5,13 @@ using DG.Tweening;
 
 public class FlickPartController : MonoBehaviour {
 
-    string[,] textContents;
+    string[,] textContents = new string[,]
+    {
+        //Wrong
+        { "あいうえお", "かきくけこ" },
+        //Correct
+        { "さしすせそ", "たちつてと" },
+    };
 
     [SerializeField]
     GameObject slappedBoss;
@@ -27,18 +33,7 @@ public class FlickPartController : MonoBehaviour {
     [SerializeField, Header("振動する回数")]
     int vibrate = 10;
 
-    void Awake()
-    {
-        textContents = new string[,]
-        {
-            //Wrong
-            { "はいらないよ～ん" },
-            //Correct
-            { "はいるよ～ん" },
-        };
-    }
-
-    void Update () {
+	void Update () {
         if (spawnTextTimer > spawnTextTime)
         {
             //テキストの生成
@@ -56,7 +51,8 @@ public class FlickPartController : MonoBehaviour {
         //タイプ決定(0:Wrong, 1:Correct)
         int typeNum = Random.Range(0, 2);
         //テキストの内容決定
-        int textNum = Random.Range(0, textContents.GetLength(1));
+        int textNum = Random.Range(0, textContents.GetLength(typeNum));
+
         for (int i = 0; i < flickTextList.Count; i++)
         {
 

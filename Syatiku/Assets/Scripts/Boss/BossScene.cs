@@ -14,10 +14,6 @@ public class BossScene : MonoBehaviour {
     [SerializeField]
     DamagePointerController damagePointer;
     [SerializeField]
-    Sprite[] backgroundSprites;
-    [SerializeField]
-    UnityEngine.UI.Image background;
-    [SerializeField]
     GameObject standingBoss;
 
     //ボスシーンのゲーム時間
@@ -128,9 +124,6 @@ public class BossScene : MonoBehaviour {
         flickPart.gameObject.SetActive(!flickPart.gameObject.activeSelf);
         sanctionPart.gameObject.SetActive(!sanctionPart.gameObject.activeSelf);
         standingBoss.SetActive(true);
-        //背景画像の変更
-        int spriteNum = flickPart.gameObject.activeSelf ? 0 : 1;
-        background.sprite = backgroundSprites[spriteNum];
     }
 
     public void ChangeBossState(GameObject slappedBoss, float duration = 0, bool re = false)
@@ -150,14 +143,6 @@ public class BossScene : MonoBehaviour {
 
     void Result()
     {
-        if(isReachStates[isReachStates.Length - 1])
-        {
-            UnityEngine.SceneManagement.SceneManager.LoadScene("GoodEnd");
-        }
-        else
-        {
-            UnityEngine.SceneManagement.SceneManager.LoadScene("BadEnd");
-        }
         Debug.Log("ゲーム終了：結果発表");
     }
     

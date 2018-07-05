@@ -63,6 +63,8 @@ public class HackTap : MonoBehaviour
     private GameObject paper_prefab;
     [SerializeField, Tooltip("WindowObject")]
     private GameObject Window;
+    [SerializeField, Tooltip("Image 5こ")]
+    private Sprite[] img_list;
 
     private GameObject DoorSide;
     private GameObject Zoom;
@@ -144,6 +146,7 @@ public class HackTap : MonoBehaviour
 
                     Instantiate(AppearPrefab, Getting_position[placeNum].transform);
                     Getting_position[placeNum].transform.GetComponentInChildren<Text>().text = place_list[placeNum].word.ToString();
+                    AppearPrefab.GetComponent<Image>().sprite = img_list[placeNum];
 
                     GameObject _collected_word = Instantiate(CollectedPrefab, CollectedWord.transform);
                     _collected_word.transform.position = pos_list[placeNum].transform.position;
@@ -326,11 +329,11 @@ public class HackTap : MonoBehaviour
             case 0:
                 count++;
                 Debug.Log("1回目");
-                collectObject.transform.localPosition = new Vector2(collectObject.transform.localPosition.x - 160, collectObject.transform.localPosition.y);
+                collectObject.transform.localPosition = new Vector2(collectObject.transform.localPosition.x - 155, collectObject.transform.localPosition.y);
                 break;
             case 1:
                 count--;
-                collectObject.transform.localPosition = new Vector2(collectObject.transform.localPosition.x + 160, collectObject.transform.localPosition.y);
+                collectObject.transform.localPosition = new Vector2(collectObject.transform.localPosition.x + 155, collectObject.transform.localPosition.y);
                 break;
         }
     }

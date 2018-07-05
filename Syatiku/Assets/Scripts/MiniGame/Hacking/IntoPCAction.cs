@@ -179,8 +179,7 @@ public class IntoPCAction : MonoBehaviour {
 
         if(tappingCount == 0)
         {
-            Common.gameClear = false;
-            Common.Instance.ChangeScene(Common.SceneName.Result);
+            hack_boss.ComeOnBoss();
         }
     }
 
@@ -209,7 +208,6 @@ public class IntoPCAction : MonoBehaviour {
                 if(i == PassWordObject.Length - 1)
                 {
                     _isResult = true;
-                    hack_boss.MoveBoss();
                     StartCoroutine(WaitTime(1.5f));
                 }
             }
