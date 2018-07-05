@@ -143,6 +143,10 @@ public class ScenarioController : MonoBehaviour {
         //シナリオ中ではない、ログを表示中
         if (!isPlayScenario　|| isLogView)
         {
+            if (window.scenarioCanvas.gameObject.activeSelf && window.scenarioCanvas.alpha == 0)
+            {
+                window.scenarioCanvas.gameObject.SetActive(false);
+            }
             return;
         }
 
