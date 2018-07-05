@@ -13,6 +13,10 @@ public class TitleController : MonoBehaviour {
         {
             var common = Instantiate(Resources.Load("Prefabs/Common/Common"));
             DontDestroyOnLoad(common);
+            var sound = Instantiate(Resources.Load("Prefabs/Common/SoundManager"));
+            DontDestroyOnLoad(sound);
+
+            SoundManager.Instance.PlayBGM(BGMName.Title);
         }
     }
 
