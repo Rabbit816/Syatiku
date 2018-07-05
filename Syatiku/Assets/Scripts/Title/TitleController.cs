@@ -7,6 +7,9 @@ public class TitleController : MonoBehaviour {
     [SerializeField]
     private GameObject title;
 
+    [SerializeField]
+    private AudioClip aClip;
+
     void Start()
     {
         if (!Common.Instance)
@@ -16,8 +19,9 @@ public class TitleController : MonoBehaviour {
             var sound = Instantiate(Resources.Load("Prefabs/Common/SoundManager"));
             DontDestroyOnLoad(sound);
 
-            SoundManager.Instance.PlayBGM(BGMName.Title);
+            //SoundManager.Instance.PlayBGM(BGMName.Title);
         }
+        Common.Instance.PlayBGM(aClip);
     }
 
     //モード選択

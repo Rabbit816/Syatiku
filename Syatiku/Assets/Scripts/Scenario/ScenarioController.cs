@@ -120,6 +120,7 @@ public class ScenarioController : MonoBehaviour {
     void SetNextInfo()
     {
         window.recommendIcon.SetActive(false);
+        window.reccomendLight.SetActive(false);
         //感情アイコンの非表示
         for (int i = 0; i < window.characters.Length; i++)
         {
@@ -184,7 +185,8 @@ public class ScenarioController : MonoBehaviour {
     {
         if (!window.recommendIcon.activeSelf)
         {
-            window.recommendIcon.SetActive(true);
+            //window.recommendIcon.SetActive(true);
+            window.reccomendLight.SetActive(true); // washizu
             if (isAuto)
             {
                 StartCoroutine(SetNextInfo(nextWaitTime));
