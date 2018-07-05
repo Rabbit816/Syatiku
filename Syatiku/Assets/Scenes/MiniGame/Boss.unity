@@ -716,7 +716,7 @@ MonoBehaviour:
   - {fileID: 21300000, guid: e737ff86bee513941988d03c7c4db911, type: 3}
   background: {fileID: 414275891}
   standingBoss: {fileID: 796061097}
-  gameTime: 50
+  gameTime: 1
   Separatevalues: 0300000006000000
 --- !u!4 &1274440718
 Transform:

@@ -150,7 +150,14 @@ public class BossScene : MonoBehaviour {
 
     void Result()
     {
-        UnityEngine.SceneManagement.SceneManager.LoadScene("Title");
+        if(isReachStates[isReachStates.Length - 1])
+        {
+            UnityEngine.SceneManagement.SceneManager.LoadScene("GoodEnd");
+        }
+        else
+        {
+            UnityEngine.SceneManagement.SceneManager.LoadScene("BadEnd");
+        }
         Debug.Log("ゲーム終了：結果発表");
     }
     
