@@ -140,7 +140,6 @@ public class ScenarioController : MonoBehaviour {
 
     void Update()
     {
-        Debug.Log(isPlayScenario);
         //シナリオ中ではない、ログを表示中
         if (!isPlayScenario　|| isLogView)
         {
@@ -279,7 +278,6 @@ public class ScenarioController : MonoBehaviour {
     /// </summary>
     void EndScenario()
     {
-        Debug.Log(123);
         isPlayScenario = false;
     }
 

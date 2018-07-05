@@ -19,9 +19,6 @@ public class SmokingController : MonoBehaviour {
     private ScenarioController scenario;
 
     [SerializeField]
-    private GameObject scenarioCanvas;
-
-    [SerializeField]
     private GameObject[] nonActive;
 
     private Mushikui mushikui; // Mushikuiコンストラクタ
@@ -38,7 +35,8 @@ public class SmokingController : MonoBehaviour {
 
     // Use this for initialization
     void Start () {
-        //scenarioCanvas.SetActive(false);
+        ScenarioController.Instance.BeginScenario("Text/SmokingTalk");
+
         selectUI.SetActive(false);
         foreach(var i in nonActive)
         {
@@ -59,10 +57,7 @@ public class SmokingController : MonoBehaviour {
 
     void Update()
     {
-        //if (scenario.IsShowAllMessage())
-        //{
-        //    StartCoroutine(ChangeSelect());
-        //}
+
     }
 
     bool timeFlag = false;
@@ -86,7 +81,6 @@ public class SmokingController : MonoBehaviour {
     public IEnumerator ChangeSelect()
     {
         new WaitForSeconds(1.0f);
-        scenarioCanvas.SetActive(false);
         yield return null;
         timeFlag = true;
     }
