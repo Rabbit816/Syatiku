@@ -230,6 +230,8 @@ public class ScenarioController : MonoBehaviour {
         viewMessage.Length = 0;
         viewMessage.Append(allMessage);
         window.message.text = viewMessage.ToString();
+        if (sceneNum == 0)
+            Common.Instance.ChangeScene(Common.SceneName.Action);
     }
 
     void UpdateInfoOrMessage(System.Action action = null)
