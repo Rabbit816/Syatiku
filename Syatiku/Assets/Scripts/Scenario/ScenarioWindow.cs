@@ -24,4 +24,5 @@ public class ScenarioWindow : MonoBehaviour
 
     public CanvasGroup scenarioCanvas;
 
+    public GameObject lightBill;
 }

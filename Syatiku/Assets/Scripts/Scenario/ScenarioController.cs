@@ -44,11 +44,12 @@ public class ScenarioController : MonoBehaviour {
 
     #endregion
 
+    private int sceneNum;
 
     void Start () {
         window.scenarioCanvas.alpha = 0;
         BeginScenario(filePath);
-        DontDestroyOnLoad(gameObject);
+        //DontDestroyOnLoad(gameObject);
     }
 
     /// <summary>
@@ -89,7 +90,16 @@ public class ScenarioController : MonoBehaviour {
     /// <param name="num"></param>
     void SetNextInfo()
     {
-        window.recommendIcon.SetActive(false);
+        if(sceneNum == 0)
+        {
+
+        }
+        else
+        {
+
+        }
+        //window.recommendIcon.SetActive(false);
+        window.lightBill.SetActive(false); // 鷲頭追加
         //感情アイコンの非表示
         for (int i = 0; i < window.characters.Length; i++)
         {
@@ -156,7 +166,8 @@ public class ScenarioController : MonoBehaviour {
     {
         if (!window.recommendIcon.activeSelf)
         {
-            window.recommendIcon.SetActive(true);
+            //window.recommendIcon.SetActive(true);
+            window.lightBill.SetActive(true); // 鷲頭追加
             if (isAuto)
             {
                 StartCoroutine(SetNextInfo(nextWaitTime));
@@ -219,6 +230,8 @@ public class ScenarioController : MonoBehaviour {
         viewMessage.Length = 0;
         viewMessage.Append(allMessage);
         window.message.text = viewMessage.ToString();
+        if (sceneNum == 0)
+            Common.Instance.ChangeScene(Common.SceneName.Action);
     }
 
     void UpdateInfoOrMessage(System.Action action = null)

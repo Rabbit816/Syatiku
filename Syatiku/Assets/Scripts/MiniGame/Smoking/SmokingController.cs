@@ -30,14 +30,16 @@ public class SmokingController : MonoBehaviour {
     [SerializeField]
     private int qLength; // 合計問題数
 
-    private string filePath = "CSV/Smoking"; // CSVパス名
+    private string filePath = "CSV/Smoking2"; // CSVパス名
 
     private Vector2 tabacoSize;
+
+    public GameObject selectUI;
 
     // Use this for initialization
     void Start () {
         //scenarioCanvas.SetActive(false);
-        scenario = new ScenarioController();
+        selectUI.SetActive(false);
         foreach(var i in nonActive)
         {
             i.SetActive(false);
@@ -48,7 +50,7 @@ public class SmokingController : MonoBehaviour {
         succesCount = 0;
 
         tabacoSize = tabaco.rectTransform.sizeDelta;
-        StartCoroutine(TimeDown());
+        //StartCoroutine(TimeDown());
 
         mushikui = new Mushikui(filePath);
 
@@ -63,15 +65,35 @@ public class SmokingController : MonoBehaviour {
         //}
     }
 
+    bool timeFlag = false;
+    void OnEnable()
+    {
+        if (timeFlag)
+        {
+            StartCoroutine(TimeDown());
+            timeFlag = false;
+        }
+    }
+
+    public IEnumerator ActiveChange()
+    {
+        yield return new WaitForSeconds(2f);
+        selectUI.SetActive(true);
+        scenario.gameObject.SetActive(false);
+        
+    }
+
     public IEnumerator ChangeSelect()
     {
         new WaitForSeconds(1.0f);
         scenarioCanvas.SetActive(false);
         yield return null;
+        timeFlag = true;
     }
 
     public IEnumerator TimeDown()
     {
+        yield return new WaitForSeconds(1f);
         while (tabaco.rectTransform.sizeDelta.x > 0)
         {
             tabaco.rectTransform.sizeDelta -= new Vector2(time,0);
