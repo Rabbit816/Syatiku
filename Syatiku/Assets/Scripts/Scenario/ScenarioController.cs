@@ -268,7 +268,7 @@ public class ScenarioController : MonoBehaviour {
     /// <summary>
     /// 最後のシナリオ情報まで到達しているか
     /// </summary>
-    bool IsReachLastInfo()
+    public bool IsReachLastInfo()
     {
         return infoIndex == allInfoNum;
     }
