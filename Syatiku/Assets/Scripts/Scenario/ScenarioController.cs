@@ -3,6 +3,21 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class ScenarioController : MonoBehaviour {
+    static ScenarioController instance;
+
+    public static ScenarioController Instance
+    {
+        get
+        {
+            if (instance != null)
+            {
+                return instance;
+            }
+
+            instance = FindObjectOfType<ScenarioController>();
+            return instance;
+        }
+    }
 
     #region variable
 
@@ -40,14 +55,29 @@ public class ScenarioController : MonoBehaviour {
     [SerializeField, Header("オート時セリフ更新待ち時間")]
     float nextWaitTime = 1f;
     //シナリオ中か
-    public bool isPlayScenario;
-
+    bool isPlayScenario;
     #endregion
 
+    void CheckInstance()
+    {
+        if (instance == null)
+        {
+            instance = this;
+            return;
+        }
+        if (instance == this)
+        {
+            return;
+        }
 
-    void Start () {
+        Destroy(gameObject);
+    }
+
+    void Awake () {
+        CheckInstance();
+
         window.scenarioCanvas.alpha = 0;
-        BeginScenario(filePath);
+
         DontDestroyOnLoad(gameObject);
     }
 
@@ -74,13 +104,13 @@ public class ScenarioController : MonoBehaviour {
         allInfoNum = scenarioInfoList.Count;
         originMessageViewSpeed = messageViewSpeed;
         messageViewElapsedTime = 0;
+        logMessage = new System.Text.StringBuilder();
         isSkip = false;
         isAuto = false;
         isLogView = false;
         isPlayScenario = false;
 
-        window.name.text = "";
-        window.message.text = "";
+        window.Init();
     }
 
     /// <summary>v
@@ -110,14 +140,13 @@ public class ScenarioController : MonoBehaviour {
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            BeginScenario(filePath);
-        }
-
         //シナリオ中ではない、ログを表示中
         if (!isPlayScenario　|| isLogView)
         {
+            if (window.scenarioCanvas.gameObject.activeSelf && window.scenarioCanvas.alpha == 0)
+            {
+                window.scenarioCanvas.gameObject.SetActive(false);
+            }
             return;
         }
 
@@ -144,7 +173,6 @@ public class ScenarioController : MonoBehaviour {
         }
         else
         {
-
             ShowRecommendIcon();
         }
     }
@@ -206,7 +234,7 @@ public class ScenarioController : MonoBehaviour {
     ///　セリフが全て表示されているか
     /// </summary>
     /// <returns></returns>
-    public bool IsShowAllMessage()
+    bool IsShowAllMessage()
     {
         return viewMessage.Length == allMessage.Length;
     }
@@ -244,7 +272,7 @@ public class ScenarioController : MonoBehaviour {
     /// <summary>
     /// 最後のシナリオ情報まで到達しているか
     /// </summary>
-    bool IsReachLastInfo()
+    public bool IsReachLastInfo()
     {
         return infoIndex == allInfoNum;
     }
