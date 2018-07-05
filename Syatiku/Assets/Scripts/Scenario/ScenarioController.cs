@@ -44,6 +44,7 @@ public class ScenarioController : MonoBehaviour {
 
     #endregion
 
+    private int sceneNum;
 
     void Start () {
         window.scenarioCanvas.alpha = 0;
@@ -89,6 +90,14 @@ public class ScenarioController : MonoBehaviour {
     /// <param name="num"></param>
     void SetNextInfo()
     {
+        if(sceneNum == 0)
+        {
+
+        }
+        else
+        {
+
+        }
         //window.recommendIcon.SetActive(false);
         window.lightBill.SetActive(false); // 鷲頭追加
         //感情アイコンの非表示
