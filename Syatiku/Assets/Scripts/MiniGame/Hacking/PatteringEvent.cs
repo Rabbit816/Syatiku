@@ -19,26 +19,32 @@ public class PatteringEvent : MonoBehaviour {
     private GameObject getDocument_obj;
     [SerializeField, Tooltip("place_button_6")]
     private GameObject place_button_6;
+    [SerializeField, Tooltip("PaperPrefab")]
+    private GameObject paper_prefab;
 
     private IntoPCAction intopc_action;
     private HackTap hack_tap;
     private HackMain hack_main;
 
-    private Sequence seq;
-    Sequence se;
+    private GameObject GetWord;
+
     //いいタイミングかどうか
     private bool _success = false;
 
+    [HideInInspector]
+    public bool _lowAnimClear = false;
+
 	// Use this for initialization
-	void Start () {
+	void Start ()
+    {
+        GetWord = GameObject.Find("Canvas/Check/GetWord");
+        _success = false;
         tx.text = "黄色のページをタップしよう！";
         intopc_action = GetComponent<IntoPCAction>();
         hack_tap = GetComponent<HackTap>();
         hack_main = GetComponent<HackMain>();
         getDocument_obj.SetActive(false);
-        seq = DOTween.Sequence();
-         se = DOTween.Sequence();
-        _success = false;
+        _lowAnimClear = false;
     }
 	
 	// Update is called once per frame
@@ -68,9 +74,10 @@ public class PatteringEvent : MonoBehaviour {
         }
     }
 
-    private IEnumerator StopTime(float time)
+    private IEnumerator Wait_Time(float time)
     {
         yield return new WaitForSeconds(time);
+        hack_tap.PlaceButton(11);
     }
 
     /// <summary>
@@ -78,10 +85,11 @@ public class PatteringEvent : MonoBehaviour {
     /// </summary>
     public void TapResult()
     {
-        _success = true;
         if (!_success)
         {
             tx.text = "資料を取得できませんでした。";
+            Common.Instance.clearFlag[Common.Instance.isClear] = true;
+            Common.Instance.ChangeScene(Common.SceneName.Result);
         }
         else
         {
@@ -91,15 +99,17 @@ public class PatteringEvent : MonoBehaviour {
             Image img_alpha = getDocument.GetComponent<Image>();
             sequ.Append(getDocument.DOLocalMove(new Vector3(332, 147, 0), 1f))
                 .Join(getDocument.DOLocalRotate(new Vector3(0, 0, 720), 1f, RotateMode.FastBeyond360))
-                .OnComplete(() => DOTween.ToAlpha(
+                .OnComplete(() => { DOTween.ToAlpha(
                     () => img_alpha.color,
                     color => img_alpha.color = color,
                     0f,
-                    0.3f));
+                    0.3f);
+                    sequ.onKill(); });
+            GameObject _get_doc = Instantiate(paper_prefab, GetWord.transform);
+            _get_doc.transform.SetAsLastSibling();
+            _lowAnimClear = true;
         }
-        StartCoroutine(StopTime(5.0f));
-        hack_tap.PlaceButton(11);
-        place_button_6.GetComponent<Button>().onClick.RemoveAllListeners();
+        StartCoroutine(Wait_Time(2f));
     }
 
     /// <summary>
@@ -107,17 +117,19 @@ public class PatteringEvent : MonoBehaviour {
     /// </summary>
     public void LowAnim()
     {
-        se.Append(Paper_1.DOLocalRotate(new Vector2(0, Paper_1.localRotation.y + 180), 1.0f).SetDelay(0.5f).SetLoops(70, LoopType.Restart))
-           .InsertCallback(3.9f, () => ChangeColor(0))
-           .InsertCallback(3.9f, () => _success = true)
+        Sequence se = DOTween.Sequence();
+
+        se.Append(Paper_1.DOLocalRotate(new Vector2(0, Paper_1.localRotation.y + 180), 1.0f).SetDelay(0.5f).SetLoops(32, LoopType.Restart))
+           .InsertCallback(3.7f, () => ChangeColor(0))
+           .InsertCallback(3.7f, () => _success = true)
            .InsertCallback(4.5f, () => _success = false)
            .InsertCallback(4.5f, () => ChangeColor(1))
-           .InsertCallback(14.9f, () => ChangeColor(0))
-           .InsertCallback(14.9f, () => _success = true)
+           .InsertCallback(14.7f, () => ChangeColor(0))
+           .InsertCallback(14.7f, () => _success = true)
            .InsertCallback(15.5f, () => _success = false)
            .InsertCallback(15.5f, () => ChangeColor(1))
-           .InsertCallback(29.9f, () => ChangeColor(0))
-           .InsertCallback(29.9f, () => _success = true)
+           .InsertCallback(29.7f, () => ChangeColor(0))
+           .InsertCallback(29.7f, () => _success = true)
            .InsertCallback(30.5f, () => _success = false)
            .InsertCallback(30.5f, () => ChangeColor(1))
            .OnComplete(() => TapResult());
@@ -128,6 +140,7 @@ public class PatteringEvent : MonoBehaviour {
     /// </summary>
     public void AnimLoop()
     {
+        Sequence se = DOTween.Sequence();
         se.Append(Paper_1.DOLocalRotate(new Vector2(0, Paper_1.localRotation.y + 180), 0.5f).SetDelay(0.3f).SetLoops(70, LoopType.Restart))
            .InsertCallback(3.0f, () => ChangeColor(0))
            .InsertCallback(3.0f, () => _success = true)
