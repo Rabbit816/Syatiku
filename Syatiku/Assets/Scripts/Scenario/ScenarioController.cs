@@ -48,7 +48,7 @@ public class ScenarioController : MonoBehaviour {
     void Start () {
         window.scenarioCanvas.alpha = 0;
         BeginScenario(filePath);
-        DontDestroyOnLoad(gameObject);
+        //DontDestroyOnLoad(gameObject);
     }
 
     /// <summary>
@@ -89,7 +89,8 @@ public class ScenarioController : MonoBehaviour {
     /// <param name="num"></param>
     void SetNextInfo()
     {
-        window.recommendIcon.SetActive(false);
+        //window.recommendIcon.SetActive(false);
+        window.lightBill.SetActive(false); // 鷲頭追加
         //感情アイコンの非表示
         for (int i = 0; i < window.characters.Length; i++)
         {
@@ -156,7 +157,8 @@ public class ScenarioController : MonoBehaviour {
     {
         if (!window.recommendIcon.activeSelf)
         {
-            window.recommendIcon.SetActive(true);
+            //window.recommendIcon.SetActive(true);
+            window.lightBill.SetActive(true); // 鷲頭追加
             if (isAuto)
             {
                 StartCoroutine(SetNextInfo(nextWaitTime));
