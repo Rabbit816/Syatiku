@@ -48,6 +48,8 @@ public class HackTap : MonoBehaviour
     private GameObject[] pos_list;
     [SerializeField, Tooltip("資料Object")]
     private GameObject Document;
+    [SerializeField, Tooltip("資料Object")]
+    private RectTransform Doc_rect;
 
     [SerializeField, Tooltip("額縁Object")]
     private RectTransform Gakubuti;
@@ -208,13 +210,7 @@ public class HackTap : MonoBehaviour
                 Zoom.transform.GetChild(4).gameObject.SetActive(false);
                 break;
             case 25:
-                if (_getDocument)
-                    return;
-                GameObject _get_doc = Instantiate(DocPrefab, GetWord.transform);
-                _get_doc.transform.SetAsLastSibling();
-                _getDocument = true;
-                Document.SetActive(true);
-                StartCoroutine(Wait_time(3f));
+                
                 break;
             case 26:
                 intopc_action.DocumentsComparison();
@@ -231,6 +227,11 @@ public class HackTap : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// 待つ時間処理
+    /// </summary>
+    /// <param name="time">待つ時間</param>
+    /// <returns></returns>
     private IEnumerator Wait_time(float time)
     {
         yield return new WaitForSeconds(time);
@@ -253,6 +254,30 @@ public class HackTap : MonoBehaviour
             seq.Append(Gakubuti.DOLocalMoveY(-122, 0.6f));
             Meishi.SetActive(true);
         }
+    }
+
+    /// <summary>
+    /// 比較する資料を取得した時のアニメーションと処理
+    /// </summary>
+    public void DocumentAnim()
+    {
+        if (_getDocument)
+            return;
+        GameObject _get_doc = Instantiate(DocPrefab, GetWord.transform);
+        _get_doc.transform.SetAsLastSibling();
+        _getDocument = true;
+        Document.SetActive(true);
+        Sequence seq = DOTween.Sequence();
+        Image img_alpha = Document.GetComponent<Image>();
+        seq.Append(Doc_rect.DOLocalMove(new Vector3(474, 377, 0), 1.3f).SetDelay(0.3f))
+            .OnComplete(() =>
+            {
+                DOTween.ToAlpha(
+                () => img_alpha.color,
+                color => img_alpha.color = color,
+                0f, 0.3f);
+            });
+        StartCoroutine(Wait_time(3f));
     }
 
     /// <summary>
