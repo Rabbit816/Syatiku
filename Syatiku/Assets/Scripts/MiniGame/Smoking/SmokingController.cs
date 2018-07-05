@@ -57,7 +57,11 @@ public class SmokingController : MonoBehaviour {
 
     void Update()
     {
-
+        if (ScenarioController.Instance.IsReachLastInfo()) {
+            selectUI.SetActive(true);
+            Debug.Log("call");
+            //StartCoroutine(TimeDown());
+        }
     }
 
     bool timeFlag = false;
@@ -90,7 +94,7 @@ public class SmokingController : MonoBehaviour {
         yield return new WaitForSeconds(1f);
         while (tabaco.rectTransform.sizeDelta.x > 0)
         {
-            tabaco.rectTransform.sizeDelta -= new Vector2(time,0);
+            tabaco.rectTransform.sizeDelta -= new Vector2(time * Time.deltaTime,0);
             if(tabaco.rectTransform.sizeDelta.x <= tabacoSize.x / 2 &&
                 tabaco.rectTransform.sizeDelta.x >= tabacoSize.x / 4) {
                 tabaco.color = Color.yellow;
