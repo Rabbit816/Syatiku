@@ -76,7 +76,7 @@ public class ScenarioController : MonoBehaviour {
     void Awake () {
         CheckInstance();
 
-        window.scenarioCanvas.alpha = 0;
+        window.scenarioCanvas.alpha = 1;
 
         DontDestroyOnLoad(gameObject);
     }
@@ -91,7 +91,7 @@ public class ScenarioController : MonoBehaviour {
         new ImportScenarioInfo(path, ref scenarioInfoList, window);
 
         Init();
-        FadeManager.Instance.Fade(window.scenarioCanvas, 2f, 1f, () =>
+        FadeManager.Instance.Fade(window.scenarioCanvas, 1f, 1f, () =>
         {
             SetNextInfo();
             isPlayScenario = true;

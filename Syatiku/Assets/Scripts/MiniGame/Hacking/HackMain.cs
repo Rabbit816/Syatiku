@@ -45,6 +45,7 @@ public class HackMain : MonoBehaviour {
     private HackTap hack_tap;
 
     private bool timeout = false;
+    private bool _allClear = false;
 
     // Use this for initialization
     void Start () {
@@ -57,6 +58,7 @@ public class HackMain : MonoBehaviour {
         Maxline = 0;
         comingCount = 0;
         Theme();
+        _allClear = false;
         timeout = true;
 	}
 
@@ -64,8 +66,14 @@ public class HackMain : MonoBehaviour {
 	void Update () {
         if (into_pc._compariClear && patte._lowAnimClear && hack_tap._document)
         {
-            Common.Instance.clearFlag[Common.Instance.isClear] = true;
-            Common.Instance.ChangeScene(Common.SceneName.Result);
+            
+            if (!_allClear)
+            {
+                _allClear = true;
+                Common.Instance.clearFlag[Common.Instance.isClear] = true;
+                Common.Instance.ChangeScene(Common.SceneName.Result);
+            }
+            
         }
 
         //timer -= Time.deltaTime;
