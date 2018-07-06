@@ -17,7 +17,7 @@ public class FlickPartController : MonoBehaviour {
     List<FlickTextController> flickTextList = new List<FlickTextController>();
 
     float spawnTextTimer;
-    float spawnTextTime = 3.0f;
+    float spawnTextTime = 1.0f;
 
     [Header("ボスダメージアニメーション")]
     [SerializeField, Header("振動する時間")]
@@ -32,9 +32,9 @@ public class FlickPartController : MonoBehaviour {
         textContents = new string[,]
         {
             //Wrong
-            { "はいらないよ～ん" },
+            { "馬鹿者！" },
             //Correct
-            { "はいるよ～ん" },
+            { "制裁！" },
         };
     }
 
@@ -51,7 +51,7 @@ public class FlickPartController : MonoBehaviour {
     {
         //タイマー初期化
         spawnTextTimer = 0;
-        spawnTextTime = Random.Range(1, 5);
+        spawnTextTime = Random.Range(1, 4);
 
         //タイプ決定(0:Wrong, 1:Correct)
         int typeNum = Random.Range(0, 2);
