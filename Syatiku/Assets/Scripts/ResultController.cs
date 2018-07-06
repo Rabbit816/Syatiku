@@ -13,7 +13,7 @@ public class ResultController : MonoBehaviour {
                 case 0: // hack
                     Common.Instance.dataFlag[0] = true;
                     Common.Instance.dataFlag[1] = true;
-                    scoreText.text = "資料Aを手に入れた！\n" + "資料Aを手に入れた！";
+                    scoreText.text = "資料Aを手に入れた！\n" + "資料Bを手に入れた！";
                     break;
                 case 1: // drink
                     Common.Instance.dataFlag[2] = true;

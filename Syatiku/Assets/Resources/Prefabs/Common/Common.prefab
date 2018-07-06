@@ -21,7 +21,6 @@ GameObject:
   - component: {fileID: 4178073030176854}
   - component: {fileID: 114955599125649836}
   - component: {fileID: 114936969779699294}
-  - component: {fileID: 81195640475939702}
   - component: {fileID: 82317035723734352}
   m_Layer: 0
   m_Name: Common
@@ -75,13 +74,6 @@ Transform:
   m_Father: {fileID: 4178073030176854}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!81 &81195640475939702
-AudioListener:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1496496294365858}
-  m_Enabled: 1
 --- !u!82 &82317035723734352
 AudioSource:
   m_ObjectHideFlags: 1
