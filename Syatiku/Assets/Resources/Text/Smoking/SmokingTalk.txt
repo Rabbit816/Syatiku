@@ -10,7 +10,7 @@
 
 //表示する名前
 @charaOn {mob01}center
-@name{社員A}
+@name{社員A} center
 
 
 //表示するテキスト
