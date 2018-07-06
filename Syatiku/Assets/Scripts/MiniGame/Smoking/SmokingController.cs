@@ -124,7 +124,6 @@ public class SmokingController : MonoBehaviour {
 
             answerCount = firstAnswerCount;
             
-            scenarioWin.SetActive(true);
             selectUI.SetActive(false);
             isTime = false;
             ScenarioController.Instance.BeginScenario(talkFilePath + qNum.ToString());
