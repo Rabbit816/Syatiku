@@ -461,7 +461,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &215405101
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1404,7 +1404,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &642482345
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1744,7 +1744,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: -175}
+  m_AnchoredPosition: {x: 0, y: -165}
   m_SizeDelta: {x: 800, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &748629809
@@ -2737,6 +2737,12 @@ MonoBehaviour:
   - {fileID: 2127738752}
   - {fileID: 322557689}
   - {fileID: 1171458215}
+  detailIcon:
+  - {fileID: 358283781}
+  - {fileID: 347732981}
+  - {fileID: 97874841}
+  - {fileID: 277192401}
+  - {fileID: 1407865096}
   missionSeat: {fileID: 642482347}
   isData: {fileID: 1499424282}
   dataDetail: {fileID: 215405103}
@@ -3037,7 +3043,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1499424281
 RectTransform:
   m_ObjectHideFlags: 0

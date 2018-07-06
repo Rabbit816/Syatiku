@@ -18,6 +18,9 @@ public class ActionController : MonoBehaviour {
     [SerializeField]
     private Image[] getData;
 
+    [SerializeField]
+    private Image[] detailIcon;
+
     // 任務内容、獲得資料背景、獲得資料詳細
     [SerializeField]
     private Image missionSeat,isData,dataDetail;
@@ -47,6 +50,9 @@ public class ActionController : MonoBehaviour {
     // -----------------------------------------------
 
     void Start () {
+        var common = Common.Instance.GetComponent<AudioSource>();
+        common.Stop();
+
         IsDataSelect();
         if (Common.Instance.actionCount <= 0)
             bossButton.gameObject.SetActive(true);
@@ -79,6 +85,7 @@ public class ActionController : MonoBehaviour {
                 getData[num].GetComponent<Button>().interactable = false;
             }else {
                 getData[num].GetComponent<Button>().interactable = true;
+                detailIcon[num].color = Color.white;
             }
             num++;
         }
