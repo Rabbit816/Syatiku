@@ -422,9 +422,9 @@ RectTransform:
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.294, y: -0.148}
-  m_AnchorMax: {x: 0.706, y: 0.784}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchorMax: {x: 0.294, y: -0.148}
+  m_AnchoredPosition: {x: 200, y: 213.03}
+  m_SizeDelta: {x: 400, y: 800}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &796061099
 MonoBehaviour:
@@ -445,7 +445,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_Sprite: {fileID: 21300000, guid: aac82453e0abe844f92f9015fc2cc238, type: 3}
+  m_Sprite: {fileID: 21300000, guid: e164c25d9dfb46d46a2f88ef2934f2a0, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -496,9 +496,9 @@ CircleCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 205}
+  m_Offset: {x: 5, y: 320}
   serializedVersion: 2
-  m_Radius: 40
+  m_Radius: 67
 --- !u!50 &796061103
 Rigidbody2D:
   serializedVersion: 4
