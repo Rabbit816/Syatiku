@@ -78,7 +78,7 @@ public class ScenarioController : MonoBehaviour {
 
         window.scenarioCanvas.alpha = 1;
 
-        DontDestroyOnLoad(gameObject);
+        //DontDestroyOnLoad(gameObject);
     }
 
     /// <summary>

@@ -146,8 +146,6 @@ public class SmokingController : MonoBehaviour {
                     face.color = Color.red;
                     break;
                 case 0:
-                    StopCoroutine(timeDown);
-                    InitCorutine();
                     Common.Instance.clearFlag[Common.Instance.isClear] = false;
                     Common.Instance.ChangeScene(Common.SceneName.Result);
                     break;
