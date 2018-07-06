@@ -1,9 +1,7 @@
 ﻿using UnityEngine;
 using DG.Tweening;
 using UnityEngine.UI;
-using System;
 using System.Collections;
-using System.Collections.Generic;
 
 public class PatteringEvent : MonoBehaviour {
 
@@ -23,20 +21,14 @@ public class PatteringEvent : MonoBehaviour {
     private GameObject getDocument_obj;
     [SerializeField, Tooltip("place_button_6")]
     private GameObject place_button_6;
-    [SerializeField, Tooltip("PaperPrefab")]
-    private GameObject paper_prefab;
     [SerializeField, Tooltip("LowAnimationで使うObject")]
     private GameObject LowObject;
     [SerializeField, Tooltip("SpeedyAnimationで使うObject")]
     private GameObject SpeedyObject;
 
-    private IntoPCAction intopc_action;
     private HackTap hack_tap;
-    private HackMain hack_main;
     private HackBoss hack_boss;
     private int successCount = 0;
-
-    private GameObject GetWord;
 
     //いいタイミングかどうか
     private bool _success = false;
@@ -47,12 +39,9 @@ public class PatteringEvent : MonoBehaviour {
 	// Use this for initialization
 	void Start ()
     {
-        GetWord = GameObject.Find("Canvas/Check/GetWord");
         _success = false;
         tx.text = "黄色のページをタップしよう！";
-        intopc_action = GetComponent<IntoPCAction>();
         hack_tap = GetComponent<HackTap>();
-        hack_main = GetComponent<HackMain>();
         hack_boss = GetComponent<HackBoss>();
         getDocument_obj.SetActive(false);
         SpeedyObject.SetActive(false);
@@ -96,6 +85,11 @@ public class PatteringEvent : MonoBehaviour {
         }
     }
 
+    /// <summary>
+    /// タップした時のテキスト処理
+    /// </summary>
+    /// <param name="time">テキストが変わる時間</param>
+    /// <returns></returns>
     private IEnumerator Wait_Time(float time)
     {
         if(_success)
@@ -124,6 +118,9 @@ public class PatteringEvent : MonoBehaviour {
         StartCoroutine(Wait_Time(2f));
     }
 
+    /// <summary>
+    /// パラパラの結果
+    /// </summary>
     private void PatteResult()
     {
         if(successCount >= 1)

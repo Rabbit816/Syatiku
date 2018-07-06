@@ -68,7 +68,6 @@ public class HackTap : MonoBehaviour
 
     private GameObject DoorSide;
     private GameObject Zoom;
-    private GameObject PC;
     private HackMain hack_main;
     private IntoPCAction intopc_action;
     private PatteringEvent patte;
@@ -94,7 +93,6 @@ public class HackTap : MonoBehaviour
         GetWord = GameObject.Find("Canvas/Check/GetWord");
         DoorSide = GameObject.Find("Canvas/DoorSide");
         Zoom = GameObject.Find("Canvas/Zoom");
-        PC = GameObject.Find("Canvas/PC");
         pat = GameObject.Find("Canvas/PC/PatteringFase");
 
         intopc_action = GetComponent<IntoPCAction>();

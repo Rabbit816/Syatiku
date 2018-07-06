@@ -18,8 +18,6 @@ public class IntoPCAction : MonoBehaviour {
     private GameObject Document_1;
     [SerializeField, Tooltip("資料見つけてない場合のテキストObject")]
     private GameObject NotComp;
-    [SerializeField, Tooltip("色違いPaperObject")]
-    private GameObject Paper_1;
     [SerializeField, Tooltip("資料比較するボタン")]
     private GameObject comp_btn;
 
@@ -31,13 +29,11 @@ public class IntoPCAction : MonoBehaviour {
     private HackBoss hack_boss;
     private HackMain hack_main;
     private HackTap hack_tap;
-    private PatteringEvent patte_event;
     private GameObject PC_login;
     private GameObject PC;
     private GameObject WindowFase;
     private GameObject Window;
     private GameObject PassWordFase;
-    private GameObject Patte;
 
     //配置した結果の判断
     private bool _isResult = false;
@@ -58,7 +54,6 @@ public class IntoPCAction : MonoBehaviour {
             PC_login = GameObject.Find("Canvas/PC/PassWordFase/Title");
             PC = GameObject.Find("Canvas/PC");
             Window = GameObject.Find("Canvas/PC/WindowFase/Window");
-            Patte = GameObject.Find("Canvas/PC/PatteringFase");
             WindowFase = GameObject.Find("Canvas/PC/WindowFase");
             PassWordFase = GameObject.Find("Canvas/PC/PassWordFase");
         }
@@ -78,7 +73,6 @@ public class IntoPCAction : MonoBehaviour {
         hack_boss = GetComponent<HackBoss>();
         hack_main = GetComponent<HackMain>();
         hack_tap = GetComponent<HackTap>();
-        patte_event = GetComponent<PatteringEvent>();
         _isResult = false;
         _comparisoning = false;
         doc_0 = false;
