@@ -31,7 +31,7 @@ public class SmokingController : MonoBehaviour {
 
     private string musiFilePath = "CSV/Smoking2"; // CSVパス名
 
-    private string talkFilePath = "Text/Smoking/SmokingTalk";
+    private string talkFilePath = "Text/Smoking/SmokingTalk"; // 会話パートテキストパス名
 
     private Vector2 tabacoSize;
 
@@ -41,19 +41,21 @@ public class SmokingController : MonoBehaviour {
 
     // Use this for initialization
     void Start () {
-        ScenarioController.Instance.BeginScenario(talkFilePath);
+        ScenarioController.Instance.BeginScenario(talkFilePath); // シナリオ再生
         
-        selectUI.SetActive(false);
+        selectUI.SetActive(false); // 回答選択UIを非表示
+
+        // prefabから不必要なものを非表示
         foreach(var i in nonActive)
         {
             i.SetActive(false);
         }
         
-        firstAnswerCount = answerCount;
+        firstAnswerCount = answerCount; // 回答権を設定
         
-        succesCount = 0;
+        succesCount = 0; // 正解数
 
-        tabacoSize = tabaco.rectTransform.sizeDelta;
+        tabacoSize = tabaco.rectTransform.sizeDelta; // 制限時間のUIの長さを設定
         //StartCoroutine(TimeDown());
 
         mushikui = new Mushikui(musiFilePath);
@@ -61,7 +63,8 @@ public class SmokingController : MonoBehaviour {
         Question();
 	}
 
-    bool isTime = false;
+    bool isTime = false; // タイマースタートフラグ
+    bool timeOver = false; // タイムオーバーフラグ
     void Update(){
         if (ScenarioController.Instance.IsReachLastInfo()) {
             selectUI.SetActive(true);
@@ -73,8 +76,11 @@ public class SmokingController : MonoBehaviour {
             }
         }
 
-        if(tabaco.rectTransform.sizeDelta.x < 0)
-            Common.Instance.ChangeScene(Common.SceneName.Result);
+        if (tabaco.rectTransform.sizeDelta.x < 0)
+            if (!timeOver){
+                timeOver = true;
+                Common.Instance.ChangeScene(Common.SceneName.Result);
+            }
     }
 
     public void InitCorutine() {
@@ -94,9 +100,9 @@ public class SmokingController : MonoBehaviour {
             tabaco.rectTransform.sizeDelta -= new Vector2(time * Time.deltaTime,0);
             if(tabaco.rectTransform.sizeDelta.x <= tabacoSize.x / 2 &&
                 tabaco.rectTransform.sizeDelta.x >= tabacoSize.x / 4) {
-                tabaco.color = Color.yellow;
+                tabaco.transform.GetChild(0).GetComponent<Image>().color = Color.yellow;
             } else if(tabaco.rectTransform.sizeDelta.x < tabacoSize.x / 4) {
-                tabaco.color = Color.red;
+                tabaco.transform.GetChild(0).GetComponent<Image>().color = Color.red;
             }
             yield return null;
         }
@@ -119,7 +125,7 @@ public class SmokingController : MonoBehaviour {
 
             // 初期化と会話表示非表示---------
             face.color = Color.white;
-            tabaco.color = Color.white;
+            tabaco.transform.GetChild(0).GetComponent<Image>().color = Color.white;
             tabaco.rectTransform.sizeDelta = tabacoSize;
 
             answerCount = firstAnswerCount;

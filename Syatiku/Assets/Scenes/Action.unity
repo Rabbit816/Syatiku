@@ -3272,6 +3272,7 @@ GameObject:
   - component: {fileID: 1594453151}
   - component: {fileID: 1594453150}
   - component: {fileID: 1594453149}
+  - component: {fileID: 1594453152}
   m_Layer: 5
   m_Name: Boss
   m_TagString: Untagged
@@ -3383,6 +3384,23 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1594453147}
+--- !u!95 &1594453152
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1594453147}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: e711cec081d1f734dac1c777f042ee7d, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
 --- !u!1 &1795528487
 GameObject:
   m_ObjectHideFlags: 0
