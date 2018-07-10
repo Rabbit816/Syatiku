@@ -107,6 +107,10 @@ public class Common : MonoBehaviour {
     public void ChangeScene(SceneName name)
     {
         StartCoroutine(Fade(name));
+        foreach (Button obj in FindObjectsOfType(typeof(Button)))
+        {
+            obj.enabled = false;
+        }
     }
 
     /// <summary>
@@ -155,10 +159,5 @@ public class Common : MonoBehaviour {
             param[rand] = temp;
         }
         return param;
-    }
-
-    public void OnClickOnce(Button button)
-    {
-        button.interactable = false;
     }
 }
