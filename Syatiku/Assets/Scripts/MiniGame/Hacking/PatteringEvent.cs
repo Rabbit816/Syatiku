@@ -13,6 +13,10 @@ public class PatteringEvent : MonoBehaviour {
     private RectTransform Low_Paper_2;
     [SerializeField, Tooltip("SpeedyのPaper_2")]
     private RectTransform Speedy_Paper_2;
+    [SerializeField, Tooltip("LowのPaper_0")]
+    private RectTransform Low_Paper_0;
+    [SerializeField, Tooltip("SpeedyのPaper_0")]
+    private RectTransform Speedy_Paper_0;
     [SerializeField, Tooltip("Patteringfaseのtext")]
     private Text tx;
     [SerializeField, Tooltip("取得するDocument")]
@@ -25,6 +29,10 @@ public class PatteringEvent : MonoBehaviour {
     private GameObject LowObject;
     [SerializeField, Tooltip("SpeedyAnimationで使うObject")]
     private GameObject SpeedyObject;
+    [SerializeField, Tooltip("Low Title Object")]
+    private RectTransform Low_Title;
+    [SerializeField, Tooltip("Speedy Title Object")]
+    private RectTransform Speedy_Title;
 
     private HackTap hack_tap;
     private HackBoss hack_boss;
@@ -66,18 +74,22 @@ public class PatteringEvent : MonoBehaviour {
             case 0:
                 Low_Paper_1.GetComponent<Image>().color = new Color(255, 255, 0);
                 Low_Paper_2.GetComponent<Image>().color = new Color(255, 255, 0);
+                Low_Paper_0.GetComponent<Image>().color = new Color(255, 255, 0);
                 break;
             case 1:
                 Low_Paper_1.GetComponent<Image>().color = new Color(255, 255, 255);
                 Low_Paper_2.GetComponent<Image>().color = new Color(255, 255, 255);
+                Low_Paper_0.GetComponent<Image>().color = new Color(255, 255, 255);
                 break;
             case 2:
                 Speedy_Paper_1.GetComponent<Image>().color = new Color(255, 255, 0);
                 Speedy_Paper_2.GetComponent<Image>().color = new Color(255, 255, 0);
+                Speedy_Paper_0.GetComponent<Image>().color = new Color(255, 255, 0);
                 break;
             case 3:
                 Speedy_Paper_1.GetComponent<Image>().color = new Color(255, 255, 255);
                 Speedy_Paper_2.GetComponent<Image>().color = new Color(255, 255, 255);
+                Speedy_Paper_0.GetComponent<Image>().color = new Color(255, 255, 255);
                 break;
             default:
                 Debug.Log("ColorNum :" + num);
@@ -99,6 +111,35 @@ public class PatteringEvent : MonoBehaviour {
         yield return new WaitForSeconds(time);
         getDocument_obj.SetActive(false);
         tx.text = "黄色のページをタップしよう！";
+    }
+
+    public IEnumerator Start_LowWaitTime(float time)
+    {
+        LowObject.SetActive(true);
+        Sequence que = DOTween.Sequence();
+        que.Append(Low_Title.DOLocalMoveX(0f, 1.0f));
+        yield return new WaitForSeconds(time);
+        que.Append(Low_Title.DOLocalMoveX(-600f, 1.0f));
+        yield return new WaitForSeconds(0.5f);
+        LowAnim();
+        //yield return new WaitForSeconds(0.5f);
+        //que.Append(Low_Title.DOLocalMoveX(600f, 2.0f));
+        //yield return new WaitForSeconds(0.5f);
+    }
+
+    public IEnumerator Start_SpeedyWaitTime(float time)
+    {
+        SpeedyObject.SetActive(true);
+        Sequence quen = DOTween.Sequence();
+        quen.Append(Speedy_Title.DOLocalMoveX(0f, 1.0f));
+        yield return new WaitForSeconds(time);
+        quen.Append(Speedy_Title.DOLocalMoveX(-600f, 1.0f));
+        yield return new WaitForSeconds(0.5f);
+        SpeedyAnim();
+        Speedy_Title.transform.localPosition = new Vector2(Speedy_Title.transform.localPosition.x + 600f, 0);
+        //yield return new WaitForSeconds(0.5f);
+        //quen.Append(Speedy_Title.DOLocalMoveX(600f, 2.0f));
+        //yield return new WaitForSeconds(0.5f);
     }
 
     /// <summary>
@@ -133,11 +174,9 @@ public class PatteringEvent : MonoBehaviour {
     /// <summary>
     /// 遅めのアニメーション処理
     /// </summary>
-    public void LowAnim()
+    private void LowAnim()
     {
-        LowObject.SetActive(true);
         Sequence se = DOTween.Sequence();
-
         se.Append(Low_Paper_1.DOLocalRotate(new Vector2(0, Low_Paper_1.localRotation.y + 180), 1.0f).SetDelay(0.5f).SetLoops(31, LoopType.Restart))
            .InsertCallback(3.7f, () => ChangeColor(0))
            .InsertCallback(3.7f, () => _success = true)
@@ -151,17 +190,16 @@ public class PatteringEvent : MonoBehaviour {
            .InsertCallback(27.7f, () => _success = true)
            .InsertCallback(28.5f, () => _success = false)
            .InsertCallback(28.5f, () => ChangeColor(1))
-           .OnComplete(() => { PatteResult(); LowObject.SetActive(false); });
+           .OnComplete(() => { PatteResult(); Low_Title.transform.localPosition = new Vector2(600f, 0); LowObject.SetActive(false); });
     }
 
     /// <summary>
     /// Animationのイベント処理（Loopバージョン）
     /// </summary>
-    public void AnimLoop()
+    private void SpeedyAnim()
     {
-        SpeedyObject.SetActive(true);
         Sequence seq = DOTween.Sequence();
-        seq.Append(Speedy_Paper_1.DOLocalRotate(new Vector2(0, Speedy_Paper_1.localRotation.y + 180), 0.6f).SetDelay(0.3f).SetLoops(38, LoopType.Restart))
+        seq.Append(Speedy_Paper_1.DOLocalRotate(new Vector2(0, Speedy_Paper_1.localRotation.y + 180), 0.3f).SetDelay(0.3f).SetLoops(62, LoopType.Restart))
            .InsertCallback(2.8f, () => ChangeColor(2))
            .InsertCallback(2.8f, () => _success = true)
            .InsertCallback(3.3f, () => _success = false)
@@ -170,10 +208,10 @@ public class PatteringEvent : MonoBehaviour {
            .InsertCallback(10.6f, () => _success = true)
            .InsertCallback(11.1f, () => _success = false)
            .InsertCallback(11.1f, () => ChangeColor(3))
-           .InsertCallback(17.8f, () => ChangeColor(2))
-           .InsertCallback(17.8f, () => _success = true)
-           .InsertCallback(18.3f, () => _success = false)
-           .InsertCallback(18.3f, () => ChangeColor(3))
+           .InsertCallback(16.8f, () => ChangeColor(2))
+           .InsertCallback(16.8f, () => _success = true)
+           .InsertCallback(17.3f, () => _success = false)
+           .InsertCallback(17.3f, () => ChangeColor(3))
            .OnComplete(() => { PatteResult(); SpeedyObject.SetActive(false); });
     }
 }

@@ -48,8 +48,6 @@ public class HackTap : MonoBehaviour
     private GameObject[] pos_list;
     [SerializeField, Tooltip("資料Object")]
     private GameObject Document;
-    [SerializeField, Tooltip("資料Object")]
-    private RectTransform Doc_rect;
 
     [SerializeField, Tooltip("額縁Object")]
     private RectTransform Gakubuti;
@@ -65,15 +63,17 @@ public class HackTap : MonoBehaviour
     private GameObject Window;
     [SerializeField, Tooltip("Image 5こ")]
     private Sprite[] img_list;
+    [SerializeField, Tooltip("Zoom Object")]
+    private GameObject Zoom;
 
     private GameObject DoorSide;
-    private GameObject Zoom;
     private HackMain hack_main;
     private IntoPCAction intopc_action;
     private PatteringEvent patte;
     private GameObject pat;
     private int count = 0;
     private int GakuCount = 0;
+    public int Gakubuti_max = 7;
     //比較する資料を取得したかどうか
     [HideInInspector]
     public bool _getDocument = false;
@@ -92,7 +92,6 @@ public class HackTap : MonoBehaviour
         CollectedWord = GameObject.Find("Canvas/PC/PassWordFase/Collect");
         GetWord = GameObject.Find("Canvas/Check/GetWord");
         DoorSide = GameObject.Find("Canvas/DoorSide");
-        Zoom = GameObject.Find("Canvas/Zoom");
         pat = GameObject.Find("Canvas/PC/PatteringFase");
 
         intopc_action = GetComponent<IntoPCAction>();
@@ -138,24 +137,7 @@ public class HackTap : MonoBehaviour
             case 7:
             case 8:
             case 9:
-                // 一回もタップされてなかったらPC内とリスト内とその場所に表示
-                if (Getting_position[placeNum].transform.childCount == 0)
-                {
-                    if (place_list[placeNum].word == null)
-                        return;
-
-                    Instantiate(AppearPrefab, Getting_position[placeNum].transform);
-                    Getting_position[placeNum].transform.GetComponentInChildren<Text>().text = place_list[placeNum].word.ToString();
-                    AppearPrefab.GetComponent<Image>().sprite = img_list[placeNum];
-
-                    GameObject _collected_word = Instantiate(CollectedPrefab, CollectedWord.transform);
-                    _collected_word.transform.position = pos_list[placeNum].transform.position;
-                    _collected_word.GetComponentInChildren<Text>().text = place_list[placeNum].word.ToString();
-
-                    GameObject _get_word = Instantiate(GetWordPrefab, GetWord.transform);
-                    _get_word.transform.SetAsFirstSibling();
-                    _get_word.GetComponentInChildren<Text>().text = place_list[placeNum].word.ToString();
-                }
+                SearchTap(placeNum);
                 break;
             case 10:
                 if (_windowFase)
@@ -179,60 +161,72 @@ public class HackTap : MonoBehaviour
                 IntoPC.transform.localPosition = new Vector2(0, 0);
                 Window.SetActive(false);
                 pat.transform.SetSiblingIndex(2);
-                patte.LowAnim();
+                StartCoroutine(patte.Start_LowWaitTime(1.0f));
                 _lowAnim = true;
                 break;
             case 15:
-                Zoom.transform.GetChild(0).gameObject.SetActive(true);
-                break;
-            case 16:
-                Zoom.transform.GetChild(0).gameObject.SetActive(false);
-                break;
-            case 17:
-                Zoom.transform.GetChild(1).gameObject.SetActive(true);
-                break;
-            case 18:
-                Zoom.transform.GetChild(1).gameObject.SetActive(false);
-                break;
-            case 19:
-                Zoom.transform.GetChild(2).gameObject.SetActive(true);
-                break;
-            case 20:
-                Zoom.transform.GetChild(2).gameObject.SetActive(false);
-                break;
-            case 21:
-                Zoom.transform.GetChild(3).gameObject.SetActive(true);
-                break;
-            case 22:
-                Zoom.transform.GetChild(3).gameObject.SetActive(false);
-                break;
-            case 23:
-                Zoom.transform.GetChild(4).gameObject.SetActive(true);
-                break;
-            case 24:
-                Zoom.transform.GetChild(4).gameObject.SetActive(false);
-                break;
-            case 25:
                 if (_animloop)
                     return;
                 IntoPC.transform.localPosition = new Vector2(0, 0);
                 Window.SetActive(false);
                 pat.transform.SetSiblingIndex(2);
-                patte.AnimLoop();
+                StartCoroutine(patte.Start_SpeedyWaitTime(1.0f));
                 _animloop = true;
                 break;
             case 26:
                 intopc_action.DocumentsComparison();
                 break;
-            case 27:
-                patte.AnimLoop();
-                break;
-            case 28:
-                Zoom.transform.GetChild(5).gameObject.SetActive(false);
-                break;
-            case 29:
-                Zoom.transform.GetChild(5).gameObject.SetActive(true);
-                break;
+        }
+    }
+
+    /// <summary>
+    /// ズームにする時の処理
+    /// </summary>
+    /// <param name="childNum"></param>
+    public void ZoomActive(int childNum)
+    {
+        if(!Zoom.transform.GetChild(childNum).gameObject.activeSelf)
+            Zoom.transform.GetChild(childNum).gameObject.SetActive(true);
+        else
+            Zoom.transform.GetChild(childNum).gameObject.SetActive(false);
+    }
+
+    /// <summary>
+    /// 単語が出るところをタップした時の処理
+    /// </summary>
+    /// <param name="placeNum"></param>
+    private void SearchTap(int placeNum)
+    {
+        // 一回もタップされてなかったらPC内とリスト内とその場所に表示
+        if (Getting_position[placeNum].transform.childCount == 0)
+        {
+            if (place_list[placeNum].word == null)
+                return;
+
+            //押したところに単語を表示
+            GameObject appearobj = Instantiate(AppearPrefab, Getting_position[placeNum].transform);
+            Getting_position[placeNum].transform.GetComponentInChildren<Text>().text = place_list[placeNum].word.ToString();
+            Image appear_img = appearobj.GetComponent<Image>();
+            Text appearChild_text = appearobj.transform.GetChild(0).GetComponent<Text>();
+            AppearPrefab.GetComponent<Image>().sprite = img_list[placeNum];
+            DOTween.ToAlpha(
+                () => appear_img.color,
+                color => appear_img.color = color,
+                0f, 2.0f);
+            DOTween.ToAlpha(
+                () => appearChild_text.color,
+                color => appearChild_text.color = color,
+                0f, 2.0f);
+
+            //PC内に集めた単語を表示
+            GameObject _collected_word = Instantiate(CollectedPrefab, CollectedWord.transform);
+            _collected_word.transform.position = pos_list[placeNum].transform.position;
+            _collected_word.GetComponentInChildren<Text>().text = place_list[placeNum].word.ToString();
+
+            //集めたものリストの中に単語を表示
+            GameObject _get_word = Instantiate(GetWordPrefab, GetWord.transform);
+            _get_word.transform.SetAsFirstSibling();
+            _get_word.GetComponentInChildren<Text>().text = place_list[placeNum].word.ToString();
         }
     }
 
@@ -254,11 +248,11 @@ public class HackTap : MonoBehaviour
     public void GakuEvent()
     {
         GakuCount++;
-        if (GakuCount > 7)
+        if (GakuCount > Gakubuti_max)
             return;
         Sequence seq = DOTween.Sequence();
         Gakubuti.DOPunchRotation(new Vector3(0, 0, 30), 0.7f);
-        if (GakuCount == 7)
+        if (GakuCount == Gakubuti_max)
         {
             seq.Append(Gakubuti.DOLocalMoveY(-122, 0.6f))
                 .OnComplete(() => { Meishi.SetActive(true); Meishi_obj.DOLocalMove(new Vector3(253, -226, 0), 0.5f); });
@@ -278,6 +272,7 @@ public class HackTap : MonoBehaviour
         Document.SetActive(true);
         Sequence seq = DOTween.Sequence();
         Image img_alpha = Document.GetComponent<Image>();
+        RectTransform Doc_rect = Document.GetComponent<RectTransform>();
         seq.Append(Doc_rect.DOLocalMove(new Vector3(474, 377, 0), 1.3f).SetDelay(0.3f))
             .OnComplete(() =>
             {
