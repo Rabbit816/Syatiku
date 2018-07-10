@@ -49,7 +49,6 @@ public class HackMain : MonoBehaviour {
 
     // Use this for initialization
     void Start () {
-        Common.Instance.isClear = 0;
         into_pc = GetComponent<IntoPCAction>();
         patte = GetComponent<PatteringEvent>();
         hack_tap = GetComponent<HackTap>();
