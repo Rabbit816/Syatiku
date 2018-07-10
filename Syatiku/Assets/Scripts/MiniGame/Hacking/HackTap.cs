@@ -142,7 +142,6 @@ public class HackTap : MonoBehaviour
             case 10:
                 if (_windowFase)
                     Window.SetActive(true);
-
                 IntoPC.transform.localPosition = new Vector2(0, 0);
                 break;
             case 11:

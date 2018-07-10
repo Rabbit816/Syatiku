@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using DG.Tweening;
+using System;
 
 public class HackBoss : MonoBehaviour {
 
@@ -17,6 +18,8 @@ public class HackBoss : MonoBehaviour {
     private GameObject Worning;
     [SerializeField, Tooltip("DontTap")]
     private GameObject DontTap;
+    [SerializeField, Tooltip("Zoom object")]
+    private GameObject Zoom;
 
     private HackTap hack_tap;
     [Tooltip("上司が待機してる時間")]
@@ -82,17 +85,12 @@ public class HackBoss : MonoBehaviour {
         hack_main.comingCount++;
         if (hack_main.comingCount % 4 == 0)
         {
-            hack_tap.PlaceButton(24);
-            hack_tap.PlaceButton(22);
             hack_tap.PlaceButton(11);
+            Zoom.transform.GetChild(3).gameObject.SetActive(false);
+            Zoom.transform.GetChild(4).gameObject.SetActive(false);
             DontTap.SetActive(true);
             ComeOnBoss();
         }
-        //else
-        //{
-        //    ComeBoss.SetActive(false);
-        //    Worning.SetActive(false);
-        //}
     }
 
     /// <summary>

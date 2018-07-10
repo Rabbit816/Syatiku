@@ -44,9 +44,13 @@ public class PatteringEvent : MonoBehaviour {
     [HideInInspector]
     public bool _lowAnimClear = false;
 
-	// Use this for initialization
-	void Start ()
+    private Sequence quen;
+    private Sequence sequen;
+
+    // Use this for initialization
+    void Start ()
     {
+        quen = DOTween.Sequence();
         _success = false;
         tx.text = "黄色のページをタップしよう！";
         hack_tap = GetComponent<HackTap>();
@@ -104,42 +108,34 @@ public class PatteringEvent : MonoBehaviour {
     /// <returns></returns>
     private IEnumerator Wait_Time(float time)
     {
-        if(_success)
-            tx.text = "資料を取得しました。";
-        else
-            tx.text = "資料を取得できませんでした。";
         yield return new WaitForSeconds(time);
         getDocument_obj.SetActive(false);
-        tx.text = "黄色のページをタップしよう！";
     }
 
     public IEnumerator Start_LowWaitTime(float time)
     {
         LowObject.SetActive(true);
-        Sequence que = DOTween.Sequence();
-        que.Append(Low_Title.DOLocalMoveX(0f, 1.0f));
+        LowObject.transform.GetComponentInChildren<Button>().interactable = false;
+        sequen.Append(Low_Title.DOLocalMoveX(0f, 1.0f));
         yield return new WaitForSeconds(time);
-        que.Append(Low_Title.DOLocalMoveX(-600f, 1.0f));
+        sequen.Append(Low_Title.DOLocalMoveX(-600f, 1.0f)
+            .OnComplete(()=> LowObject.transform.GetChild(0).GetComponentInChildren<Button>().enabled = true));
         yield return new WaitForSeconds(0.5f);
+        LowObject.transform.GetComponentInChildren<Button>().interactable = true;
         LowAnim();
-        //yield return new WaitForSeconds(0.5f);
-        //que.Append(Low_Title.DOLocalMoveX(600f, 2.0f));
-        //yield return new WaitForSeconds(0.5f);
     }
 
     public IEnumerator Start_SpeedyWaitTime(float time)
     {
         SpeedyObject.SetActive(true);
-        Sequence quen = DOTween.Sequence();
+        SpeedyObject.transform.GetComponentInChildren<Button>().interactable = false;
         quen.Append(Speedy_Title.DOLocalMoveX(0f, 1.0f));
         yield return new WaitForSeconds(time);
-        quen.Append(Speedy_Title.DOLocalMoveX(-600f, 1.0f));
+        quen.Append(Speedy_Title.DOLocalMoveX(-600f, 1.0f)
+            .OnComplete(()=> SpeedyObject.transform.GetChild(0).GetComponentInChildren<Button>().enabled = true));
         yield return new WaitForSeconds(0.5f);
+        LowObject.transform.GetComponentInChildren<Button>().interactable = true;
         SpeedyAnim();
-        Speedy_Title.transform.localPosition = new Vector2(Speedy_Title.transform.localPosition.x + 600f, 0);
-        //yield return new WaitForSeconds(0.5f);
-        //quen.Append(Speedy_Title.DOLocalMoveX(600f, 2.0f));
-        //yield return new WaitForSeconds(0.5f);
     }
 
     /// <summary>
@@ -157,6 +153,17 @@ public class PatteringEvent : MonoBehaviour {
             getDocument_obj.SetActive(true);
         }
         StartCoroutine(Wait_Time(2f));
+    }
+
+    private IEnumerator End_Anim()
+    {
+        Speedy_Title.transform.GetComponentInChildren<Text>().text = "終了";
+        Low_Title.transform.GetComponentInChildren<Text>().text = "終了";
+        quen.Append(Speedy_Title.DOLocalMoveX(600f, 2.5f));
+        sequen.Append(Low_Title.DOLocalMoveX(600f, 2.5f));
+        yield return new WaitForSeconds(3f);
+        PatteResult();
+        SpeedyObject.SetActive(false);
     }
 
     /// <summary>
@@ -177,20 +184,20 @@ public class PatteringEvent : MonoBehaviour {
     private void LowAnim()
     {
         Sequence se = DOTween.Sequence();
-        se.Append(Low_Paper_1.DOLocalRotate(new Vector2(0, Low_Paper_1.localRotation.y + 180), 1.0f).SetDelay(0.5f).SetLoops(31, LoopType.Restart))
+        se.Append(Low_Paper_1.DOLocalRotate(new Vector2(0, Low_Paper_1.localRotation.y + 180), 0.3f).SetDelay(0.5f).SetLoops(20, LoopType.Restart))
            .InsertCallback(3.7f, () => ChangeColor(0))
            .InsertCallback(3.7f, () => _success = true)
            .InsertCallback(4.5f, () => _success = false)
            .InsertCallback(4.5f, () => ChangeColor(1))
-           .InsertCallback(14.7f, () => ChangeColor(0))
-           .InsertCallback(14.7f, () => _success = true)
-           .InsertCallback(15.5f, () => _success = false)
-           .InsertCallback(15.5f, () => ChangeColor(1))
-           .InsertCallback(27.7f, () => ChangeColor(0))
-           .InsertCallback(27.7f, () => _success = true)
-           .InsertCallback(28.5f, () => _success = false)
-           .InsertCallback(28.5f, () => ChangeColor(1))
-           .OnComplete(() => { PatteResult(); Low_Title.transform.localPosition = new Vector2(600f, 0); LowObject.SetActive(false); });
+           .InsertCallback(10.4f, () => ChangeColor(0))
+           .InsertCallback(10.4f, () => _success = true)
+           .InsertCallback(11.6f, () => _success = false)
+           .InsertCallback(11.6f, () => ChangeColor(1))
+           .InsertCallback(18.5f, () => ChangeColor(0))
+           .InsertCallback(18.5f, () => _success = true)
+           .InsertCallback(19.3f, () => _success = false)
+           .InsertCallback(19.3f, () => ChangeColor(1))
+           .OnComplete(() => StartCoroutine(End_Anim()));
     }
 
     /// <summary>
@@ -199,7 +206,7 @@ public class PatteringEvent : MonoBehaviour {
     private void SpeedyAnim()
     {
         Sequence seq = DOTween.Sequence();
-        seq.Append(Speedy_Paper_1.DOLocalRotate(new Vector2(0, Speedy_Paper_1.localRotation.y + 180), 0.3f).SetDelay(0.3f).SetLoops(62, LoopType.Restart))
+        seq.Append(Speedy_Paper_1.DOLocalRotate(new Vector2(0, Speedy_Paper_1.localRotation.y + 180), 0.2f).SetDelay(0.1f).SetLoops(90, LoopType.Restart))
            .InsertCallback(2.8f, () => ChangeColor(2))
            .InsertCallback(2.8f, () => _success = true)
            .InsertCallback(3.3f, () => _success = false)
@@ -212,6 +219,6 @@ public class PatteringEvent : MonoBehaviour {
            .InsertCallback(16.8f, () => _success = true)
            .InsertCallback(17.3f, () => _success = false)
            .InsertCallback(17.3f, () => ChangeColor(3))
-           .OnComplete(() => { PatteResult(); SpeedyObject.SetActive(false); });
+           .OnComplete(() => StartCoroutine(End_Anim()));
     }
 }
