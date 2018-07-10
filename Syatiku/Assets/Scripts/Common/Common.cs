@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using UnityEngine.EventSystems;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -107,10 +108,8 @@ public class Common : MonoBehaviour {
     public void ChangeScene(SceneName name)
     {
         StartCoroutine(Fade(name));
-        foreach (Button obj in FindObjectsOfType(typeof(Button)))
-        {
-            obj.enabled = false;
-        }
+        var eventSystem = FindObjectOfType<EventSystem>();
+        eventSystem.enabled = false;
     }
 
     /// <summary>
