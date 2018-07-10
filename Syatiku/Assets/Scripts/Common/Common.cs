@@ -52,9 +52,6 @@ public class Common : MonoBehaviour {
     [System.NonSerialized]
     public int isClear; 
 
-    //ミニゲームクリアしたか（α用）
-    public static bool gameClear = true;
-
     [System.NonSerialized]
     public int gameMode; // シナリオがどちらか
 
@@ -66,7 +63,7 @@ public class Common : MonoBehaviour {
     private static Common instance;
 
     [System.NonSerialized]
-    public int actionCount;
+    public int actionCount; // 行動回数
 
     // 同じオブジェクト(Common)があるか判定
     public static Common Instance
@@ -94,6 +91,13 @@ public class Common : MonoBehaviour {
     void Awake()
     {
         DontDestroyOnLoad(gameObject);
+    }
+
+    // BGM再生(AudioListener)
+    public void PlayBGM(AudioClip bgm) {
+        var audio = gameObject.GetComponent<AudioSource>();
+        audio.clip = bgm;
+        audio.Play();
     }
 
     /// <summary>
@@ -151,5 +155,10 @@ public class Common : MonoBehaviour {
             param[rand] = temp;
         }
         return param;
+    }
+
+    public void OnClickOnce(Button button)
+    {
+        button.interactable = false;
     }
 }

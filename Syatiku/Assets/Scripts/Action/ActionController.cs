@@ -11,12 +11,17 @@ public class ActionController : MonoBehaviour {
     [SerializeField]
     private Text TActionCount;
 
+    // 行動回数テキスト
     [SerializeField]
     private Text action;
 
     // 獲得資料配列
     [SerializeField]
     private Image[] getData;
+
+    // 獲得資料アイコン
+    [SerializeField]
+    private Image[] detailIcon;
 
     // 任務内容、獲得資料背景、獲得資料詳細
     [SerializeField]
@@ -28,7 +33,7 @@ public class ActionController : MonoBehaviour {
     private GameObject pos2;
 
     // ミニゲーム遷移のための数字
-    private int[] sceneNum = { 0, 1, 0 };
+    private int[] sceneNum = { 0, 1, 2 };
 
     // フキダシ付き人間のPrefab配列
     [SerializeField]
@@ -38,6 +43,7 @@ public class ActionController : MonoBehaviour {
     [SerializeField]
     private Image bossButton;
 
+    // ミニゲーム画像
     [SerializeField]
     private Sprite[] miniGameImage = new Sprite[3];
     // 各UI表示フラグ---------------------------------
@@ -47,16 +53,24 @@ public class ActionController : MonoBehaviour {
     // -----------------------------------------------
 
     void Start () {
+        // AudioSourceを取得
+        var common = Common.Instance.GetComponent<AudioSource>();
+        common.Stop();
+
         IsDataSelect();
+
         if (Common.Instance.actionCount <= 0)
-            bossButton.gameObject.SetActive(true);
+            bossButton.gameObject.SetActive(true); // 行動回数が０ならBossアイコンを表示
         else
-            bossButton.gameObject.SetActive(false);
+            bossButton.gameObject.SetActive(false); // そうでないならBossアイコンを非表示
+
         action.text = Common.Instance.actionCount.ToString();
 
+        // 各UIを非表示に------------------------
         missionSeat.gameObject.SetActive(false);
         isData.gameObject.SetActive(false);
         dataDetail.gameObject.SetActive(false);
+        // --------------------------------------
 
         pos2 = createPos[2];
         Common.Instance.Shuffle(createPos);
@@ -65,12 +79,8 @@ public class ActionController : MonoBehaviour {
         CreateHuman();
     }
 
-    public void GetDataList() {
-        
-    }
-
     /// <summary>
-    /// 獲得資料
+    /// 獲得資料の設定
     /// </summary>
     public void IsDataSelect() {
         int num = 0;
@@ -79,6 +89,7 @@ public class ActionController : MonoBehaviour {
                 getData[num].GetComponent<Button>().interactable = false;
             }else {
                 getData[num].GetComponent<Button>().interactable = true;
+                detailIcon[num].color = Color.white;
             }
             num++;
         }
@@ -114,6 +125,7 @@ public class ActionController : MonoBehaviour {
         else datailOpen = true;
     }
 
+    // Boss遷移
     public void ChangeBoss()
     {
         Common.Instance.ChangeScene(Common.SceneName.Boss);
@@ -124,12 +136,11 @@ public class ActionController : MonoBehaviour {
     /// </summary>
     public void CreateHuman()
     {
-        int num = 0; // 仮
         foreach (var i in sceneNum)
         {
             Image mini = Instantiate(humanPrefab[i], humanClone.transform) as Image;
-            mini.transform.localPosition = createPos[num].transform.localPosition;
-            if (createPos[num] == pos2)
+            mini.transform.localPosition = createPos[i].transform.localPosition;
+            if (createPos[i] == pos2)
                 mini.transform.localScale = new Vector2(-1, 1);
 
             Image s_mini = mini.transform.GetChild(1).transform.GetChild(0).GetComponent<Image>();
@@ -137,7 +148,6 @@ public class ActionController : MonoBehaviour {
 
             HukidashiController hukiCon = mini.GetComponent<HukidashiController>();
             hukiCon.MiniGameNum(i);
-            num++;
         }
     }
 }

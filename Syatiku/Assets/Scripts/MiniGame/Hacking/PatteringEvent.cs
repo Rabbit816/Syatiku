@@ -1,16 +1,22 @@
 ﻿using UnityEngine;
 using DG.Tweening;
 using UnityEngine.UI;
-using System;
 using System.Collections;
-using System.Collections.Generic;
 
 public class PatteringEvent : MonoBehaviour {
 
-    [SerializeField, Tooltip("Paper_1")]
-    private RectTransform Paper_1;
-    [SerializeField, Tooltip("Paper_2")]
-    private RectTransform Paper_2;
+    [SerializeField, Tooltip("LowのPaper_1")]
+    private RectTransform Low_Paper_1;
+    [SerializeField, Tooltip("SpeedyのPaper_1")]
+    private RectTransform Speedy_Paper_1;
+    [SerializeField, Tooltip("LowのPaper_2")]
+    private RectTransform Low_Paper_2;
+    [SerializeField, Tooltip("SpeedyのPaper_2")]
+    private RectTransform Speedy_Paper_2;
+    [SerializeField, Tooltip("LowのPaper_0")]
+    private RectTransform Low_Paper_0;
+    [SerializeField, Tooltip("SpeedyのPaper_0")]
+    private RectTransform Speedy_Paper_0;
     [SerializeField, Tooltip("Patteringfaseのtext")]
     private Text tx;
     [SerializeField, Tooltip("取得するDocument")]
@@ -19,14 +25,18 @@ public class PatteringEvent : MonoBehaviour {
     private GameObject getDocument_obj;
     [SerializeField, Tooltip("place_button_6")]
     private GameObject place_button_6;
-    [SerializeField, Tooltip("PaperPrefab")]
-    private GameObject paper_prefab;
+    [SerializeField, Tooltip("LowAnimationで使うObject")]
+    private GameObject LowObject;
+    [SerializeField, Tooltip("SpeedyAnimationで使うObject")]
+    private GameObject SpeedyObject;
+    [SerializeField, Tooltip("Low Title Object")]
+    private RectTransform Low_Title;
+    [SerializeField, Tooltip("Speedy Title Object")]
+    private RectTransform Speedy_Title;
 
-    private IntoPCAction intopc_action;
     private HackTap hack_tap;
-    private HackMain hack_main;
-
-    private GameObject GetWord;
+    private HackBoss hack_boss;
+    private int successCount = 0;
 
     //いいタイミングかどうか
     private bool _success = false;
@@ -37,14 +47,15 @@ public class PatteringEvent : MonoBehaviour {
 	// Use this for initialization
 	void Start ()
     {
-        GetWord = GameObject.Find("Canvas/Check/GetWord");
         _success = false;
         tx.text = "黄色のページをタップしよう！";
-        intopc_action = GetComponent<IntoPCAction>();
         hack_tap = GetComponent<HackTap>();
-        hack_main = GetComponent<HackMain>();
+        hack_boss = GetComponent<HackBoss>();
         getDocument_obj.SetActive(false);
+        SpeedyObject.SetActive(false);
+        LowObject.SetActive(false);
         _lowAnimClear = false;
+        successCount = 0;
     }
 	
 	// Update is called once per frame
@@ -61,12 +72,24 @@ public class PatteringEvent : MonoBehaviour {
         switch (num)
         {
             case 0:
-                Paper_1.GetComponent<Image>().color = new Color(255, 255, 0);
-                Paper_2.GetComponent<Image>().color = new Color(255, 255, 0);
+                Low_Paper_1.GetComponent<Image>().color = new Color(255, 255, 0);
+                Low_Paper_2.GetComponent<Image>().color = new Color(255, 255, 0);
+                Low_Paper_0.GetComponent<Image>().color = new Color(255, 255, 0);
                 break;
             case 1:
-                Paper_1.GetComponent<Image>().color = new Color(255, 255, 255);
-                Paper_2.GetComponent<Image>().color = new Color(255, 255, 255);
+                Low_Paper_1.GetComponent<Image>().color = new Color(255, 255, 255);
+                Low_Paper_2.GetComponent<Image>().color = new Color(255, 255, 255);
+                Low_Paper_0.GetComponent<Image>().color = new Color(255, 255, 255);
+                break;
+            case 2:
+                Speedy_Paper_1.GetComponent<Image>().color = new Color(255, 255, 0);
+                Speedy_Paper_2.GetComponent<Image>().color = new Color(255, 255, 0);
+                Speedy_Paper_0.GetComponent<Image>().color = new Color(255, 255, 0);
+                break;
+            case 3:
+                Speedy_Paper_1.GetComponent<Image>().color = new Color(255, 255, 255);
+                Speedy_Paper_2.GetComponent<Image>().color = new Color(255, 255, 255);
+                Speedy_Paper_0.GetComponent<Image>().color = new Color(255, 255, 255);
                 break;
             default:
                 Debug.Log("ColorNum :" + num);
@@ -74,10 +97,49 @@ public class PatteringEvent : MonoBehaviour {
         }
     }
 
+    /// <summary>
+    /// タップした時のテキスト処理
+    /// </summary>
+    /// <param name="time">テキストが変わる時間</param>
+    /// <returns></returns>
     private IEnumerator Wait_Time(float time)
     {
+        if(_success)
+            tx.text = "資料を取得しました。";
+        else
+            tx.text = "資料を取得できませんでした。";
         yield return new WaitForSeconds(time);
-        hack_tap.PlaceButton(11);
+        getDocument_obj.SetActive(false);
+        tx.text = "黄色のページをタップしよう！";
+    }
+
+    public IEnumerator Start_LowWaitTime(float time)
+    {
+        LowObject.SetActive(true);
+        Sequence que = DOTween.Sequence();
+        que.Append(Low_Title.DOLocalMoveX(0f, 1.0f));
+        yield return new WaitForSeconds(time);
+        que.Append(Low_Title.DOLocalMoveX(-600f, 1.0f));
+        yield return new WaitForSeconds(0.5f);
+        LowAnim();
+        //yield return new WaitForSeconds(0.5f);
+        //que.Append(Low_Title.DOLocalMoveX(600f, 2.0f));
+        //yield return new WaitForSeconds(0.5f);
+    }
+
+    public IEnumerator Start_SpeedyWaitTime(float time)
+    {
+        SpeedyObject.SetActive(true);
+        Sequence quen = DOTween.Sequence();
+        quen.Append(Speedy_Title.DOLocalMoveX(0f, 1.0f));
+        yield return new WaitForSeconds(time);
+        quen.Append(Speedy_Title.DOLocalMoveX(-600f, 1.0f));
+        yield return new WaitForSeconds(0.5f);
+        SpeedyAnim();
+        Speedy_Title.transform.localPosition = new Vector2(Speedy_Title.transform.localPosition.x + 600f, 0);
+        //yield return new WaitForSeconds(0.5f);
+        //quen.Append(Speedy_Title.DOLocalMoveX(600f, 2.0f));
+        //yield return new WaitForSeconds(0.5f);
     }
 
     /// <summary>
@@ -87,39 +149,35 @@ public class PatteringEvent : MonoBehaviour {
     {
         if (!_success)
         {
-            tx.text = "資料を取得できませんでした。";
-            Common.Instance.clearFlag[Common.Instance.isClear] = true;
-            Common.Instance.ChangeScene(Common.SceneName.Result);
+            hack_boss.MoveBoss();
         }
         else
         {
-            Sequence sequ = DOTween.Sequence();
+            successCount++;
             getDocument_obj.SetActive(true);
-            tx.text = "資料を取得しました。";
-            Image img_alpha = getDocument.GetComponent<Image>();
-            sequ.Append(getDocument.DOLocalMove(new Vector3(332, 147, 0), 1f))
-                .Join(getDocument.DOLocalRotate(new Vector3(0, 0, 720), 1f, RotateMode.FastBeyond360))
-                .OnComplete(() => { DOTween.ToAlpha(
-                    () => img_alpha.color,
-                    color => img_alpha.color = color,
-                    0f,
-                    0.3f);
-                    sequ.onKill(); });
-            GameObject _get_doc = Instantiate(paper_prefab, GetWord.transform);
-            _get_doc.transform.SetAsLastSibling();
-            _lowAnimClear = true;
         }
         StartCoroutine(Wait_Time(2f));
     }
 
     /// <summary>
+    /// パラパラの結果
+    /// </summary>
+    private void PatteResult()
+    {
+        if(successCount >= 1)
+            _lowAnimClear = true;
+        else
+            _lowAnimClear = false;
+        hack_tap.PlaceButton(11);
+    }
+
+    /// <summary>
     /// 遅めのアニメーション処理
     /// </summary>
-    public void LowAnim()
+    private void LowAnim()
     {
         Sequence se = DOTween.Sequence();
-
-        se.Append(Paper_1.DOLocalRotate(new Vector2(0, Paper_1.localRotation.y + 180), 1.0f).SetDelay(0.5f).SetLoops(32, LoopType.Restart))
+        se.Append(Low_Paper_1.DOLocalRotate(new Vector2(0, Low_Paper_1.localRotation.y + 180), 1.0f).SetDelay(0.5f).SetLoops(31, LoopType.Restart))
            .InsertCallback(3.7f, () => ChangeColor(0))
            .InsertCallback(3.7f, () => _success = true)
            .InsertCallback(4.5f, () => _success = false)
@@ -128,32 +186,32 @@ public class PatteringEvent : MonoBehaviour {
            .InsertCallback(14.7f, () => _success = true)
            .InsertCallback(15.5f, () => _success = false)
            .InsertCallback(15.5f, () => ChangeColor(1))
-           .InsertCallback(29.7f, () => ChangeColor(0))
-           .InsertCallback(29.7f, () => _success = true)
-           .InsertCallback(30.5f, () => _success = false)
-           .InsertCallback(30.5f, () => ChangeColor(1))
-           .OnComplete(() => TapResult());
+           .InsertCallback(27.7f, () => ChangeColor(0))
+           .InsertCallback(27.7f, () => _success = true)
+           .InsertCallback(28.5f, () => _success = false)
+           .InsertCallback(28.5f, () => ChangeColor(1))
+           .OnComplete(() => { PatteResult(); Low_Title.transform.localPosition = new Vector2(600f, 0); LowObject.SetActive(false); });
     }
 
     /// <summary>
     /// Animationのイベント処理（Loopバージョン）
     /// </summary>
-    public void AnimLoop()
+    private void SpeedyAnim()
     {
-        Sequence se = DOTween.Sequence();
-        se.Append(Paper_1.DOLocalRotate(new Vector2(0, Paper_1.localRotation.y + 180), 0.5f).SetDelay(0.3f).SetLoops(70, LoopType.Restart))
-           .InsertCallback(3.0f, () => ChangeColor(0))
-           .InsertCallback(3.0f, () => _success = true)
+        Sequence seq = DOTween.Sequence();
+        seq.Append(Speedy_Paper_1.DOLocalRotate(new Vector2(0, Speedy_Paper_1.localRotation.y + 180), 0.3f).SetDelay(0.3f).SetLoops(62, LoopType.Restart))
+           .InsertCallback(2.8f, () => ChangeColor(2))
+           .InsertCallback(2.8f, () => _success = true)
            .InsertCallback(3.3f, () => _success = false)
-           .InsertCallback(3.3f, () => ChangeColor(1))
-           .InsertCallback(12.0f, () => ChangeColor(0))
-           .InsertCallback(12.0f, () => _success = true)
-           .InsertCallback(12.3f, () => _success = false)
-           .InsertCallback(12.3f, () => ChangeColor(1))
-           .InsertCallback(18.0f, () => ChangeColor(0))
-           .InsertCallback(18.0f, () => _success = true)
-           .InsertCallback(18.3f, () => _success = false)
-           .InsertCallback(18.3f, () => ChangeColor(1))
-           .OnComplete(() => TapResult());
+           .InsertCallback(3.3f, () => ChangeColor(3))
+           .InsertCallback(10.6f, () => ChangeColor(2))
+           .InsertCallback(10.6f, () => _success = true)
+           .InsertCallback(11.1f, () => _success = false)
+           .InsertCallback(11.1f, () => ChangeColor(3))
+           .InsertCallback(16.8f, () => ChangeColor(2))
+           .InsertCallback(16.8f, () => _success = true)
+           .InsertCallback(17.3f, () => _success = false)
+           .InsertCallback(17.3f, () => ChangeColor(3))
+           .OnComplete(() => { PatteResult(); SpeedyObject.SetActive(false); });
     }
 }

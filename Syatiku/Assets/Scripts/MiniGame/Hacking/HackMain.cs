@@ -45,10 +45,10 @@ public class HackMain : MonoBehaviour {
     private HackTap hack_tap;
 
     private bool timeout = false;
+    private bool _allClear = false;
 
     // Use this for initialization
     void Start () {
-        Common.Instance.isClear = 0;
         into_pc = GetComponent<IntoPCAction>();
         patte = GetComponent<PatteringEvent>();
         hack_tap = GetComponent<HackTap>();
@@ -57,6 +57,7 @@ public class HackMain : MonoBehaviour {
         Maxline = 0;
         comingCount = 0;
         Theme();
+        _allClear = false;
         timeout = true;
 	}
 
@@ -64,8 +65,14 @@ public class HackMain : MonoBehaviour {
 	void Update () {
         if (into_pc._compariClear && patte._lowAnimClear && hack_tap._document)
         {
-            Common.Instance.clearFlag[Common.Instance.isClear] = true;
-            Common.Instance.ChangeScene(Common.SceneName.Result);
+            
+            if (!_allClear)
+            {
+                _allClear = true;
+                Common.Instance.clearFlag[Common.Instance.isClear] = true;
+                Common.Instance.ChangeScene(Common.SceneName.Result);
+            }
+            
         }
 
         //timer -= Time.deltaTime;
@@ -85,6 +92,7 @@ public class HackMain : MonoBehaviour {
     private IEnumerator Wait_Time(float time)
     {
         yield return new WaitForSeconds(time);
+        Dont_Tap.SetActive(false);
     }
 
     /// <summary>
@@ -139,7 +147,6 @@ public class HackMain : MonoBehaviour {
         Animator anim = theme_obj.GetComponent<Animator>();
         anim.Play("ThemeAnimation");
         
-        StartCoroutine(Wait_Time(10f));
-        Dont_Tap.SetActive(false);
+        StartCoroutine(Wait_Time(1.7f));
     }
 }

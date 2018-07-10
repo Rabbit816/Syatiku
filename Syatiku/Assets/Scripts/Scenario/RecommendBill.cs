@@ -18,11 +18,10 @@ public class RecommendBill : MonoBehaviour {
     {
         while (true)
         {
-            yield return new WaitForSeconds(d);
             gameObject.GetComponent<Image>().sprite = noLightImage;
             yield return new WaitForSeconds(d);
             gameObject.GetComponent<Image>().sprite = isLightImage;
+            yield return new WaitForSeconds(d);
         }
-        
     }
 }

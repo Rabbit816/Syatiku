@@ -7,7 +7,7 @@ public class TitleController : MonoBehaviour {
     [SerializeField]
     private GameObject title;
 
-    void Start()
+    void Awake()
     {
         if (!Common.Instance)
         {
@@ -16,7 +16,7 @@ public class TitleController : MonoBehaviour {
             var sound = Instantiate(Resources.Load("Prefabs/Common/SoundManager"));
             DontDestroyOnLoad(sound);
 
-            SoundManager.Instance.PlayBGM(BGMName.Title);
+            //SoundManager.Instance.PlayBGM(BGMName.Title);
         }
     }
 
@@ -30,7 +30,7 @@ public class TitleController : MonoBehaviour {
         if (mode == 0)
             Common.Instance.actionCount = 1;
         else
-            Common.Instance.actionCount = 3;
+            Common.Instance.actionCount = 1;
         Common.Instance.ChangeScene(Common.SceneName.Scenario);
     }
     //タイトルボタンを削除

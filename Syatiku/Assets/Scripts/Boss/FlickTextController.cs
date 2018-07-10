@@ -41,7 +41,7 @@ public class FlickTextController : MonoBehaviour
         moveForce = new Vector3(moveX, moveY, 0);
 
         //テキスト
-        text.fontSize = Random.Range(14, 32);
+        text.fontSize = Random.Range(20, 40);
         alpha = 0;
         this.type = (Type)num;
         text.color = (type == Type.Correct ? new Color(240 / 255f, 179 / 255f, 37 / 255f) : new Color(33 / 255f, 100 / 255f, 150 / 255f));

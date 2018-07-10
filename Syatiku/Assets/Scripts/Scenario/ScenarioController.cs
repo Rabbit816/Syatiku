@@ -76,9 +76,9 @@ public class ScenarioController : MonoBehaviour {
     void Awake () {
         CheckInstance();
 
-        window.scenarioCanvas.alpha = 0;
+        window.scenarioCanvas.alpha = 1;
 
-        DontDestroyOnLoad(gameObject);
+        //DontDestroyOnLoad(gameObject);
     }
 
     /// <summary>
@@ -91,7 +91,7 @@ public class ScenarioController : MonoBehaviour {
         new ImportScenarioInfo(path, ref scenarioInfoList, window);
 
         Init();
-        FadeManager.Instance.Fade(window.scenarioCanvas, 2f, 1f, () =>
+        FadeManager.Instance.Fade(window.scenarioCanvas, 1f, 1f, () =>
         {
             SetNextInfo();
             isPlayScenario = true;
@@ -120,6 +120,7 @@ public class ScenarioController : MonoBehaviour {
     void SetNextInfo()
     {
         window.recommendIcon.SetActive(false);
+        window.reccomendLight.SetActive(false);
         //感情アイコンの非表示
         for (int i = 0; i < window.characters.Length; i++)
         {
@@ -184,7 +185,8 @@ public class ScenarioController : MonoBehaviour {
     {
         if (!window.recommendIcon.activeSelf)
         {
-            window.recommendIcon.SetActive(true);
+            //window.recommendIcon.SetActive(true);
+            window.reccomendLight.SetActive(true); // washizu
             if (isAuto)
             {
                 StartCoroutine(SetNextInfo(nextWaitTime));

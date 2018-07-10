@@ -18,6 +18,8 @@ public class ScenarioWindow : MonoBehaviour
 
     public CanvasGroup scenarioCanvas;
 
+    public GameObject reccomendLight;
+
     public void Init()
     {
         bgi.sprite = null;
