@@ -13,7 +13,6 @@ public class HukidashiController : MonoBehaviour {
 
     public void ChangeMiniGame()
     {
-        Common.Instance.OnClickOnce(gameObject.GetComponent<Button>());
         Common.Instance.isClear = miniGameNum;
         switch (miniGameNum)
         {

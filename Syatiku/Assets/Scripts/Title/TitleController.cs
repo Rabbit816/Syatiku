@@ -23,9 +23,6 @@ public class TitleController : MonoBehaviour {
     //モード選択
     public void ChangeMode(int mode)
     {
-        //ScenarioController sc = new ScenarioController();
-        //sc.nowScene = 0;
-
         Common.Instance.gameMode = mode;
         if (mode == 0)
             Common.Instance.actionCount = 1;
