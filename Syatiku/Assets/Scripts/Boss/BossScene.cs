@@ -1,63 +1,44 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
-using DG.Tweening;
+using System.Collections;
 
 public class BossScene : MonoBehaviour {
     public static BossScene Instance { get; private set; }
 
     [SerializeField]
-    GameObject standingBoss;
-    [SerializeField]
-    GameObject slappedBoss;
-    [SerializeField]
-    GameObject flickTextPrefab;
-    [SerializeField]
-    RectTransform flickTextBox;
-    [SerializeField]
     UnityEngine.UI.Text timerText;
-
-    [SerializeField, Header("ダメージ判定までの成功回数")]
-    int attackValue = 3;
-
     [SerializeField]
-    int damageGageMax;
-    int damageGage;
-
-    string[,] textContents = new string[,]
-    {
-        { "あいうえお", "かきくけこ" },
-        { "さしすせそ", "たちつてと" },
-    };
-
-    List<FlickTextController> flickTextList = new List<FlickTextController>();
-
-    float spawnTextTimer;
-    float spawnTextTime = 3.0f;
+    FlickPartController flickPart;
+    [SerializeField]
+    SanctionPartController sanctionPart;
+    [SerializeField]
+    DamagePointerController damagePointer;
+    [SerializeField]
+    GameObject standingBoss;
 
     //ボスシーンのゲーム時間
     [SerializeField]
     float gameTime;
+
+    [SerializeField, Header("ハリセンモード移行への区切り値")]
+    int[] Separatevalues;
+    //区切り値への到達状態
+    bool[] isReachStates;
 
     int missCount;
     int successCount;
 
     private Vector3 touchStartPos;
 
-    [Header("ボスダメージアニメーション")]
-    [SerializeField, Header("振動する時間")]
-    float duration = 1f;
-    [SerializeField, Header("振動する強さ")]
-    float strength = 10f;
-    [SerializeField, Header("振動する回数")]
-    int vibrate = 10;
-
     void Awake () {
-        Instance = this.GetComponent<BossScene>();
+        Instance = this;
+        isReachStates = new bool[Separatevalues.Length];
+
+        flickPart.gameObject.SetActive(true);
+        sanctionPart.gameObject.SetActive(false);
 	}
 
 	void Update () {
-
         if (Input.GetMouseButtonDown(0))
         {
             //フリックの開始
@@ -81,45 +62,6 @@ public class BossScene : MonoBehaviour {
             gameTime -= Time.deltaTime;
             timerText.text = gameTime.ToString("F0");
         }
-
-        if (spawnTextTimer > spawnTextTime)
-        {
-            //テキストの生成
-            SpawnFlickText();
-        }
-        spawnTextTimer += Time.deltaTime;
-    }
-
-    void SpawnFlickText()
-    {
-        //タイマー初期化
-        spawnTextTimer = 0;
-        spawnTextTime = Random.Range(1, 5);
-
-        //タイプ決定(0:Wrong, 1:Correct)
-        int typeNum = Random.Range(0, 2);
-        //テキストの内容決定
-        int textNum = Random.Range(0, textContents.GetLength(typeNum));
-
-        for (int i = 0; i < flickTextList.Count; i++)
-        {
-
-            //使われていない（非表示中の）ものがあれば再利用
-            if (!flickTextList[i].gameObject.activeSelf)
-            {
-                flickTextList[i].Initialize(typeNum, textContents[typeNum, textNum]);
-                flickTextList[i].gameObject.SetActive(true);
-                return;
-            }
-        }
-
-        //全て使用中なら新しく生成
-        FlickTextController text = Instantiate(flickTextPrefab).GetComponent<FlickTextController>();
-        //sarcasmMessageBoxの子要素に
-        text.transform.SetParent(flickTextBox, false);
-        text.Initialize(typeNum, textContents[typeNum, textNum]);
-        //リストに追加
-        flickTextList.Add(text);
     }
 
     /// <summary>
@@ -146,28 +88,69 @@ public class BossScene : MonoBehaviour {
     public void MissCountUP()
     {
         missCount++;
+        damagePointer.DamagePointDown();
     }
 
     public void SuccessCountUP()
     {
         successCount++;
+        damagePointer.DamagePointUp();
 
-        if (successCount % attackValue == 0)
+        int separateValue = -1;
+        int i;
+        //到達していない区切り値を探す
+        for (i = 0; i < isReachStates.Length; i++)
         {
-            ChangeBossState();
-            slappedBoss.transform.DOShakePosition(duration, strength, vibrate);
-            Invoke(((System.Action)ChangeBossState).Method.Name, duration + 0.5f);
+            if (!isReachStates[i]) {
+                separateValue = Separatevalues[i];
+                break;
+            }
+        }
+
+        //区切り値へ到達
+        if (damagePointer.damagePoint == separateValue)
+        {
+            if(i >= 0) isReachStates[i] = true;
+            ChangePart();
+        }
+        else
+        {
+            flickPart.FlickSuccess();
         }
     }
 
-    public void ChangeBossState()
+    public void ChangePart()
     {
-        standingBoss.SetActive(!standingBoss.activeSelf);
-        slappedBoss.SetActive(!slappedBoss.activeSelf);
+        flickPart.gameObject.SetActive(!flickPart.gameObject.activeSelf);
+        sanctionPart.gameObject.SetActive(!sanctionPart.gameObject.activeSelf);
+        standingBoss.SetActive(true);
+    }
+
+    public void ChangeBossState(GameObject slappedBoss, float duration = 0, bool re = false)
+    {
+        standingBoss.SetActive(false);
+        slappedBoss.SetActive(true);
+        if(re) StartCoroutine(ReturnBossState(slappedBoss, duration));
+    }
+
+    IEnumerator ReturnBossState(GameObject slappedBoss, float duration)
+    {
+        if (duration == 0) yield return null;
+        yield return new WaitForSeconds(duration);
+        standingBoss.SetActive(true);
+        slappedBoss.SetActive(false);
     }
 
     void Result()
     {
+        if(isReachStates[isReachStates.Length - 1])
+        {
+            UnityEngine.SceneManagement.SceneManager.LoadScene("GoodEnd");
+        }
+        else
+        {
+            UnityEngine.SceneManagement.SceneManager.LoadScene("BadEnd");
+        }
         Debug.Log("ゲーム終了：結果発表");
     }
     

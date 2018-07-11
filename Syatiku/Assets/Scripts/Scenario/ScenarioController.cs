@@ -3,6 +3,21 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class ScenarioController : MonoBehaviour {
+    static ScenarioController instance;
+
+    public static ScenarioController Instance
+    {
+        get
+        {
+            if (instance != null)
+            {
+                return instance;
+            }
+
+            instance = FindObjectOfType<ScenarioController>();
+            return instance;
+        }
+    }
 
     #region variable
 
@@ -43,12 +58,28 @@ public class ScenarioController : MonoBehaviour {
     bool isPlayScenario;
     #endregion
 
-    void Start () {
-        window.scenarioCanvas.alpha = 0;
+    void CheckInstance()
+    {
+        if (instance == null)
+        {
+            instance = this;
+            return;
+        }
+        if (instance == this)
+        {
+            return;
+        }
 
-        DontDestroyOnLoad(gameObject);
-        //BeginScenario(filePath);
-	}
+        Destroy(gameObject);
+    }
+
+    void Awake () {
+        CheckInstance();
+
+        window.scenarioCanvas.alpha = 1;
+
+        //DontDestroyOnLoad(gameObject);
+    }
 
     /// <summary>
     /// シナリオパート開始
@@ -59,9 +90,9 @@ public class ScenarioController : MonoBehaviour {
         //必要なデータを取得
         new ImportScenarioInfo(path, ref scenarioInfoList, window);
 
-        FadeManager.Instance.Fade(window.scenarioCanvas, 2f, 1f, () =>
+        Init();
+        FadeManager.Instance.Fade(window.scenarioCanvas, 1f, 1f, () =>
         {
-            Init();
             SetNextInfo();
             isPlayScenario = true;
         });
@@ -73,13 +104,13 @@ public class ScenarioController : MonoBehaviour {
         allInfoNum = scenarioInfoList.Count;
         originMessageViewSpeed = messageViewSpeed;
         messageViewElapsedTime = 0;
+        logMessage = new System.Text.StringBuilder();
         isSkip = false;
         isAuto = false;
         isLogView = false;
         isPlayScenario = false;
 
-        window.name.text = "";
-        window.message.text = "";
+        window.Init();
     }
 
     /// <summary>v
@@ -89,15 +120,16 @@ public class ScenarioController : MonoBehaviour {
     void SetNextInfo()
     {
         window.recommendIcon.SetActive(false);
+        window.reccomendLight.SetActive(false);
         //感情アイコンの非表示
-        window.iconLeft.gameObject.SetActive(false);
-        window.iconCenter.gameObject.SetActive(false);
-        window.iconRight.gameObject.SetActive(false);
-        //セリフ部分の初期化
+        for (int i = 0; i < window.characters.Length; i++)
+        {
+            window.icons[i].gameObject.SetActive(false);
+        }
+        //セリフウィンドウの初期化
         viewMessage.Length = 0;
         nextMessageIndex = 0;
         allMessage = scenarioInfoList[infoIndex].message;
-
         //各コマンド
         foreach (var action in scenarioInfoList[infoIndex].commandActionList)
         {
@@ -109,14 +141,13 @@ public class ScenarioController : MonoBehaviour {
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            BeginScenario(filePath);
-        }
-
         //シナリオ中ではない、ログを表示中
         if (!isPlayScenario　|| isLogView)
         {
+            if (window.scenarioCanvas.gameObject.activeSelf && window.scenarioCanvas.alpha == 0)
+            {
+                window.scenarioCanvas.gameObject.SetActive(false);
+            }
             return;
         }
 
@@ -154,7 +185,8 @@ public class ScenarioController : MonoBehaviour {
     {
         if (!window.recommendIcon.activeSelf)
         {
-            window.recommendIcon.SetActive(true);
+            //window.recommendIcon.SetActive(true);
+            window.reccomendLight.SetActive(true); // washizu
             if (isAuto)
             {
                 StartCoroutine(SetNextInfo(nextWaitTime));
@@ -242,7 +274,7 @@ public class ScenarioController : MonoBehaviour {
     /// <summary>
     /// 最後のシナリオ情報まで到達しているか
     /// </summary>
-    bool IsReachLastInfo()
+    public bool IsReachLastInfo()
     {
         return infoIndex == allInfoNum;
     }

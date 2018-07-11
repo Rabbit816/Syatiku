@@ -21,11 +21,8 @@ public class HackTap : MonoBehaviour
     [SerializeField, Tooltip("全部のタップできる場所格納")]
     private GameObject[] place;
 
-    //[SerializeField, Tooltip("全部の発見できる単語")]
     private string[] str;
 
-    private GameObject collectObject;
-    
     [SerializeField]
     private GameObject IntoPC;
 
@@ -35,31 +32,59 @@ public class HackTap : MonoBehaviour
     [SerializeField, Tooltip("集めた単語(PC内に出すObject)")]
     private GameObject CollectedPrefab;
     private GameObject CollectedWord;
-    private Collider2D collected_position;
+    private GameObject collectObject;
+
     [SerializeField, Tooltip("集めた単語(リスト内に出すObject)")]
     private GameObject GetWordPrefab;
     private GameObject GetWord;
+
+    [SerializeField, Tooltip("集めたリストに出す資料Object")]
+    private GameObject DocPrefab;
 
     [SerializeField, Tooltip("単語を取得できるボタンの場所")]
     private GameObject[] Getting_position;
 
     [SerializeField, Tooltip("PC内のposition")]
     private GameObject[] pos_list;
-
     [SerializeField, Tooltip("資料Object")]
     private GameObject Document;
 
-    private HackMain hack_main;
-    private int count = 0;
-    private GameObject DoorSide;
-    private int GakuCount = 0;
     [SerializeField, Tooltip("額縁Object")]
     private RectTransform Gakubuti;
+    [SerializeField, Tooltip("名刺Object")]
+    private GameObject Meishi;
+    [SerializeField, Tooltip("名刺RectTransform")]
+    private RectTransform Meishi_obj;
+    [SerializeField, Tooltip("名刺裏のテキストObject")]
+    private RectTransform place_button_10;
+    [SerializeField, Tooltip("PaperPrefab")]
+    private GameObject paper_prefab;
+    [SerializeField, Tooltip("WindowObject")]
+    private GameObject Window;
+    [SerializeField, Tooltip("Image 5こ")]
+    private Sprite[] img_list;
+    [SerializeField, Tooltip("Zoom Object")]
     private GameObject Zoom;
+
+    private GameObject DoorSide;
+    private HackMain hack_main;
     private IntoPCAction intopc_action;
+    private PatteringEvent patte;
+    private GameObject pat;
+    private int count = 0;
+    private int GakuCount = 0;
+    public int Gakubuti_max = 7;
     //比較する資料を取得したかどうか
     [HideInInspector]
     public bool _getDocument = false;
+
+    //LowAnimが終わったかどうか
+    private bool _lowAnim = false;
+    private bool _animloop = false;
+    [HideInInspector]
+    public bool _document = false;
+    [HideInInspector]
+    public bool _windowFase = false;
 
     // Use this for initialization
     void Start () {
@@ -67,7 +92,8 @@ public class HackTap : MonoBehaviour
         CollectedWord = GameObject.Find("Canvas/PC/PassWordFase/Collect");
         GetWord = GameObject.Find("Canvas/Check/GetWord");
         DoorSide = GameObject.Find("Canvas/DoorSide");
-        Zoom = GameObject.Find("Canvas/Zoom");
+        pat = GameObject.Find("Canvas/PC/PatteringFase");
+
         intopc_action = GetComponent<IntoPCAction>();
 
         Document.SetActive(false);
@@ -75,7 +101,14 @@ public class HackTap : MonoBehaviour
         count = 0;
         GakuCount = 0;
         hack_main = GetComponent<HackMain>();
+        patte = GetComponent<PatteringEvent>();
+        Meishi.SetActive(false);
         place_list = new PlaceList[Getting_position.Length];
+        _getDocument = false;
+        _lowAnim = false;
+        _document = false;
+        _windowFase = false;
+        _animloop = false;
         AddPlaceWord();
 	}
 	
@@ -104,28 +137,16 @@ public class HackTap : MonoBehaviour
             case 7:
             case 8:
             case 9:
-                // 一回もタップされてなかったら  PC内とリスト内とその場所に表示
-                if (Getting_position[placeNum].transform.childCount == 0)
-                {
-                    if (place_list[placeNum].word == null)
-                        return;
-
-                    Instantiate(AppearPrefab, Getting_position[placeNum].transform);
-                    Getting_position[placeNum].transform.GetComponentInChildren<Text>().text = place_list[placeNum].word.ToString();
-
-                    GameObject _collected_word = Instantiate(CollectedPrefab, CollectedWord.transform);
-                    _collected_word.transform.position = pos_list[placeNum].transform.position;
-                    _collected_word.GetComponentInChildren<Text>().text = place_list[placeNum].word.ToString();
-
-                    GameObject _get_word = Instantiate(GetWordPrefab, GetWord.transform);
-                    _get_word.GetComponentInChildren<Text>().text = place_list[placeNum].word.ToString();
-                }
+                SearchTap(placeNum);
                 break;
             case 10:
+                if (_windowFase)
+                    Window.SetActive(true);
                 IntoPC.transform.localPosition = new Vector2(0, 0);
                 break;
             case 11:
                 IntoPC.transform.localPosition = new Vector2(0, -500);
+                pat.transform.SetSiblingIndex(0);
                 break;
             case 12:
                 DoorSide.transform.localPosition = new Vector2(-800, 0);
@@ -134,72 +155,151 @@ public class HackTap : MonoBehaviour
                 DoorSide.transform.localPosition = new Vector2(0, 0);
                 break;
             case 14:
-                GakuCount++;
-                Sequence seq = DOTween.Sequence();
-                Gakubuti.DOShakeRotation(1f);
-                if (GakuCount == 7)
-                {
-                    seq.Append(Gakubuti.DOLocalMoveY(-122, 1.0f));
-                }
+                if (_lowAnim)
+                    return;
+                IntoPC.transform.localPosition = new Vector2(0, 0);
+                Window.SetActive(false);
+                pat.transform.SetSiblingIndex(2);
+                StartCoroutine(patte.Start_LowWaitTime(1.0f));
+                _lowAnim = true;
                 break;
-            //case 15:
-            //case 16:
-            //case 17:
-            //case 18:
-            //case 19:
-            //case 20:
-            //case 21:
-            //case 22:
-            //case 23:
-            //case 24:
-            //    if (placeNum % 2 == 0)
-            //        selectNum = placeNum % 16;
-            //    else
-            //        selectNum = placeNum % 15;
-            //    Debug.Log("selectNum: " + selectNum);
-            //    if (Zoom.transform.GetChild(placeNum - selectNum).gameObject.activeSelf)
-            //        Zoom.transform.GetChild(placeNum - selectNum).gameObject.SetActive(false);
-            //    else
-            //        Zoom.transform.GetChild(placeNum - selectNum).gameObject.SetActive(true);
-            //    break;
             case 15:
-                Zoom.transform.GetChild(0).gameObject.SetActive(true);
-                break;
-            case 16:
-                Zoom.transform.GetChild(0).gameObject.SetActive(false);
-                break;
-            case 17:
-                Zoom.transform.GetChild(1).gameObject.SetActive(true);
-                break;
-            case 18:
-                Zoom.transform.GetChild(1).gameObject.SetActive(false);
-                break;
-            case 19:
-                Zoom.transform.GetChild(2).gameObject.SetActive(true);
-                break;
-            case 20:
-                Zoom.transform.GetChild(2).gameObject.SetActive(false);
-                break;
-            case 21:
-                Zoom.transform.GetChild(3).gameObject.SetActive(true);
-                break;
-            case 22:
-                Zoom.transform.GetChild(3).gameObject.SetActive(false);
-                break;
-            case 23:
-                Zoom.transform.GetChild(4).gameObject.SetActive(true);
-                break;
-            case 24:
-                Zoom.transform.GetChild(4).gameObject.SetActive(false);
-                break;
-            case 25:
-                _getDocument = true;
-                Document.SetActive(true);
+                if (_animloop)
+                    return;
+                IntoPC.transform.localPosition = new Vector2(0, 0);
+                Window.SetActive(false);
+                pat.transform.SetSiblingIndex(2);
+                StartCoroutine(patte.Start_SpeedyWaitTime(1.0f));
+                _animloop = true;
                 break;
             case 26:
                 intopc_action.DocumentsComparison();
                 break;
         }
+    }
+
+    /// <summary>
+    /// ズームにする時の処理
+    /// </summary>
+    /// <param name="childNum"></param>
+    public void ZoomActive(int childNum)
+    {
+        if(!Zoom.transform.GetChild(childNum).gameObject.activeSelf)
+            Zoom.transform.GetChild(childNum).gameObject.SetActive(true);
+        else
+            Zoom.transform.GetChild(childNum).gameObject.SetActive(false);
+    }
+
+    /// <summary>
+    /// 単語が出るところをタップした時の処理
+    /// </summary>
+    /// <param name="placeNum"></param>
+    private void SearchTap(int placeNum)
+    {
+        // 一回もタップされてなかったらPC内とリスト内とその場所に表示
+        if (Getting_position[placeNum].transform.childCount == 0)
+        {
+            if (place_list[placeNum].word == null)
+                return;
+
+            //押したところに単語を表示
+            GameObject appearobj = Instantiate(AppearPrefab, Getting_position[placeNum].transform);
+            Getting_position[placeNum].transform.GetComponentInChildren<Text>().text = place_list[placeNum].word.ToString();
+            Image appear_img = appearobj.GetComponent<Image>();
+            Text appearChild_text = appearobj.transform.GetChild(0).GetComponent<Text>();
+            AppearPrefab.GetComponent<Image>().sprite = img_list[placeNum];
+            DOTween.ToAlpha(
+                () => appear_img.color,
+                color => appear_img.color = color,
+                0f, 2.0f);
+            DOTween.ToAlpha(
+                () => appearChild_text.color,
+                color => appearChild_text.color = color,
+                0f, 2.0f);
+
+            //PC内に集めた単語を表示
+            GameObject _collected_word = Instantiate(CollectedPrefab, CollectedWord.transform);
+            _collected_word.transform.position = pos_list[placeNum].transform.position;
+            _collected_word.GetComponentInChildren<Text>().text = place_list[placeNum].word.ToString();
+
+            //集めたものリストの中に単語を表示
+            GameObject _get_word = Instantiate(GetWordPrefab, GetWord.transform);
+            _get_word.transform.SetAsFirstSibling();
+            _get_word.GetComponentInChildren<Text>().text = place_list[placeNum].word.ToString();
+        }
+    }
+
+    /// <summary>
+    /// 待つ時間処理
+    /// </summary>
+    /// <param name="time">待つ時間</param>
+    /// <returns></returns>
+    private IEnumerator Wait_time(float time)
+    {
+        yield return new WaitForSeconds(time);
+        Document.SetActive(true);
+
+    }
+
+    /// <summary>
+    /// 額縁イベント処理
+    /// </summary>
+    public void GakuEvent()
+    {
+        GakuCount++;
+        if (GakuCount > Gakubuti_max)
+            return;
+        Sequence seq = DOTween.Sequence();
+        Gakubuti.DOPunchRotation(new Vector3(0, 0, 30), 0.7f);
+        if (GakuCount == Gakubuti_max)
+        {
+            seq.Append(Gakubuti.DOLocalMoveY(-122, 0.6f))
+                .OnComplete(() => { Meishi.SetActive(true); Meishi_obj.DOLocalMove(new Vector3(253, -226, 0), 0.5f); });
+        }
+    }
+
+    /// <summary>
+    /// 比較する資料を取得した時のアニメーションと処理
+    /// </summary>
+    public void DocumentAnim()
+    {
+        if (_getDocument)
+            return;
+        GameObject _get_doc = Instantiate(DocPrefab, GetWord.transform);
+        _get_doc.transform.SetAsLastSibling();
+        _getDocument = true;
+        Document.SetActive(true);
+        Sequence seq = DOTween.Sequence();
+        Image img_alpha = Document.GetComponent<Image>();
+        RectTransform Doc_rect = Document.GetComponent<RectTransform>();
+        seq.Append(Doc_rect.DOLocalMove(new Vector3(474, 377, 0), 1.3f).SetDelay(0.3f))
+            .OnComplete(() =>
+            {
+                DOTween.ToAlpha(
+                () => img_alpha.color,
+                color => img_alpha.color = color,
+                0f, 0.3f);
+            });
+        StartCoroutine(Wait_time(3f));
+    }
+
+    /// <summary>
+    /// 名刺タップの処理
+    /// </summary>
+    public void MeishiTap()
+    {
+        if (place_button_10.transform.childCount == 2)
+            return;
+        GameObject _get_doc = Instantiate(paper_prefab, GetWord.transform);
+        _get_doc.transform.SetAsLastSibling();
+        GameObject obj = new GameObject();
+        obj.transform.SetParent(place_button_10.transform, false);
+        _document = true;
+
+        Sequence s = DOTween.Sequence();
+        s.Append(place_button_10.DOLocalMove(new Vector3(374, 221, 0), 0.7f))
+            .Join(place_button_10.DOScale(0.5f, 0.7f))
+            .OnComplete(() => place_button_10.gameObject.SetActive(false));
     }
 
     /// <summary>
@@ -219,6 +319,9 @@ public class HackTap : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// 集めた単語を確認するUIの処理
+    /// </summary>
     public void CollectWordsOpen()
     {
         switch (count)
@@ -226,11 +329,11 @@ public class HackTap : MonoBehaviour
             case 0:
                 count++;
                 Debug.Log("1回目");
-                collectObject.transform.localPosition = new Vector2(collectObject.transform.localPosition.x - 160, collectObject.transform.localPosition.y);
+                collectObject.transform.localPosition = new Vector2(collectObject.transform.localPosition.x - 155, collectObject.transform.localPosition.y);
                 break;
             case 1:
                 count--;
-                collectObject.transform.localPosition = new Vector2(collectObject.transform.localPosition.x + 160, collectObject.transform.localPosition.y);
+                collectObject.transform.localPosition = new Vector2(collectObject.transform.localPosition.x + 155, collectObject.transform.localPosition.y);
                 break;
         }
     }

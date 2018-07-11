@@ -4,6 +4,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
+//using UnityEngine.Events;
+
 public class IntoPCAction : MonoBehaviour {
 
     [SerializeField,Tooltip("PC内のでる場所")]
@@ -16,8 +18,11 @@ public class IntoPCAction : MonoBehaviour {
     private GameObject Document_1;
     [SerializeField, Tooltip("資料見つけてない場合のテキストObject")]
     private GameObject NotComp;
+    [SerializeField, Tooltip("資料比較するボタン")]
+    private GameObject comp_btn;
 
-    private int tappingCount = 6;
+    [Tooltip("資料比較の時に何回ミスしてもいいかの回数")]
+    public int tappingCount = 6;
 
     private Transform password_child;
 
@@ -25,15 +30,20 @@ public class IntoPCAction : MonoBehaviour {
     private HackMain hack_main;
     private HackTap hack_tap;
     private GameObject PC_login;
-    private GameObject PC_notlogin;
     private GameObject PC;
+    private GameObject WindowFase;
     private GameObject Window;
+    private GameObject PassWordFase;
 
     //配置した結果の判断
     private bool _isResult = false;
 
+    //資料比較中かどうか
     private bool _comparisoning = false;
+    [HideInInspector]
+    public bool _compariClear = false;
 
+    //資料比較の時の間違っている部分をタップできたかどうか
     private bool doc_0 = false;
     private bool doc_1 = false;
 
@@ -42,21 +52,24 @@ public class IntoPCAction : MonoBehaviour {
         try
         {
             PC_login = GameObject.Find("Canvas/PC/PassWordFase/Title");
-            PC_notlogin = GameObject.Find("Canvas/PC/PassWordFase/SubText");
             PC = GameObject.Find("Canvas/PC");
             Window = GameObject.Find("Canvas/PC/WindowFase/Window");
+            WindowFase = GameObject.Find("Canvas/PC/WindowFase");
+            PassWordFase = GameObject.Find("Canvas/PC/PassWordFase");
         }
         catch (Exception e)
         {
             Debug.Log(e);
         }
+        _compariClear = false;
+        PassWordFase.transform.SetSiblingIndex(2);
         tappingCount = 6;
         CountText.text = tappingCount.ToString();
-        PC_notlogin.SetActive(false);
         Window.SetActive(false);
         Document_1.SetActive(false);
         NotComp.SetActive(true);
         Comparisoning.SetActive(false);
+        comp_btn.SetActive(true);
         hack_boss = GetComponent<HackBoss>();
         hack_main = GetComponent<HackMain>();
         hack_tap = GetComponent<HackTap>();
@@ -64,11 +77,18 @@ public class IntoPCAction : MonoBehaviour {
         _comparisoning = false;
         doc_0 = false;
         doc_1 = false;
-	}
+    }
 	
 	// Update is called once per frame
 	void Update () {
-		
+        if (Input.GetKeyDown(KeyCode.A))
+        {
+            hack_tap.PlaceButton(0); hack_tap.PlaceButton(1); hack_tap.PlaceButton(2); hack_tap.PlaceButton(3);
+            hack_tap.PlaceButton(4); hack_tap.PlaceButton(5); hack_tap.PlaceButton(6); hack_tap.PlaceButton(7); hack_tap.PlaceButton(8);
+        }else if (Input.GetKeyDown(KeyCode.Z))
+        {
+            hack_tap.PlaceButton(25);
+        }
 	}
     
     /// <summary>
@@ -83,15 +103,19 @@ public class IntoPCAction : MonoBehaviour {
             PC_login.GetComponent<Text>().text = "ログインできました。";
             PC_login.SetActive(true);
             yield return new WaitForSeconds(wait);
-            PC.transform.GetChild(0).SetAsLastSibling();
+            hack_tap._windowFase = true;
+            WindowFase.transform.SetSiblingIndex(2);
             Window.SetActive(true);
         }
         else
         {
+            PC_login.GetComponent<Text>().text = "パスワードが違います。";
+            PC_login.SetActive(true);
             yield return new WaitForSeconds(wait);
+            PC_login.SetActive(false);
         }
     }
-
+    
     /// <summary>
     /// 資料比較する時の処理
     /// </summary>
@@ -105,8 +129,16 @@ public class IntoPCAction : MonoBehaviour {
         _comparisoning = true;
         Window.SetActive(false);
         Comparisoning.SetActive(true);
-        if (!_comparisoning)
-            Window.SetActive(true);
+    }
+
+    /// <summary>
+    /// 資料比較中の周りの何もない部分タップ処理
+    /// </summary>
+    public void OutTap()
+    {
+        _comparisoning = false;
+        Comparisoning.SetActive(false);
+        Window.SetActive(true);
     }
 
     /// <summary>
@@ -115,6 +147,8 @@ public class IntoPCAction : MonoBehaviour {
     /// <param name="docNum">0.当たり 1.当たり 2.はずれ 3.何もないとこ</param>
     public void CheckDocuments(int docNum)
     {
+        if (!hack_tap._getDocument)
+            return;
         switch (docNum)
         {
             case 0:
@@ -126,23 +160,20 @@ public class IntoPCAction : MonoBehaviour {
             case 2:
                 tappingCount--;
                 CountText.text = tappingCount.ToString();
-                break;
-            case 3:
-                _comparisoning = false;
-                Comparisoning.SetActive(false);
+                hack_boss.MoveBoss();
                 break;
         }
 
         if(doc_0 && doc_1)
         {
-            Window.SetActive(false);
-            PC.transform.GetChild(0).SetAsLastSibling();
+            comp_btn.SetActive(false);
+            _compariClear = true;
+            OutTap();
         }
 
         if(tappingCount == 0)
         {
-            Common.gameClear = false;
-            Common.Instance.ChangeScene(Common.SceneName.Result);
+            hack_boss.ComeOnBoss();
         }
     }
 
@@ -158,10 +189,11 @@ public class IntoPCAction : MonoBehaviour {
             {
                 password_child = password_parent.transform.GetChild(0).GetChild(0);
             }
-            else {
+            else
+            {
                 _isResult = false;
                 hack_boss.MoveBoss();
-                StartCoroutine(WaitTime(2f));
+                StartCoroutine(WaitTime(1.5f));
                 break;
             }
             Text child_text = password_child.GetComponent<Text>();
@@ -170,15 +202,15 @@ public class IntoPCAction : MonoBehaviour {
                 if(i == PassWordObject.Length - 1)
                 {
                     _isResult = true;
-                    hack_boss.MoveBoss();
-                    StartCoroutine(WaitTime(2f));
+                    StartCoroutine(WaitTime(1.5f));
                 }
             }
             else
             {
                 _isResult = false;
                 hack_boss.MoveBoss();
-                StartCoroutine(WaitTime(2f));
+                StartCoroutine(WaitTime(1.5f));
+                break;
             }
         }
     }

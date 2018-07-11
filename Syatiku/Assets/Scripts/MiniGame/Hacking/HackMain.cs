@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 
 public class HackMain : MonoBehaviour {
-
+    
     [SerializeField,Tooltip("時間制限初期値")]
     private float timer = 30.0f;
     [SerializeField,Tooltip("時間オブジェクト")]
@@ -30,39 +30,44 @@ public class HackMain : MonoBehaviour {
     [HideInInspector]
     public List<string> Answer_list = new List<string>();
 
+    private IntoPCAction into_pc;
+    private PatteringEvent patte;
+    private HackTap hack_tap;
+
     private bool timeout = false;
+    private bool _allClear = false;
 
     // Use this for initialization
     void Start () {
+        into_pc = GetComponent<IntoPCAction>();
+        patte = GetComponent<PatteringEvent>();
+        hack_tap = GetComponent<HackTap>();
         Dont_Tap.SetActive(true);
         ReadText();
         Maxline = 0;
         comingCount = 0;
         Theme();
+        _allClear = false;
         timeout = true;
 	}
 
 	// Update is called once per frame
 	void Update () {
-
-        timer -= Time.deltaTime;
-        if(timer < 0)
+        if (into_pc._compariClear && patte._lowAnimClear && hack_tap._document)
         {
-            timer = 0;
-            if (timeout)
+            if (!_allClear)
             {
-                Common.gameClear = false;
-                //Common.Instance.ChangeScene(Common.SceneName.Result);
-                timeout = false;
+                _allClear = true;
+                Common.Instance.clearFlag[Common.Instance.isClear] = true;
+                Common.Instance.ChangeScene(Common.SceneName.Result);
             }
         }
-        time.text = "Timer: " + timer.ToString("f1");
     }
 
     private IEnumerator Wait_Time(float time)
     {
-
         yield return new WaitForSeconds(time);
+        Dont_Tap.SetActive(false);
     }
 
     /// <summary>
@@ -117,7 +122,6 @@ public class HackMain : MonoBehaviour {
         Animator anim = theme_obj.GetComponent<Animator>();
         anim.Play("ThemeAnimation");
         
-        StartCoroutine(Wait_Time(10f));
-        Dont_Tap.SetActive(false);
+        StartCoroutine(Wait_Time(1.7f));
     }
 }

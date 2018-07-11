@@ -5,15 +5,6 @@ using UnityEngine.UI;
 
 public class HukidashiController : MonoBehaviour {
     private int miniGameNum;
-	// Use this for initialization
-	void Start () {
-        
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
 
     public void MiniGameNum(int i)
     {
@@ -22,6 +13,7 @@ public class HukidashiController : MonoBehaviour {
 
     public void ChangeMiniGame()
     {
+        Common.Instance.isClear = miniGameNum;
         switch (miniGameNum)
         {
             case 0:

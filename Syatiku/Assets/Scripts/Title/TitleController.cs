@@ -6,34 +6,34 @@ using UnityEngine.UI;
 public class TitleController : MonoBehaviour {
     [SerializeField]
     private GameObject title;
-    void Start()
+
+    void Awake()
     {
-        
-    }
-    void Update()
-    {
-        
+        if (!Common.Instance)
+        {
+            var common = Instantiate(Resources.Load("Prefabs/Common/Common"));
+            DontDestroyOnLoad(common);
+            var sound = Instantiate(Resources.Load("Prefabs/Common/SoundManager"));
+            DontDestroyOnLoad(sound);
+
+            //SoundManager.Instance.PlayBGM(BGMName.Title);
+        }
     }
 
     //モード選択
     public void ChangeMode(int mode)
     {
-        switch (mode)
-        {
-            case 0:
-                Common.Instance.ChangeScene(Common.SceneName.Action);
-                break;
-            case 1:
-                Common.Instance.ChangeScene(Common.SceneName.Action);
-                break;
-            default:
-                break;
-        }
-        
+        Common.Instance.gameMode = mode;
+        if (mode == 0)
+            Common.Instance.actionCount = 1;
+        else
+            Common.Instance.actionCount = 1;
+        Common.Instance.ChangeScene(Common.SceneName.Scenario);
     }
     //タイトルボタンを削除
     public void Select()
     {
         title.SetActive(false);
     }
+
 }

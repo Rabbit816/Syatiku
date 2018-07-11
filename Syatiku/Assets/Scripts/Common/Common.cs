@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using UnityEngine.EventSystems;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -37,29 +38,41 @@ public class Common : MonoBehaviour {
         false,
     };
 
-    //ミニゲームクリアしたか（α用）
-    public static bool gameClear = true;
+    // ミニゲームクリアフラグ
+    [System.NonSerialized]
+    public bool[] clearFlag = 
+    {
+        false, // hack
+        false, // drink
+        false  // smoke
+    };
 
-    [SerializeField]
-    private float interval;
-    private static Common instance;
+    /// <summary>
+    /// 何のミニゲームやったか(0:hack,1:drink,2:smoke)
+    /// </summary>
+    [System.NonSerialized]
+    public int isClear; 
+
+    [System.NonSerialized]
+    public int gameMode; // シナリオがどちらか
+
+    [SerializeField,Header("シーン遷移時の時間")]
+    private float interval; // シーン遷移時の時間
     private bool isFading = false;
     private Color fadeColor = Color.black;
     private float fadeAlpha = 0;
+    private static Common instance;
+
+    [System.NonSerialized]
+    public int actionCount; // 行動回数
 
     // 同じオブジェクト(Common)があるか判定
     public static Common Instance
     {
         get
         {
-            if (instance == null)
-            {
-                instance = (Common)FindObjectOfType(typeof(Common));
-
-                if (instance == null)
-                {
-                    Debug.LogError(typeof(Common) + "is nothing");
-                }
+            if (instance == null) {
+                instance = FindObjectOfType<Common>();
             }
             return instance;
         }
@@ -78,12 +91,14 @@ public class Common : MonoBehaviour {
 
     void Awake()
     {
-        if (!this == Instance)
-        {
-            Destroy(this.gameObject);
-            return;
-        }
-            DontDestroyOnLoad(gameObject);
+        DontDestroyOnLoad(gameObject);
+    }
+
+    // BGM再生(AudioListener)
+    public void PlayBGM(AudioClip bgm) {
+        var audio = gameObject.GetComponent<AudioSource>();
+        audio.clip = bgm;
+        audio.Play();
     }
 
     /// <summary>
@@ -93,6 +108,8 @@ public class Common : MonoBehaviour {
     public void ChangeScene(SceneName name)
     {
         StartCoroutine(Fade(name));
+        var eventSystem = FindObjectOfType<EventSystem>();
+        eventSystem.enabled = false;
     }
 
     /// <summary>
