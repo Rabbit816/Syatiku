@@ -6,12 +6,12 @@ using UnityEngine.UI;
 public class ButtonController : MonoBehaviour {
 
     //インスタンスの取得
-    public DrinkScene drink;
-    public Denmoku denmoku;
+    DrinkScene drink;
+    Denmoku denmoku;
 
     public Button Remember;
     public Button Again;
-    public Image DenmokuImage;
+    GameObject DenmokuImage;
 
     private int AgainCounter = 0;
 
@@ -55,6 +55,9 @@ public class ButtonController : MonoBehaviour {
     }
 	
 	void Start () {
+        drink = GetComponent<DrinkScene>();
+        denmoku = GetComponent<Denmoku>();
+        DenmokuImage = GameObject.Find("Denmoku");
         DrinkSceneButtonOFF();
 	}
 	

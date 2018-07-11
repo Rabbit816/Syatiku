@@ -5,17 +5,27 @@ using UnityEngine.UI;
 
 public class DrinkScene : MonoBehaviour {
 
-    public GameObject menuObject;
-    public GameObject hukidashiObj;
-    public Text OrderCounter1;
-    public Text OrderCounter2;
-    public Text OrderCounter3;
-    public Text OrderCounter4;
+    GameObject menuObject;
+    GameObject OrderCounter1;
+    GameObject OrderCounter2;
+    GameObject OrderCounter3;
+    GameObject OrderCounter4;
 
-    public GameObject yakitoriObj;
-    public GameObject sakeObj;
-    public GameObject saladObj;
-    public GameObject sashimiObj;
+    [SerializeField]
+    GameObject hukidashiObj;
+
+    [SerializeField]
+    GameObject yakitoriObj;
+
+    [SerializeField]
+    GameObject sakeObj;
+
+    [SerializeField]
+    GameObject saladObj;
+
+    [SerializeField]
+    GameObject sashimiObj;
+
 
     //商品を格納する配列
     private int[] foodsBox = new int[4];
@@ -187,19 +197,19 @@ public class DrinkScene : MonoBehaviour {
         {
             case 0:
                 OrderCounter1.gameObject.SetActive(true);
-                OrderCounter1.text = "× " + OrderCounter[NumCounter].ToString();
+                OrderCounter1.GetComponent<Text>().text = "× " + OrderCounter[NumCounter].ToString();
                 break;
             case 1:
                 OrderCounter2.gameObject.SetActive(true);
-                OrderCounter2.text = "× " + OrderCounter[NumCounter].ToString();
+                OrderCounter2.GetComponent<Text>().text = "× " + OrderCounter[NumCounter].ToString();
                 break;
             case 2:
                 OrderCounter3.gameObject.SetActive(true);
-                OrderCounter3.text = "× " + OrderCounter[NumCounter].ToString();
+                OrderCounter3.GetComponent<Text>().text = "× " + OrderCounter[NumCounter].ToString();
                 break;
             default:
                 OrderCounter4.gameObject.SetActive(true);
-                OrderCounter4.text = "× " + OrderCounter[NumCounter].ToString();
+                OrderCounter4.GetComponent<Text>().text = "× " + OrderCounter[NumCounter].ToString();
                 break;
         }
         NumCounter++;
@@ -223,6 +233,12 @@ public class DrinkScene : MonoBehaviour {
 
 
 	void Start () {
+        menuObject = GameObject.Find("MenuObject");
+        OrderCounter1 = GameObject.Find("DrinkingCounter/OrderCounter1");
+        OrderCounter2 = GameObject.Find("DrinkingCounter/OrderCounter2");
+        OrderCounter3 = GameObject.Find("DrinkingCounter/OrderCounter3");
+        OrderCounter4 = GameObject.Find("DrinkingCounter/OrderCounter4");
+
         OrderShuffle();
         PosShuffle();
         Order();
