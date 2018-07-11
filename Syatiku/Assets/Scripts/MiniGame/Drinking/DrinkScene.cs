@@ -10,20 +10,10 @@ public class DrinkScene : MonoBehaviour {
     GameObject OrderCounter2;
     GameObject OrderCounter3;
     GameObject OrderCounter4;
-
-    [SerializeField]
     GameObject hukidashiObj;
-
-    [SerializeField]
     GameObject yakitoriObj;
-
-    [SerializeField]
     GameObject sakeObj;
-
-    [SerializeField]
     GameObject saladObj;
-
-    [SerializeField]
     GameObject sashimiObj;
 
 
@@ -238,6 +228,12 @@ public class DrinkScene : MonoBehaviour {
         OrderCounter2 = GameObject.Find("DrinkingCounter/OrderCounter2");
         OrderCounter3 = GameObject.Find("DrinkingCounter/OrderCounter3");
         OrderCounter4 = GameObject.Find("DrinkingCounter/OrderCounter4");
+        hukidashiObj = Resources.Load<GameObject>("Prefabs/MiniGame/Drinking/hukidashi");
+        yakitoriObj = Resources.Load<GameObject>("Prefabs/MiniGame/Drinking/yakitori");
+        sakeObj = Resources.Load<GameObject>("Prefabs/MiniGame/Drinking/sake");
+        saladObj = Resources.Load<GameObject>("Prefabs/MiniGame/Drinking/salad");
+        sashimiObj = Resources.Load<GameObject>("Prefabs/MiniGame/Drinking/sashimi");
+
 
         OrderShuffle();
         PosShuffle();

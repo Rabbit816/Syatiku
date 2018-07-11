@@ -552,13 +552,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 93cae47c98145f9468dd3d993079e2c1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hukidashiObj: {fileID: 1982220716921288, guid: 84a0d62a49a6e694eab5bb0df8fbeb77,
-    type: 2}
-  yakitoriObj: {fileID: 1002166099694206, guid: e7c5f63650c93d543a1157ad71d4476b,
-    type: 2}
-  sakeObj: {fileID: 1259599944530750, guid: 6f1ffab1b354c054eb53a2e8f35f6e9d, type: 2}
-  saladObj: {fileID: 1533739696496252, guid: 9024aef612b77424d80fb1ef41d7b271, type: 2}
-  sashimiObj: {fileID: 1390775496210214, guid: c8db6856c56699d4d88e0cc5fa0661f3, type: 2}
   OrderBox: 00000000000000000000000000000000
   OrderCounter: 00000000000000000000000000000000
   OrderPos:
