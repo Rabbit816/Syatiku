@@ -13,14 +13,30 @@ public class ScenarioWindow : MonoBehaviour
     public Text autoText;
     public GameObject log;
     public GameObject recommendIcon;
-
-    public Image charaLeft;
-    public Image charaCenter;
-    public Image charaRight;
-    public Image iconLeft;
-    public Image iconCenter;
-    public Image iconRight;
+    public Image[] characters;
+    public Image[] icons;
 
     public CanvasGroup scenarioCanvas;
 
+    public GameObject reccomendLight;
+
+    public void Init()
+    {
+        bgi.sprite = null;
+        bgi.color = new Color(1f,1f,1f,0);
+        recommendIcon.SetActive(false);
+        skipText.text = "スキップ";
+        autoText.text = "オート";
+        logText.text = "";
+        for (int i = 0;i < characters.Length; i++)
+        {
+            characters[i].gameObject.SetActive(false);
+            icons[i].gameObject.SetActive(false);
+        }
+        scenarioCanvas.gameObject.SetActive(true);
+        scenarioCanvas.alpha = 0.01f;
+        name.text = "";
+        message.text = "";
+        gameObject.SetActive(false);
+    }
 }
