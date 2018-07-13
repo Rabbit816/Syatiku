@@ -3485,9 +3485,9 @@ GameObject:
   m_Component:
   - component: {fileID: 1825144194}
   - component: {fileID: 1825144193}
+  - component: {fileID: 1825144190}
   - component: {fileID: 1825144192}
   - component: {fileID: 1825144191}
-  - component: {fileID: 1825144190}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -3537,7 +3537,7 @@ Camera:
   field of view: 60
   orthographic: 1
   orthographic size: 5
-  m_Depth: -1
+  m_Depth: 0
   m_CullingMask:
     serializedVersion: 2
     m_Bits: 4294967295
