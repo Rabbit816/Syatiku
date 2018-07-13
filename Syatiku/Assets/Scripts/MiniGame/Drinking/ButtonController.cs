@@ -11,8 +11,25 @@ public class ButtonController : MonoBehaviour {
 
     public Button Remember;
     public Button Again;
-    GameObject DenmokuImage;
 
+    //メニュータブのボタン
+    public Button Otsumami;
+    public Button Drink;
+    public Button Dessert;
+
+    //メニューのボタン
+    public Button OrderButton;
+    public Button Yakitori;
+    public Button Sake;
+    public Button Salad;
+    public Button Sashimi;
+
+
+    GameObject DenmokuImage;
+    GameObject Menu_Otsumami, Menu_Drink, Menu_Dessert;
+    GameObject MenuScrollbar;
+
+    private int OrderCount = 0;
     private int AgainCounter = 0;
 
     //飲み会シーンのボタンを表示
@@ -43,7 +60,12 @@ public class ButtonController : MonoBehaviour {
     {
         AgainCounter = 0;
         DrinkSceneButtonOFF();
+
+        //仮の処理
         DenmokuImage.GetComponent<RectTransform>().localPosition = new Vector2(-400, -250);
+
+        OtsumamiButton();
+        OrderButton.interactable = false;
     }
 
     //もう一度注文を聞くボタン
@@ -53,11 +75,95 @@ public class ButtonController : MonoBehaviour {
         DrinkSceneButtonOFF();
         drink.Order();
     }
-	
-	void Start () {
+
+    //メニュータブのおつまみボタン
+    public void OtsumamiButton()
+    {
+        Otsumami.interactable = false;
+        Drink.interactable = true;
+        Dessert.interactable = true;
+        MenuScrollbar.GetComponent<Scrollbar>().value = 1;
+        Menu_Otsumami.gameObject.SetActive(true);
+        Menu_Drink.gameObject.SetActive(false);
+        Menu_Dessert.gameObject.SetActive(false);
+    }
+
+    //メニュータブの飲み物ボタン
+    public void DrinkButton()
+    {
+        Otsumami.interactable = true;
+        Drink.interactable = false;
+        Dessert.interactable = true;
+        MenuScrollbar.GetComponent<Scrollbar>().value = 1;
+        Menu_Otsumami.gameObject.SetActive(false);
+        Menu_Drink.gameObject.SetActive(true);
+        Menu_Dessert.gameObject.SetActive(false);
+    }
+
+    //メニュータブのデザートボタン
+    public void DessertButton()
+    {
+        Otsumami.interactable = true;
+        Drink.interactable = true;
+        Dessert.interactable = false;
+        MenuScrollbar.GetComponent<Scrollbar>().value = 1;
+        Menu_Otsumami.gameObject.SetActive(false);
+        Menu_Drink.gameObject.SetActive(false);
+        Menu_Dessert.gameObject.SetActive(true);
+    }
+
+    //メニューのやきとりボタン
+    public void YakitoriButton()
+    {
+        if(OrderCount != 4)
+        {
+            Yakitori.interactable = false;
+            denmoku.ListInYakitori();
+            OrderCount++;
+        }
+    }
+
+    //メニューの酒ボタン
+    public void SakeButton()
+    {
+        if (OrderCount != 4)
+        {
+            Sake.interactable = false;
+            denmoku.ListInSake();
+            OrderCount++;
+        }
+    }
+    
+    //メニューのサラダボタン
+    public void SaladButton()
+    {
+        if (OrderCount != 4)
+        {
+            Salad.interactable = false;
+            denmoku.ListInSalad();
+            OrderCount++;
+        }
+    }
+
+    //メニューの刺身ボタン
+    public void SashimiButton()
+    {
+        if (OrderCount != 4)
+        {
+            Sashimi.interactable = false;
+            denmoku.ListInSashimi();
+            OrderCount++;
+        }
+    }
+
+    void Start () {
         drink = GetComponent<DrinkScene>();
         denmoku = GetComponent<Denmoku>();
         DenmokuImage = GameObject.Find("Denmoku");
+        Menu_Otsumami = GameObject.Find("ScrollContent/Otsumami");
+        Menu_Drink = GameObject.Find("ScrollContent/Drink");
+        Menu_Dessert = GameObject.Find("ScrollContent/Dessert");
+        MenuScrollbar = GameObject.Find("Scrollbar");
         DrinkSceneButtonOFF();
 	}
 	

@@ -16,6 +16,8 @@ public class DrinkScene : MonoBehaviour {
     GameObject saladObj;
     GameObject sashimiObj;
 
+    ButtonController button;
+
 
     //商品を格納する配列
     private int[] foodsBox = new int[4];
@@ -91,24 +93,28 @@ public class DrinkScene : MonoBehaviour {
             {
                 //やきとりを表示
                 case 0:
+                    yakitoriObj = Resources.Load<GameObject>("Prefabs/MiniGame/Drinking/yakitori");
                     var yakitori = Instantiate(yakitoriObj, new Vector2(OrderPos[i], 3.6f), Quaternion.identity);
                     yakitori.transform.localScale = new Vector2(0.8f, 0.8f);
                     yakitori.transform.parent = menuObject.transform;
                     break;
                 //酒を表示
                 case 1:
+                    sakeObj = Resources.Load<GameObject>("Prefabs/MiniGame/Drinking/sake");
                     var sake = Instantiate(sakeObj, new Vector2(OrderPos[i], 3.6f), Quaternion.identity);
                     sake.transform.localScale = new Vector2(0.3f, 0.3f);
                     sake.transform.parent = menuObject.transform;
                     break;
                 //サラダを表示
                 case 2:
+                    saladObj = Resources.Load<GameObject>("Prefabs/MiniGame/Drinking/salad");
                     var salad = Instantiate(saladObj, new Vector2(OrderPos[i], 3.6f), Quaternion.identity);
                     salad.transform.localScale = new Vector2(0.35f, 0.35f);
                     salad.transform.parent = menuObject.transform;
                     break;
                 //刺身を表示
                 default:
+                    sashimiObj = Resources.Load<GameObject>("Prefabs/MiniGame/Drinking/sashimi");
                     var sashimi = Instantiate(sashimiObj, new Vector2(OrderPos[i], 3.6f), Quaternion.identity);
                     sashimi.transform.localScale = new Vector2(0.3f, 0.3f);
                     sashimi.transform.parent = menuObject.transform;
@@ -120,7 +126,6 @@ public class DrinkScene : MonoBehaviour {
             OrderCounterOFF();
         }
         yield return new WaitForSeconds(1.0f);
-        ButtonController button = GetComponent<ButtonController>();
         button.DrinkSceneButtonON();
         NumCounter = 0;
 
@@ -221,19 +226,15 @@ public class DrinkScene : MonoBehaviour {
         OrderCounter4.gameObject.SetActive(false);
     }
 
-
 	void Start () {
+        button = GetComponent<ButtonController>();
         menuObject = GameObject.Find("MenuObject");
         OrderCounter1 = GameObject.Find("DrinkingCounter/OrderCounter1");
         OrderCounter2 = GameObject.Find("DrinkingCounter/OrderCounter2");
         OrderCounter3 = GameObject.Find("DrinkingCounter/OrderCounter3");
         OrderCounter4 = GameObject.Find("DrinkingCounter/OrderCounter4");
         hukidashiObj = Resources.Load<GameObject>("Prefabs/MiniGame/Drinking/hukidashi");
-        yakitoriObj = Resources.Load<GameObject>("Prefabs/MiniGame/Drinking/yakitori");
-        sakeObj = Resources.Load<GameObject>("Prefabs/MiniGame/Drinking/sake");
-        saladObj = Resources.Load<GameObject>("Prefabs/MiniGame/Drinking/salad");
-        sashimiObj = Resources.Load<GameObject>("Prefabs/MiniGame/Drinking/sashimi");
-
+        
 
         OrderShuffle();
         PosShuffle();
