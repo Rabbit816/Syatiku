@@ -31,6 +31,7 @@ public class ButtonController : MonoBehaviour {
 
     private int OrderCount = 0;
     private int AgainCounter = 0;
+    public int[] OrderBox = new int[4];
 
     //飲み会シーンのボタンを表示
     public void DrinkSceneButtonON()
@@ -153,6 +154,40 @@ public class ButtonController : MonoBehaviour {
             Sashimi.interactable = false;
             denmoku.ListInSashimi();
             OrderCount++;
+        }
+    }
+    /// <summary>
+    /// 注文
+    /// </summary>
+    public void Order()
+    {
+        ButtonReset();
+        OrderCount = 0;
+        denmoku.ResetList();
+        DenmokuImage.GetComponent<RectTransform>().localPosition = new Vector2(-400, -800);
+        drink.OrderAnswer();
+    }
+
+    public void ButtonReset()
+    {
+        for(int i = 0; i < OrderBox.Length; i++)
+        {
+            switch (OrderBox[i])
+            {
+                case 0:
+                    Yakitori.interactable = true;
+                    break;
+                case 1:
+                    Sake.interactable = true;
+                    break;
+                case 2:
+                    Salad.interactable = true;
+                    break;
+                default:
+                    Sashimi.interactable = true;
+                    break;
+            }
+
         }
     }
 

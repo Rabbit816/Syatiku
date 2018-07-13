@@ -602,6 +602,7 @@ MonoBehaviour:
   Sake: {fileID: 1778225818}
   Salad: {fileID: 861254432}
   Sashimi: {fileID: 1730615338}
+  OrderBox: 00000000000000000000000000000000
 --- !u!1 &338063001
 GameObject:
   m_ObjectHideFlags: 0
@@ -658,7 +659,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1351185617}
   m_HandleRect: {fileID: 1351185615}
   m_Direction: 2
-  m_Value: 0.99999994
+  m_Value: 1
   m_Size: 0.40000004
   m_NumberOfSteps: 0
   m_OnValueChanged:
@@ -793,7 +794,18 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 338219929}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 307734377}
+        m_MethodName: Order
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
 --- !u!114 &338219929

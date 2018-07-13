@@ -7,6 +7,7 @@ public class Denmoku : MonoBehaviour {
 
     GameObject InfoMeter;
     DrinkScene drink;
+    ButtonController button;
 
     //メニューリスト
     [SerializeField] Image Yakitori;
@@ -65,6 +66,7 @@ public class Denmoku : MonoBehaviour {
         if(OrderCount == 4)
         {
             OrderCount = 0;
+            button.OrderButton.interactable = true;
         }
     }
 
@@ -77,6 +79,7 @@ public class Denmoku : MonoBehaviour {
         if (OrderCount == 4)
         {
             OrderCount = 0;
+            button.OrderButton.interactable = true;
         }
     }
 
@@ -89,6 +92,7 @@ public class Denmoku : MonoBehaviour {
         if (OrderCount == 4)
         {
             OrderCount = 0;
+            button.OrderButton.interactable = true;
         }
     }
 
@@ -101,11 +105,35 @@ public class Denmoku : MonoBehaviour {
         if (OrderCount == 4)
         {
             OrderCount = 0;
+            button.OrderButton.interactable = true;
+        }
+    }
+
+    public void ResetList()
+    {
+        for(int i = 0; i < InputOrderBox.Length; i++)
+        {
+            switch (InputOrderBox[i])
+            {
+                case 0:
+                    Yakitori.GetComponent<RectTransform>().localPosition = new Vector2(0, 0);
+                    break;
+                case 1:
+                    Sake.GetComponent<RectTransform>().localPosition = new Vector2(0, 0);
+                    break;
+                case 2:
+                    Salad.GetComponent<RectTransform>().localPosition = new Vector2(0, 0);
+                    break;
+                default:
+                    Sashimi.GetComponent<RectTransform>().localPosition = new Vector2(0, 0);
+                    break;
+            }
         }
     }
 
     void Start () {
         drink = GetComponent<DrinkScene>();
+        button = GetComponent<ButtonController>();
         InfoMeter = GameObject.Find("DrinkMain/InfoMeter");
         InfoMeter.GetComponent<Slider>().value = 50;
 	}
