@@ -29,8 +29,6 @@ public class ImportScenarioInfo : MonoBehaviour {
     /// <summary>
     /// 区切ったシナリオを細かく解析
     /// </summary>
-    /// <param name="line"></param>
-    /// <returns></returns>
     ScenarioInfo ScenarioAnalysis(string line)
     {
         ScenarioInfo scenario = new ScenarioInfo();
@@ -100,7 +98,6 @@ public class ImportScenarioInfo : MonoBehaviour {
             {
                 string imagePath = "Scenario/" + TakeTextInfo(text);
                 Image target = GetTargetImage(text);
-                target.color = Color.white;
                 target.gameObject.SetActive(true);
                 SetSprite(target, imagePath);
             });
@@ -193,6 +190,7 @@ public class ImportScenarioInfo : MonoBehaviour {
     {
         for (int i = 0; i < window.characters.Length; i++)
         {
+            if (!window.characters[i].gameObject.activeSelf) continue;
             if (i == pos) window.characters[i].color = Color.white;
             else window.characters[i].color = new Color(0.5f, 0.5f, 0.5f, 1f);
         }
@@ -204,6 +202,7 @@ public class ImportScenarioInfo : MonoBehaviour {
     void SetSprite(Image image, string path)
     {
         image.sprite = Resources.Load<Sprite>(path);
+        image.color = Color.white;
     }
 
     /// <summary>
@@ -266,9 +265,6 @@ public class ImportScenarioInfo : MonoBehaviour {
                 target = window.bgi;
                 break;
         }
-
-        //Debug.Log(targetName);
-        //Debug.Log(target.name + target.color);
 
         if (target == null) Debug.logger.LogError("ArgumentNullException", "ターゲットが指定されていません");
 
