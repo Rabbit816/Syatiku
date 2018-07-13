@@ -78,7 +78,7 @@ public class ScenarioController : MonoBehaviour {
 
         window.scenarioCanvas.alpha = 1;
 
-        //DontDestroyOnLoad(gameObject);
+        DontDestroyOnLoad(gameObject);
     }
 
     /// <summary>
@@ -119,8 +119,7 @@ public class ScenarioController : MonoBehaviour {
     /// <param name="num"></param>
     void SetNextInfo()
     {
-        window.recommendIcon.SetActive(false);
-        window.reccomendLight.SetActive(false);
+        window.recommendLight.SetActive(false);
         //感情アイコンの非表示
         for (int i = 0; i < window.characters.Length; i++)
         {
@@ -137,6 +136,11 @@ public class ScenarioController : MonoBehaviour {
         }
 
         infoIndex++;
+    }
+
+    public void hideButtons()
+    {
+        window.menu.gameObject.SetActive(false);
     }
 
     void Update()
@@ -183,10 +187,9 @@ public class ScenarioController : MonoBehaviour {
     /// </summary>
     void ShowRecommendIcon()
     {
-        if (!window.recommendIcon.activeSelf)
+        if (!window.recommendLight.activeSelf)
         {
-            //window.recommendIcon.SetActive(true);
-            window.reccomendLight.SetActive(true); // washizu
+            window.recommendLight.SetActive(true);
             if (isAuto)
             {
                 StartCoroutine(SetNextInfo(nextWaitTime));
@@ -285,6 +288,7 @@ public class ScenarioController : MonoBehaviour {
     void EndScenario()
     {
         isPlayScenario = false;
+        scenarioInfoList.Clear();
     }
 
     /// <summary>
@@ -308,11 +312,7 @@ public class ScenarioController : MonoBehaviour {
 
     public void OnClickSkipButton()
     {
-        if (isPlayScenario)
-        {
-            isSkip = !isSkip;
-            window.skipText.text = isSkip ? "スキップ中" : "スキップ";
-        }
+        if (isPlayScenario) isSkip = !isSkip;
     }
 
     public void OnClickLogButton()
@@ -330,8 +330,24 @@ public class ScenarioController : MonoBehaviour {
     public void OnClickAutoButton()
     {
         isAuto = !isAuto;
-        window.autoText.text = isAuto ? "オート中" : "オート";
         if (IsShowAllMessage()) StartCoroutine(SetNextInfo(nextWaitTime));
+    }
+
+    public void OnClickMenuButton()
+    {
+        //オープン
+        if(window.menuButton.sprite == window.menuSprites[0])
+        {
+            window.menu.localPosition = window.opneMenuPos;
+            window.menuButton.sprite = window.menuSprites[1];
+        }
+        //クローズ
+        else
+        {
+            window.menu.localPosition = window.closeMenuPos;
+            window.menuButton.sprite = window.menuSprites[0];
+        }
+
     }
 
     #endregion

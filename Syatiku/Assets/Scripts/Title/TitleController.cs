@@ -13,10 +13,6 @@ public class TitleController : MonoBehaviour {
         {
             var common = Instantiate(Resources.Load("Prefabs/Common/Common"));
             DontDestroyOnLoad(common);
-            var sound = Instantiate(Resources.Load("Prefabs/Common/SoundManager"));
-            DontDestroyOnLoad(sound);
-
-            //SoundManager.Instance.PlayBGM(BGMName.Title);
         }
     }
 
@@ -28,6 +24,7 @@ public class TitleController : MonoBehaviour {
             Common.Instance.actionCount = 1;
         else
             Common.Instance.actionCount = 1;
+
         Common.Instance.ChangeScene(Common.SceneName.Scenario);
     }
     //タイトルボタンを削除

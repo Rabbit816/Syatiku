@@ -2,11 +2,15 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BGMSetting : MonoBehaviour {
-    [SerializeField]
-    private AudioClip aClip;
+public class DamageGageController : MonoBehaviour {
+
 	// Use this for initialization
 	void Start () {
-        Common.Instance.PlayBGM(aClip);
+		
+	}
+	
+	// Update is called once per frame
+	void Update () {
+		
 	}
 }

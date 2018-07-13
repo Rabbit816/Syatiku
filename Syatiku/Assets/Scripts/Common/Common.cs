@@ -94,13 +94,6 @@ public class Common : MonoBehaviour {
         DontDestroyOnLoad(gameObject);
     }
 
-    // BGM再生(AudioListener)
-    public void PlayBGM(AudioClip bgm) {
-        var audio = gameObject.GetComponent<AudioSource>();
-        audio.clip = bgm;
-        audio.Play();
-    }
-
     /// <summary>
     /// シーン遷移処理(Common.Instance.ChangeScene(Common.SceneName.シーン名))
     /// </summary>

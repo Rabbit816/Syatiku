@@ -53,9 +53,6 @@ public class ActionController : MonoBehaviour {
     // -----------------------------------------------
 
     void Start () {
-        // AudioSourceを取得
-        var common = Common.Instance.GetComponent<AudioSource>();
-        common.Stop();
 
         IsDataSelect();
 
@@ -143,7 +140,7 @@ public class ActionController : MonoBehaviour {
             if (createPos[i] == pos2)
                 mini.transform.localScale = new Vector2(-1, 1);
 
-            Image s_mini = mini.transform.GetChild(1).transform.GetChild(0).GetComponent<Image>();
+            Image s_mini = mini.transform.GetChild(0).transform.GetChild(1).transform.GetChild(0).GetComponent<Image>();
             s_mini.sprite = miniGameImage[i];
 
             HukidashiController hukiCon = mini.GetComponent<HukidashiController>();
