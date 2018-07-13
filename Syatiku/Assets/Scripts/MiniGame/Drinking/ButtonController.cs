@@ -205,20 +205,82 @@ public class ButtonController : MonoBehaviour {
         {
             case 0:
                 Counter1.gameObject.SetActive(true);
-                Counter1.GetComponent<Text>().text = denmoku.InputOrderCounter[OrderCount].ToString();
                 break;
             case 1:
                 Counter2.gameObject.SetActive(true);
-                Counter2.GetComponent<Text>().text = denmoku.InputOrderCounter[OrderCount].ToString();
                 break;
             case 2:
                 Counter3.gameObject.SetActive(true);
-                Counter3.GetComponent<Text>().text = denmoku.InputOrderCounter[OrderCount].ToString();
                 break;
             default:
                 Counter4.gameObject.SetActive(true);
-                Counter4.GetComponent<Text>().text = denmoku.InputOrderCounter[OrderCount].ToString();
                 break;
+        }
+    }
+
+
+    // 注文欄の増減ボタン
+    public void OrderListPlus1()
+    {
+        if(denmoku.InputOrderCounter[0] < 4)
+        {
+            denmoku.InputOrderCounter[0]++;
+        }
+    }
+
+    public void OrderListMinus1()
+    {
+        if(denmoku.InputOrderCounter[0] > 1)
+        {
+            denmoku.InputOrderCounter[0]--;
+        }
+    }
+
+    public void OrderListPlus2()
+    {
+        if (denmoku.InputOrderCounter[1] < 4)
+        {
+            denmoku.InputOrderCounter[1]++;
+        }
+    }
+
+    public void OrderListMinus2()
+    {
+        if (denmoku.InputOrderCounter[1] > 1)
+        {
+            denmoku.InputOrderCounter[1]--;
+        }
+    }
+
+    public void OrderListPlus3()
+    {
+        if (denmoku.InputOrderCounter[2] < 4)
+        {
+            denmoku.InputOrderCounter[2]++;
+        }
+    }
+
+    public void OrderListMinus3()
+    {
+        if (denmoku.InputOrderCounter[2] > 1)
+        {
+            denmoku.InputOrderCounter[2]--;
+        }
+    }
+
+    public void OrderListPlus4()
+    {
+        if (denmoku.InputOrderCounter[3] < 4)
+        {
+            denmoku.InputOrderCounter[3]++;
+        }
+    }
+
+    public void OrderListMinus4()
+    {
+        if (denmoku.InputOrderCounter[3] > 1)
+        {
+            denmoku.InputOrderCounter[3]--;
         }
     }
 
@@ -239,6 +301,9 @@ public class ButtonController : MonoBehaviour {
 	
 	
 	void Update () {
-		
-	}
+        Counter1.GetComponent<Text>().text = denmoku.InputOrderCounter[0].ToString();
+        Counter2.GetComponent<Text>().text = denmoku.InputOrderCounter[1].ToString();
+        Counter3.GetComponent<Text>().text = denmoku.InputOrderCounter[2].ToString();
+        Counter4.GetComponent<Text>().text = denmoku.InputOrderCounter[3].ToString();
+    }
 }

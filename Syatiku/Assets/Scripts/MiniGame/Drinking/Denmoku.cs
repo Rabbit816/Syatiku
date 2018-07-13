@@ -18,7 +18,7 @@ public class Denmoku : MonoBehaviour {
     //デンモク内で使う配列・変数
     public int[] InputOrderBox = new int[4];
     public int[] InputOrderCounter = new int[4];
-    private int[] OrderListPos = new int[4] { 427, 332, 237, 142 };
+    private float[] OrderListPos = new float[4] { 440, 340, 240, 140 };
     private int OrderCount = 0;
 
 

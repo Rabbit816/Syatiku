@@ -25,7 +25,7 @@ public class DrinkScene : MonoBehaviour {
     //注文を表示するための配列
     public int[] OrderBox = new int[4];
     public int[] OrderCounter = new int[4];
-    public float[] OrderPos = new float[4] {-6, -2, 1.75f, 5.65f};
+    private float[] OrderPos = new float[4] {-6, -2, 2, 6};
     System.Random rnd = new System.Random();
 
     private int[] Num = new int[4];
@@ -35,55 +35,48 @@ public class DrinkScene : MonoBehaviour {
     public void OrderShuffle()
     {
         //商品を格納する配列を用意&シャッフル
-        for(int i = 0; i < foodsBox.Length; i++)
+        for(int i = 0; i < this.foodsBox.Length; i++)
         {
-            foodsBox[i] = i;
+            this.foodsBox[i] = i;
         }
-        for(int i = 0; i < foodsBox.Length; i++)
-        {
-            int shuffle1 = rnd.Next(foodsBox.Length);
-            int shuffle2 = rnd.Next(foodsBox.Length);
-            int value = foodsBox[shuffle1];
-            foodsBox[shuffle1] = foodsBox[shuffle2];
-            foodsBox[shuffle2] = value;
-        }
+        Common.Instance.Shuffle(foodsBox);
         
         //注文配列・個数配列・Num配列の用意
         for(int i = 0; i < OrderBox.Length; i++)
         {
-            OrderBox[i] = foodsBox[i];
-            OrderCounter[i] = Random.Range(1, 5);
-            Num[i] = i;
+            this.OrderBox[i] = this.foodsBox[i];
+            this.OrderCounter[i] = Random.Range(1, 5);
+            this.Num[i] = i;
         }
     }
     
     //表示する位置をシャッフル
     public void PosShuffle()
     {
-        for (int i = 0; i < OrderPos.Length; i++)
+        for (int i = 0; i < this.OrderPos.Length; i++)
         {
-            int shuffle1 = rnd.Next(OrderPos.Length);
-            int shuffle2 = rnd.Next(OrderPos.Length);
-            float value = OrderPos[shuffle1];
-            OrderPos[shuffle1] = OrderPos[shuffle2];
-            OrderPos[shuffle2] = value;
+            int shuffle1 = rnd.Next(this.OrderPos.Length);
+            int shuffle2 = rnd.Next(this.OrderPos.Length);
+            float valueF = this.OrderPos[shuffle1];
+            this.OrderPos[shuffle1] = this.OrderPos[shuffle2];
+            this.OrderPos[shuffle2] = valueF;
 
             //Num配列のシャッフル
-            int val = Num[shuffle1];
-            Num[shuffle1] = Num[shuffle2];
-            Num[shuffle2] = val;
+            int valueI = this.Num[shuffle1];
+            this.Num[shuffle1] = this.Num[shuffle2];
+            this.Num[shuffle2] = valueI;
         }
     }
 
     //注文商品を1個ずつランダムな位置に表示して消すを繰り返す
     private IEnumerator OrderMethod()
     {
-        for (int i = 0; i < OrderBox.Length; i++)
+        for (int i = 0; i < this.OrderBox.Length; i++)
         {
             yield return new WaitForSeconds(1.0f);
             //吹き出しを表示
-            var hukidashi = Instantiate(hukidashiObj, new Vector2(OrderPos[i], 2.5f), Quaternion.identity);
-            hukidashi.transform.localScale = new Vector2(1.25f, 1.25f);
+            var hukidashi = Instantiate(this.hukidashiObj, new Vector2(OrderPos[i], 2.5f), Quaternion.identity);
+            hukidashi.transform.localScale = new Vector2(1.12f, 1.12f);
             hukidashi.transform.parent = menuObject.transform;
 
             //注文数の表示
@@ -93,30 +86,30 @@ public class DrinkScene : MonoBehaviour {
             {
                 //やきとりを表示
                 case 0:
-                    yakitoriObj = Resources.Load<GameObject>("Prefabs/MiniGame/Drinking/yakitori");
-                    var yakitori = Instantiate(yakitoriObj, new Vector2(OrderPos[i], 2.7f), Quaternion.identity);
-                    yakitori.transform.localScale = new Vector2(0.8f, 0.8f);
-                    yakitori.transform.parent = menuObject.transform;
+                    this.yakitoriObj = Resources.Load<GameObject>("Prefabs/MiniGame/Drinking/yakitori");
+                    var yakitori = Instantiate(this.yakitoriObj, new Vector2(OrderPos[i], 2.8f), Quaternion.identity);
+                    yakitori.transform.localScale = new Vector2(0.7f, 0.7f);
+                    yakitori.transform.parent = this.menuObject.transform;
                     break;
                 //酒を表示
                 case 1:
-                    sakeObj = Resources.Load<GameObject>("Prefabs/MiniGame/Drinking/sake");
-                    var sake = Instantiate(sakeObj, new Vector2(OrderPos[i], 2.7f), Quaternion.identity);
-                    sake.transform.localScale = new Vector2(0.3f, 0.3f);
-                    sake.transform.parent = menuObject.transform;
+                    this.sakeObj = Resources.Load<GameObject>("Prefabs/MiniGame/Drinking/sake");
+                    var sake = Instantiate(this.sakeObj, new Vector2(OrderPos[i], 2.8f), Quaternion.identity);
+                    sake.transform.localScale = new Vector2(0.25f, 0.25f);
+                    sake.transform.parent = this.menuObject.transform;
                     break;
                 //サラダを表示
                 case 2:
                     saladObj = Resources.Load<GameObject>("Prefabs/MiniGame/Drinking/salad");
-                    var salad = Instantiate(saladObj, new Vector2(OrderPos[i], 2.7f), Quaternion.identity);
+                    var salad = Instantiate(saladObj, new Vector2(OrderPos[i], 2.8f), Quaternion.identity);
                     salad.transform.localScale = new Vector2(0.35f, 0.35f);
                     salad.transform.parent = menuObject.transform;
                     break;
                 //刺身を表示
                 default:
                     sashimiObj = Resources.Load<GameObject>("Prefabs/MiniGame/Drinking/sashimi");
-                    var sashimi = Instantiate(sashimiObj, new Vector2(OrderPos[i], 2.7f), Quaternion.identity);
-                    sashimi.transform.localScale = new Vector2(0.3f, 0.3f);
+                    var sashimi = Instantiate(sashimiObj, new Vector2(OrderPos[i], 2.8f), Quaternion.identity);
+                    sashimi.transform.localScale = new Vector2(0.25f, 0.25f);
                     sashimi.transform.parent = menuObject.transform;
                     break;
             }
@@ -138,7 +131,7 @@ public class DrinkScene : MonoBehaviour {
 
     public void Delete()
     {
-        var Delete = menuObject.transform;
+        var Delete = this.menuObject.transform;
         for (int i = 0; i < Delete.childCount; i++)
         {
             Destroy(Delete.GetChild(i).gameObject);
@@ -152,8 +145,8 @@ public class DrinkScene : MonoBehaviour {
         {
             //吹き出しを表示
             var hukidashi = Instantiate(hukidashiObj, new Vector2(OrderPos[i], 2.5f), Quaternion.identity);
-            hukidashi.transform.localScale = new Vector2(1.25f, 1.25f);
-            hukidashi.transform.parent = menuObject.transform;
+            hukidashi.transform.localScale = new Vector2(1.12f, 1.12f);
+            hukidashi.transform.parent = this.menuObject.transform;
             
         }
     }
@@ -163,20 +156,20 @@ public class DrinkScene : MonoBehaviour {
         switch (Num[NumCounter])
         {
             case 0:
-                OrderCounter1.gameObject.SetActive(true);
-                OrderCounter1.GetComponent<Text>().text = "× " + OrderCounter[NumCounter].ToString();
+                this.OrderCounter1.gameObject.SetActive(true);
+                this.OrderCounter1.GetComponent<Text>().text = "× " + this.OrderCounter[NumCounter].ToString();
                 break;
             case 1:
-                OrderCounter2.gameObject.SetActive(true);
-                OrderCounter2.GetComponent<Text>().text = "× " + OrderCounter[NumCounter].ToString();
+                this.OrderCounter2.gameObject.SetActive(true);
+                this.OrderCounter2.GetComponent<Text>().text = "× " + this.OrderCounter[NumCounter].ToString();
                 break;
             case 2:
-                OrderCounter3.gameObject.SetActive(true);
-                OrderCounter3.GetComponent<Text>().text = "× " + OrderCounter[NumCounter].ToString();
+                this.OrderCounter3.gameObject.SetActive(true);
+                this.OrderCounter3.GetComponent<Text>().text = "× " + this.OrderCounter[NumCounter].ToString();
                 break;
             default:
-                OrderCounter4.gameObject.SetActive(true);
-                OrderCounter4.GetComponent<Text>().text = "× " + OrderCounter[NumCounter].ToString();
+                this.OrderCounter4.gameObject.SetActive(true);
+                this.OrderCounter4.GetComponent<Text>().text = "× " + this.OrderCounter[NumCounter].ToString();
                 break;
         }
         NumCounter++;
@@ -184,38 +177,38 @@ public class DrinkScene : MonoBehaviour {
 
     public void OrderCounterON()
     {
-        OrderCounter1.gameObject.SetActive(true);
-        OrderCounter2.gameObject.SetActive(true);
-        OrderCounter3.gameObject.SetActive(true);
-        OrderCounter4.gameObject.SetActive(true);
+        this.OrderCounter1.gameObject.SetActive(true);
+        this.OrderCounter2.gameObject.SetActive(true);
+        this.OrderCounter3.gameObject.SetActive(true);
+        this.OrderCounter4.gameObject.SetActive(true);
     }
 
     public void OrderCounterOFF()
     {
-        OrderCounter1.gameObject.SetActive(false);
-        OrderCounter2.gameObject.SetActive(false);
-        OrderCounter3.gameObject.SetActive(false);
-        OrderCounter4.gameObject.SetActive(false);
+        this.OrderCounter1.gameObject.SetActive(false);
+        this.OrderCounter2.gameObject.SetActive(false);
+        this.OrderCounter3.gameObject.SetActive(false);
+        this.OrderCounter4.gameObject.SetActive(false);
     }
 
 	void Start () {
-        button = GetComponent<ButtonController>();
-        menuObject = GameObject.Find("MenuObject");
-        OrderCounter1 = GameObject.Find("DrinkingCounter/OrderCounter1");
-        OrderCounter2 = GameObject.Find("DrinkingCounter/OrderCounter2");
-        OrderCounter3 = GameObject.Find("DrinkingCounter/OrderCounter3");
-        OrderCounter4 = GameObject.Find("DrinkingCounter/OrderCounter4");
-        hukidashiObj = Resources.Load<GameObject>("Prefabs/MiniGame/Drinking/hukidashi");
+        this.button = GetComponent<ButtonController>();
+        this.menuObject = GameObject.Find("MenuObject");
+        this.OrderCounter1 = GameObject.Find("DrinkingCounter/OrderCounter1");
+        this.OrderCounter2 = GameObject.Find("DrinkingCounter/OrderCounter2");
+        this.OrderCounter3 = GameObject.Find("DrinkingCounter/OrderCounter3");
+        this.OrderCounter4 = GameObject.Find("DrinkingCounter/OrderCounter4");
+        this.hukidashiObj = Resources.Load<GameObject>("Prefabs/MiniGame/Drinking/hukidashi");
         
 
-        OrderShuffle();
-        PosShuffle();
-        Order();
-        OrderCounterOFF();
+        this.OrderShuffle();
+        this.PosShuffle();
+        this.Order();
+        this.OrderCounterOFF();
     }
 	
 	void Update () {
-		
+
 	}
 
     
