@@ -6,8 +6,6 @@ public class BossScene : MonoBehaviour {
     public static BossScene Instance { get; private set; }
 
     [SerializeField]
-    UnityEngine.UI.Text timerText;
-    [SerializeField]
     FlickPartController flickPart;
     [SerializeField]
     SanctionPartController sanctionPart;
@@ -15,10 +13,6 @@ public class BossScene : MonoBehaviour {
     DamagePointerController damagePointer;
     [SerializeField]
     GameObject standingBoss;
-
-    //ボスシーンのゲーム時間
-    [SerializeField]
-    float gameTime;
 
     [SerializeField, Header("ハリセンモード移行への区切り値")]
     int[] Separatevalues;
@@ -44,25 +38,9 @@ public class BossScene : MonoBehaviour {
             //フリックの開始
             touchStartPos = Input.mousePosition;
         }
-
-        UpdateTimer();
 	}
 
-    /// <summary>
-    /// タイマーの更新
-    /// </summary>
-    void UpdateTimer()
-    {
-        if (gameTime < 0)
-        {
-            Result();
-        }
-        else
-        {
-            gameTime -= Time.deltaTime;
-            timerText.text = gameTime.ToString("F0");
-        }
-    }
+
 
     /// <summary>
     /// テキストの移動速度、方向を更新
@@ -141,9 +119,9 @@ public class BossScene : MonoBehaviour {
         slappedBoss.SetActive(false);
     }
 
-    void Result()
+    public void Result()
     {
-        if(isReachStates[isReachStates.Length - 1])
+        if (isReachStates[isReachStates.Length - 1])
         {
             UnityEngine.SceneManagement.SceneManager.LoadScene("GoodEnd");
         }
@@ -153,5 +131,4 @@ public class BossScene : MonoBehaviour {
         }
         Debug.Log("ゲーム終了：結果発表");
     }
-    
 }

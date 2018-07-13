@@ -78,7 +78,7 @@ public class ScenarioController : MonoBehaviour {
 
         window.scenarioCanvas.alpha = 1;
 
-        //DontDestroyOnLoad(gameObject);
+        DontDestroyOnLoad(gameObject);
     }
 
     /// <summary>
@@ -312,11 +312,7 @@ public class ScenarioController : MonoBehaviour {
 
     public void OnClickSkipButton()
     {
-        if (isPlayScenario)
-        {
-            isSkip = !isSkip;
-            window.skipText.text = isSkip ? "スキップ中" : "スキップ";
-        }
+        if (isPlayScenario) isSkip = !isSkip;
     }
 
     public void OnClickLogButton()
@@ -334,14 +330,24 @@ public class ScenarioController : MonoBehaviour {
     public void OnClickAutoButton()
     {
         isAuto = !isAuto;
-        window.autoText.text = isAuto ? "オート中" : "オート";
         if (IsShowAllMessage()) StartCoroutine(SetNextInfo(nextWaitTime));
     }
 
     public void OnClickMenuButton()
     {
-        window.menu.localPosition = new Vector3(-50, 180, 0);
-        window.menuButton.sprite = window.menuSprites[1];
+        //オープン
+        if(window.menuButton.sprite == window.menuSprites[0])
+        {
+            window.menu.localPosition = window.opneMenuPos;
+            window.menuButton.sprite = window.menuSprites[1];
+        }
+        //クローズ
+        else
+        {
+            window.menu.localPosition = window.closeMenuPos;
+            window.menuButton.sprite = window.menuSprites[0];
+        }
+
     }
 
     #endregion

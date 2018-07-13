@@ -17,7 +17,14 @@ public class FlickPartController : MonoBehaviour {
     List<FlickTextController> flickTextList = new List<FlickTextController>();
 
     float spawnTextTimer;
+    [SerializeField]
     float spawnTextTime = 1.0f;
+
+    //ボスシーンのゲーム時間
+    [SerializeField]
+    float gameTime;
+    [SerializeField]
+    UnityEngine.UI.Text timerText;
 
     [Header("ボスダメージアニメーション")]
     [SerializeField, Header("振動する時間")]
@@ -44,6 +51,26 @@ public class FlickPartController : MonoBehaviour {
             //テキストの生成
             SpawnFlickText();
         }
+
+        UpdateTimer();
+    }
+
+    /// <summary>
+    /// タイマーの更新
+    /// </summary>
+    void UpdateTimer()
+    {
+        //ゲームタイマー
+        if (gameTime < 0)
+        {
+            BossScene.Instance.Result();
+        }
+        else
+        {
+            gameTime -= Time.deltaTime;
+            timerText.text = gameTime.ToString("F0");
+        }
+        //テキストタイマー
         spawnTextTimer += Time.deltaTime;
     }
 

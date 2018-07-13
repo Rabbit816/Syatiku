@@ -30,18 +30,18 @@ public class FlickTextController : MonoBehaviour
 
         //座標
         float posX = Random.Range(0, 2);
-        posX = (posX > 0 ? 160 : -160);
-        float posY = Random.Range(-100, 100);
+        posX = (posX > 0 ? 140 : -140);
+        float posY = Random.Range(-50, 200);
         Vector3 pos = new Vector3(posX, posY, 0);
         text.rectTransform.localPosition = pos;
 
         //移動
-        float moveX = posX / Random.Range(200, 800);
+        float moveX = posX / Random.Range(200, 600);
         float moveY = Random.Range(-0.5f, 0.5f);
         moveForce = new Vector3(moveX, moveY, 0);
 
         //テキスト
-        text.fontSize = Random.Range(20, 40);
+        text.fontSize = Random.Range(30, 60);
         alpha = 0;
         this.type = (Type)num;
         text.color = (type == Type.Correct ? new Color(240 / 255f, 179 / 255f, 37 / 255f) : new Color(33 / 255f, 100 / 255f, 150 / 255f));

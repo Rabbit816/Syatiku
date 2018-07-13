@@ -3,16 +3,14 @@ using UnityEngine;
 
 public class ScenarioWindow : MonoBehaviour
 {
-    Vector3 startMenuPos;
-    [SerializeField]
-    Vector3 targetMenuPos;
+    [HideInInspector]
+    public Vector3 closeMenuPos;
+    public Vector3 opneMenuPos;
     public Image bgi;
 
     public Text name;
     public Text message;
-    public Text skipText;
     public Text logText;
-    public Text autoText;
     public GameObject log;
     public GameObject recommendLight;
     public Image[] characters;
@@ -25,7 +23,7 @@ public class ScenarioWindow : MonoBehaviour
 
     private void Start()
     {
-        startMenuPos = menu.localPosition;
+        closeMenuPos = menu.localPosition;
     }
 
     public void Init()
@@ -33,7 +31,7 @@ public class ScenarioWindow : MonoBehaviour
         //背景
         bgi.sprite = null;
         //メニュー
-        menu.localPosition = startMenuPos;
+        menu.localPosition = closeMenuPos;
         menu.gameObject.SetActive(true);
         menuButton.sprite = menuSprites[0];
         //キャラ、アイコン
@@ -44,8 +42,6 @@ public class ScenarioWindow : MonoBehaviour
         }
         recommendLight.SetActive(false);
         //テキスト
-        skipText.text = "スキップ";
-        autoText.text = "オート";
         logText.text = "";
         name.text = "";
         message.text = "";
