@@ -2,6 +2,7 @@
 using DG.Tweening;
 using UnityEngine.UI;
 using System.Collections;
+using UnityEngine.EventSystems;
 
 public class PatteringEvent : MonoBehaviour {
 
@@ -31,6 +32,8 @@ public class PatteringEvent : MonoBehaviour {
     private RectTransform Low_Title;
     [SerializeField, Tooltip("Speedy Title Object")]
     private RectTransform Speedy_Title;
+    [SerializeField]
+    private EventSystem event_system;
 
     private HackTap hack_tap;
     private HackBoss hack_boss;
@@ -119,13 +122,12 @@ public class PatteringEvent : MonoBehaviour {
     public IEnumerator Start_LowWaitTime(float time)
     {
         LowObject.SetActive(true);
-        LowObject.transform.GetChild(0).GetComponentInChildren<Button>().interactable = false;
+        event_system.enabled = false;
         sequen.Append(Low_Title.DOLocalMoveX(0f, 1.0f));
         yield return new WaitForSeconds(time);
         sequen.Append(Low_Title.DOLocalMoveX(-600f, 1.0f)
-            .OnComplete(()=> LowObject.transform.GetChild(0).GetComponentInChildren<Button>().interactable = true));
+            .OnComplete(()=> event_system.enabled = true));
         yield return new WaitForSeconds(0.5f);
-        LowObject.transform.GetChild(0).GetComponentInChildren<Button>().interactable = true;
         LowAnim();
     }
 
@@ -137,13 +139,12 @@ public class PatteringEvent : MonoBehaviour {
     public IEnumerator Start_SpeedyWaitTime(float time)
     {
         SpeedyObject.SetActive(true);
-        SpeedyObject.transform.GetComponentInChildren<Button>().interactable = false;
+        event_system.enabled = false;
         quen.Append(Speedy_Title.DOLocalMoveX(0f, 1.0f));
         yield return new WaitForSeconds(time);
         quen.Append(Speedy_Title.DOLocalMoveX(-600f, 1.0f)
-            .OnComplete(()=> SpeedyObject.transform.GetChild(0).GetComponentInChildren<Button>().interactable = true));
+            .OnComplete(()=> event_system.enabled = true));
         yield return new WaitForSeconds(0.5f);
-        LowObject.transform.GetComponentInChildren<Button>().interactable = true;
         SpeedyAnim();
     }
 
@@ -152,6 +153,7 @@ public class PatteringEvent : MonoBehaviour {
     /// </summary>
     public void TapResult()
     {
+        Debug.Log("タップ");
         if (!_success)
         {
             hack_boss.MoveBoss();
@@ -170,12 +172,14 @@ public class PatteringEvent : MonoBehaviour {
     /// <returns></returns>
     private IEnumerator End_Anim()
     {
+        event_system.enabled = false;
         Speedy_Title.transform.GetComponentInChildren<Text>().text = "終了";
         Low_Title.transform.GetComponentInChildren<Text>().text = "終了";
         quen.Append(Speedy_Title.DOLocalMoveX(600f, 2.5f));
         sequen.Append(Low_Title.DOLocalMoveX(600f, 2.5f));
         yield return new WaitForSeconds(3f);
         PatteResult();
+        event_system.enabled = true;
         SpeedyObject.SetActive(false);
     }
 
@@ -224,6 +228,10 @@ public class PatteringEvent : MonoBehaviour {
            .InsertCallback(2.8f, () => _success = true)
            .InsertCallback(3.3f, () => _success = false)
            .InsertCallback(3.3f, () => ChangeColor(3))
+           .InsertCallback(8.4f, () => ChangeColor(2))
+           .InsertCallback(8.4f, () => _success = true)
+           .InsertCallback(8.9f, () => _success = false)
+           .InsertCallback(8.9f, () => ChangeColor(3))
            .InsertCallback(10.6f, () => ChangeColor(2))
            .InsertCallback(10.6f, () => _success = true)
            .InsertCallback(11.1f, () => _success = false)
