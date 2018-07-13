@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 using DG.Tweening;
@@ -110,11 +108,6 @@ public class HackTap : MonoBehaviour
         _windowFase = false;
         _animloop = false;
         AddPlaceWord();
-	}
-	
-	// Update is called once per frame
-	void Update () {
-        
 	}
 
     /// <summary>
@@ -238,7 +231,6 @@ public class HackTap : MonoBehaviour
     {
         yield return new WaitForSeconds(time);
         Document.SetActive(true);
-
     }
 
     /// <summary>

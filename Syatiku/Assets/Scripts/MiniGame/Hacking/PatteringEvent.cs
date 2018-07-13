@@ -2,6 +2,7 @@
 using DG.Tweening;
 using UnityEngine.UI;
 using System.Collections;
+using UnityEngine.EventSystems;
 
 public class PatteringEvent : MonoBehaviour {
 
@@ -17,8 +18,6 @@ public class PatteringEvent : MonoBehaviour {
     private RectTransform Low_Paper_0;
     [SerializeField, Tooltip("SpeedyのPaper_0")]
     private RectTransform Speedy_Paper_0;
-    [SerializeField, Tooltip("Patteringfaseのtext")]
-    private Text tx;
     [SerializeField, Tooltip("取得するDocument")]
     private RectTransform getDocument;
     [SerializeField, Tooltip("取得するDocument")]
@@ -33,6 +32,8 @@ public class PatteringEvent : MonoBehaviour {
     private RectTransform Low_Title;
     [SerializeField, Tooltip("Speedy Title Object")]
     private RectTransform Speedy_Title;
+    [SerializeField]
+    private EventSystem event_system;
 
     private HackTap hack_tap;
     private HackBoss hack_boss;
@@ -52,7 +53,8 @@ public class PatteringEvent : MonoBehaviour {
     {
         quen = DOTween.Sequence();
         _success = false;
-        tx.text = "黄色のページをタップしよう！";
+        //Low_Title.GetComponent<Text>().text = "黄色のページをタップしよう！";
+        //Speedy_Title.GetComponent<Text>().text = "黄色のページをタップしよう！";
         hack_tap = GetComponent<HackTap>();
         hack_boss = GetComponent<HackBoss>();
         getDocument_obj.SetActive(false);
@@ -112,29 +114,37 @@ public class PatteringEvent : MonoBehaviour {
         getDocument_obj.SetActive(false);
     }
 
+    /// <summary>
+    /// LowAnimationをスタートさせる時の処理
+    /// </summary>
+    /// <param name="time">待ち時間</param>
+    /// <returns></returns>
     public IEnumerator Start_LowWaitTime(float time)
     {
         LowObject.SetActive(true);
-        LowObject.transform.GetComponentInChildren<Button>().interactable = false;
+        event_system.enabled = false;
         sequen.Append(Low_Title.DOLocalMoveX(0f, 1.0f));
         yield return new WaitForSeconds(time);
         sequen.Append(Low_Title.DOLocalMoveX(-600f, 1.0f)
-            .OnComplete(()=> LowObject.transform.GetChild(0).GetComponentInChildren<Button>().enabled = true));
+            .OnComplete(()=> event_system.enabled = true));
         yield return new WaitForSeconds(0.5f);
-        LowObject.transform.GetComponentInChildren<Button>().interactable = true;
         LowAnim();
     }
 
+    /// <summary>
+    /// SpeedyAnimationをスタートさせる時の処理
+    /// </summary>
+    /// <param name="time">待ち時間</param>
+    /// <returns></returns>
     public IEnumerator Start_SpeedyWaitTime(float time)
     {
         SpeedyObject.SetActive(true);
-        SpeedyObject.transform.GetComponentInChildren<Button>().interactable = false;
+        event_system.enabled = false;
         quen.Append(Speedy_Title.DOLocalMoveX(0f, 1.0f));
         yield return new WaitForSeconds(time);
         quen.Append(Speedy_Title.DOLocalMoveX(-600f, 1.0f)
-            .OnComplete(()=> SpeedyObject.transform.GetChild(0).GetComponentInChildren<Button>().enabled = true));
+            .OnComplete(()=> event_system.enabled = true));
         yield return new WaitForSeconds(0.5f);
-        LowObject.transform.GetComponentInChildren<Button>().interactable = true;
         SpeedyAnim();
     }
 
@@ -143,6 +153,7 @@ public class PatteringEvent : MonoBehaviour {
     /// </summary>
     public void TapResult()
     {
+        Debug.Log("タップ");
         if (!_success)
         {
             hack_boss.MoveBoss();
@@ -155,14 +166,20 @@ public class PatteringEvent : MonoBehaviour {
         StartCoroutine(Wait_Time(2f));
     }
 
+    /// <summary>
+    /// アニメーション終了時処理
+    /// </summary>
+    /// <returns></returns>
     private IEnumerator End_Anim()
     {
+        event_system.enabled = false;
         Speedy_Title.transform.GetComponentInChildren<Text>().text = "終了";
         Low_Title.transform.GetComponentInChildren<Text>().text = "終了";
         quen.Append(Speedy_Title.DOLocalMoveX(600f, 2.5f));
         sequen.Append(Low_Title.DOLocalMoveX(600f, 2.5f));
         yield return new WaitForSeconds(3f);
         PatteResult();
+        event_system.enabled = true;
         SpeedyObject.SetActive(false);
     }
 
@@ -184,19 +201,19 @@ public class PatteringEvent : MonoBehaviour {
     private void LowAnim()
     {
         Sequence se = DOTween.Sequence();
-        se.Append(Low_Paper_1.DOLocalRotate(new Vector2(0, Low_Paper_1.localRotation.y + 180), 0.3f).SetDelay(0.5f).SetLoops(20, LoopType.Restart))
+        se.Append(Low_Paper_1.DOLocalRotate(new Vector2(0, Low_Paper_1.localRotation.y + 180), 0.3f).SetDelay(0.5f).SetLoops(67, LoopType.Restart))
            .InsertCallback(3.7f, () => ChangeColor(0))
            .InsertCallback(3.7f, () => _success = true)
-           .InsertCallback(4.5f, () => _success = false)
-           .InsertCallback(4.5f, () => ChangeColor(1))
+           .InsertCallback(4.3f, () => _success = false)
+           .InsertCallback(4.3f, () => ChangeColor(1))
            .InsertCallback(10.4f, () => ChangeColor(0))
            .InsertCallback(10.4f, () => _success = true)
-           .InsertCallback(11.6f, () => _success = false)
-           .InsertCallback(11.6f, () => ChangeColor(1))
+           .InsertCallback(11.0f, () => _success = false)
+           .InsertCallback(11.0f, () => ChangeColor(1))
            .InsertCallback(18.5f, () => ChangeColor(0))
            .InsertCallback(18.5f, () => _success = true)
-           .InsertCallback(19.3f, () => _success = false)
-           .InsertCallback(19.3f, () => ChangeColor(1))
+           .InsertCallback(19.1f, () => _success = false)
+           .InsertCallback(19.1f, () => ChangeColor(1))
            .OnComplete(() => StartCoroutine(End_Anim()));
     }
 
@@ -211,6 +228,10 @@ public class PatteringEvent : MonoBehaviour {
            .InsertCallback(2.8f, () => _success = true)
            .InsertCallback(3.3f, () => _success = false)
            .InsertCallback(3.3f, () => ChangeColor(3))
+           .InsertCallback(8.4f, () => ChangeColor(2))
+           .InsertCallback(8.4f, () => _success = true)
+           .InsertCallback(8.9f, () => _success = false)
+           .InsertCallback(8.9f, () => ChangeColor(3))
            .InsertCallback(10.6f, () => ChangeColor(2))
            .InsertCallback(10.6f, () => _success = true)
            .InsertCallback(11.1f, () => _success = false)
