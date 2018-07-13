@@ -67,13 +67,7 @@ public class SmokingController : MonoBehaviour {
     bool timeOver = false; // タイムオーバーフラグ
     void Update(){
         if (ScenarioController.Instance.IsReachLastInfo()) {
-            selectUI.SetActive(true);
-            if (!isTime) {
-                isTime = true;
-                if (selectUI.activeSelf)
-                    StartCoroutine(TimeDown());
-                Question();
-            }
+            StartCoroutine(SelectStart());
         }
 
         if (tabaco.rectTransform.sizeDelta.x < 0)
@@ -108,6 +102,27 @@ public class SmokingController : MonoBehaviour {
         }
     }
 
+    /// <summary>
+    /// 回答選択UIを表示
+    /// </summary>
+    /// <returns></returns>
+    public IEnumerator SelectStart()
+    {
+        yield return new WaitForSeconds(2f);
+        selectUI.SetActive(true);
+        if (!isTime)
+        {
+            isTime = true;
+            if (selectUI.activeSelf)
+                StartCoroutine(TimeDown());
+            Question();
+        }
+    }
+
+    /// <summary>
+    /// 選択肢を選んだ時の処理
+    /// </summary>
+    /// <param name="text"></param>
     public void OnClick(Text text) {
         if (tabaco.rectTransform.sizeDelta.x <= 0) return;
 
@@ -140,24 +155,27 @@ public class SmokingController : MonoBehaviour {
             Debug.Log("×");
             answerCount--;
             tabaco.rectTransform.sizeDelta -= new Vector2(50f, 0);
-            switch (answerCount)
-            {
-                case 3:
-                    face.color = Color.white;
-                    break;
-                case 2:
-                    face.color = Color.yellow;
-                    break;
-                case 1:
-                    face.color = Color.red;
-                    break;
-                case 0:
-                    Common.Instance.clearFlag[Common.Instance.isClear] = false;
-                    Common.Instance.ChangeScene(Common.SceneName.Result);
-                    break;
-                default:
-                    break;
-            }
+
+            //ScenarioController.Instance.BeginScenario("");
+
+            //switch (answerCount)
+            //{
+            //    case 3:
+            //        face.color = Color.white;
+            //        break;
+            //    case 2:
+            //        face.color = Color.yellow;
+            //        break;
+            //    case 1:
+            //        face.color = Color.red;
+            //        break;
+            //    case 0:
+            //        Common.Instance.clearFlag[Common.Instance.isClear] = false;
+            //        Common.Instance.ChangeScene(Common.SceneName.Result);
+            //        break;
+            //    default:
+            //        break;
+            //}
         }
     }
 

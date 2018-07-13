@@ -5,7 +5,6 @@ using UnityEngine.UI;
 
 public class Denmoku : MonoBehaviour {
 
-    GameObject InfoMeter;
     DrinkScene drink;
     ButtonController button;
 
@@ -134,8 +133,6 @@ public class Denmoku : MonoBehaviour {
     void Start () {
         drink = GetComponent<DrinkScene>();
         button = GetComponent<ButtonController>();
-        InfoMeter = GameObject.Find("DrinkMain/InfoMeter");
-        InfoMeter.GetComponent<Slider>().value = 50;
 	}
 	
 	void Update () {
