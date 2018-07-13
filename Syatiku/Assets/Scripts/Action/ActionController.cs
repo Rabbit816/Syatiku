@@ -53,9 +53,6 @@ public class ActionController : MonoBehaviour {
     // -----------------------------------------------
 
     void Start () {
-        // AudioSourceを取得
-        var common = Common.Instance.GetComponent<AudioSource>();
-        common.Stop();
 
         IsDataSelect();
 
