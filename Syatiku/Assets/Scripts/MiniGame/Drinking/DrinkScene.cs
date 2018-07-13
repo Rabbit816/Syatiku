@@ -25,7 +25,7 @@ public class DrinkScene : MonoBehaviour {
     //注文を表示するための配列
     public int[] OrderBox = new int[4];
     public int[] OrderCounter = new int[4];
-    public float[] OrderPos = new float[4] {-6.37f, -2.12f, 2.12f, 6.37f};
+    public float[] OrderPos = new float[4] {-6, -2, 1.75f, 5.65f};
     System.Random rnd = new System.Random();
 
     private int[] Num = new int[4];
@@ -82,7 +82,7 @@ public class DrinkScene : MonoBehaviour {
         {
             yield return new WaitForSeconds(1.0f);
             //吹き出しを表示
-            var hukidashi = Instantiate(hukidashiObj, new Vector2(OrderPos[i], 3.3f), Quaternion.identity);
+            var hukidashi = Instantiate(hukidashiObj, new Vector2(OrderPos[i], 2.5f), Quaternion.identity);
             hukidashi.transform.localScale = new Vector2(1.25f, 1.25f);
             hukidashi.transform.parent = menuObject.transform;
 
@@ -94,28 +94,28 @@ public class DrinkScene : MonoBehaviour {
                 //やきとりを表示
                 case 0:
                     yakitoriObj = Resources.Load<GameObject>("Prefabs/MiniGame/Drinking/yakitori");
-                    var yakitori = Instantiate(yakitoriObj, new Vector2(OrderPos[i], 3.6f), Quaternion.identity);
+                    var yakitori = Instantiate(yakitoriObj, new Vector2(OrderPos[i], 2.7f), Quaternion.identity);
                     yakitori.transform.localScale = new Vector2(0.8f, 0.8f);
                     yakitori.transform.parent = menuObject.transform;
                     break;
                 //酒を表示
                 case 1:
                     sakeObj = Resources.Load<GameObject>("Prefabs/MiniGame/Drinking/sake");
-                    var sake = Instantiate(sakeObj, new Vector2(OrderPos[i], 3.6f), Quaternion.identity);
+                    var sake = Instantiate(sakeObj, new Vector2(OrderPos[i], 2.7f), Quaternion.identity);
                     sake.transform.localScale = new Vector2(0.3f, 0.3f);
                     sake.transform.parent = menuObject.transform;
                     break;
                 //サラダを表示
                 case 2:
                     saladObj = Resources.Load<GameObject>("Prefabs/MiniGame/Drinking/salad");
-                    var salad = Instantiate(saladObj, new Vector2(OrderPos[i], 3.6f), Quaternion.identity);
+                    var salad = Instantiate(saladObj, new Vector2(OrderPos[i], 2.7f), Quaternion.identity);
                     salad.transform.localScale = new Vector2(0.35f, 0.35f);
                     salad.transform.parent = menuObject.transform;
                     break;
                 //刺身を表示
                 default:
                     sashimiObj = Resources.Load<GameObject>("Prefabs/MiniGame/Drinking/sashimi");
-                    var sashimi = Instantiate(sashimiObj, new Vector2(OrderPos[i], 3.6f), Quaternion.identity);
+                    var sashimi = Instantiate(sashimiObj, new Vector2(OrderPos[i], 2.7f), Quaternion.identity);
                     sashimi.transform.localScale = new Vector2(0.3f, 0.3f);
                     sashimi.transform.parent = menuObject.transform;
                     break;
@@ -148,41 +148,13 @@ public class DrinkScene : MonoBehaviour {
     //注文の答えの表示
     public void OrderAnswer()
     {
-        OrderCounterON();
-
         for (int i = 0; i < OrderBox.Length; i++)
         {
             //吹き出しを表示
-            var hukidashi = Instantiate(hukidashiObj, new Vector2(OrderPos[i], 3.3f), Quaternion.identity);
+            var hukidashi = Instantiate(hukidashiObj, new Vector2(OrderPos[i], 2.5f), Quaternion.identity);
             hukidashi.transform.localScale = new Vector2(1.25f, 1.25f);
             hukidashi.transform.parent = menuObject.transform;
-            switch (OrderBox[i])
-            {
-                //やきとりを表示
-                case 0:
-                    var yakitori = Instantiate(yakitoriObj, new Vector2(OrderPos[i], 3.6f), Quaternion.identity);
-                    yakitori.transform.localScale = new Vector2(0.8f, 0.8f);
-                    yakitori.transform.parent = menuObject.transform;
-                    break;
-                //酒を表示
-                case 1:
-                    var sake = Instantiate(sakeObj, new Vector2(OrderPos[i], 3.6f), Quaternion.identity);
-                    sake.transform.localScale = new Vector2(0.3f, 0.3f);
-                    sake.transform.parent = menuObject.transform;
-                    break;
-                //サラダを表示
-                case 2:
-                    var salad = Instantiate(saladObj, new Vector2(OrderPos[i], 3.6f), Quaternion.identity);
-                    salad.transform.localScale = new Vector2(0.35f, 0.35f);
-                    salad.transform.parent = menuObject.transform;
-                    break;
-                //刺身を表示
-                default:
-                    var sashimi = Instantiate(sashimiObj, new Vector2(OrderPos[i], 3.6f), Quaternion.identity);
-                    sashimi.transform.localScale = new Vector2(0.3f, 0.3f);
-                    sashimi.transform.parent = menuObject.transform;
-                    break;
-            }
+            
         }
     }
     

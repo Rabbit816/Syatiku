@@ -28,10 +28,10 @@ public class ButtonController : MonoBehaviour {
     GameObject DenmokuImage;
     GameObject Menu_Otsumami, Menu_Drink, Menu_Dessert;
     GameObject MenuScrollbar;
+    GameObject Counter1, Counter2, Counter3, Counter4;
 
     private int OrderCount = 0;
     private int AgainCounter = 0;
-    public int[] OrderBox = new int[4];
 
     //飲み会シーンのボタンを表示
     public void DrinkSceneButtonON()
@@ -67,6 +67,10 @@ public class ButtonController : MonoBehaviour {
 
         OtsumamiButton();
         OrderButton.interactable = false;
+        Counter1.gameObject.SetActive(false);
+        Counter2.gameObject.SetActive(false);
+        Counter3.gameObject.SetActive(false);
+        Counter4.gameObject.SetActive(false);
     }
 
     //もう一度注文を聞くボタン
@@ -120,6 +124,7 @@ public class ButtonController : MonoBehaviour {
         {
             Yakitori.interactable = false;
             denmoku.ListInYakitori();
+            OrderListCounterON();
             OrderCount++;
         }
     }
@@ -131,6 +136,7 @@ public class ButtonController : MonoBehaviour {
         {
             Sake.interactable = false;
             denmoku.ListInSake();
+            OrderListCounterON();
             OrderCount++;
         }
     }
@@ -142,6 +148,7 @@ public class ButtonController : MonoBehaviour {
         {
             Salad.interactable = false;
             denmoku.ListInSalad();
+            OrderListCounterON();
             OrderCount++;
         }
     }
@@ -153,6 +160,7 @@ public class ButtonController : MonoBehaviour {
         {
             Sashimi.interactable = false;
             denmoku.ListInSashimi();
+            OrderListCounterON();
             OrderCount++;
         }
     }
@@ -170,9 +178,9 @@ public class ButtonController : MonoBehaviour {
 
     public void ButtonReset()
     {
-        for(int i = 0; i < OrderBox.Length; i++)
+        for(int i = 0; i < denmoku.InputOrderBox.Length; i++)
         {
-            switch (OrderBox[i])
+            switch (denmoku.InputOrderBox[i])
             {
                 case 0:
                     Yakitori.interactable = true;
@@ -191,6 +199,29 @@ public class ButtonController : MonoBehaviour {
         }
     }
 
+    public void OrderListCounterON()
+    {
+        switch (OrderCount)
+        {
+            case 0:
+                Counter1.gameObject.SetActive(true);
+                Counter1.GetComponent<Text>().text = denmoku.InputOrderCounter[OrderCount].ToString();
+                break;
+            case 1:
+                Counter2.gameObject.SetActive(true);
+                Counter2.GetComponent<Text>().text = denmoku.InputOrderCounter[OrderCount].ToString();
+                break;
+            case 2:
+                Counter3.gameObject.SetActive(true);
+                Counter3.GetComponent<Text>().text = denmoku.InputOrderCounter[OrderCount].ToString();
+                break;
+            default:
+                Counter4.gameObject.SetActive(true);
+                Counter4.GetComponent<Text>().text = denmoku.InputOrderCounter[OrderCount].ToString();
+                break;
+        }
+    }
+
     void Start () {
         drink = GetComponent<DrinkScene>();
         denmoku = GetComponent<Denmoku>();
@@ -199,6 +230,10 @@ public class ButtonController : MonoBehaviour {
         Menu_Drink = GameObject.Find("ScrollContent/Drink");
         Menu_Dessert = GameObject.Find("ScrollContent/Dessert");
         MenuScrollbar = GameObject.Find("Scrollbar");
+        Counter1 = GameObject.Find("Order1/Counter1");
+        Counter2 = GameObject.Find("Order2/Counter2");
+        Counter3 = GameObject.Find("Order3/Counter3");
+        Counter4 = GameObject.Find("Order4/Counter4");
         DrinkSceneButtonOFF();
 	}
 	
