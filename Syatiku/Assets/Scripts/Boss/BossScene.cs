@@ -10,12 +10,12 @@ public class BossScene : MonoBehaviour {
     [SerializeField]
     SanctionPartController sanctionPart;
     [SerializeField]
-    DamagePointerController damagePointer;
+    DamageGageController damageGageController;
     [SerializeField]
     GameObject standingBoss;
 
     [SerializeField, Header("ハリセンモード移行への区切り値")]
-    int[] Separatevalues;
+    int[] SeparateValues;
     //区切り値への到達状態
     bool[] isReachStates;
 
@@ -26,7 +26,7 @@ public class BossScene : MonoBehaviour {
 
     void Awake () {
         Instance = this;
-        isReachStates = new bool[Separatevalues.Length];
+        isReachStates = new bool[SeparateValues.Length];
 
         flickPart.gameObject.SetActive(true);
         sanctionPart.gameObject.SetActive(false);
@@ -39,8 +39,6 @@ public class BossScene : MonoBehaviour {
             touchStartPos = Input.mousePosition;
         }
 	}
-
-
 
     /// <summary>
     /// テキストの移動速度、方向を更新
@@ -66,13 +64,13 @@ public class BossScene : MonoBehaviour {
     public void MissCountUP()
     {
         missCount++;
-        damagePointer.DamagePointDown();
+        damageGageController.DamagePointDown();
     }
 
     public void SuccessCountUP()
     {
         successCount++;
-        damagePointer.DamagePointUp();
+        damageGageController.DamagePointUp();
 
         int separateValue = -1;
         int i;
@@ -80,13 +78,13 @@ public class BossScene : MonoBehaviour {
         for (i = 0; i < isReachStates.Length; i++)
         {
             if (!isReachStates[i]) {
-                separateValue = Separatevalues[i];
+                separateValue = SeparateValues[i];
                 break;
             }
         }
 
         //区切り値へ到達
-        if (damagePointer.damagePoint == separateValue)
+        if (damageGageController.damagePoint == separateValue)
         {
             if(i >= 0) isReachStates[i] = true;
             ChangePart();
