@@ -70,7 +70,7 @@ public class FlickTextController : MonoBehaviour
 
         //画面外に外れた時
         if (text.rectTransform.localPosition.x > 500 || text.rectTransform.localPosition.x < -500
-            || text.rectTransform.localPosition.y > 200 || text.rectTransform.localPosition.y < -200)
+            || text.rectTransform.localPosition.y > 300 || text.rectTransform.localPosition.y < -300)
         {
             if(type == Type.Correct) BossScene.Instance.MissCountUP();
             gameObject.SetActive(false);
