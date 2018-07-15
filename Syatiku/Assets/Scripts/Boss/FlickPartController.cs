@@ -17,7 +17,7 @@ public class FlickPartController : MonoBehaviour {
     List<FlickTextController> flickTextList = new List<FlickTextController>();
 
     float spawnTextTimer;
-    [SerializeField]
+    [SerializeField, Header("テキスト出現頻度（秒）")]
     float spawnTextTime = 1.0f;
 
     //ボスシーンのゲーム時間
