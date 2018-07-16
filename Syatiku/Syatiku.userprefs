@@ -1,9 +1,10 @@
 ﻿<Properties StartupItem="Syatiku.csproj">
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\MiniGame\Hacking\HackMain.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\Scenario\ScenarioController.cs">
     <Files>
       <File FileName="Assets\Scripts\MiniGame\Hacking\HackTap.cs" Line="1" Column="1" />
       <File FileName="Assets\Scripts\MiniGame\Hacking\HackMain.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\Scenario\ScenarioController.cs" Line="1" Column="1" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

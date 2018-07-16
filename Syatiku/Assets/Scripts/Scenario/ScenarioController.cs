@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using DG.Tweening;
 
 public class ScenarioController : MonoBehaviour {
     static ScenarioController instance;
@@ -338,16 +339,27 @@ public class ScenarioController : MonoBehaviour {
         //オープン
         if(window.menuButton.sprite == window.menuSprites[0])
         {
-            window.menu.localPosition = window.opneMenuPos;
+
+            MoveMenu(window.opneMenuPos);
             window.menuButton.sprite = window.menuSprites[1];
         }
         //クローズ
         else
         {
-            window.menu.localPosition = window.closeMenuPos;
+            MoveMenu(window.closeMenuPos);
             window.menuButton.sprite = window.menuSprites[0];
         }
 
+    }
+
+    void MoveMenu(Vector3 targetPos)
+    {
+        DOTween.To(
+            () => window.menu.localPosition,
+            position => window.menu.localPosition = position,
+            targetPos,
+            0.5f
+        );
     }
 
     #endregion
