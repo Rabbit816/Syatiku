@@ -26,27 +26,32 @@ public class HumanWalk : MonoBehaviour {
 	
 	void Update () {
         beginTime += Time.deltaTime; // walk開始の時間まで
-        if(beginTime >= randTime)
-        {
-            isWalk = true;
-            if (!isWalk) return;
-            StartCoroutine(Walk());
-        }
+        if(beginTime >= randTime && !isWalk)
+            Walk();
 	}
 
-    public IEnumerator Walk()
+    /// <summary>
+    /// 歩行関数
+    /// </summary>
+    /// <returns></returns>
+    public void Walk()
     {
-        gameObject.GetComponent<Image>().sprite = walk;
-        var randDis = Random.Range(minDis, maxDis);
-        var distance = transform.localPosition.x + randDis;
-        transform.localPosition = new Vector2(distance, transform.localPosition.y);
-        transform.DOMoveX(distance, moveTime).SetEase(Ease.Linear)
-            .OnComplete(() =>
+        isWalk = true;
+        gameObject.transform.GetChild(0).transform.GetChild(0)
+            .GetComponent<Image>().sprite = walk;  // 画像変更
+
+        var randDis = Random.Range(minDis, maxDis); // ランダムな値取得
+        var distance = transform.localPosition.x + randDis; // 移動距離
+            
+        transform.DOLocalMoveX(distance, moveTime).SetEase(Ease.Linear) // DOTweenで移動
+            .OnComplete(() => // 移動処理終了後
             {
-                gameObject.GetComponent<Image>().sprite = idle;
-                beginTime = 0;
+                gameObject.transform.GetChild(0).transform.GetChild(0)
+                .GetComponent<Image>().sprite = idle; // 待機画像に変更
+
+                randTime = Random.Range(1, 6);
+                beginTime = 0; // 開始時間を初期化
+                isWalk = false;
             });
-        isWalk = false;
-        yield return null;
     }
 }

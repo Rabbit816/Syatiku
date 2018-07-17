@@ -4,7 +4,6 @@ using UnityEngine;
 using UnityEngine.UI;
 
 public class DrinkScene : MonoBehaviour {
-
     GameObject menuObject;
     GameObject OrderCounter1;
     GameObject OrderCounter2;
@@ -17,19 +16,25 @@ public class DrinkScene : MonoBehaviour {
     GameObject sashimiObj;
 
     ButtonController button;
+    Denmoku denmoku;
+    Merter merter;
+
+    GameObject Answer1, Answer2, Answer3, Answer4;
 
 
     //商品を格納する配列
     private int[] foodsBox = new int[4];
 
     //注文を表示するための配列
-    public int[] OrderBox = new int[4];
-    public int[] OrderCounter = new int[4];
-    private float[] OrderPos = new float[4] {-6, -2, 2, 6};
-    System.Random rnd = new System.Random();
+    private int[] OrderBox = new int[4];
+    private int[] OrderCounter = new int[4];
+    private int[] OrderPos = new int[4] {-6, -2, 2, 6};
 
     private int[] Num = new int[4];
     private int NumCounter = 0;
+
+    
+
 
     //注文の配列の用意
     public void OrderShuffle()
@@ -41,30 +46,38 @@ public class DrinkScene : MonoBehaviour {
         }
         Common.Instance.Shuffle(foodsBox);
         
-        //注文配列・個数配列・Num配列の用意
+        //注文配列・個数配列
         for(int i = 0; i < OrderBox.Length; i++)
         {
             this.OrderBox[i] = this.foodsBox[i];
             this.OrderCounter[i] = Random.Range(1, 5);
-            this.Num[i] = i;
         }
     }
     
     //表示する位置をシャッフル
     public void PosShuffle()
     {
+        Common.Instance.Shuffle(this.OrderPos);
+
+        //Num配列の用意
         for (int i = 0; i < this.OrderPos.Length; i++)
         {
-            int shuffle1 = rnd.Next(this.OrderPos.Length);
-            int shuffle2 = rnd.Next(this.OrderPos.Length);
-            float valueF = this.OrderPos[shuffle1];
-            this.OrderPos[shuffle1] = this.OrderPos[shuffle2];
-            this.OrderPos[shuffle2] = valueF;
-
-            //Num配列のシャッフル
-            int valueI = this.Num[shuffle1];
-            this.Num[shuffle1] = this.Num[shuffle2];
-            this.Num[shuffle2] = valueI;
+            if(this.OrderPos[i] == -6)
+            {
+                Num[i] = 0;
+            }
+            else if(this.OrderPos[i] == -2)
+            {
+                Num[i] = 1;
+            }
+            else if(this.OrderPos[i] == 2)
+            {
+                Num[i] = 2;
+            }
+            else
+            {
+                Num[i] = 3;
+            }
         }
     }
 
@@ -100,21 +113,21 @@ public class DrinkScene : MonoBehaviour {
                     break;
                 //サラダを表示
                 case 2:
-                    saladObj = Resources.Load<GameObject>("Prefabs/MiniGame/Drinking/salad");
+                    this.saladObj = Resources.Load<GameObject>("Prefabs/MiniGame/Drinking/salad");
                     var salad = Instantiate(saladObj, new Vector2(OrderPos[i], 2.8f), Quaternion.identity);
                     salad.transform.localScale = new Vector2(0.35f, 0.35f);
                     salad.transform.parent = menuObject.transform;
                     break;
                 //刺身を表示
-                default:
-                    sashimiObj = Resources.Load<GameObject>("Prefabs/MiniGame/Drinking/sashimi");
+                case 3:
+                    this.sashimiObj = Resources.Load<GameObject>("Prefabs/MiniGame/Drinking/sashimi");
                     var sashimi = Instantiate(sashimiObj, new Vector2(OrderPos[i], 2.8f), Quaternion.identity);
                     sashimi.transform.localScale = new Vector2(0.25f, 0.25f);
                     sashimi.transform.parent = menuObject.transform;
                     break;
             }
             //2秒後に表示された吹き出しと商品を消す
-            yield return new WaitForSeconds(2.0f);
+            yield return new WaitForSeconds(1.0f);
             Delete();
             OrderCounterOFF();
         }
@@ -141,14 +154,127 @@ public class DrinkScene : MonoBehaviour {
     //注文の答えの表示
     public void OrderAnswer()
     {
+        StartCoroutine("Answer");
+    }
+    private IEnumerator Answer()
+    {
         for (int i = 0; i < OrderBox.Length; i++)
         {
             //吹き出しを表示
             var hukidashi = Instantiate(hukidashiObj, new Vector2(OrderPos[i], 2.5f), Quaternion.identity);
             hukidashi.transform.localScale = new Vector2(1.12f, 1.12f);
             hukidashi.transform.parent = this.menuObject.transform;
-            
+
+            switch (Num[i])
+            {
+                case 0:
+                    this.Answer1.gameObject.SetActive(true);
+                    if (this.OrderBox[i] == denmoku.InputOrderBox[i])
+                    {
+                        if(this.OrderCounter[i] == denmoku.InputOrderCounter[i])
+                        {
+                            this.Answer1.GetComponent<RectTransform>().localPosition = new Vector2(-300, 85);
+                            this.Answer1.GetComponent<Text>().text = "○";
+                            this.Answer1.GetComponent<Text>().color = new Color(255f / 255f, 0f / 255f, 0f / 255f, 255f / 255f);
+                            merter.AnswerCounter += 1;
+                        }
+                        else
+                        {
+                            this.Answer1.GetComponent<RectTransform>().localPosition = new Vector2(-300, 75);
+                            this.Answer1.GetComponent<Text>().text = "×";
+                            this.Answer1.GetComponent<Text>().color = new Color(40f / 255f, 0f / 255f, 255f / 255f, 255f / 255f);
+                        }
+                    }
+                    else
+                    {
+                        this.Answer1.GetComponent<RectTransform>().localPosition = new Vector2(-300, 75);
+                        this.Answer1.GetComponent<Text>().text = "×";
+                        this.Answer1.GetComponent<Text>().color = new Color(40f / 255f, 0f / 255f, 255f / 255f, 255f / 255f);
+                    }
+                    break;
+                case 1:
+                    this.Answer2.gameObject.SetActive(true);
+                    if (this.OrderBox[i] == denmoku.InputOrderBox[i])
+                    {
+                        if (this.OrderCounter[i] == denmoku.InputOrderCounter[i])
+                        {
+                            this.Answer2.GetComponent<RectTransform>().localPosition = new Vector2(-100, 85);
+                            this.Answer2.GetComponent<Text>().text = "○";
+                            this.Answer2.GetComponent<Text>().color = new Color(255f / 255f, 0f / 255f, 0f / 255f, 255f / 255f);
+                            merter.AnswerCounter += 2;
+                        }
+                        else
+                        {
+                            this.Answer2.GetComponent<RectTransform>().localPosition = new Vector2(-100, 75);
+                            this.Answer2.GetComponent<Text>().text = "×";
+                            this.Answer2.GetComponent<Text>().color = new Color(40f / 255f, 0f / 255f, 255f / 255f, 255f / 255f);
+                        }
+                    }
+                    else
+                    {
+                        this.Answer2.GetComponent<RectTransform>().localPosition = new Vector2(-100, 75);
+                        this.Answer2.GetComponent<Text>().text = "×";
+                        this.Answer2.GetComponent<Text>().color = new Color(40f / 255f, 0f / 255f, 255f / 255f, 255f / 255f);
+                    }
+                    break;
+                case 2:
+                    this.Answer3.gameObject.SetActive(true);
+                    if (this.OrderBox[i] == denmoku.InputOrderBox[i])
+                    {
+                        if (this.OrderCounter[i] == denmoku.InputOrderCounter[i])
+                        {
+                            this.Answer3.GetComponent<RectTransform>().localPosition = new Vector2(100, 85);
+                            this.Answer3.GetComponent<Text>().text = "○";
+                            this.Answer3.GetComponent<Text>().color = new Color(255f / 255f, 0f / 255f, 0f / 255f, 255f / 255f);
+                            merter.AnswerCounter += 3;
+                        }
+                        else
+                        {
+                            this.Answer3.GetComponent<RectTransform>().localPosition = new Vector2(100, 75);
+                            this.Answer3.GetComponent<Text>().text = "×";
+                            this.Answer3.GetComponent<Text>().color = new Color(40f / 255f, 0f / 255f, 255f / 255f, 255f / 255f);
+                        }
+                    }
+                    else
+                    {
+                        this.Answer3.GetComponent<RectTransform>().localPosition = new Vector2(100, 75);
+                        this.Answer3.GetComponent<Text>().text = "×";
+                        this.Answer3.GetComponent<Text>().color = new Color(40f / 255f, 0f / 255f, 255f / 255f, 255f / 255f);
+                    }
+                    break;
+                case 3:
+                    this.Answer4.gameObject.SetActive(true);
+                    if (this.OrderBox[i] == denmoku.InputOrderBox[i])
+                    {
+                        if (this.OrderCounter[i] == denmoku.InputOrderCounter[i])
+                        {
+                            this.Answer4.GetComponent<RectTransform>().localPosition = new Vector2(300, 85);
+                            this.Answer4.GetComponent<Text>().text = "○";
+                            this.Answer4.GetComponent<Text>().color = new Color(255f / 255f, 0f / 255f, 0f / 255f, 255f / 255f);
+                            merter.AnswerCounter += 4;
+                        }
+                        else
+                        {
+                            this.Answer4.GetComponent<RectTransform>().localPosition = new Vector2(300, 75);
+                            this.Answer4.GetComponent<Text>().text = "×";
+                            this.Answer4.GetComponent<Text>().color = new Color(40f / 255f, 0f / 255f, 255f / 255f, 255f / 255f);
+                        }
+                    }
+                    else
+                    {
+                        this.Answer4.GetComponent<RectTransform>().localPosition = new Vector2(300, 75);
+                        this.Answer4.GetComponent<Text>().text = "×";
+                        this.Answer4.GetComponent<Text>().color = new Color(40f / 255f, 0f / 255f, 255f / 255f, 255f / 255f);
+                    }
+                    break;
+            }
         }
+        yield return new WaitForSeconds(3.5f);
+        this.Delete();
+        this.AnswerResultOFF();
+        button.NextGame.gameObject.SetActive(true);
+        merter.Moving();
+        merter.AnswerCounter = 0;
     }
     
     public void OrderNum()
@@ -167,7 +293,7 @@ public class DrinkScene : MonoBehaviour {
                 this.OrderCounter3.gameObject.SetActive(true);
                 this.OrderCounter3.GetComponent<Text>().text = "× " + this.OrderCounter[NumCounter].ToString();
                 break;
-            default:
+            case 3:
                 this.OrderCounter4.gameObject.SetActive(true);
                 this.OrderCounter4.GetComponent<Text>().text = "× " + this.OrderCounter[NumCounter].ToString();
                 break;
@@ -191,22 +317,38 @@ public class DrinkScene : MonoBehaviour {
         this.OrderCounter4.gameObject.SetActive(false);
     }
 
+    public void AnswerResultOFF()
+    {
+        this.Answer1.gameObject.SetActive(false);
+        this.Answer2.gameObject.SetActive(false);
+        this.Answer3.gameObject.SetActive(false);
+        this.Answer4.gameObject.SetActive(false);
+    }
+
 	void Start () {
-        this.button = GetComponent<ButtonController>();
+        button = GetComponent<ButtonController>();
+        denmoku = GetComponent<Denmoku>();
+        merter = GetComponent<Merter>();
         this.menuObject = GameObject.Find("MenuObject");
         this.OrderCounter1 = GameObject.Find("DrinkingCounter/OrderCounter1");
         this.OrderCounter2 = GameObject.Find("DrinkingCounter/OrderCounter2");
         this.OrderCounter3 = GameObject.Find("DrinkingCounter/OrderCounter3");
         this.OrderCounter4 = GameObject.Find("DrinkingCounter/OrderCounter4");
         this.hukidashiObj = Resources.Load<GameObject>("Prefabs/MiniGame/Drinking/hukidashi");
-        
+        this.Answer1 = GameObject.Find("OrderAnswer/Answer1");
+        this.Answer2 = GameObject.Find("OrderAnswer/Answer2");
+        this.Answer3 = GameObject.Find("OrderAnswer/Answer3");
+        this.Answer4 = GameObject.Find("OrderAnswer/Answer4");
 
         this.OrderShuffle();
         this.PosShuffle();
         this.Order();
         this.OrderCounterOFF();
+        this.AnswerResultOFF();
+        button.NextGame.gameObject.SetActive(false);
+        
+
     }
-	
 	void Update () {
 
 	}

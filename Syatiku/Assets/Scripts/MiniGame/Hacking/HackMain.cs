@@ -32,28 +32,26 @@ public class HackMain : MonoBehaviour {
 
     private IntoPCAction into_pc;
     private PatteringEvent patte;
-    private HackTap hack_tap;
+    private HackMeishi hack_meishi;
 
-    private bool timeout = false;
     private bool _allClear = false;
 
     // Use this for initialization
     void Start () {
         into_pc = GetComponent<IntoPCAction>();
         patte = GetComponent<PatteringEvent>();
-        hack_tap = GetComponent<HackTap>();
+        hack_meishi = GetComponent<HackMeishi>();
         Dont_Tap.SetActive(true);
         ReadText();
         Maxline = 0;
         comingCount = 0;
         Theme();
         _allClear = false;
-        timeout = true;
 	}
 
 	// Update is called once per frame
 	void Update () {
-        if (into_pc._compariClear && patte._lowAnimClear && hack_tap._document)
+        if (into_pc._compariClear && patte._lowAnimClear && hack_meishi._document)
         {
             if (!_allClear)
             {

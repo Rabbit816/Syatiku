@@ -2,12 +2,11 @@
 using UnityEngine.EventSystems;
 using System.Collections.Generic;
 
-public class Drag : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler
+public class Drag : MonoBehaviour, IDragHandler, IEndDragHandler
 {
 
     private Vector3 dragVec;
     private GameObject collect;
-    private Vector3 RefPosition;
 
     void Start()
     {
@@ -18,16 +17,6 @@ public class Drag : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHand
         {
             collect = GameObject.Find("Canvas/PC/WindowFase/Window");
         }
-    }
-
-    private void Update()
-    {
-        
-    }
-
-    public void OnBeginDrag(PointerEventData pointer)
-    {
-        RefPosition = (Vector2)transform.localPosition - pointer.position;
     }
 
     public void OnDrag(PointerEventData pointer)

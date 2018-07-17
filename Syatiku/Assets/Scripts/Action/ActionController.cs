@@ -37,7 +37,7 @@ public class ActionController : MonoBehaviour {
 
     // フキダシ付き人間のPrefab配列
     [SerializeField]
-    private Image[] humanPrefab = new Image[3];
+    private Image humanPrefab;
 
     // ボスボタン
     [SerializeField]
@@ -135,7 +135,7 @@ public class ActionController : MonoBehaviour {
     {
         foreach (var i in sceneNum)
         {
-            Image mini = Instantiate(humanPrefab[i], humanClone.transform) as Image;
+            Image mini = Instantiate(humanPrefab, humanClone.transform) as Image;
             mini.transform.localPosition = createPos[i].transform.localPosition;
             if (createPos[i] == pos2)
                 mini.transform.localScale = new Vector2(-1, 1);

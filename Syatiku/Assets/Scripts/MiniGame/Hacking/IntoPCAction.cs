@@ -27,7 +27,6 @@ public class IntoPCAction : MonoBehaviour {
     private HackMain hack_main;
     private HackTap hack_tap;
     private GameObject PC_login;
-    private GameObject PC;
     private GameObject WindowFase;
     private GameObject Window;
     private GameObject PassWordFase;
@@ -49,7 +48,6 @@ public class IntoPCAction : MonoBehaviour {
         try
         {
             PC_login = GameObject.Find("Canvas/PC/PassWordFase/Title");
-            PC = GameObject.Find("Canvas/PC");
             Window = GameObject.Find("Canvas/PC/WindowFase/Window");
             WindowFase = GameObject.Find("Canvas/PC/WindowFase");
             PassWordFase = GameObject.Find("Canvas/PC/PassWordFase");
