@@ -19,9 +19,11 @@ public class HumanWalk : MonoBehaviour {
     private float beginTime;
     private int randTime;
     private bool isWalk = false;
+    private float posX;
     
     void Start () {
         randTime = Random.Range(1, 6);// ランダムに時間を取得
+        posX = transform.localPosition.x;
     }
 	
 	void Update () {
@@ -41,8 +43,10 @@ public class HumanWalk : MonoBehaviour {
             .GetComponent<Image>().sprite = walk;  // 画像変更
 
         var randDis = Random.Range(minDis, maxDis); // ランダムな値取得
+        if (transform.localPosition.x > posX + 150) randDis *= -1;
         var distance = transform.localPosition.x + randDis; // 移動距離
             
+        
         transform.DOLocalMoveX(distance, moveTime).SetEase(Ease.Linear) // DOTweenで移動
             .OnComplete(() => // 移動処理終了後
             {
