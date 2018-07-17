@@ -1,15 +1,14 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using DG.Tweening;
-using UnityEngine.UI;
 
 public class HackMeishi : MonoBehaviour {
 
     [SerializeField, Tooltip("PaperPrefab")]
     private GameObject paper_prefab;
     private RectTransform Meishi_rect;
+    private GameObject MeishiObject;
     private HackTap hack_tap;
+    private GameObject Damy_meishi;
 
     private GameObject GetWord;
     [HideInInspector]
@@ -18,21 +17,17 @@ public class HackMeishi : MonoBehaviour {
     // Use this for initialization
     void Start () {
         GetWord = GameObject.Find("Canvas/Check/GetWord");
-        Meishi_rect = GameObject.Find("Canvas/Zoom/Meishi/Image").GetComponent<RectTransform>();
+        Meishi_rect = GameObject.Find("Canvas/Zoom/Meishi/meishi_move").GetComponent<RectTransform>();
+        MeishiObject = GameObject.Find("Canvas/Zoom/Meishi/Image");
+        Damy_meishi = GameObject.Find("Canvas/Desk/Meishi");
+        MeishiObject.SetActive(false);
         hack_tap = GameObject.Find("controll").GetComponent<HackTap>();
         _document = false;
     }
-	
-	// Update is called once per frame
-	void Update () {
-
-	}
 
     public void MeishiPrefab()
     {
-        Debug.Log("名刺");
-        Meishi_rect.GetComponent<Image>().color = new Color(255,255,255,255);
-        Meishi_rect.transform.localPosition = new Vector2(311,187);
+        MeishiObject.SetActive(true);
         hack_tap.ZoomActive(5);
     }
 
@@ -47,6 +42,7 @@ public class HackMeishi : MonoBehaviour {
         _get_doc.transform.SetAsLastSibling();
         GameObject obj = new GameObject();
         obj.transform.SetParent(Meishi_rect.transform, false);
+        Damy_meishi.SetActive(false);
         _document = true;
 
         Sequence s = DOTween.Sequence();

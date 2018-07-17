@@ -18,6 +18,7 @@ public class PatteringEvent : MonoBehaviour {
     private RectTransform Low_Paper_0;
     [SerializeField, Tooltip("SpeedyのPaper_0")]
     private RectTransform Speedy_Paper_0;
+
     [SerializeField, Tooltip("取得するDocument")]
     private RectTransform getDocument;
     [SerializeField, Tooltip("取得するDocument")]
@@ -34,8 +35,6 @@ public class PatteringEvent : MonoBehaviour {
     private EventSystem event_system;
     [SerializeField, Tooltip("Get_YellowPeper")]
     private GameObject Get_Yellow;
-    [SerializeField, Tooltip("集めた単語＆資料をチェックできる場所")]
-    private GameObject GetWord;
     [SerializeField, Tooltip("チェックできる所に出すObject")]
     private GameObject GotYellowPaperPrefab;
     [SerializeField, Tooltip("Low TextのTextObject")]
@@ -61,7 +60,6 @@ public class PatteringEvent : MonoBehaviour {
     {
         quen = DOTween.Sequence();
         sequen = DOTween.Sequence();
-        _success = false;
         hack_tap = GetComponent<HackTap>();
         hack_boss = GetComponent<HackBoss>();
         getDocument_obj.SetActive(false);
@@ -69,6 +67,7 @@ public class PatteringEvent : MonoBehaviour {
         LowObject.SetActive(false);
         Get_Yellow.SetActive(false);
         _lowAnimClear = false;
+        _success = false;
         successCount = 0;
     }
 
@@ -86,6 +85,7 @@ public class PatteringEvent : MonoBehaviour {
                 Low_Paper_0.GetComponent<Image>().color = new Color(255, 255, 0);
                 break;
             case 1:
+                
                 Low_Paper_1.GetComponent<Image>().color = new Color(255, 255, 255);
                 Low_Paper_2.GetComponent<Image>().color = new Color(255, 255, 255);
                 Low_Paper_0.GetComponent<Image>().color = new Color(255, 255, 255);
@@ -128,11 +128,12 @@ public class PatteringEvent : MonoBehaviour {
         Low_text.text = "黄色のページをタップしよう！";
         event_system.enabled = false;
         sequen.Append(Low_Title.DOLocalMoveX(0f, 1.0f));
-        Debug.Log("アニメーション！");
         yield return new WaitForSeconds(time);
+
         sequen.Append(Low_Title.DOLocalMoveX(-600f, 1.0f)
             .OnComplete(()=> event_system.enabled = true));
         yield return new WaitForSeconds(0.5f);
+
         LowAnim();
     }
 
@@ -147,11 +148,12 @@ public class PatteringEvent : MonoBehaviour {
         Speedy_text.text = "黄色のページをタップしよう！";
         event_system.enabled = false;
         quen.Append(Speedy_Title.DOLocalMoveX(0f, 1.0f));
-        Debug.Log("アニメーション！");
         yield return new WaitForSeconds(time);
+
         quen.Append(Speedy_Title.DOLocalMoveX(-600f, 1.0f)
             .OnComplete(()=> event_system.enabled = true));
         yield return new WaitForSeconds(0.5f);
+
         SpeedyAnim();
     }
 
@@ -198,7 +200,7 @@ public class PatteringEvent : MonoBehaviour {
         {
             _lowAnimClear = true;
             StartCoroutine(GotYellowPaperAnim());
-            GameObject _get_yellow = Instantiate(GotYellowPaperPrefab, GetWord.transform);
+            GameObject _get_yellow = Instantiate(GotYellowPaperPrefab, hack_tap.GetWord.transform);
             _get_yellow.transform.SetAsLastSibling();
         }
         else
