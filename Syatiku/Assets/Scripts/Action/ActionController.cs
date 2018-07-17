@@ -43,6 +43,9 @@ public class ActionController : MonoBehaviour {
     [SerializeField]
     private Image bossButton;
 
+    [SerializeField]
+    private Image worning;
+
     // ミニゲーム画像
     [SerializeField]
     private Sprite[] miniGameImage = new Sprite[3];
@@ -67,6 +70,7 @@ public class ActionController : MonoBehaviour {
         missionSeat.gameObject.SetActive(false);
         isData.gameObject.SetActive(false);
         dataDetail.gameObject.SetActive(false);
+        worning.gameObject.SetActive(false);
         // --------------------------------------
 
         pos2 = createPos[2];
@@ -74,6 +78,17 @@ public class ActionController : MonoBehaviour {
         Common.Instance.Shuffle(sceneNum);
 
         CreateHuman();
+        if(Common.Instance.actionCount == 0)
+        {
+            worning.gameObject.SetActive(true);
+            StartCoroutine(IsWorning());
+        }
+    }
+
+    public IEnumerator IsWorning()
+    {
+        yield return new WaitForSeconds(2f);
+        worning.gameObject.SetActive(false);
     }
 
     /// <summary>
@@ -137,8 +152,10 @@ public class ActionController : MonoBehaviour {
         {
             Image mini = Instantiate(humanPrefab, humanClone.transform) as Image;
             mini.transform.localPosition = createPos[i].transform.localPosition;
-            if (createPos[i] == pos2)
+            if (createPos[i] == pos2){
                 mini.transform.localScale = new Vector2(-1, 1);
+                mini.transform.GetChild(0).GetChild(0).localScale = new Vector2(-1, 1);
+            }
 
             Image s_mini = mini.transform.GetChild(0).transform.GetChild(1).transform.GetChild(0).GetComponent<Image>();
             s_mini.sprite = miniGameImage[i];

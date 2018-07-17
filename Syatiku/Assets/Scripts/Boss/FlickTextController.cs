@@ -6,8 +6,13 @@ using UnityEngine.UI;
 public class FlickTextController : MonoBehaviour
 {
     Text text;
-    Vector3 moveForce;
     float alpha;
+    //移動速度
+    Vector3 moveForce;
+    //反射中か
+    bool isReflect;
+    Color wrongColor = new Color(33 / 255f, 100 / 255f, 150 / 255f);
+    Color correctColor = new Color(240 / 255f, 179 / 255f, 37 / 255f);
 
     enum Type
     {
@@ -30,23 +35,23 @@ public class FlickTextController : MonoBehaviour
 
         //座標
         float posX = Random.Range(0, 2);
-        posX = (posX > 0 ? 140 : -140);
-        float posY = Random.Range(-50, 200);
+        posX = (posX > 0 ? 150 : -150);
+        float posY = Random.Range(-100, 120);
         Vector3 pos = new Vector3(posX, posY, 0);
         text.rectTransform.localPosition = pos;
-
         //移動
         float moveX = posX / Random.Range(200, 600);
         float moveY = Random.Range(-0.5f, 0.5f);
         moveForce = new Vector3(moveX, moveY, 0);
 
         //テキスト
-        text.fontSize = Random.Range(30, 60);
+        text.fontSize = Random.Range(30, 54);
         alpha = 0;
         this.type = (Type)num;
-        text.color = (type == Type.Correct ? new Color(240 / 255f, 179 / 255f, 37 / 255f) : new Color(33 / 255f, 100 / 255f, 150 / 255f));
+        text.color = (type == Type.Correct ? correctColor : wrongColor);
         text.text = t;
 
+        isReflect = false;
         gameObject.SetActive(true);
     }
 
@@ -79,7 +84,7 @@ public class FlickTextController : MonoBehaviour
 
     public void FlickEnd()
     {
-        BossScene.Instance.SetMoveForce(ref moveForce);
+        if(!isReflect) BossScene.Instance.SetMoveForce(ref moveForce);
     }
 
     /// <summary>
@@ -91,11 +96,14 @@ public class FlickTextController : MonoBehaviour
         if (type == Type.Correct)
         {
             BossScene.Instance.SuccessCountUP();
+            gameObject.SetActive(false);
         }
         else
         {
             BossScene.Instance.MissCountUP();
+            isReflect = true;
+            Debug.Log(moveForce);
+            moveForce = new Vector3(-moveForce.x, moveForce.y, 0);
         }
-        gameObject.SetActive(false);
     }
 }

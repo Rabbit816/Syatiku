@@ -19,30 +19,43 @@ public class HumanWalk : MonoBehaviour {
     private float beginTime;
     private int randTime;
     private bool isWalk = false;
+    private float posX;
+    private int moveDir = 1;
     
     void Start () {
         randTime = Random.Range(1, 6);// ランダムに時間を取得
+        posX = transform.localPosition.x;
     }
 	
 	void Update () {
         beginTime += Time.deltaTime; // walk開始の時間まで
-        if(beginTime >= randTime && !isWalk)
-            Walk();
+        if (beginTime >= randTime && !isWalk)
+        {
+            var humanTransform = gameObject.transform.GetChild(0).transform.GetChild(0); // humanUIのTransform
+            if (transform.localPosition.x > posX + 100 || transform.localPosition.x < posX) // positionで移動方向を決める
+            {
+                humanTransform.localScale = new Vector2(humanTransform.localScale.x * -1, 1);
+                moveDir *= -1;
+            }
+                Walk(humanTransform);
+        }
 	}
 
     /// <summary>
-    /// 歩行関数
+    /// 歩行する関数
     /// </summary>
     /// <returns></returns>
-    public void Walk()
+    public void Walk(Transform human)
     {
         isWalk = true;
-        gameObject.transform.GetChild(0).transform.GetChild(0)
-            .GetComponent<Image>().sprite = walk;  // 画像変更
+        human.GetComponent<Image>().sprite = walk;  // 画像変更
 
         var randDis = Random.Range(minDis, maxDis); // ランダムな値取得
+        randDis *= moveDir;
+
         var distance = transform.localPosition.x + randDis; // 移動距離
             
+        
         transform.DOLocalMoveX(distance, moveTime).SetEase(Ease.Linear) // DOTweenで移動
             .OnComplete(() => // 移動処理終了後
             {

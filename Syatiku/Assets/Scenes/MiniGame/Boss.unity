@@ -593,7 +593,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1065099898
 RectTransform:
   m_ObjectHideFlags: 0
@@ -611,8 +611,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: -73}
-  m_SizeDelta: {x: -186, y: 20}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1065099899
 MonoBehaviour:
@@ -630,7 +630,7 @@ MonoBehaviour:
     type: 2}
   flickTextBox: {fileID: 812280369}
   spawnTextTime: 1
-  gameTime: 45
+  gameTime: 30
   timerText: {fileID: 1105624830}
   duration: 0.5
   strength: 15
@@ -809,6 +809,10 @@ MonoBehaviour:
   sanctionPart: {fileID: 1370587474}
   damageGageController: {fileID: 843249171}
   standingBoss: {fileID: 796061097}
+  background: {fileID: 631412847}
+  backgroundSprites:
+  - {fileID: 21300000, guid: e737ff86bee513941988d03c7c4db911, type: 3}
+  - {fileID: 21300000, guid: e737ff86bee513941988d03c7c4db911, type: 3}
   SeparateValues: 0300000006000000
 --- !u!4 &1274440718
 Transform:
@@ -995,7 +999,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1370587473
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1231,7 +1235,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -2, y: 3}
+  m_AnchoredPosition: {x: 5, y: -90}
   m_SizeDelta: {x: 239, y: 471}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!50 &1925321340

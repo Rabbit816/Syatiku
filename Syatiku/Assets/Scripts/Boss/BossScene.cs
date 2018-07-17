@@ -13,6 +13,10 @@ public class BossScene : MonoBehaviour {
     DamageGageController damageGageController;
     [SerializeField]
     GameObject standingBoss;
+    [SerializeField]
+    UnityEngine.UI.Image background;
+    [SerializeField]
+    Sprite[] backgroundSprites; //0: FlickPart 1: SanctionPart
 
     [SerializeField, Header("ハリセンモード移行への区切り値")]
     int[] SeparateValues;
@@ -99,6 +103,10 @@ public class BossScene : MonoBehaviour {
     {
         flickPart.gameObject.SetActive(!flickPart.gameObject.activeSelf);
         sanctionPart.gameObject.SetActive(!sanctionPart.gameObject.activeSelf);
+        //背景の変更
+        if (flickPart.gameObject.activeSelf) background.sprite = backgroundSprites[0];
+        else background.sprite = backgroundSprites[1];
+
         standingBoss.SetActive(true);
     }
 
