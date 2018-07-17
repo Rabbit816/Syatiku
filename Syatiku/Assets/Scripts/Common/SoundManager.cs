@@ -10,6 +10,14 @@ public enum BGMName
     Boss,
 }
 
+public enum SEName
+{
+    BadSe,
+    BossHit,
+    GoodSe,
+    tapSe,
+}
+
 public class SoundManager : MonoBehaviour {
 
     static SoundManager instance;
@@ -50,6 +58,14 @@ public class SoundManager : MonoBehaviour {
         "BossBGM",
     };
 
+    readonly List<string> seNameList = new List<string>
+    {
+        "BadSe",
+        "BossHit",
+        "GoodSe",
+        "tapSe",
+    };
+
     [SerializeField]
     CriAtomSource bgmSource;
     [SerializeField]
@@ -70,6 +86,11 @@ public class SoundManager : MonoBehaviour {
     public void PlayBGM(string cueName)
     {
         bgmSource.Play(cueName);
+    }
+
+    public void PlaySE(SEName cueName)
+    {
+        seSource.Play(seNameList[(int)cueName]);
     }
 
     public void PlaySE(string cueName)

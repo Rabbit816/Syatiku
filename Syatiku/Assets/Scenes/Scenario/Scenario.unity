@@ -110,18 +110,13 @@ NavMeshSettings:
     tileSize: 256
     accuratePlacement: 0
   m_NavMeshData: {fileID: 0}
---- !u!1001 &395236908
+--- !u!1001 &363496071
 Prefab:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 114859490688662698, guid: 3ce4806979d7e194789bcc95a58f902e,
-        type: 2}
-      propertyPath: cueSheets.Array.size
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 4572325671756544, guid: 3ce4806979d7e194789bcc95a58f902e, type: 2}
       propertyPath: m_LocalPosition.x
       value: 285.5
@@ -154,21 +149,11 @@ Prefab:
       propertyPath: m_RootOrder
       value: 4
       objectReference: {fileID: 0}
-    - target: {fileID: 114685134187512338, guid: 3ce4806979d7e194789bcc95a58f902e,
+    - target: {fileID: 114477352972051414, guid: 3ce4806979d7e194789bcc95a58f902e,
         type: 2}
-      propertyPath: _cueName
-      value: TopBGM
-      objectReference: {fileID: 0}
-    - target: {fileID: 114685134187512338, guid: 3ce4806979d7e194789bcc95a58f902e,
-        type: 2}
-      propertyPath: need_to_player_update_all
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 114685134187512338, guid: 3ce4806979d7e194789bcc95a58f902e,
-        type: 2}
-      propertyPath: _playOnStart
-      value: 0
-      objectReference: {fileID: 0}
+      propertyPath: seSource
+      value: 
+      objectReference: {fileID: 1744604517}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 3ce4806979d7e194789bcc95a58f902e, type: 2}
   m_IsPrefabParent: 0
@@ -370,6 +355,12 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1447571180}
+--- !u!114 &1744604517 stripped
+MonoBehaviour:
+  m_PrefabParentObject: {fileID: 114766223418457474, guid: 3ce4806979d7e194789bcc95a58f902e,
+    type: 2}
+  m_PrefabInternal: {fileID: 363496071}
+  m_Script: {fileID: 11500000, guid: d1e631c3b9947b54c823c6853a05529c, type: 3}
 --- !u!1001 &1948175327
 Prefab:
   m_ObjectHideFlags: 0
