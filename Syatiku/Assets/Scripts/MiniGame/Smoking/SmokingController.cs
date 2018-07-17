@@ -5,20 +5,18 @@ using UnityEngine.UI;
 
 public class SmokingController : MonoBehaviour {
     [SerializeField]
-    private Image tabaco,face;
+    private Image tabaco,face; // タバコUI、機嫌UI
     [SerializeField]
-    private float time;
+    private float time; // 制限時間UI減算値 
     [SerializeField]
-    private Text[] wordText = new Text[4];
+    private Text[] wordText = new Text[4]; // 選択肢フキダシテキスト
     [SerializeField]
-    private Text answer;
+    private Text answer; // 問題テキスト
     [SerializeField]
-    private int answerCount;
-    private int firstAnswerCount;
+    private int answerCount; // 回答権
+    private int firstAnswerCount; // 回答権（初期値）
     [SerializeField]
-    private GameObject scenarioWin;
-    
-    private ScenarioController scenario;
+    private GameObject selectUI; // 選択肢UI全体
 
     private Mushikui mushikui; // Mushikuiコンストラクタ
     private int qNum; // 今が何番目の問題か
@@ -31,8 +29,6 @@ public class SmokingController : MonoBehaviour {
     private string talkFilePath = "Text/Smoking/SmokingTalk"; // 会話パートテキストパス名
 
     private Vector2 tabacoSize;
-
-    public GameObject selectUI;
 
     private Coroutine timeDown;
 
@@ -52,11 +48,12 @@ public class SmokingController : MonoBehaviour {
 
         mushikui = new Mushikui(musiFilePath);
 
-        Question();
+        //Question();
 	}
 
     bool isTime = false; // タイマースタートフラグ
     bool timeOver = false; // タイムオーバーフラグ
+
     void Update(){
         if (ScenarioController.Instance.IsReachLastInfo()) {
             StartCoroutine(SelectStart());
@@ -96,13 +93,13 @@ public class SmokingController : MonoBehaviour {
     public IEnumerator SelectStart()
     {
         yield return new WaitForSeconds(1f);
-        selectUI.SetActive(true);
+        //selectUI.SetActive(true);
         if (!isTime)
         {
             isTime = true;
+            Question();
             if (selectUI.activeSelf)
                 StartCoroutine(TimeDown());
-            //Question();
         }
     }
 
@@ -116,7 +113,7 @@ public class SmokingController : MonoBehaviour {
         Debug.Log(text.text);
         if (text.text == mushikui.data[qNum].Musikui) {
             Debug.Log("〇");
-
+            selectUI.SetActive(false);
             succesCount++;
             qNum++;
             qLength--;
@@ -132,10 +129,10 @@ public class SmokingController : MonoBehaviour {
 
             answerCount = firstAnswerCount;
             
-            
             isTime = false;
             ScenarioController.Instance.BeginScenario(talkFilePath + qNum.ToString());
             ScenarioController.Instance.hideButtons();
+
             //Question();
             // ------------------------------
 
@@ -165,6 +162,7 @@ public class SmokingController : MonoBehaviour {
             //        break;
             //}
         }
+
     }
 
     public void Question()
@@ -174,6 +172,7 @@ public class SmokingController : MonoBehaviour {
         {
             wordText[i].text = mushikui.data[qNum].Select[i];
         }
+        selectUI.SetActive(true);
     }
 
     public void Result() {
