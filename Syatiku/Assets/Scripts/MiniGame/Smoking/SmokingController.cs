@@ -20,9 +20,6 @@ public class SmokingController : MonoBehaviour {
     
     private ScenarioController scenario;
 
-    [SerializeField]
-    private GameObject[] nonActive;
-
     private Mushikui mushikui; // Mushikuiコンストラクタ
     private int qNum; // 今が何番目の問題か
     private int succesCount; // 正解数
@@ -42,14 +39,9 @@ public class SmokingController : MonoBehaviour {
     // Use this for initialization
     void Start () {
         ScenarioController.Instance.BeginScenario(talkFilePath); // シナリオ再生
-        
-        selectUI.SetActive(false); // 回答選択UIを非表示
+        ScenarioController.Instance.hideButtons();
 
-        // prefabから不必要なものを非表示
-        foreach(var i in nonActive)
-        {
-            i.SetActive(false);
-        }
+        selectUI.SetActive(false); // 回答選択UIを非表示
         
         firstAnswerCount = answerCount; // 回答権を設定
         
@@ -82,11 +74,6 @@ public class SmokingController : MonoBehaviour {
         timeDown = StartCoroutine(TimeDown());
     }
 
-    public IEnumerator ActiveChange(){
-        yield return new WaitForSeconds(2f);
-        selectUI.SetActive(true);
-        scenario.gameObject.SetActive(false);
-    }
 
     public IEnumerator TimeDown(){
         while (tabaco.rectTransform.sizeDelta.x > 0 && isTime)
@@ -108,14 +95,14 @@ public class SmokingController : MonoBehaviour {
     /// <returns></returns>
     public IEnumerator SelectStart()
     {
-        yield return new WaitForSeconds(2f);
+        yield return new WaitForSeconds(1f);
         selectUI.SetActive(true);
         if (!isTime)
         {
             isTime = true;
             if (selectUI.activeSelf)
                 StartCoroutine(TimeDown());
-            Question();
+            //Question();
         }
     }
 
@@ -145,10 +132,11 @@ public class SmokingController : MonoBehaviour {
 
             answerCount = firstAnswerCount;
             
-            selectUI.SetActive(false);
+            
             isTime = false;
             ScenarioController.Instance.BeginScenario(talkFilePath + qNum.ToString());
-            Question();
+            ScenarioController.Instance.hideButtons();
+            //Question();
             // ------------------------------
 
         } else {

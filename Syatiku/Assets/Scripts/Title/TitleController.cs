@@ -14,6 +14,7 @@ public class TitleController : MonoBehaviour {
             var common = Instantiate(Resources.Load("Prefabs/Common/Common"));
             DontDestroyOnLoad(common);
         }
+        SoundManager.Instance.PlayBGM(BGMName.Title);
     }
 
     //モード選択
