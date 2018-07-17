@@ -14,12 +14,13 @@ public class Merter : MonoBehaviour {
      {
          float x = Mathf.Lerp(0f, maxValue, t);
          rt.sizeDelta = new Vector2(x,rt.sizeDelta.y);
-        UpdateValue(value);
+         //UpdateValue(value);
     }
     public void Update()
     {
         value -= 0.0002f;
-        if(value <= 0)
+        UpdateValue(value);
+        if (value <= 0)
         {
             value = 1f;
         }
