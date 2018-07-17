@@ -53,10 +53,7 @@ public class HackTap : MonoBehaviour
     private GameObject Meishi;
     [SerializeField, Tooltip("名刺RectTransform")]
     private RectTransform Meishi_obj;
-    [SerializeField, Tooltip("名刺裏のテキストObject")]
-    private RectTransform place_button_10;
-    [SerializeField, Tooltip("PaperPrefab")]
-    private GameObject paper_prefab;
+    
     [SerializeField, Tooltip("WindowObject")]
     private GameObject Window;
     [SerializeField, Tooltip("Image 5こ")]
@@ -79,8 +76,7 @@ public class HackTap : MonoBehaviour
     //LowAnimが終わったかどうか
     private bool _lowAnim = false;
     private bool _animloop = false;
-    [HideInInspector]
-    public bool _document = false;
+    
     [HideInInspector]
     public bool _windowFase = false;
 
@@ -104,7 +100,7 @@ public class HackTap : MonoBehaviour
         place_list = new PlaceList[Getting_position.Length];
         _getDocument = false;
         _lowAnim = false;
-        _document = false;
+        
         _windowFase = false;
         _animloop = false;
         AddPlaceWord();
@@ -275,24 +271,7 @@ public class HackTap : MonoBehaviour
         StartCoroutine(Wait_time(3f));
     }
 
-    /// <summary>
-    /// 名刺タップの処理
-    /// </summary>
-    public void MeishiTap()
-    {
-        if (place_button_10.transform.childCount == 2)
-            return;
-        GameObject _get_doc = Instantiate(paper_prefab, GetWord.transform);
-        _get_doc.transform.SetAsLastSibling();
-        GameObject obj = new GameObject();
-        obj.transform.SetParent(place_button_10.transform, false);
-        _document = true;
-
-        Sequence s = DOTween.Sequence();
-        s.Append(place_button_10.DOLocalMove(new Vector3(374, 221, 0), 0.7f))
-            .Join(place_button_10.DOScale(0.5f, 0.7f))
-            .OnComplete(() => place_button_10.gameObject.SetActive(false));
-    }
+    
 
     /// <summary>
     /// 各場所に単語を入れる

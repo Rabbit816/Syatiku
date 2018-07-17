@@ -1,8 +1,7 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using DG.Tweening;
-using System;
+using UnityEngine.UI;
+using UnityEngine.EventSystems;
 
 public class HackBoss : MonoBehaviour {
 
@@ -10,37 +9,35 @@ public class HackBoss : MonoBehaviour {
     private GameObject Boss;
     [SerializeField, Tooltip("ドアの上司Object")]
     private GameObject ComeBoss;
-    [SerializeField, Tooltip("作業してる風の人Object（RectTransform）")]
-    private RectTransform WorkingHuman;
-    [SerializeField, Tooltip("作業してる風の人Object（RectTransform）")]
-    private GameObject WorkingObject;
     [SerializeField, Tooltip("警告テキストobject")]
     private GameObject Worning;
-    [SerializeField, Tooltip("DontTap")]
-    private GameObject DontTap;
+    [SerializeField, Tooltip("EventSystem")]
+    private EventSystem event_system;
     [SerializeField, Tooltip("Zoom object")]
     private GameObject Zoom;
+    [SerializeField, Header("ボスの質問に答える時の選択Object")]
+    private GameObject ChooseObject;
+    [SerializeField, Header("ボスの質問に答える時のText")]
+    private Text chose_text;
 
     private HackTap hack_tap;
-    [Tooltip("上司が待機してる時間")]
+    [Header("上司が待機してる時間")]
     public float BossTimer = 5.0f;
-    private bool _worktap = false;
+    private bool _chooseTap = false;
     private bool _commingboss = false;
     private HackMain hack_main;
     private float Bosswait;
 
     // Use this for initialization
     void Start () {
-        WorkingObject.SetActive(false);
         hack_tap = GetComponent<HackTap>();
         hack_main = GetComponent<HackMain>();
 
+        ChooseObject.SetActive(false);
         ComeBoss.SetActive(false);
         Worning.SetActive(false);
-        _worktap = false;
         _commingboss = false;
-        Bosswait = BossTimer;
-
+        Bosswait = BossTimer + 0.1f;
 	}
 	
 	// Update is called once per frame
@@ -48,19 +45,21 @@ public class HackBoss : MonoBehaviour {
         if (_commingboss)
         {
             Bosswait -= Time.deltaTime;
-            if (_worktap)
+            chose_text.text = Bosswait.ToString("f1");
+            if (_chooseTap)
             {
                 Boss.transform.localPosition = new Vector2(-365, -130);
                 ComeBoss.SetActive(false);
                 Worning.SetActive(false);
-                _worktap = false;
+                _chooseTap = false;
                 _commingboss = false;
-                Bosswait = BossTimer;
+                Bosswait = BossTimer + 0.1f;
             }
-            else if(BossTimer <= 0.0f)
+            else if(Bosswait <= 0.0f)
             {
-                //Common.Instance.clearFlag[Common.Instance.isClear] = true;
-                //Common.Instance.ChangeScene(Common.SceneName.Result);
+                Bosswait = 0.0f;
+                Common.Instance.clearFlag[Common.Instance.isClear] = false;
+                Common.Instance.ChangeScene(Common.SceneName.Result);
             }
         }
 	}
@@ -72,8 +71,9 @@ public class HackBoss : MonoBehaviour {
     private IEnumerator WatchBoss(float time)
     {
         yield return new WaitForSeconds(time);
-        Common.Instance.clearFlag[Common.Instance.isClear] = false;
-        Common.Instance.ChangeScene(Common.SceneName.Result);
+        event_system.enabled = true;
+        _commingboss = true;
+        ChooseObject.SetActive(true);
     }
 
     /// <summary>
@@ -88,7 +88,7 @@ public class HackBoss : MonoBehaviour {
             hack_tap.PlaceButton(11);
             Zoom.transform.GetChild(3).gameObject.SetActive(false);
             Zoom.transform.GetChild(4).gameObject.SetActive(false);
-            DontTap.SetActive(true);
+            event_system.enabled = false;
             ComeOnBoss();
         }
     }
@@ -103,24 +103,16 @@ public class HackBoss : MonoBehaviour {
         {
             ComeBoss.SetActive(true);
             Worning.SetActive(true);
-            StartCoroutine(WatchBoss(3.5f));
-            _commingboss = true;
+            StartCoroutine(WatchBoss(1.5f));
         }
     }
 
     /// <summary>
-    /// 作業するボタン処理
+    /// 選択ボタン処理
     /// </summary>
-    public void WorkButton()
+    public void ChooseButton()
     {
-        
-        if (ComeBoss.activeSelf)
-        {
-            _worktap = true;
-            WorkingObject.SetActive(true);
-            //WorkingHuman.DOLocalJump(WorkingHuman.transform.localPosition, 3f, 5, 5f);
-            StartCoroutine(WatchBoss(1));
-            WorkingObject.SetActive(false);
-        }
+        _chooseTap = true;
+        ChooseObject.SetActive(false);
     }
 }
