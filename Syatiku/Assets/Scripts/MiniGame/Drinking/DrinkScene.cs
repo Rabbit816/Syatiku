@@ -337,6 +337,7 @@ public class DrinkScene : MonoBehaviour {
         this.AnswerResultOFF();
         button.NextGame.gameObject.SetActive(false);
         
+
     }
 	
 	void Update () {
