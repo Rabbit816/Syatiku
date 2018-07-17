@@ -4,7 +4,6 @@ using UnityEngine;
 using UnityEngine.UI;
 
 public class DrinkScene : MonoBehaviour {
-
     GameObject menuObject;
     GameObject OrderCounter1;
     GameObject OrderCounter2;
@@ -18,6 +17,7 @@ public class DrinkScene : MonoBehaviour {
 
     ButtonController button;
     Denmoku denmoku;
+    Merter merter;
 
     GameObject Answer1, Answer2, Answer3, Answer4;
 
@@ -32,6 +32,9 @@ public class DrinkScene : MonoBehaviour {
 
     private int[] Num = new int[4];
     private int NumCounter = 0;
+
+    
+
 
     //注文の配列の用意
     public void OrderShuffle()
@@ -124,7 +127,7 @@ public class DrinkScene : MonoBehaviour {
                     break;
             }
             //2秒後に表示された吹き出しと商品を消す
-            yield return new WaitForSeconds(2.0f);
+            yield return new WaitForSeconds(1.0f);
             Delete();
             OrderCounterOFF();
         }
@@ -173,6 +176,7 @@ public class DrinkScene : MonoBehaviour {
                             this.Answer1.GetComponent<RectTransform>().localPosition = new Vector2(-300, 85);
                             this.Answer1.GetComponent<Text>().text = "○";
                             this.Answer1.GetComponent<Text>().color = new Color(255f / 255f, 0f / 255f, 0f / 255f, 255f / 255f);
+                            merter.AnswerCounter += 1;
                         }
                         else
                         {
@@ -197,6 +201,7 @@ public class DrinkScene : MonoBehaviour {
                             this.Answer2.GetComponent<RectTransform>().localPosition = new Vector2(-100, 85);
                             this.Answer2.GetComponent<Text>().text = "○";
                             this.Answer2.GetComponent<Text>().color = new Color(255f / 255f, 0f / 255f, 0f / 255f, 255f / 255f);
+                            merter.AnswerCounter += 2;
                         }
                         else
                         {
@@ -221,6 +226,7 @@ public class DrinkScene : MonoBehaviour {
                             this.Answer3.GetComponent<RectTransform>().localPosition = new Vector2(100, 85);
                             this.Answer3.GetComponent<Text>().text = "○";
                             this.Answer3.GetComponent<Text>().color = new Color(255f / 255f, 0f / 255f, 0f / 255f, 255f / 255f);
+                            merter.AnswerCounter += 3;
                         }
                         else
                         {
@@ -245,6 +251,7 @@ public class DrinkScene : MonoBehaviour {
                             this.Answer4.GetComponent<RectTransform>().localPosition = new Vector2(300, 85);
                             this.Answer4.GetComponent<Text>().text = "○";
                             this.Answer4.GetComponent<Text>().color = new Color(255f / 255f, 0f / 255f, 0f / 255f, 255f / 255f);
+                            merter.AnswerCounter += 4;
                         }
                         else
                         {
@@ -266,6 +273,8 @@ public class DrinkScene : MonoBehaviour {
         this.Delete();
         this.AnswerResultOFF();
         button.NextGame.gameObject.SetActive(true);
+        merter.Moving();
+        merter.AnswerCounter = 0;
     }
     
     public void OrderNum()
@@ -319,6 +328,7 @@ public class DrinkScene : MonoBehaviour {
 	void Start () {
         button = GetComponent<ButtonController>();
         denmoku = GetComponent<Denmoku>();
+        merter = GetComponent<Merter>();
         this.menuObject = GameObject.Find("MenuObject");
         this.OrderCounter1 = GameObject.Find("DrinkingCounter/OrderCounter1");
         this.OrderCounter2 = GameObject.Find("DrinkingCounter/OrderCounter2");
@@ -339,7 +349,6 @@ public class DrinkScene : MonoBehaviour {
         
 
     }
-	
 	void Update () {
 
 	}
