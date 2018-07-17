@@ -35,6 +35,7 @@ public class HackMain : MonoBehaviour {
 
     // Use this for initialization
     void Start () {
+        SoundManager.Instance.PlayBGM(BGMName.Hack);
         into_pc = GetComponent<IntoPCAction>();
         patte = GetComponent<PatteringEvent>();
         hack_meishi = GetComponent<HackMeishi>();
