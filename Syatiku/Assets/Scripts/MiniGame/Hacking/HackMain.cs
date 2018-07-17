@@ -7,7 +7,7 @@ public class HackMain : MonoBehaviour {
     
     [SerializeField,Tooltip("時間制限初期値")]
     private float timer = 30.0f;
-    [SerializeField,Tooltip("時間オブジェクト")]
+    [SerializeField,Tooltip("時間Text")]
     private Text time;
     [SerializeField,Tooltip("お題の名前")]
     private string[] _chipped;
@@ -15,9 +15,6 @@ public class HackMain : MonoBehaviour {
     private GameObject theme_obj;
     [SerializeField, Tooltip("画面をタップできないように遮るObject")]
     private GameObject Dont_Tap;
-
-    private string current;
-    private int Maxline = 0;
 
     [HideInInspector]
     public int comingCount = 0;
@@ -43,7 +40,6 @@ public class HackMain : MonoBehaviour {
         hack_meishi = GetComponent<HackMeishi>();
         Dont_Tap.SetActive(true);
         ReadText();
-        Maxline = 0;
         comingCount = 0;
         Theme();
         _allClear = false;
@@ -62,6 +58,11 @@ public class HackMain : MonoBehaviour {
         }
     }
 
+    /// <summary>
+    /// time秒数内までどのボタンも押せなくする
+    /// </summary>
+    /// <param name="time">待ち時間</param>
+    /// <returns></returns>
     private IEnumerator Wait_Time(float time)
     {
         yield return new WaitForSeconds(time);
@@ -105,7 +106,6 @@ public class HackMain : MonoBehaviour {
                 Answer_list.Add(s_a[i]);
                 Quest_list.Add(s_q[i]);
             }
-            Maxline++; // 行数加算
         }
     }
 
