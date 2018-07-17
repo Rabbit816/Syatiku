@@ -14,30 +14,44 @@ public class Merter : MonoBehaviour {
      {
          float x = Mathf.Lerp(0f, maxValue, t);
          rt.sizeDelta = new Vector2(x,rt.sizeDelta.y);
-         //UpdateValue(value);
+         
     }
     public void Update()
     {
-        value -= 0.0002f;
         UpdateValue(value);
+        value -= 0.0002f;
+
         if (value <= 0)
         {
+            Common.Instance.ChangeScene(Common.SceneName.Result);
             value = 1f;
         }
     }
 
+
+
     public void Moving()
     {
-        Debug.Log("Moving");
+        if (AnswerCounter == 1)
+        {
+            value += 0.05f;
+            //Debug.Log("aaaaaaaaa");
+        }
+        if (AnswerCounter == 2)
+        {
+            value += 0.1f;
+        }
+        if (AnswerCounter == 3)
+        {
+            value += 0.15f;
+        }
+        if (AnswerCounter == 4)
+        {
+            value += 0.2f;
+        }
     }
-    /// <summary>
-    /// シーン遷移
-    /// </summary>
-    /*public void Results()
-    {
-        Common.Instance.ChangeScene(Common.SceneName.Result);
-    }*/
-    private float value;
+    private float value = 1f;
     private float maxValue;
     private RectTransform rt;
+    public int AnswerCounter;
 }
