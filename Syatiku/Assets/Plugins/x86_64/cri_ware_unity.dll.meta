@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 97f1044c5eb4800469ccddc26b4b5051
+guid: 11dc7019b5cfcce4fa41ab5aeed0d100
 timeCreated: 1426744594
 licenseType: Pro
 PluginImporter:
@@ -37,7 +37,7 @@ PluginImporter:
       second:
         enabled: 1
         settings:
-          CPU: x86
+          CPU: x86_64
           DefaultValueInitialized: true
           OS: AnyOS
     data:
@@ -46,70 +46,70 @@ PluginImporter:
       second:
         enabled: 1
         settings:
-          CPU: AnyCPU
+          CPU: None
     data:
       first:
         Facebook: Win64
       second:
         enabled: 1
         settings:
-          CPU: None
+          CPU: AnyCPU
     data:
       first:
         Standalone: Linux
       second:
         enabled: 1
         settings:
-          CPU: x86
+          CPU: None
     data:
       first:
         Standalone: Linux64
       second:
         enabled: 1
         settings:
-          CPU: None
+          CPU: x86_64
     data:
       first:
         Standalone: LinuxUniversal
       second:
         enabled: 1
         settings:
-          CPU: x86
+          CPU: x86_64
     data:
       first:
         Standalone: OSXIntel
       second:
         enabled: 1
         settings:
-          CPU: AnyCPU
+          CPU: None
     data:
       first:
         Standalone: OSXIntel64
       second:
         enabled: 1
         settings:
-          CPU: None
+          CPU: AnyCPU
     data:
       first:
         Standalone: OSXUniversal
       second:
         enabled: 1
         settings:
-          CPU: x86
+          CPU: x86_64
     data:
       first:
         Standalone: Win
       second:
         enabled: 1
         settings:
-          CPU: AnyCPU
+          CPU: None
     data:
       first:
         Standalone: Win64
       second:
         enabled: 1
         settings:
-          CPU: None
+          CPU: AnyCPU
     data:
       first:
         Windows Store Apps: WindowsStoreApps
