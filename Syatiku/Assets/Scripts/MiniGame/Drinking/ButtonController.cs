@@ -11,6 +11,7 @@ public class ButtonController : MonoBehaviour {
 
     public Button Remember;
     public Button Again;
+    public Button NextGame;
 
     //メニュータブのボタン
     public Button Otsumami;
@@ -41,6 +42,7 @@ public class ButtonController : MonoBehaviour {
         {
             Remember.gameObject.SetActive(true);
             Again.gameObject.SetActive(true);
+            Remember.GetComponent<RectTransform>().localPosition = new Vector2(0, 50);
         }
         else
         {
@@ -63,7 +65,7 @@ public class ButtonController : MonoBehaviour {
         DrinkSceneButtonOFF();
 
         //仮の処理
-        DenmokuImage.GetComponent<RectTransform>().localPosition = new Vector2(-400, -250);
+        this.DenmokuImage.GetComponent<RectTransform>().localPosition = new Vector2(-400, -250);
 
         OtsumamiButton();
         OrderButton.interactable = false;
@@ -164,15 +166,14 @@ public class ButtonController : MonoBehaviour {
             OrderCount++;
         }
     }
-    /// <summary>
-    /// 注文
-    /// </summary>
+    
+    //注文ボタン
     public void Order()
     {
         ButtonReset();
         OrderCount = 0;
         denmoku.ResetList();
-        DenmokuImage.GetComponent<RectTransform>().localPosition = new Vector2(-400, -800);
+        DenmokuImage.GetComponent<RectTransform>().localPosition = new Vector2(-400, -850);
         drink.OrderAnswer();
     }
 
@@ -191,7 +192,7 @@ public class ButtonController : MonoBehaviour {
                 case 2:
                     Salad.interactable = true;
                     break;
-                default:
+                case 3:
                     Sashimi.interactable = true;
                     break;
             }
@@ -212,7 +213,7 @@ public class ButtonController : MonoBehaviour {
             case 2:
                 Counter3.gameObject.SetActive(true);
                 break;
-            default:
+            case 3:
                 Counter4.gameObject.SetActive(true);
                 break;
         }
@@ -284,6 +285,15 @@ public class ButtonController : MonoBehaviour {
         }
     }
 
+    //次のゲーム(注文)を開始するボタン
+    public void NextOrder()
+    {
+        NextGame.gameObject.SetActive(false);
+        drink.OrderShuffle();
+        drink.PosShuffle();
+        drink.Order();
+    }
+
     void Start () {
         drink = GetComponent<DrinkScene>();
         denmoku = GetComponent<Denmoku>();
@@ -301,9 +311,9 @@ public class ButtonController : MonoBehaviour {
 	
 	
 	void Update () {
-        Counter1.GetComponent<Text>().text = denmoku.InputOrderCounter[0].ToString();
-        Counter2.GetComponent<Text>().text = denmoku.InputOrderCounter[1].ToString();
-        Counter3.GetComponent<Text>().text = denmoku.InputOrderCounter[2].ToString();
-        Counter4.GetComponent<Text>().text = denmoku.InputOrderCounter[3].ToString();
+        Counter1.GetComponent<Text>().text = "× " + denmoku.InputOrderCounter[0].ToString();
+        Counter2.GetComponent<Text>().text = "× " + denmoku.InputOrderCounter[1].ToString();
+        Counter3.GetComponent<Text>().text = "× " + denmoku.InputOrderCounter[2].ToString();
+        Counter4.GetComponent<Text>().text = "× " + denmoku.InputOrderCounter[3].ToString();
     }
 }
