@@ -9,6 +9,7 @@ public class HackMeishi : MonoBehaviour {
     [SerializeField, Tooltip("PaperPrefab")]
     private GameObject paper_prefab;
     private RectTransform Meishi_rect;
+    private HackTap hack_tap;
 
     private GameObject GetWord;
     [HideInInspector]
@@ -18,12 +19,13 @@ public class HackMeishi : MonoBehaviour {
     void Start () {
         GetWord = GameObject.Find("Canvas/Check/GetWord");
         Meishi_rect = GameObject.Find("Canvas/Zoom/Meishi/Image").GetComponent<RectTransform>();
+        hack_tap = GameObject.Find("controll").GetComponent<HackTap>();
         _document = false;
     }
 	
 	// Update is called once per frame
 	void Update () {
-		
+
 	}
 
     public void MeishiPrefab()
@@ -31,6 +33,7 @@ public class HackMeishi : MonoBehaviour {
         Debug.Log("名刺");
         Meishi_rect.GetComponent<Image>().color = new Color(255,255,255,255);
         Meishi_rect.transform.localPosition = new Vector2(311,187);
+        hack_tap.ZoomActive(5);
     }
 
     /// <summary>
