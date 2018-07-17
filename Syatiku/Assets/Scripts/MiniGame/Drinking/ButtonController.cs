@@ -32,13 +32,13 @@ public class ButtonController : MonoBehaviour {
     GameObject Counter1, Counter2, Counter3, Counter4;
 
     private int OrderCount = 0;
-    private int AgainCounter = 0;
+    private bool AgainFlg = true;
 
     //飲み会シーンのボタンを表示
     public void DrinkSceneButtonON()
     {
         //もう一度注文を聞くボタンが押されたかの判定
-        if(AgainCounter == 0)
+        if(AgainFlg)
         {
             Remember.gameObject.SetActive(true);
             Again.gameObject.SetActive(true);
@@ -61,7 +61,7 @@ public class ButtonController : MonoBehaviour {
     //覚えたボタン
     public void RememberButton()
     {
-        AgainCounter = 0;
+        AgainFlg = true;
         DrinkSceneButtonOFF();
 
         //仮の処理
@@ -78,7 +78,7 @@ public class ButtonController : MonoBehaviour {
     //もう一度注文を聞くボタン
     public void AgainButton()
     {
-        AgainCounter = 1;
+        AgainFlg = false;
         DrinkSceneButtonOFF();
         drink.Order();
     }
