@@ -96,10 +96,11 @@ public class SmokingController : MonoBehaviour {
     public IEnumerator SelectStart()
     {
         yield return new WaitForSeconds(1f);
-        selectUI.SetActive(true);
+        
         if (!isTime)
         {
             isTime = true;
+            selectUI.SetActive(true);
             if (selectUI.activeSelf)
                 StartCoroutine(TimeDown());
             //Question();
