@@ -862,8 +862,9 @@ MonoBehaviour:
   - {fileID: 829758239}
   answer: {fileID: 1053199033}
   answerCount: 3
-  selectUI: {fileID: 1654543771}
+  scenarioWin: {fileID: 1612939384}
   qLength: 6
+  selectUI: {fileID: 1654543771}
 --- !u!4 &930555886
 Transform:
   m_ObjectHideFlags: 0
@@ -1434,6 +1435,11 @@ MonoBehaviour:
         m_CallState: 2
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
+--- !u!1 &1612939384 stripped
+GameObject:
+  m_PrefabParentObject: {fileID: 1366464488561138, guid: 77db41429cd14754c9e8cc09c9be2b1c,
+    type: 2}
+  m_PrefabInternal: {fileID: 818720834}
 --- !u!1 &1654543771
 GameObject:
   m_ObjectHideFlags: 0
