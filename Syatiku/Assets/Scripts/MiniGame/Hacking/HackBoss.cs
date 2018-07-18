@@ -49,6 +49,7 @@ public class HackBoss : MonoBehaviour {
             {
                 Boss.transform.localPosition = new Vector2(-365, -130);
                 ComeBoss.SetActive(false);
+                hack_tap.PlaceButton(12);
                 _chooseTap = false;
                 _commingboss = false;
                 Bosswait = BossTimer + 0.1f;

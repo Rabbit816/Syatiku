@@ -35,10 +35,8 @@ public class HackMain : MonoBehaviour {
 
     // Use this for initialization
     void Start () {
-        SoundManager.Instance.PlayBGM(BGMName.Hack);
         into_pc = GetComponent<IntoPCAction>();
         patte = GetComponent<PatteringEvent>();
-        hack_meishi = GetComponent<HackMeishi>();
         Dont_Tap.SetActive(true);
         ReadText();
         comingCount = 0;
@@ -48,7 +46,8 @@ public class HackMain : MonoBehaviour {
 
 	// Update is called once per frame
 	void Update () {
-        if (into_pc._compariClear && patte._lowAnimClear && hack_meishi._document)
+        Timer();
+        if (into_pc._compariClear && patte._lowAnimClear)
         {
             if (!_allClear)
             {
@@ -81,6 +80,8 @@ public class HackMain : MonoBehaviour {
         if(timer < 0f)
         {
             time.text = "Timer: 0.0";
+            Common.Instance.clearFlag[Common.Instance.isClear] = false;
+            Common.Instance.ChangeScene(Common.SceneName.Result);
         }
         return (timer < 0f);
     }
