@@ -179,7 +179,7 @@ public class DrinkScene : MonoBehaviour {
                             this.Answer1.GetComponent<RectTransform>().localPosition = new Vector2(-300, 85);
                             this.Answer1.GetComponent<Text>().text = "○";
                             this.Answer1.GetComponent<Text>().color = new Color(255f / 255f, 0f / 255f, 0f / 255f, 255f / 255f);
-                            merter.AnswerCounter += 1;
+                            merter.AnswerCounter++;
                         }
                         else
                         {
@@ -204,7 +204,7 @@ public class DrinkScene : MonoBehaviour {
                             this.Answer2.GetComponent<RectTransform>().localPosition = new Vector2(-100, 85);
                             this.Answer2.GetComponent<Text>().text = "○";
                             this.Answer2.GetComponent<Text>().color = new Color(255f / 255f, 0f / 255f, 0f / 255f, 255f / 255f);
-                            merter.AnswerCounter += 2;
+                            merter.AnswerCounter++;
                         }
                         else
                         {
@@ -229,7 +229,7 @@ public class DrinkScene : MonoBehaviour {
                             this.Answer3.GetComponent<RectTransform>().localPosition = new Vector2(100, 85);
                             this.Answer3.GetComponent<Text>().text = "○";
                             this.Answer3.GetComponent<Text>().color = new Color(255f / 255f, 0f / 255f, 0f / 255f, 255f / 255f);
-                            merter.AnswerCounter += 3;
+                            merter.AnswerCounter++;
                         }
                         else
                         {
@@ -254,7 +254,7 @@ public class DrinkScene : MonoBehaviour {
                             this.Answer4.GetComponent<RectTransform>().localPosition = new Vector2(300, 85);
                             this.Answer4.GetComponent<Text>().text = "○";
                             this.Answer4.GetComponent<Text>().color = new Color(255f / 255f, 0f / 255f, 0f / 255f, 255f / 255f);
-                            merter.AnswerCounter += 4;
+                            merter.AnswerCounter++;
                         }
                         else
                         {
