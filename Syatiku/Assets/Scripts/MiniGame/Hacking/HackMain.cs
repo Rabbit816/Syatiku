@@ -46,7 +46,7 @@ public class HackMain : MonoBehaviour {
 
 	// Update is called once per frame
 	void Update () {
-        Timer();
+        StartCoroutine(StartedTimer());
         if (into_pc._compariClear && patte._lowAnimClear)
         {
             if (!_allClear)
@@ -56,6 +56,12 @@ public class HackMain : MonoBehaviour {
                 Common.Instance.ChangeScene(Common.SceneName.Result);
             }
         }
+    }
+
+    private IEnumerator StartedTimer()
+    {
+        yield return new WaitForSeconds(1.8f);
+        Timer();
     }
 
     /// <summary>
@@ -77,6 +83,10 @@ public class HackMain : MonoBehaviour {
     {
         timer -= Time.deltaTime;
         time.text = "Timer: " + timer.ToString("f1");
+        if (patte._PatteringPlay)
+        {
+            Time.timeScale = 0.0f;
+        }
         if(timer < 0f)
         {
             time.text = "Timer: 0.0";
@@ -122,6 +132,6 @@ public class HackMain : MonoBehaviour {
         Animator anim = theme_obj.GetComponent<Animator>();
         anim.Play("ThemeAnimation");
         
-        StartCoroutine(Wait_Time(1.7f));
+        StartCoroutine(Wait_Time(1.8f));
     }
 }

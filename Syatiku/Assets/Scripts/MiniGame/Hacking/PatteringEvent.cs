@@ -48,6 +48,8 @@ public class PatteringEvent : MonoBehaviour {
 
     //いいタイミングかどうか
     private bool _success = false;
+    [HideInInspector]
+    public bool _PatteringPlay = false;
 
     [HideInInspector]
     public bool _lowAnimClear = false;
@@ -68,6 +70,7 @@ public class PatteringEvent : MonoBehaviour {
         Get_Yellow.SetActive(false);
         _lowAnimClear = false;
         _success = false;
+        _PatteringPlay = false;
         successCount = 0;
     }
 
@@ -124,6 +127,7 @@ public class PatteringEvent : MonoBehaviour {
     /// <returns></returns>
     public IEnumerator Start_LowWaitTime(float time)
     {
+        _PatteringPlay = true;
         LowObject.SetActive(true);
         Low_text.text = "黄色のページをタップしよう！";
         event_system.enabled = false;
@@ -144,6 +148,7 @@ public class PatteringEvent : MonoBehaviour {
     /// <returns></returns>
     public IEnumerator Start_SpeedyWaitTime(float time)
     {
+        _PatteringPlay = true;
         SpeedyObject.SetActive(true);
         Speedy_text.text = "黄色のページをタップしよう！";
         event_system.enabled = false;
@@ -187,6 +192,7 @@ public class PatteringEvent : MonoBehaviour {
         PatteResult();
         event_system.enabled = true;
         SpeedyObject.SetActive(false);
+        _PatteringPlay = false;
     }
 
     /// <summary>
