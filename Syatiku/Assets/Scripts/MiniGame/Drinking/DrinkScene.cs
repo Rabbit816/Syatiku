@@ -272,7 +272,7 @@ public class DrinkScene : MonoBehaviour {
                     break;
             }
         }
-        yield return new WaitForSeconds(3.5f);
+        yield return new WaitForSeconds(1.5f);
         this.Delete();
         this.AnswerResultOFF();
         button.NextGame.gameObject.SetActive(true);
