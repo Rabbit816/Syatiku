@@ -9,8 +9,6 @@ public class HackBoss : MonoBehaviour {
     private GameObject Boss;
     [SerializeField, Tooltip("ドアの上司Object")]
     private GameObject ComeBoss;
-    [SerializeField, Tooltip("警告テキストobject")]
-    private GameObject Worning;
     [SerializeField, Tooltip("EventSystem")]
     private EventSystem event_system;
     [SerializeField, Tooltip("Zoom object")]
@@ -21,12 +19,13 @@ public class HackBoss : MonoBehaviour {
     private Text chose_text;
 
     private HackTap hack_tap;
+    private HackMain hack_main;
     [Header("上司が待機してる時間")]
     public float BossTimer = 5.0f;
+    private float Bosswait;
     private bool _chooseTap = false;
     private bool _commingboss = false;
-    private HackMain hack_main;
-    private float Bosswait;
+    private bool _gameover = false;
 
     // Use this for initialization
     void Start () {
@@ -35,8 +34,8 @@ public class HackBoss : MonoBehaviour {
 
         ChooseObject.SetActive(false);
         ComeBoss.SetActive(false);
-        Worning.SetActive(false);
         _commingboss = false;
+        _gameover = false;
         Bosswait = BossTimer + 0.1f;
 	}
 	
@@ -50,7 +49,6 @@ public class HackBoss : MonoBehaviour {
             {
                 Boss.transform.localPosition = new Vector2(-365, -130);
                 ComeBoss.SetActive(false);
-                Worning.SetActive(false);
                 _chooseTap = false;
                 _commingboss = false;
                 Bosswait = BossTimer + 0.1f;
@@ -58,8 +56,12 @@ public class HackBoss : MonoBehaviour {
             else if(Bosswait <= 0.0f)
             {
                 Bosswait = 0.0f;
-                Common.Instance.clearFlag[Common.Instance.isClear] = false;
-                Common.Instance.ChangeScene(Common.SceneName.Result);
+                if (!_gameover)
+                {
+                    _gameover = true;
+                    Common.Instance.clearFlag[Common.Instance.isClear] = false;
+                    Common.Instance.ChangeScene(Common.SceneName.Result);
+                }
             }
         }
 	}
@@ -102,7 +104,6 @@ public class HackBoss : MonoBehaviour {
         if (!ComeBoss.activeSelf)
         {
             ComeBoss.SetActive(true);
-            Worning.SetActive(true);
             StartCoroutine(WatchBoss(1.5f));
         }
     }

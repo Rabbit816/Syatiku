@@ -17,6 +17,10 @@ public class IntoPCAction : MonoBehaviour {
     private GameObject NotComp;
     [SerializeField, Tooltip("資料比較するボタン")]
     private GameObject comp_btn;
+    [SerializeField, Tooltip("間違っている箇所_0")]
+    private GameObject wrongbtn_0;
+    [SerializeField, Tooltip("間違っている箇所_1")]
+    private GameObject wrongbtn_1;
 
     [Tooltip("資料比較の時に何回ミスしてもいいかの回数")]
     public int tappingCount = 6;
@@ -147,9 +151,11 @@ public class IntoPCAction : MonoBehaviour {
         switch (docNum)
         {
             case 0:
+                wrongbtn_0.GetComponent<Image>().color = new Color(255, 255, 0);
                 doc_0 = true;
                 break;
             case 1:
+                wrongbtn_1.GetComponent<Image>().color = new Color(255, 255, 0);
                 doc_1 = true;
                 break;
             case 2:

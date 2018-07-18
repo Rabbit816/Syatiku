@@ -34,7 +34,8 @@ public class HackTap : MonoBehaviour
 
     [SerializeField, Tooltip("集めた単語(リスト内に出すObject)")]
     private GameObject GetWordPrefab;
-    private GameObject GetWord;
+    [HideInInspector]
+    public GameObject GetWord;
 
     [SerializeField, Tooltip("集めたリストに出す資料Object")]
     private GameObject DocPrefab;
@@ -60,6 +61,8 @@ public class HackTap : MonoBehaviour
     private Sprite[] img_list;
     [SerializeField, Tooltip("Zoom Object")]
     private GameObject Zoom;
+    [SerializeField, Tooltip("チェックボックスとくっついてるやつ")]
+    private GameObject Black_back;
 
     private GameObject DoorSide;
     private HackMain hack_main;
@@ -299,12 +302,13 @@ public class HackTap : MonoBehaviour
         {
             case 0:
                 count++;
-                Debug.Log("1回目");
                 collectObject.transform.localPosition = new Vector2(collectObject.transform.localPosition.x - 155, collectObject.transform.localPosition.y);
+                Black_back.transform.localPosition = new Vector2(Black_back.transform.localPosition.x - 800, Black_back.transform.localPosition.y);
                 break;
             case 1:
                 count--;
                 collectObject.transform.localPosition = new Vector2(collectObject.transform.localPosition.x + 155, collectObject.transform.localPosition.y);
+                Black_back.transform.localPosition = new Vector2(Black_back.transform.localPosition.x + 800, Black_back.transform.localPosition.y);
                 break;
         }
     }

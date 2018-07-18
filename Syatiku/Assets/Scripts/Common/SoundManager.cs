@@ -73,18 +73,15 @@ public class SoundManager : MonoBehaviour {
     [SerializeField]
     CriAtomSource voiceSource;
 
-    private void Start()
-    {
-        //bgmSource.Play("TopBGM");
-    }
-
     public void PlayBGM(BGMName cueName)
     {
+        bgmSource.Stop();
         bgmSource.Play(bgmNameList[(int)cueName]);
     }
 
     public void PlayBGM(string cueName)
     {
+        bgmSource.Stop();
         bgmSource.Play(cueName);
     }
 
