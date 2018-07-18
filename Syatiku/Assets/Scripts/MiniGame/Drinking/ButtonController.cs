@@ -12,6 +12,7 @@ public class ButtonController : MonoBehaviour {
     public Button Remember;
     public Button Again;
     public Button NextGame;
+    public Button SlideinButton;
 
     //メニュータブのボタン
     public Button Otsumami;
@@ -64,15 +65,7 @@ public class ButtonController : MonoBehaviour {
         AgainFlg = true;
         DrinkSceneButtonOFF();
 
-        //仮の処理
-        this.DenmokuImage.GetComponent<RectTransform>().localPosition = new Vector2(-400, -250);
-
-        OtsumamiButton();
-        OrderButton.interactable = false;
-        Counter1.gameObject.SetActive(false);
-        Counter2.gameObject.SetActive(false);
-        Counter3.gameObject.SetActive(false);
-        Counter4.gameObject.SetActive(false);
+        SlideinButton.enabled = true;
     }
 
     //もう一度注文を聞くボタン
@@ -81,6 +74,18 @@ public class ButtonController : MonoBehaviour {
         AgainFlg = false;
         DrinkSceneButtonOFF();
         drink.Order();
+    }
+
+    //スライドイン
+    public void Slidin()
+    {
+        
+        OtsumamiButton();
+        OrderButton.interactable = false;
+        Counter1.gameObject.SetActive(false);
+        Counter2.gameObject.SetActive(false);
+        Counter3.gameObject.SetActive(false);
+        Counter4.gameObject.SetActive(false);
     }
 
     //メニュータブのおつまみボタン
@@ -175,6 +180,7 @@ public class ButtonController : MonoBehaviour {
         denmoku.ResetList();
         DenmokuImage.GetComponent<RectTransform>().localPosition = new Vector2(-400, -850);
         drink.OrderAnswer();
+        SlideinButton.enabled = false;
     }
 
     public void ButtonReset()
@@ -307,6 +313,7 @@ public class ButtonController : MonoBehaviour {
         Counter3 = GameObject.Find("Order3/Counter3");
         Counter4 = GameObject.Find("Order4/Counter4");
         DrinkSceneButtonOFF();
+        SlideinButton.enabled = false;
 	}
 	
 	

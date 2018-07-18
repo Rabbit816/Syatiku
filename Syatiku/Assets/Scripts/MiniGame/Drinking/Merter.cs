@@ -26,6 +26,10 @@ public class Merter : MonoBehaviour {
             Common.Instance.ChangeScene(Common.SceneName.Result);
             value = 1f;
         }
+        if (value > 1)
+        {
+            value = 1f;
+        }
     }
 
 
@@ -35,17 +39,13 @@ public class Merter : MonoBehaviour {
         if (AnswerCounter == 1)
         {
             value += 0.05f;
-            //Debug.Log("aaaaaaaaa");
-        }
-        if (AnswerCounter == 2)
+        }else if (AnswerCounter == 2)
         {
             value += 0.1f;
-        }
-        if (AnswerCounter == 3)
+        }else if (AnswerCounter == 3)
         {
             value += 0.15f;
-        }
-        if (AnswerCounter == 4)
+        }else if (AnswerCounter == 4)
         {
             value += 0.2f;
         }

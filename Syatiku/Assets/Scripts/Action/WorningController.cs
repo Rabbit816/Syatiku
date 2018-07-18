@@ -9,6 +9,9 @@ public class WorningController : MonoBehaviour {
     private GameObject WLabel; // LebelUI
 
     [SerializeField]
+    private GameObject bossUI;
+
+    [SerializeField]
     private GameObject worning; // worningUI
 
 	// Use this for initialization
@@ -23,6 +26,12 @@ public class WorningController : MonoBehaviour {
         );
         seq.SetLoops(-1);
 
+<<<<<<< HEAD
         WLabel.transform.DOLocalMoveX(-800, 2f).SetEase(Ease.Linear).SetLoops(-1);
+=======
+        WLabel[0].transform.DOLocalMoveX(-750, 2f).SetEase(Ease.Linear).SetLoops(-1);
+        WLabel[1].transform.DOLocalMoveX(750, 2f).SetEase(Ease.Linear).SetLoops(-1);
+        bossUI.transform.DOLocalMoveX(0,3f).SetEase(Ease.Linear);
+>>>>>>> master
     }
 }
