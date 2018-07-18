@@ -102,7 +102,6 @@ public class FlickTextController : MonoBehaviour
         {
             BossScene.Instance.MissCountUP();
             isReflect = true;
-            Debug.Log(moveForce);
             moveForce = new Vector3(-moveForce.x, moveForce.y, 0);
         }
     }

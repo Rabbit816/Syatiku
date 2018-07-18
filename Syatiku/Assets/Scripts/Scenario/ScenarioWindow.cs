@@ -3,10 +3,9 @@ using UnityEngine;
 
 public class ScenarioWindow : MonoBehaviour
 {
-    [HideInInspector]
+
     public Vector3 closeMenuPos;
     public Vector3 opneMenuPos;
-    public Image bgi;
 
     public Text name;
     public Text message;
@@ -21,15 +20,13 @@ public class ScenarioWindow : MonoBehaviour
 
     public CanvasGroup scenarioCanvas;
 
-    private void Start()
+    void Start()
     {
         closeMenuPos = menu.localPosition;
     }
 
     public void Init()
     {
-        //背景
-        bgi.sprite = null;
         //メニュー
         menu.localPosition = closeMenuPos;
         menu.gameObject.SetActive(true);

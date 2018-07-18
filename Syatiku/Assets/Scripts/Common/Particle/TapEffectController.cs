@@ -17,7 +17,6 @@ public class TapEffectController : MonoBehaviour {
                 worldPos.z = 0;
                 tapEffect.transform.position = worldPos;
                 tapEffect.SetActive(true);
-                Debug.Log(worldPos);
             }
         }
 	}

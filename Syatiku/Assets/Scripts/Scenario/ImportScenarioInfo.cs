@@ -82,15 +82,6 @@ public class ImportScenarioInfo : MonoBehaviour {
                 ShadeOffCharacters(pos);
             });
         }
-        else if (text.Contains("bgi"))
-        {
-            //背景画像
-            scenario.commandActionList.Add(() =>
-            {
-                string imagePath = "Scenario/" + TakeTextInfo(text);
-                SetSprite(window.bgi, imagePath);
-            });
-        }
         else if (text.Contains("charaOn") || text.Contains("emo"))
         {
             //キャラクター画像表示
@@ -260,9 +251,6 @@ public class ImportScenarioInfo : MonoBehaviour {
         {
             case "character":
                 target = GetTargetImage(text);
-                break;
-            case "background":
-                target = window.bgi;
                 break;
         }
 

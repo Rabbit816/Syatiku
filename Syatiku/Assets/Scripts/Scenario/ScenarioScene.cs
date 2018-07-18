@@ -11,4 +11,5 @@ public class ScenarioScene : MonoBehaviour {
         ScenarioController.Instance.BeginScenario(filePath);
         SoundManager.Instance.StopBGM();
     }
+
 }
