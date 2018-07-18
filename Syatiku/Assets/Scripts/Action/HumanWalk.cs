@@ -21,6 +21,7 @@ public class HumanWalk : MonoBehaviour {
     private bool isWalk = false;
     private float posX;
     private int moveDir = 1;
+    private bool dirFlag = false;
     
     void Start () {
         randTime = Random.Range(1, 6);// ランダムに時間を取得
@@ -32,10 +33,19 @@ public class HumanWalk : MonoBehaviour {
         if (beginTime >= randTime && !isWalk)
         {
             var humanTransform = gameObject.transform.GetChild(0).transform.GetChild(0); // humanUIのTransform
-            if (transform.localPosition.x > posX + 100 || transform.localPosition.x < posX) // positionで移動方向を決める
+            if (transform.localPosition.x > posX + 100) // positionで移動方向を決める
             {
-                humanTransform.localScale = new Vector2(humanTransform.localScale.x * -1, 1);
-                moveDir *= -1;
+                if (moveDir == -1) dirFlag = false;
+
+                if(dirFlag)
+                    humanTransform.localScale = new Vector2(humanTransform.localScale.x * -1, 1);
+                moveDir = -1;
+            }else if(transform.localPosition.x < posX)
+            {
+                if (moveDir == 1) dirFlag = true;
+                if (dirFlag)
+                    humanTransform.localScale = new Vector2(humanTransform.localScale.x * moveDir, 1);
+                moveDir = 1;
             }
                 Walk(humanTransform);
         }
