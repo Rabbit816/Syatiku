@@ -7099,7 +7099,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: S_S_I
+  m_Text: S X S X I
 --- !u!222 &888138274
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -14573,7 +14573,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: S_S_I
+  m_Text: S X S X I
 --- !u!222 &1834912017
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -15676,6 +15676,7 @@ MonoBehaviour:
     type: 2}
   Low_text: {fileID: 1116030636}
   Speedy_text: {fileID: 1451129749}
+  _PatteringPlay: 0
   _lowAnimClear: 0
 --- !u!1 &1906276278
 GameObject:
