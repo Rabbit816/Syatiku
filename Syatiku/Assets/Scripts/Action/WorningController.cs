@@ -6,7 +6,7 @@ using DG.Tweening;
 
 public class WorningController : MonoBehaviour {
     [SerializeField]
-    private GameObject WLabel; // LebelUI
+    private GameObject[] WLabel = new GameObject[2]; // LebelUI
 
     [SerializeField]
     private GameObject bossUI;
@@ -26,12 +26,8 @@ public class WorningController : MonoBehaviour {
         );
         seq.SetLoops(-1);
 
-<<<<<<< HEAD
-        WLabel.transform.DOLocalMoveX(-800, 2f).SetEase(Ease.Linear).SetLoops(-1);
-=======
         WLabel[0].transform.DOLocalMoveX(-750, 2f).SetEase(Ease.Linear).SetLoops(-1);
         WLabel[1].transform.DOLocalMoveX(750, 2f).SetEase(Ease.Linear).SetLoops(-1);
         bossUI.transform.DOLocalMoveX(0,3f).SetEase(Ease.Linear);
->>>>>>> master
     }
 }

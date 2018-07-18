@@ -85,11 +85,7 @@ public class ActionController : MonoBehaviour {
 
     public IEnumerator IsWorning()
     {
-<<<<<<< HEAD
-        yield return new WaitForSeconds(2f);
-=======
         yield return new WaitForSeconds(5f);
->>>>>>> master
         worning.gameObject.SetActive(false);
     }
 
@@ -154,13 +150,6 @@ public class ActionController : MonoBehaviour {
         {
             Image mini = Instantiate(humanPrefab, humanClone.transform) as Image;
             mini.transform.localPosition = createPos[i].transform.localPosition;
-<<<<<<< HEAD
-            if (createPos[i] == pos2){
-                mini.transform.localScale = new Vector2(-1, 1);
-                mini.transform.GetChild(0).GetChild(0).localScale = new Vector2(-1, 1);
-            }
-=======
->>>>>>> master
 
             Image s_mini = mini.transform.GetChild(0).transform.GetChild(1).transform.GetChild(0).GetComponent<Image>();
             s_mini.sprite = miniGameImage[i];
