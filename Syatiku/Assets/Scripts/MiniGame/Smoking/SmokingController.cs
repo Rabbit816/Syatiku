@@ -26,9 +26,19 @@ public class SmokingController : MonoBehaviour {
     [SerializeField]
     private int qLength; // 合計問題数
 
-    private string musiFilePath = "CSV/Smoking2"; // CSVパス名
+    private string musiFilePath = "CSV/Smoking3"; // CSVパス名
 
-    private string talkFilePath = "Text/Smoking/SmokingTalk"; // 会話パートテキストパス名
+    private string talkFilePath = "Text/Smoking/"; // 会話パートテキストパス名
+
+    private string smokePath = "SmokingTalk"; // 喫煙シナリオのPath
+
+    private string badSmokePath = "Bad/SmokingTalkBad"; // 喫煙BadシナリオPath
+
+    bool isTime = false; // タイマースタートフラグ
+
+    bool timeOver = false; // タイムオーバーフラグ
+
+    private bool badFlag = false;
 
     private Vector2 tabacoSize;
 
@@ -38,8 +48,7 @@ public class SmokingController : MonoBehaviour {
 
     // Use this for initialization
     void Start () {
-        ScenarioController.Instance.BeginScenario(talkFilePath); // シナリオ再生
-        ScenarioController.Instance.hideButtons();
+        IsScenario(talkFilePath + smokePath);
 
         selectUI.SetActive(false); // 回答選択UIを非表示
         
@@ -55,11 +64,17 @@ public class SmokingController : MonoBehaviour {
         Question();
 	}
 
-    bool isTime = false; // タイマースタートフラグ
-    bool timeOver = false; // タイムオーバーフラグ
+    
     void Update(){
         if (ScenarioController.Instance.IsReachLastInfo()) {
-            StartCoroutine(SelectStart());
+            if(!badFlag) StartCoroutine(SelectStart());
+            else
+            {
+                IsScenario(talkFilePath + qNum.ToString());
+                badFlag = false;
+            }
+            
+            Debug.Log("Callaaaa");
         }
 
         if (tabaco.rectTransform.sizeDelta.x < 0)
@@ -95,15 +110,18 @@ public class SmokingController : MonoBehaviour {
     /// <returns></returns>
     public IEnumerator SelectStart()
     {
-        yield return new WaitForSeconds(1f);
-        selectUI.SetActive(true);
+        //yield return new WaitForSeconds(1f);
+        
         if (!isTime)
         {
+            Debug.Log("Call");
             isTime = true;
+            selectUI.SetActive(true);
             if (selectUI.activeSelf)
                 StartCoroutine(TimeDown());
-            //Question();
+            Question();
         }
+        yield return null;
     }
 
     /// <summary>
@@ -113,13 +131,16 @@ public class SmokingController : MonoBehaviour {
     public void OnClick(Text text) {
         if (tabaco.rectTransform.sizeDelta.x <= 0) return;
 
+        qNum++;
+        qLength--;
+        Invoke("AA", 0.1f);
+
         Debug.Log(text.text);
         if (text.text == mushikui.data[qNum].Musikui) {
             Debug.Log("〇");
 
             succesCount++;
-            qNum++;
-            qLength--;
+            
             if (qLength <= 0) {
                 Result();
                 return;
@@ -131,18 +152,24 @@ public class SmokingController : MonoBehaviour {
             tabaco.rectTransform.sizeDelta = tabacoSize;
 
             answerCount = firstAnswerCount;
-            
-            
+
+            IsScenario(talkFilePath + qNum.ToString());
+
             isTime = false;
-            ScenarioController.Instance.BeginScenario(talkFilePath + qNum.ToString());
-            ScenarioController.Instance.hideButtons();
+            //selectUI.SetActive(false);
+            Debug.Log("Active=" + selectUI.activeSelf);
             //Question();
             // ------------------------------
 
         } else {
             Debug.Log("×");
+
+            badFlag = true;
+
             answerCount--;
-            tabaco.rectTransform.sizeDelta -= new Vector2(50f, 0);
+            //tabaco.rectTransform.sizeDelta -= new Vector2(50f, 0);
+
+            IsScenario(talkFilePath + badSmokePath + answerCount.ToString());
 
             //ScenarioController.Instance.BeginScenario("");
 
@@ -165,6 +192,22 @@ public class SmokingController : MonoBehaviour {
             //        break;
             //}
         }
+    }
+
+    /// <summary>
+    /// シナリオ呼び出し関数
+    /// </summary>
+    /// <param name="path"></param>
+    public void IsScenario(string path)
+    {
+        ScenarioController.Instance.BeginScenario(path);
+        ScenarioController.Instance.hideButtons();
+    }
+
+    //ベータ用
+    public void AA()
+    {
+        selectUI.SetActive(false);
     }
 
     public void Question()

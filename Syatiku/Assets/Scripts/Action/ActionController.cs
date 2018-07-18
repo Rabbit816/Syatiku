@@ -30,7 +30,6 @@ public class ActionController : MonoBehaviour {
     // 人間生成座標
     [SerializeField]
     private GameObject[] createPos = new GameObject[4];
-    private GameObject pos2;
 
     // ミニゲーム遷移のための数字
     private int[] sceneNum = { 0, 1, 2 };
@@ -73,7 +72,6 @@ public class ActionController : MonoBehaviour {
         worning.gameObject.SetActive(false);
         // --------------------------------------
 
-        pos2 = createPos[2];
         Common.Instance.Shuffle(createPos);
         Common.Instance.Shuffle(sceneNum);
 
@@ -87,7 +85,7 @@ public class ActionController : MonoBehaviour {
 
     public IEnumerator IsWorning()
     {
-        yield return new WaitForSeconds(2f);
+        yield return new WaitForSeconds(5f);
         worning.gameObject.SetActive(false);
     }
 
@@ -152,10 +150,6 @@ public class ActionController : MonoBehaviour {
         {
             Image mini = Instantiate(humanPrefab, humanClone.transform) as Image;
             mini.transform.localPosition = createPos[i].transform.localPosition;
-            if (createPos[i] == pos2){
-                mini.transform.localScale = new Vector2(-1, 1);
-                mini.transform.GetChild(0).GetChild(0).localScale = new Vector2(-1, 1);
-            }
 
             Image s_mini = mini.transform.GetChild(0).transform.GetChild(1).transform.GetChild(0).GetComponent<Image>();
             s_mini.sprite = miniGameImage[i];

@@ -28,12 +28,15 @@ public class DrinkScene : MonoBehaviour {
     //注文を表示するための配列
     private int[] OrderBox = new int[4];
     private int[] OrderCounter = new int[4];
-    private int[] OrderPos = new int[4] {-6, -2, 2, 6};
+    private float[] OrderPos = new float[4] {-6, -2, 2, 6};
 
     private int[] Num = new int[4];
     private int NumCounter = 0;
 
-    
+    //もとのOrderPosの中身の３番目までを保存しておく変数
+    private float OriginPos1;
+    private float OriginPos2;
+    private float OriginPos3;
 
 
     //注文の配列の用意
@@ -62,15 +65,15 @@ public class DrinkScene : MonoBehaviour {
         //Num配列の用意
         for (int i = 0; i < this.OrderPos.Length; i++)
         {
-            if(this.OrderPos[i] == -6)
+            if(this.OrderPos[i] == OriginPos1)
             {
                 Num[i] = 0;
             }
-            else if(this.OrderPos[i] == -2)
+            else if(this.OrderPos[i] == OriginPos2)
             {
                 Num[i] = 1;
             }
-            else if(this.OrderPos[i] == 2)
+            else if(this.OrderPos[i] == OriginPos3)
             {
                 Num[i] = 2;
             }
@@ -176,7 +179,7 @@ public class DrinkScene : MonoBehaviour {
                             this.Answer1.GetComponent<RectTransform>().localPosition = new Vector2(-300, 85);
                             this.Answer1.GetComponent<Text>().text = "○";
                             this.Answer1.GetComponent<Text>().color = new Color(255f / 255f, 0f / 255f, 0f / 255f, 255f / 255f);
-                            merter.AnswerCounter += 1;
+                            merter.AnswerCounter++;
                         }
                         else
                         {
@@ -201,7 +204,7 @@ public class DrinkScene : MonoBehaviour {
                             this.Answer2.GetComponent<RectTransform>().localPosition = new Vector2(-100, 85);
                             this.Answer2.GetComponent<Text>().text = "○";
                             this.Answer2.GetComponent<Text>().color = new Color(255f / 255f, 0f / 255f, 0f / 255f, 255f / 255f);
-                            merter.AnswerCounter += 2;
+                            merter.AnswerCounter++;
                         }
                         else
                         {
@@ -226,7 +229,7 @@ public class DrinkScene : MonoBehaviour {
                             this.Answer3.GetComponent<RectTransform>().localPosition = new Vector2(100, 85);
                             this.Answer3.GetComponent<Text>().text = "○";
                             this.Answer3.GetComponent<Text>().color = new Color(255f / 255f, 0f / 255f, 0f / 255f, 255f / 255f);
-                            merter.AnswerCounter += 3;
+                            merter.AnswerCounter++;
                         }
                         else
                         {
@@ -251,7 +254,7 @@ public class DrinkScene : MonoBehaviour {
                             this.Answer4.GetComponent<RectTransform>().localPosition = new Vector2(300, 85);
                             this.Answer4.GetComponent<Text>().text = "○";
                             this.Answer4.GetComponent<Text>().color = new Color(255f / 255f, 0f / 255f, 0f / 255f, 255f / 255f);
-                            merter.AnswerCounter += 4;
+                            merter.AnswerCounter++;
                         }
                         else
                         {
@@ -269,7 +272,7 @@ public class DrinkScene : MonoBehaviour {
                     break;
             }
         }
-        yield return new WaitForSeconds(3.5f);
+        yield return new WaitForSeconds(1.5f);
         this.Delete();
         this.AnswerResultOFF();
         button.NextGame.gameObject.SetActive(true);
@@ -326,6 +329,7 @@ public class DrinkScene : MonoBehaviour {
     }
 
 	void Start () {
+        //ゲームの初期状態を用意する処理
         button = GetComponent<ButtonController>();
         denmoku = GetComponent<Denmoku>();
         merter = GetComponent<Merter>();
@@ -339,15 +343,17 @@ public class DrinkScene : MonoBehaviour {
         this.Answer2 = GameObject.Find("OrderAnswer/Answer2");
         this.Answer3 = GameObject.Find("OrderAnswer/Answer3");
         this.Answer4 = GameObject.Find("OrderAnswer/Answer4");
-
-        this.OrderShuffle();
-        this.PosShuffle();
-        this.Order();
+        this.OriginPos1 = this.OrderPos[0];
+        this.OriginPos2 = this.OrderPos[1];
+        this.OriginPos3 = this.OrderPos[2];
         this.OrderCounterOFF();
         this.AnswerResultOFF();
         button.NextGame.gameObject.SetActive(false);
-        
 
+        //ゲーム開始に必要な処理
+        this.OrderShuffle();
+        this.PosShuffle();
+        this.Order();
     }
 	void Update () {
 
