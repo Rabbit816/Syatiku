@@ -34,6 +34,7 @@ public class BossScene : MonoBehaviour {
 
         flickPart.gameObject.SetActive(true);
         sanctionPart.gameObject.SetActive(false);
+        SoundManager.Instance.PlayBGM(BGMName.Boss);
 	}
 
 	void Update () {
