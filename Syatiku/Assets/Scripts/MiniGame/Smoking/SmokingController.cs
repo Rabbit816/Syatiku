@@ -48,12 +48,7 @@ public class SmokingController : MonoBehaviour {
 
     // Use this for initialization
     void Start () {
-<<<<<<< HEAD
-        ScenarioController.Instance.BeginScenario(talkFilePath); // シナリオ再生
-        ScenarioController.Instance.hideButtons();
-=======
         IsScenario(talkFilePath + smokePath);
->>>>>>> master
 
         selectUI.SetActive(false); // 回答選択UIを非表示
         
@@ -115,13 +110,8 @@ public class SmokingController : MonoBehaviour {
     /// <returns></returns>
     public IEnumerator SelectStart()
     {
-<<<<<<< HEAD
-        yield return new WaitForSeconds(1f);
-        selectUI.SetActive(true);
-=======
         //yield return new WaitForSeconds(1f);
         
->>>>>>> master
         if (!isTime)
         {
             Debug.Log("Call");
@@ -129,7 +119,7 @@ public class SmokingController : MonoBehaviour {
             selectUI.SetActive(true);
             if (selectUI.activeSelf)
                 StartCoroutine(TimeDown());
-            //Question();
+            Question();
         }
         yield return null;
     }
@@ -162,20 +152,12 @@ public class SmokingController : MonoBehaviour {
             tabaco.rectTransform.sizeDelta = tabacoSize;
 
             answerCount = firstAnswerCount;
-<<<<<<< HEAD
-            
-            
-            isTime = false;
-            ScenarioController.Instance.BeginScenario(talkFilePath + qNum.ToString());
-            ScenarioController.Instance.hideButtons();
-=======
 
             IsScenario(talkFilePath + qNum.ToString());
 
             isTime = false;
             //selectUI.SetActive(false);
             Debug.Log("Active=" + selectUI.activeSelf);
->>>>>>> master
             //Question();
             // ------------------------------
 
