@@ -81,11 +81,10 @@ public class HackMain : MonoBehaviour {
     /// <returns></returns>
     private bool Timer()
     {
-        timer -= Time.deltaTime;
-        time.text = "Timer: " + timer.ToString("f1");
-        if (patte._PatteringPlay)
+        if (!patte._PatteringPlay)
         {
-            Time.timeScale = 0.0f;
+            timer -= Time.deltaTime;
+            time.text = "Timer: " + timer.ToString("f1");
         }
         if(timer < 0f)
         {
