@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using DG.Tweening;
 
 public class HackMain : MonoBehaviour {
     
@@ -33,6 +32,7 @@ public class HackMain : MonoBehaviour {
     private bool _allClear = false;
     [HideInInspector]
     public bool _timerActive = false;
+    private bool _overTime = false;
 
     // Use this for initialization
     void Start () {
@@ -44,12 +44,13 @@ public class HackMain : MonoBehaviour {
         Theme();
         _allClear = false;
         _timerActive = false;
+        _overTime = false;
 	}
 
 	// Update is called once per frame
 	void Update () {
         StartCoroutine(StartedTimer());
-        if (into_pc._compariClear && patte._lowAnimClear)
+        if (into_pc._compariClear && patte._lowAnimClear && patte._speedyAnimClear)
         {
             if (!_allClear)
             {
@@ -60,9 +61,13 @@ public class HackMain : MonoBehaviour {
         }
     }
 
+    /// <summary>
+    /// スタート時少し待つ処理
+    /// </summary>
+    /// <returns></returns>
     private IEnumerator StartedTimer()
     {
-        yield return new WaitForSeconds(3f);
+        yield return new WaitForSeconds(1.8f);
         Timer();
     }
 
@@ -91,12 +96,16 @@ public class HackMain : MonoBehaviour {
         }
         else
             _timerActive = false;
-
+        
         if(timer < 0f)
         {
-            time.text = "Timer: 0.0";
-            Common.Instance.clearFlag[Common.Instance.isClear] = false;
-            Common.Instance.ChangeScene(Common.SceneName.Result);
+            if (!_overTime)
+            {
+                _overTime = true;
+                time.text = "Timer: 0.0";
+                Common.Instance.clearFlag[Common.Instance.isClear] = false;
+                Common.Instance.ChangeScene(Common.SceneName.Result);
+            }
         }
         return (timer < 0f);
     }
@@ -135,8 +144,7 @@ public class HackMain : MonoBehaviour {
 
         theme_obj.GetComponentInChildren<Text>(true).text = _chipped[rand_theme].ToString();
         Animator anim = theme_obj.GetComponent<Animator>();
-        anim.Play("ThemeAnimation");
         
-        StartCoroutine(Wait_Time(3f));
+        StartCoroutine(Wait_Time(1.8f));
     }
 }

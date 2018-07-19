@@ -152,7 +152,7 @@ public class HackTap : MonoBehaviour
                 IntoPC.transform.localPosition = new Vector2(0, 0);
                 Window.SetActive(false);
                 pat.transform.SetSiblingIndex(2);
-                StartCoroutine(patte.Start_LowWaitTime(1.0f));
+                StartCoroutine(patte.Start_AnimWaitTime(true));
                 _lowAnim = true;
                 break;
             case 15:
@@ -161,7 +161,7 @@ public class HackTap : MonoBehaviour
                 IntoPC.transform.localPosition = new Vector2(0, 0);
                 Window.SetActive(false);
                 pat.transform.SetSiblingIndex(2);
-                StartCoroutine(patte.Start_SpeedyWaitTime(1.0f));
+                StartCoroutine(patte.Start_AnimWaitTime(false));
                 _animloop = true;
                 break;
             case 26:
