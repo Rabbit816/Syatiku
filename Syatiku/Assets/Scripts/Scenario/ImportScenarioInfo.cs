@@ -161,6 +161,15 @@ public class ImportScenarioInfo : MonoBehaviour {
                 window.Init();
             });
         }
+        else if (text.Contains("bgi"))
+        {
+            //背景画像
+            scenario.commandActionList.Add(() =>
+            {
+                string imagePath = "Scenario/" + TakeTextInfo(text);
+                SetSprite(window.bgi, imagePath);
+            });
+        }
     }
 
     /// <summary>
@@ -251,6 +260,9 @@ public class ImportScenarioInfo : MonoBehaviour {
         {
             case "character":
                 target = GetTargetImage(text);
+                break;
+            case "background":
+                target = window.bgi;
                 break;
         }
 
