@@ -16,8 +16,6 @@ public class HackMain : MonoBehaviour {
     private GameObject theme_obj;
     [SerializeField, Tooltip("画面をタップできないように遮るObject")]
     private GameObject Dont_Tap;
-    [SerializeField, Tooltip("Canvas")]
-    private CanvasScaler canvasScaler;
 
     private string str_quest;
     private string str_answer;
@@ -46,7 +44,6 @@ public class HackMain : MonoBehaviour {
         Theme();
         _allClear = false;
         _timerActive = false;
-        CanvasAction();
 	}
 
 	// Update is called once per frame
@@ -65,15 +62,10 @@ public class HackMain : MonoBehaviour {
 
     private IEnumerator StartedTimer()
     {
-        yield return new WaitForSeconds(1.8f);
-        
+        yield return new WaitForSeconds(3f);
         Timer();
     }
 
-    private void CanvasAction()
-    {
-        canvasScaler.referenceResolution = new Vector2(400f, 600);
-    }
     /// <summary>
     /// time秒数内までどのボタンも押せなくする
     /// </summary>
@@ -145,6 +137,6 @@ public class HackMain : MonoBehaviour {
         Animator anim = theme_obj.GetComponent<Animator>();
         anim.Play("ThemeAnimation");
         
-        StartCoroutine(Wait_Time(1.8f));
+        StartCoroutine(Wait_Time(3f));
     }
 }

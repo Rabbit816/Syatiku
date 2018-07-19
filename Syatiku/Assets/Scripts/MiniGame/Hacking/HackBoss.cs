@@ -2,6 +2,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
+using DG.Tweening;
 
 public class HackBoss : MonoBehaviour {
 
@@ -111,7 +112,8 @@ public class HackBoss : MonoBehaviour {
     /// </summary>
     public void MoveBoss()
     {
-        Boss.transform.localPosition = new Vector2(Boss.transform.localPosition.x + 133, -130);
+        RectTransform boss_rect = Boss.GetComponent<RectTransform>();
+        boss_rect.transform.DOMoveX(boss_rect.transform.position.x + 2.6f, 0.5f);
         comingCount++;
         if (comingCount%4 == 0)
         {
