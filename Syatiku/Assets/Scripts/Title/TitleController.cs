@@ -22,7 +22,7 @@ public class TitleController : MonoBehaviour {
     {
         Common.Instance.gameMode = mode;
         if (mode == 0)
-            Common.Instance.actionCount = 1;
+            Common.Instance.actionCount = 2;
         else
             Common.Instance.actionCount = 1;
 

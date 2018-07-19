@@ -168,12 +168,18 @@ public class IntoPCAction : MonoBehaviour {
         {
             comp_btn.SetActive(false);
             _compariClear = true;
+            Common.Instance.dataFlag[2] = true;
+            Common.Instance.dataFlag[3] = true;
+            Common.Instance.clearFlag[Common.Instance.isClear] = true;
+            Common.Instance.ChangeScene(Common.SceneName.Result);
             OutTap();
         }
 
         if(tappingCount == 0)
         {
-            hack_boss.ComeOnBoss();
+            Common.Instance.dataFlag[2] = false;
+            Common.Instance.clearFlag[Common.Instance.isClear] = true;
+            Common.Instance.ChangeScene(Common.SceneName.Result);
         }
     }
 
