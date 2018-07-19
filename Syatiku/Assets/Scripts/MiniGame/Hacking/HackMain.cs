@@ -2,11 +2,12 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using DG.Tweening;
 
 public class HackMain : MonoBehaviour {
     
     [SerializeField,Tooltip("時間制限初期値")]
-    private float timer = 30.0f;
+    public float timer = 30.0f;
     [SerializeField,Tooltip("時間Text")]
     private Text time;
     [SerializeField,Tooltip("お題の名前")]
@@ -15,9 +16,8 @@ public class HackMain : MonoBehaviour {
     private GameObject theme_obj;
     [SerializeField, Tooltip("画面をタップできないように遮るObject")]
     private GameObject Dont_Tap;
-
-    [HideInInspector]
-    public int comingCount = 0;
+    [SerializeField, Tooltip("カメラ")]
+    private Camera cam;
 
     private string str_quest;
     private string str_answer;
@@ -30,18 +30,23 @@ public class HackMain : MonoBehaviour {
     private IntoPCAction into_pc;
     private PatteringEvent patte;
     private HackMeishi hack_meishi;
+    private HackBoss hack_boss;
 
     private bool _allClear = false;
+    [HideInInspector]
+    public bool _timerActive = false;
 
     // Use this for initialization
     void Start () {
         into_pc = GetComponent<IntoPCAction>();
         patte = GetComponent<PatteringEvent>();
+        hack_boss = GetComponent<HackBoss>();
         Dont_Tap.SetActive(true);
         ReadText();
-        comingCount = 0;
         Theme();
         _allClear = false;
+        _timerActive = false;
+        CameraAction();
 	}
 
 	// Update is called once per frame
@@ -64,6 +69,15 @@ public class HackMain : MonoBehaviour {
         Timer();
     }
 
+    private void CameraAction()
+    {
+        RectTransform cam_rect = cam.GetComponent<RectTransform>();
+        Sequence seq = DOTween.Sequence();
+        cam.orthographicSize = 1;
+        cam.DOOrthoSize(1f, 1f);
+        //seq.Append(cam.transform.DOLocalMove(cam.transform.forward * -10, 1f));
+        //seq.Append(cam.transform.DOLocalMove(cam.transform.forward * 10, 0.8f));
+    }
     /// <summary>
     /// time秒数内までどのボタンも押せなくする
     /// </summary>
@@ -81,11 +95,15 @@ public class HackMain : MonoBehaviour {
     /// <returns></returns>
     private bool Timer()
     {
-        if (!patte._PatteringPlay)
+        if (!patte._PatteringPlay && !hack_boss._choosing)
         {
+            _timerActive = true;
             timer -= Time.deltaTime;
             time.text = "Timer: " + timer.ToString("f1");
         }
+        else
+            _timerActive = false;
+
         if(timer < 0f)
         {
             time.text = "Timer: 0.0";

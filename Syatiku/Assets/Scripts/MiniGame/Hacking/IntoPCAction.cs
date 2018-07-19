@@ -161,7 +161,6 @@ public class IntoPCAction : MonoBehaviour {
             case 2:
                 tappingCount--;
                 CountText.text = tappingCount.ToString();
-                hack_boss.MoveBoss();
                 break;
         }
 
@@ -193,7 +192,6 @@ public class IntoPCAction : MonoBehaviour {
             else
             {
                 _isResult = false;
-                hack_boss.MoveBoss();
                 StartCoroutine(WaitTime(1.5f));
                 break;
             }
@@ -209,7 +207,6 @@ public class IntoPCAction : MonoBehaviour {
             else
             {
                 _isResult = false;
-                hack_boss.MoveBoss();
                 StartCoroutine(WaitTime(1.5f));
                 break;
             }
