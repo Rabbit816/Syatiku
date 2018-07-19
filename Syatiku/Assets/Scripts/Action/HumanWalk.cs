@@ -22,37 +22,22 @@ public class HumanWalk : MonoBehaviour {
     private float posX;
     private int moveDir = 1;
     private bool dirFlag = false;
-    
+    private Transform humanTransform; // humanUIのTransform
+
     void Start () {
         randTime = Random.Range(1, 6);// ランダムに時間を取得
         posX = transform.localPosition.x;
+        humanTransform = gameObject.transform.GetChild(0).transform.GetChild(0);
     }
 	
 	void Update () {
         beginTime += Time.deltaTime; // walk開始の時間まで
         if (beginTime >= randTime && !isWalk)
-        {
-            var humanTransform = gameObject.transform.GetChild(0).transform.GetChild(0); // humanUIのTransform
-            if (transform.localPosition.x > posX + 100) // positionで移動方向を決める
-            {
-                if (moveDir == -1) dirFlag = false;
-
-                if(dirFlag)
-                    humanTransform.localScale = new Vector2(humanTransform.localScale.x * -1, 1);
-                moveDir = -1;
-            }else if(transform.localPosition.x < posX)
-            {
-                if (moveDir == 1) dirFlag = true;
-                if (dirFlag)
-                    humanTransform.localScale = new Vector2(humanTransform.localScale.x * moveDir, 1);
-                moveDir = 1;
-            }
-                Walk(humanTransform);
-        }
+            Walk(humanTransform);
 	}
 
     /// <summary>
-    /// 歩行する関数
+    /// 歩行関数
     /// </summary>
     /// <returns></returns>
     public void Walk(Transform human)
@@ -60,8 +45,12 @@ public class HumanWalk : MonoBehaviour {
         isWalk = true;
         human.GetComponent<Image>().sprite = walk;  // 画像変更
 
-        var randDis = Random.Range(minDis, maxDis); // ランダムな値取得
-        randDis *= moveDir;
+        float randDis;
+
+        if (!dirFlag)
+            randDis = Random.Range(minDis, maxDis); // ランダムな値取得
+        else
+            randDis = Random.Range(-maxDis, -minDis); // ランダムな値取得
 
         var distance = transform.localPosition.x + randDis; // 移動距離
             
@@ -75,6 +64,29 @@ public class HumanWalk : MonoBehaviour {
                 randTime = Random.Range(1, 6);
                 beginTime = 0; // 開始時間を初期化
                 isWalk = false;
+                HumanDirection();
             });
+    }
+
+    /// <summary>
+    /// 人間の向き設定
+    /// </summary>
+    public void HumanDirection()
+    {
+        if (transform.localPosition.x < posX) // 左移動
+        {
+            if (!dirFlag) return;
+            dirFlag = false;
+            humanTransform.localScale = new Vector2(1, 1);
+            moveDir = -1;
+        }
+        else if (transform.localPosition.x > posX + 100) // 右移動
+        {
+            if (dirFlag) return;
+            dirFlag = true;
+            humanTransform.localScale = new Vector2(-1, 1);
+            
+            moveDir = 1;
+        }
     }
 }
