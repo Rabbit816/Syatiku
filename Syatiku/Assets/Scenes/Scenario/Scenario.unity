@@ -360,7 +360,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1447571181
 RectTransform:
   m_ObjectHideFlags: 0
@@ -498,36 +498,6 @@ Prefab:
       propertyPath: m_Camera
       value: 
       objectReference: {fileID: 758613620}
-    - target: {fileID: 224373053013691218, guid: 77db41429cd14754c9e8cc09c9be2b1c,
-        type: 2}
-      propertyPath: m_AnchorMin.x
-      value: 0.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 224373053013691218, guid: 77db41429cd14754c9e8cc09c9be2b1c,
-        type: 2}
-      propertyPath: m_AnchorMin.y
-      value: 0.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 224373053013691218, guid: 77db41429cd14754c9e8cc09c9be2b1c,
-        type: 2}
-      propertyPath: m_AnchorMax.x
-      value: 0.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 224373053013691218, guid: 77db41429cd14754c9e8cc09c9be2b1c,
-        type: 2}
-      propertyPath: m_AnchorMax.y
-      value: 0.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 224373053013691218, guid: 77db41429cd14754c9e8cc09c9be2b1c,
-        type: 2}
-      propertyPath: m_AnchoredPosition.x
-      value: -295
-      objectReference: {fileID: 0}
-    - target: {fileID: 224373053013691218, guid: 77db41429cd14754c9e8cc09c9be2b1c,
-        type: 2}
-      propertyPath: m_AnchoredPosition.y
-      value: 180
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 77db41429cd14754c9e8cc09c9be2b1c, type: 2}
   m_IsPrefabParent: 0

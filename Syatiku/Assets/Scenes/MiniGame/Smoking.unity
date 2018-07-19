@@ -854,15 +854,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   tabaco: {fileID: 1728830217}
   face: {fileID: 102168450}
-  time: 50
   wordText:
   - {fileID: 1194486807}
   - {fileID: 255097595}
   - {fileID: 252047616}
   - {fileID: 829758239}
   answer: {fileID: 1053199033}
-  answerCount: 3
-  scenarioWin: {fileID: 1612939384}
+  time: 50
+  answerCount: 2
   qLength: 6
   selectUI: {fileID: 1654543771}
 --- !u!4 &930555886
@@ -1435,11 +1434,6 @@ MonoBehaviour:
         m_CallState: 2
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
---- !u!1 &1612939384 stripped
-GameObject:
-  m_PrefabParentObject: {fileID: 1366464488561138, guid: 77db41429cd14754c9e8cc09c9be2b1c,
-    type: 2}
-  m_PrefabInternal: {fileID: 818720834}
 --- !u!1 &1654543771
 GameObject:
   m_ObjectHideFlags: 0
@@ -1454,7 +1448,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1654543772
 RectTransform:
   m_ObjectHideFlags: 0

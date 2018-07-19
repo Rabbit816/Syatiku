@@ -5,27 +5,32 @@ using UnityEngine.UI;
 
 public class SmokingController : MonoBehaviour {
     [SerializeField]
-    private Image tabaco,face;
+    private Image tabaco,face; // タバコUI、機嫌UI
     [SerializeField]
-    private float time;
+    private Text[] wordText = new Text[4]; // 選択肢テキスト
     [SerializeField]
-    private Text[] wordText = new Text[4];
-    [SerializeField]
-    private Text answer;
-    [SerializeField]
-    private int answerCount;
-    private int firstAnswerCount;
-    [SerializeField]
-    private GameObject scenarioWin;
-    
-    private ScenarioController scenario;
+    private Text answer; // 問題テキスト
 
-    private Mushikui mushikui; // Mushikuiコンストラクタ
-    private int qNum; // 今が何番目の問題か
-    private int succesCount; // 正解数
+    [SerializeField]
+    private float time; // 制限時間減少値
+    [SerializeField]
+    private int answerCount; // 回答権
     [SerializeField]
     private int qLength; // 合計問題数
 
+    private Mushikui mushikui; // Mushikuiコンストラクタ
+
+    private int succesCount,qNum; // 正解数、今が何番目の問題か
+
+    bool isTime = false; // タイマースタートフラグ
+
+    bool timeOver = false; // タイムオーバーフラグ
+
+    bool onceFlag = false; // 失敗時のシーン遷移フラグ
+
+    bool successFlag = false;
+
+    // パス-----------------------------------------------------------------------
     private string musiFilePath = "CSV/Smoking3"; // CSVパス名
 
     private string talkFilePath = "Text/Smoking/"; // 会話パートテキストパス名
@@ -33,18 +38,13 @@ public class SmokingController : MonoBehaviour {
     private string smokePath = "SmokingTalk"; // 喫煙シナリオのPath
 
     private string badSmokePath = "Bad/SmokingTalkBad"; // 喫煙BadシナリオPath
+    // ---------------------------------------------------------------------------
 
-    bool isTime = false; // タイマースタートフラグ
+    private bool[] badFlags = { false, false, false }; // 不正解フラグ
 
-    bool timeOver = false; // タイムオーバーフラグ
+    private Vector2 tabacoSize; // タバコUIの大きさ
 
-    private bool badFlag = false;
-
-    private Vector2 tabacoSize;
-
-    public GameObject selectUI;
-
-    private Coroutine timeDown;
+    public GameObject selectUI; // 選択肢UI
 
     // Use this for initialization
     void Start () {
@@ -52,30 +52,39 @@ public class SmokingController : MonoBehaviour {
 
         selectUI.SetActive(false); // 回答選択UIを非表示
         
-        firstAnswerCount = answerCount; // 回答権を設定
-        
         succesCount = 0; // 正解数
 
         tabacoSize = tabaco.rectTransform.sizeDelta; // 制限時間のUIの長さを設定
         //StartCoroutine(TimeDown());
 
-        mushikui = new Mushikui(musiFilePath);
+        mushikui = new Mushikui(musiFilePath); // 虫食いデータ作成
 
-        Question();
-	}
+        Question(); // 問題読み込み
+    }
 
     
     void Update(){
-        if (ScenarioController.Instance.IsReachLastInfo()) {
-            if(!badFlag) StartCoroutine(SelectStart());
-            else
+        if (ScenarioController.Instance.IsReachLastInfo())
+            if (successFlag)
             {
-                IsScenario(talkFilePath + qNum.ToString());
-                badFlag = false;
+                successFlag = false;
+                Common.Instance.ChangeScene(Common.SceneName.Result);
             }
-            
-            Debug.Log("Callaaaa");
-        }
+            if(!badFlags[answerCount])          // 成功時のシナリオ
+                StartCoroutine(SelectStart());
+            else                                // 失敗時のシナリオ
+            {
+                if(answerCount == 0 && !onceFlag)
+                {
+                    onceFlag = true;
+                    Common.Instance.ChangeScene(Common.SceneName.Result);
+                    return;
+                }
+
+                if (onceFlag) return;
+                answerCount--;
+                IsScenario(talkFilePath + smokePath + qNum.ToString());
+            }
 
         if (tabaco.rectTransform.sizeDelta.x < 0)
             if (!timeOver){
@@ -83,12 +92,6 @@ public class SmokingController : MonoBehaviour {
                 Common.Instance.ChangeScene(Common.SceneName.Result);
             }
     }
-
-    public void InitCorutine() {
-        timeDown = null;
-        timeDown = StartCoroutine(TimeDown());
-    }
-
 
     public IEnumerator TimeDown(){
         while (tabaco.rectTransform.sizeDelta.x > 0 && isTime)
@@ -114,7 +117,6 @@ public class SmokingController : MonoBehaviour {
         
         if (!isTime)
         {
-            Debug.Log("Call");
             isTime = true;
             selectUI.SetActive(true);
             if (selectUI.activeSelf)
@@ -129,69 +131,37 @@ public class SmokingController : MonoBehaviour {
     /// </summary>
     /// <param name="text"></param>
     public void OnClick(Text text) {
-        if (tabaco.rectTransform.sizeDelta.x <= 0) return;
 
-        qNum++;
+        // 回答後の共通の値変化と初期化--------------------
+        isTime = false;
         qLength--;
-        Invoke("AA", 0.1f);
-
-        Debug.Log(text.text);
+        tabaco.transform.GetChild(0).GetComponent<Image>().color = Color.white;
+        tabaco.rectTransform.sizeDelta = tabacoSize;
+        //-------------------------------------------------
+        
         if (text.text == mushikui.data[qNum].Musikui) {
             Debug.Log("〇");
+            qNum++; // 問題Noを加算
+            succesCount++; // 正解数を加算
 
-            succesCount++;
-            
             if (qLength <= 0) {
+                isTime = true;
+                Invoke("AA", 0.01f);
                 Result();
                 return;
             }
 
-            // 初期化と会話表示非表示---------
-            face.color = Color.white;
-            tabaco.transform.GetChild(0).GetComponent<Image>().color = Color.white;
-            tabaco.rectTransform.sizeDelta = tabacoSize;
-
-            answerCount = firstAnswerCount;
-
-            IsScenario(talkFilePath + qNum.ToString());
-
-            isTime = false;
-            //selectUI.SetActive(false);
-            Debug.Log("Active=" + selectUI.activeSelf);
-            //Question();
-            // ------------------------------
+            IsScenario(talkFilePath + smokePath + qNum.ToString());
 
         } else {
             Debug.Log("×");
+            qNum++;
 
-            badFlag = true;
-
-            answerCount--;
-            //tabaco.rectTransform.sizeDelta -= new Vector2(50f, 0);
+            badFlags[answerCount] = true;
 
             IsScenario(talkFilePath + badSmokePath + answerCount.ToString());
-
-            //ScenarioController.Instance.BeginScenario("");
-
-            //switch (answerCount)
-            //{
-            //    case 3:
-            //        face.color = Color.white;
-            //        break;
-            //    case 2:
-            //        face.color = Color.yellow;
-            //        break;
-            //    case 1:
-            //        face.color = Color.red;
-            //        break;
-            //    case 0:
-            //        Common.Instance.clearFlag[Common.Instance.isClear] = false;
-            //        Common.Instance.ChangeScene(Common.SceneName.Result);
-            //        break;
-            //    default:
-            //        break;
-            //}
         }
+        Invoke("AA", 0.01f);
     }
 
     /// <summary>
@@ -224,6 +194,8 @@ public class SmokingController : MonoBehaviour {
         if(succesCount >= 3)
         {
             Common.Instance.clearFlag[Common.Instance.isClear] = true;
+            IsScenario("GoodSmokingTalk");
+            successFlag = true;
         }
         else
         {

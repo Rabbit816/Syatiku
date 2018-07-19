@@ -7,6 +7,8 @@ public class ScenarioWindow : MonoBehaviour
     public Vector3 closeMenuPos;
     public Vector3 opneMenuPos;
 
+    public Image bgi;
+
     public Text name;
     public Text message;
     public Text logText;
@@ -45,5 +47,7 @@ public class ScenarioWindow : MonoBehaviour
         //キャンバス
         scenarioCanvas.alpha = 0.01f;
         gameObject.SetActive(false);
+
+        bgi.sprite = null;
     }
 }
