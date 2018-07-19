@@ -51,6 +51,7 @@ public class HackBoss : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+        //ボスランダム処理
         if (hack_main._timerActive)
         {
             req -= Time.deltaTime;
@@ -66,7 +67,7 @@ public class HackBoss : MonoBehaviour {
                 req = 3f;
             }
         }
-
+       //ボスが来た時のタイマー処理
         if (_commingboss)
         {
             Bosswait -= Time.deltaTime;

@@ -13161,7 +13161,7 @@ Camera:
   m_TargetDisplay: 0
   m_TargetEye: 3
   m_HDR: 1
-  m_AllowMSAA: 1
+  m_AllowMSAA: 0
   m_ForceIntoRT: 0
   m_OcclusionCulling: 1
   m_StereoConvergence: 10
@@ -15541,10 +15541,10 @@ MonoBehaviour:
   - "\u6C17\u4ED8\u304B\u308C\u305A\u306B\u63A2\u305B\uFF01"
   theme_obj: {fileID: 343721277}
   Dont_Tap: {fileID: 339106967}
-  cam: {fileID: 1632279890}
-  comingCount: 0
+  canvasScaler: {fileID: 468090203}
   Quest_list: []
   Answer_list: []
+  _timerActive: 0
 --- !u!114 &1906215261
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -15647,7 +15647,9 @@ MonoBehaviour:
   Zoom: {fileID: 255212047}
   ChooseObject: {fileID: 1368459151}
   chose_text: {fileID: 600709176}
+  comingCount: 0
   BossTimer: 10
+  _choosing: 0
 --- !u!114 &1906215266
 MonoBehaviour:
   m_ObjectHideFlags: 0
