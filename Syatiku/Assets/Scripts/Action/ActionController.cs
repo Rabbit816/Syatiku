@@ -38,10 +38,6 @@ public class ActionController : MonoBehaviour {
     [SerializeField]
     private Image humanPrefab;
 
-    // ボスボタン
-    [SerializeField]
-    private Image bossButton;
-
     [SerializeField]
     private Image worning;
 
@@ -56,12 +52,14 @@ public class ActionController : MonoBehaviour {
 
     void Start () {
 
-        IsDataSelect();
+        //if (Common.Instance.actionCount == 0)
+        //{
+        //    worning.gameObject.SetActive(true);
+        //    StartCoroutine(IsWorning());
+        //    return;
+        //}
 
-        if (Common.Instance.actionCount <= 0)
-            bossButton.gameObject.SetActive(true); // 行動回数が０ならBossアイコンを表示
-        else
-            bossButton.gameObject.SetActive(false); // そうでないならBossアイコンを非表示
+        IsDataSelect();
 
         action.text = Common.Instance.actionCount.ToString();
 
@@ -76,17 +74,18 @@ public class ActionController : MonoBehaviour {
         Common.Instance.Shuffle(sceneNum);
 
         CreateHuman();
-        if(Common.Instance.actionCount == 0)
-        {
-            worning.gameObject.SetActive(true);
-            StartCoroutine(IsWorning());
-        }
+        
     }
 
+    /// <summary>
+    /// Boss戦
+    /// </summary>
+    /// <returns></returns>
     public IEnumerator IsWorning()
     {
         yield return new WaitForSeconds(5f);
-        worning.gameObject.SetActive(false);
+        //worning.gameObject.SetActive(false);
+        Common.Instance.ChangeScene(Common.SceneName.Boss);
     }
 
     /// <summary>
@@ -135,12 +134,6 @@ public class ActionController : MonoBehaviour {
         else datailOpen = true;
     }
 
-    // Boss遷移
-    public void ChangeBoss()
-    {
-        Common.Instance.ChangeScene(Common.SceneName.Boss);
-    }
-
     /// <summary>
     /// ミニゲーム遷移
     /// </summary>
@@ -149,6 +142,7 @@ public class ActionController : MonoBehaviour {
         foreach (var i in sceneNum)
         {
             Image mini = Instantiate(humanPrefab, humanClone.transform) as Image;
+            mini.name = mini.name.Replace("(Clone)",i.ToString());
             mini.transform.localPosition = createPos[i].transform.localPosition;
 
             Image s_mini = mini.transform.GetChild(0).transform.GetChild(1).transform.GetChild(0).GetComponent<Image>();
