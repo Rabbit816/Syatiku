@@ -10,6 +10,8 @@ public class SmokingController : MonoBehaviour {
     private Text[] wordText = new Text[4]; // 選択肢テキスト
     [SerializeField]
     private Text answer; // 問題テキスト
+    [SerializeField]
+    private Sprite[] faceSprite; // 機嫌画像
 
     [SerializeField]
     private float time; // 制限時間減少値
@@ -29,6 +31,8 @@ public class SmokingController : MonoBehaviour {
     bool onceFlag = false; // 失敗時のシーン遷移フラグ
 
     bool successFlag = false;
+
+    bool resultFlag = false;
 
     // パス-----------------------------------------------------------------------
     private string musiFilePath = "CSV/Smoking3"; // CSVパス名
@@ -65,32 +69,45 @@ public class SmokingController : MonoBehaviour {
     
     void Update(){
         if (ScenarioController.Instance.IsReachLastInfo())
-            if (successFlag)
+        {
+            if (resultFlag)
             {
-                successFlag = false;
+                answerCount = 2;
+                resultFlag = false;
                 Common.Instance.ChangeScene(Common.SceneName.Result);
             }
-            if(!badFlags[answerCount])          // 成功時のシナリオ
+            //if (successFlag)
+            //{
+            //    successFlag = false;
+            //    Common.Instance.ChangeScene(Common.SceneName.Result);
+            //    return;
+            //}
+            if (!badFlags[answerCount])          // 成功時のシナリオ
                 StartCoroutine(SelectStart());
             else                                // 失敗時のシナリオ
             {
-                if(answerCount == 0 && !onceFlag)
+                if (answerCount == 0 && !onceFlag)
                 {
                     onceFlag = true;
-                    Common.Instance.ChangeScene(Common.SceneName.Result);
+                    //Result();
                     return;
                 }
 
-                if (onceFlag) return;
+                if (qLength == 0 && !onceFlag) return;
                 answerCount--;
+                face.sprite = faceSprite[answerCount];
+
                 IsScenario(talkFilePath + smokePath + qNum.ToString());
             }
 
         if (tabaco.rectTransform.sizeDelta.x < 0)
-            if (!timeOver){
+            if (!timeOver)
+            {
                 timeOver = true;
-                Common.Instance.ChangeScene(Common.SceneName.Result);
+                Result();
+                //Common.Instance.ChangeScene(Common.SceneName.Result);
             }
+        }
     }
 
     public IEnumerator TimeDown(){
@@ -141,7 +158,6 @@ public class SmokingController : MonoBehaviour {
         
         if (text.text == mushikui.data[qNum].Musikui) {
             Debug.Log("〇");
-            qNum++; // 問題Noを加算
             succesCount++; // 正解数を加算
 
             if (qLength <= 0) {
@@ -151,13 +167,22 @@ public class SmokingController : MonoBehaviour {
                 return;
             }
 
+            qNum++; // 問題Noを加算
+
             IsScenario(talkFilePath + smokePath + qNum.ToString());
 
         } else {
             Debug.Log("×");
-            qNum++;
-
             badFlags[answerCount] = true;
+            if (qLength <= 0 || answerCount == 0)
+            {
+                isTime = true;
+                Invoke("AA", 0.01f);
+                Result();
+                return;
+            }
+
+            qNum++;
 
             IsScenario(talkFilePath + badSmokePath + answerCount.ToString());
         }
@@ -190,17 +215,17 @@ public class SmokingController : MonoBehaviour {
     }
 
     public void Result() {
-
-        if(succesCount >= 3)
+        qLength = 0;
+        resultFlag = true;
+        if(succesCount >= 4)
         {
             Common.Instance.clearFlag[Common.Instance.isClear] = true;
-            IsScenario("GoodSmokingTalk");
-            successFlag = true;
+            IsScenario(talkFilePath + "GoodSmokingTalk");
         }
         else
         {
             Common.Instance.clearFlag[Common.Instance.isClear] = false;
+            IsScenario(talkFilePath + badSmokePath + "0");
         }
-        Common.Instance.ChangeScene(Common.SceneName.Result);
     }
 }
