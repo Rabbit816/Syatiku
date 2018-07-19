@@ -17,6 +17,10 @@ public class TitleController : MonoBehaviour {
         SoundManager.Instance.PlayBGM(BGMName.Title);
     }
 
+    void Start() {
+        Common.Instance.Init();
+    }
+
     //モード選択
     public void ChangeMode(int mode)
     {

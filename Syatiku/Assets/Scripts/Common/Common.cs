@@ -56,12 +56,14 @@ public class Common : MonoBehaviour {
     [System.NonSerialized]
     public int gameMode; // シナリオがどちらか
 
+    // 初期化しない変数-----------------------------
     [SerializeField,Header("シーン遷移時の時間")]
     private float interval; // シーン遷移時の時間
     private bool isFading = false;
     private Color fadeColor = Color.black;
     private float fadeAlpha = 0;
     private static Common instance;
+    // --------------------------------------------
 
     [System.NonSerialized]
     public int actionCount; // 行動回数
@@ -76,6 +78,26 @@ public class Common : MonoBehaviour {
             }
             return instance;
         }
+    }
+
+    /// <summary>
+    /// 初期化
+    /// </summary>
+    public void Init() {
+        // dataFlag
+        for (int i = 0; i < dataFlag.Length; i++) {
+            dataFlag[i] = false;
+        }
+        // clearFlag
+        for (int i = 0; i < clearFlag.Length; i++) {
+            clearFlag[i] = false;
+        }
+        // isClear
+        isClear = -1;
+        // gameMode
+        gameMode = -1;
+        // actionCount
+        actionCount = 0;
     }
 
     // フェードのUIを描画
