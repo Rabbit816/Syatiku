@@ -20,6 +20,7 @@ public class HackBoss : MonoBehaviour {
     private Text chose_text;
     [HideInInspector]
     public int comingCount = 0;
+    private RectTransform boss_rect;
 
     private HackTap hack_tap;
     private HackMain hack_main;
@@ -34,6 +35,7 @@ public class HackBoss : MonoBehaviour {
     public bool _choosing = false;
     private int rand = 0;
     private float req = 3f;
+    private int rand_count = 0;
 
     // Use this for initialization
     void Start () {
@@ -41,12 +43,14 @@ public class HackBoss : MonoBehaviour {
         hack_main = GetComponent<HackMain>();
         patte = GetComponent<PatteringEvent>();
 
+        boss_rect = Boss.GetComponent<RectTransform>();
         ChooseObject.SetActive(false);
         ComeBoss.SetActive(false);
         _commingboss = false;
         _gameover = false;
         _choosing = false;
         comingCount = 0;
+        rand_count = 0;
         Bosswait = BossTimer + 0.1f;
 	}
 	
@@ -58,13 +62,15 @@ public class HackBoss : MonoBehaviour {
             req -= Time.deltaTime;
             if (req <= 0f)
             {
-                Debug.Log("Active_in");
                 rand = Random.Range(0, 2);
                 Debug.Log("Random:" + rand);
-                if (rand == 1 && !patte._PatteringPlay)
+                if ((rand == 1 && !patte._PatteringPlay) || rand_count == 3)
                 {
-                    MoveBoss();
-                }
+                    boss_rect.transform.DOMoveX(boss_rect.transform.position.x + 2.6f, 0.5f).SetEase(Ease.Linear).OnComplete(() => MoveBoss());
+                    rand_count = 0;
+                }else
+                    rand_count++;
+
                 req = 3f;
             }
         }
@@ -112,14 +118,11 @@ public class HackBoss : MonoBehaviour {
     /// </summary>
     public void MoveBoss()
     {
-        RectTransform boss_rect = Boss.GetComponent<RectTransform>();
-        boss_rect.transform.DOMoveX(boss_rect.transform.position.x + 2.6f, 0.5f);
         comingCount++;
         if (comingCount%4 == 0)
         {
             hack_tap.PlaceButton(11);
-            Zoom.transform.GetChild(3).gameObject.SetActive(false);
-            Zoom.transform.GetChild(4).gameObject.SetActive(false);
+            Zoom.SetActive(false);
             event_system.enabled = false;
             ComeOnBoss();
         }
@@ -131,6 +134,7 @@ public class HackBoss : MonoBehaviour {
     public void ComeOnBoss()
     {
         hack_tap.PlaceButton(13);
+        
         _choosing = true;
         if (!ComeBoss.activeSelf)
         {
@@ -147,5 +151,6 @@ public class HackBoss : MonoBehaviour {
         _chooseTap = true;
         ChooseObject.SetActive(false);
         _choosing = false;
+        Zoom.SetActive(true);
     }
 }

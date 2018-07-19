@@ -27,20 +27,14 @@ public class PatteringEvent : MonoBehaviour {
     private GameObject LowObject;
     [SerializeField, Tooltip("SpeedyAnimationで使うObject")]
     private GameObject SpeedyObject;
-    [SerializeField, Tooltip("Low Title Object")]
-    private RectTransform Low_Title;
-    [SerializeField, Tooltip("Speedy Title Object")]
-    private RectTransform Speedy_Title;
     [SerializeField]
     private EventSystem event_system;
     [SerializeField, Tooltip("Get_YellowPeper")]
     private GameObject Get_Yellow;
     [SerializeField, Tooltip("チェックできる所に出すObject")]
     private GameObject GotYellowPaperPrefab;
-    [SerializeField, Tooltip("Low TextのTextObject")]
-    private Text Low_text;
-    [SerializeField, Tooltip("Speedy TextのTextObject")]
-    private Text Speedy_text;
+    [SerializeField, Tooltip("Test Title")]
+    private RectTransform Title;
 
     private HackTap hack_tap;
     private HackBoss hack_boss;
@@ -53,6 +47,8 @@ public class PatteringEvent : MonoBehaviour {
 
     [HideInInspector]
     public bool _lowAnimClear = false;
+    [HideInInspector]
+    public bool _speedyAnimClear = false;
 
     private Sequence quen;
     private Sequence sequen;
@@ -69,6 +65,7 @@ public class PatteringEvent : MonoBehaviour {
         LowObject.SetActive(false);
         Get_Yellow.SetActive(false);
         _lowAnimClear = false;
+        _speedyAnimClear = false;
         _success = false;
         _PatteringPlay = false;
         successCount = 0;
@@ -121,45 +118,32 @@ public class PatteringEvent : MonoBehaviour {
     }
 
     /// <summary>
-    /// LowAnimationをスタートさせる時の処理
-    /// </summary>
-    /// <param name="time">待ち時間</param>
-    /// <returns></returns>
-    public IEnumerator Start_LowWaitTime(float time)
-    {
-        _PatteringPlay = true;
-        LowObject.SetActive(true);
-        Low_text.text = "黄色のページをタップしよう！";
-        event_system.enabled = false;
-        sequen.Append(Low_Title.DOLocalMoveX(0f, 1.0f));
-        yield return new WaitForSeconds(time);
-
-        sequen.Append(Low_Title.DOLocalMoveX(-600f, 1.0f)
-            .OnComplete(()=> event_system.enabled = true));
-        yield return new WaitForSeconds(0.5f);
-
-        LowAnim();
-    }
-
-    /// <summary>
     /// SpeedyAnimationをスタートさせる時の処理
     /// </summary>
     /// <param name="time">待ち時間</param>
     /// <returns></returns>
-    public IEnumerator Start_SpeedyWaitTime(float time)
+    public IEnumerator Start_AnimWaitTime(bool _lowAnim)
     {
         _PatteringPlay = true;
-        SpeedyObject.SetActive(true);
-        Speedy_text.text = "黄色のページをタップしよう！";
-        event_system.enabled = false;
-        quen.Append(Speedy_Title.DOLocalMoveX(0f, 1.0f));
-        yield return new WaitForSeconds(time);
+        if (_lowAnim)
+            LowObject.SetActive(true);
+        else
+            SpeedyObject.SetActive(true);
 
-        quen.Append(Speedy_Title.DOLocalMoveX(-600f, 1.0f)
-            .OnComplete(()=> event_system.enabled = true));
+        Title.GetChild(0).GetComponent<Text>().text = "黄色のページをタップしよう！";
+        event_system.enabled = false;
+        Title.transform.localPosition = new Vector2(599, 0);
+        quen.Append(Title.DOLocalMoveX(0f, 1.0f));
+        yield return new WaitForSeconds(1f);
+
+        quen.Append(Title.DOLocalMoveX(-600f, 1.0f)
+            .OnComplete(() => event_system.enabled = true));
         yield return new WaitForSeconds(0.5f);
 
-        SpeedyAnim();
+        if (_lowAnim)
+            LowAnim();
+        else
+            SpeedyAnim();
     }
 
     /// <summary>
@@ -169,7 +153,7 @@ public class PatteringEvent : MonoBehaviour {
     {
         if (!_success)
         {
-            hack_boss.MoveBoss();
+            Debug.Log("ミスってますよ");
         }
         else
         {
@@ -185,21 +169,18 @@ public class PatteringEvent : MonoBehaviour {
     /// <returns></returns>
     private IEnumerator End_Anim()
     {
-
-        Speedy_Title.transform.localPosition = new Vector2(700, 0);
-        Low_Title.transform.localPosition = new Vector2(700, 0);
+        Title.transform.localPosition = new Vector2(700, 0);
         event_system.enabled = false;
-        quen.Append(Speedy_Title.DOLocalMoveX(0f, 1.0f));
-        sequen.Append(Low_Title.DOLocalMoveX(0f, 1.0f));
+        quen.Append(Title.DOLocalMoveX(0f, 1.0f));
         yield return new WaitForSeconds(1.0f);
 
-        quen.Append(Speedy_Title.DOLocalMoveX(-600f, 1.0f)
-            .OnComplete(() => event_system.enabled = true));
-        sequen.Append(Low_Title.DOLocalMoveX(-600f, 1.0f)
+        quen.Append(Title.DOLocalMoveX(-600f, 1.0f)
             .OnComplete(() => event_system.enabled = true));
         yield return new WaitForSeconds(0.7f);
+
         PatteResult();
         event_system.enabled = true;
+        LowObject.SetActive(false);
         SpeedyObject.SetActive(false);
         _PatteringPlay = false;
     }
@@ -210,16 +191,12 @@ public class PatteringEvent : MonoBehaviour {
     private void PatteResult()
     {
         hack_tap.PlaceButton(11);
-
         if (successCount >= 2)
         {
-            _lowAnimClear = true;
             StartCoroutine(GotYellowPaperAnim());
             GameObject _get_yellow = Instantiate(GotYellowPaperPrefab, hack_tap.GetWord.transform);
             _get_yellow.transform.SetAsLastSibling();
         }
-        else
-            _lowAnimClear = false;
     }
 
     /// <summary>
@@ -250,7 +227,7 @@ public class PatteringEvent : MonoBehaviour {
            .InsertCallback(14.7f, () => { ChangeColor(1); _success = false; })
            .InsertCallback(18.5f, () => { ChangeColor(0); _success = true; })
            .InsertCallback(19.1f, () => { ChangeColor(1); _success = false; })
-           .OnComplete(() => { Low_Title.transform.GetComponentInChildren<Text>().text = "終了"; StartCoroutine(End_Anim()); });
+           .OnComplete(() => { Title.GetChild(0).GetComponent<Text>().text = "終了"; _lowAnimClear = true; StartCoroutine(End_Anim()); });
     }
 
     /// <summary>
@@ -268,6 +245,6 @@ public class PatteringEvent : MonoBehaviour {
            .InsertCallback(11.1f, () => { ChangeColor(3); _success = false; })
            .InsertCallback(16.8f, () => { ChangeColor(2); _success = true; })
            .InsertCallback(17.3f, () => { ChangeColor(3); _success = false; })
-           .OnComplete(() => { Speedy_Title.transform.GetComponentInChildren<Text>().text = "終了"; StartCoroutine(End_Anim()); });
+           .OnComplete(() => { Title.GetChild(0).GetComponent<Text>().text = "終了"; _speedyAnimClear = true; StartCoroutine(End_Anim()); });
     }
 }
