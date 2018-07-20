@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 public class TitleController : MonoBehaviour {
     [SerializeField]
-    private GameObject title;
+    private GameObject title,modeText;
 
     void Awake()
     {
@@ -14,10 +14,11 @@ public class TitleController : MonoBehaviour {
             var common = Instantiate(Resources.Load("Prefabs/Common/Common"));
             DontDestroyOnLoad(common);
         }
-        SoundManager.Instance.PlayBGM(BGMName.Title);
+        
     }
 
     void Start() {
+        SoundManager.Instance.PlayBGM(BGMName.Title);
         Common.Instance.Init();
     }
 
@@ -36,6 +37,7 @@ public class TitleController : MonoBehaviour {
     public void Select()
     {
         title.SetActive(false);
+        modeText.SetActive(true);
     }
 
 }
