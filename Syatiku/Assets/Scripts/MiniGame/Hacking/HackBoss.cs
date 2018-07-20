@@ -62,7 +62,7 @@ public class HackBoss : MonoBehaviour {
             req -= Time.deltaTime;
             if (req <= 0f)
             {
-                rand = Random.Range(0, 2);
+                rand = Random.Range(0, 3);
                 Debug.Log("Random:" + rand);
                 if ((rand == 1 && !patte._PatteringPlay) || rand_count == 3)
                 {
