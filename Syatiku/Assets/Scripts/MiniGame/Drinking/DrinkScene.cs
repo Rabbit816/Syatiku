@@ -5,11 +5,10 @@ using UnityEngine.UI;
 
 public class DrinkScene : MonoBehaviour {
     GameObject menuObject;
-    GameObject OrderCounter1;
-    GameObject OrderCounter2;
-    GameObject OrderCounter3;
-    GameObject OrderCounter4;
-    GameObject hukidashiObj;
+    GameObject OrderCounter1, OrderCounter2, OrderCounter3, OrderCounter4;
+    GameObject Hukidashi1, Hukidashi2, Hukidashi3, Hukidashi4;
+    GameObject Answer1, Answer2, Answer3, Answer4;
+    GameObject TapText;
     GameObject yakitoriObj;
     GameObject sakeObj;
     GameObject saladObj;
@@ -18,9 +17,6 @@ public class DrinkScene : MonoBehaviour {
     ButtonController button;
     Denmoku denmoku;
     Merter merter;
-
-    GameObject Answer1, Answer2, Answer3, Answer4;
-
 
     //商品を格納する配列
     private int[] foodsBox = new int[4];
@@ -32,6 +28,8 @@ public class DrinkScene : MonoBehaviour {
 
     private int[] Num = new int[4];
     private int NumCounter = 0;
+    private bool NextGameFlg;
+    
 
     //もとのOrderPosの中身の３番目までを保存しておく変数
     private float OriginPos1;
@@ -47,10 +45,10 @@ public class DrinkScene : MonoBehaviour {
         {
             this.foodsBox[i] = i;
         }
-        Common.Instance.Shuffle(foodsBox);
+        Common.Instance.Shuffle(this.foodsBox);
         
         //注文配列・個数配列
-        for(int i = 0; i < OrderBox.Length; i++)
+        for(int i = 0; i < this.OrderBox.Length; i++)
         {
             this.OrderBox[i] = this.foodsBox[i];
             this.OrderCounter[i] = Random.Range(1, 5);
@@ -67,19 +65,19 @@ public class DrinkScene : MonoBehaviour {
         {
             if(this.OrderPos[i] == OriginPos1)
             {
-                Num[i] = 0;
+                this.Num[i] = 0;
             }
             else if(this.OrderPos[i] == OriginPos2)
             {
-                Num[i] = 1;
+                this.Num[i] = 1;
             }
             else if(this.OrderPos[i] == OriginPos3)
             {
-                Num[i] = 2;
+                this.Num[i] = 2;
             }
             else
             {
-                Num[i] = 3;
+                this.Num[i] = 3;
             }
         }
     }
@@ -90,15 +88,11 @@ public class DrinkScene : MonoBehaviour {
         for (int i = 0; i < this.OrderBox.Length; i++)
         {
             yield return new WaitForSeconds(1.0f);
-            //吹き出しを表示
-            var hukidashi = Instantiate(this.hukidashiObj, new Vector2(OrderPos[i], 2.5f), Quaternion.identity);
-            hukidashi.transform.localScale = new Vector2(1.12f, 1.12f);
-            hukidashi.transform.parent = menuObject.transform;
+            
+            //吹き出しと注文数の表示
+            this.OrderHukidashi();
 
-            //注文数の表示
-            OrderNum();
-
-            switch (OrderBox[i])
+            switch (this.OrderBox[i])
             {
                 //やきとりを表示
                 case 0:
@@ -131,18 +125,19 @@ public class DrinkScene : MonoBehaviour {
             }
             //2秒後に表示された吹き出しと商品を消す
             yield return new WaitForSeconds(1.0f);
-            Delete();
-            OrderCounterOFF();
+            this.Delete();
+            this.OrderCounterOFF();
+            this.Hukidashi(false);
         }
         yield return new WaitForSeconds(1.0f);
-        button.DrinkSceneButtonON();
-        NumCounter = 0;
+        button.DrinkSceneButton(true);
+        this.NumCounter = 0;
 
     }
   
     public void Order()
     {
-        StartCoroutine("OrderMethod");
+        StartCoroutine(this.OrderMethod());
     }
 
     public void Delete()
@@ -155,161 +150,118 @@ public class DrinkScene : MonoBehaviour {
     }
 
     //注文の答えの表示
-    public void OrderAnswer()
+    public void Answer()
     {
-        StartCoroutine("Answer");
-    }
-    private IEnumerator Answer()
-    {
-        for (int i = 0; i < OrderBox.Length; i++)
+        for (int i = 0; i < this.OrderBox.Length; i++)
         {
             //吹き出しを表示
-            var hukidashi = Instantiate(hukidashiObj, new Vector2(OrderPos[i], 2.5f), Quaternion.identity);
-            hukidashi.transform.localScale = new Vector2(1.12f, 1.12f);
-            hukidashi.transform.parent = this.menuObject.transform;
+            this.Hukidashi(true);
 
-            switch (Num[i])
+            switch (this.Num[i])
             {
                 case 0:
-                    this.Answer1.gameObject.SetActive(true);
                     if (this.OrderBox[i] == denmoku.InputOrderBox[i])
                     {
                         if(this.OrderCounter[i] == denmoku.InputOrderCounter[i])
                         {
-                            this.Answer1.GetComponent<RectTransform>().localPosition = new Vector2(-300, 85);
-                            this.Answer1.GetComponent<Text>().text = "○";
-                            this.Answer1.GetComponent<Text>().color = new Color(255f / 255f, 0f / 255f, 0f / 255f, 255f / 255f);
-                            merter.AnswerCounter++;
+                            this.OutputAnswer1(true);
                         }
                         else
                         {
-                            this.Answer1.GetComponent<RectTransform>().localPosition = new Vector2(-300, 75);
-                            this.Answer1.GetComponent<Text>().text = "×";
-                            this.Answer1.GetComponent<Text>().color = new Color(40f / 255f, 0f / 255f, 255f / 255f, 255f / 255f);
+                            this.OutputAnswer1(false);
                         }
                     }
                     else
                     {
-                        this.Answer1.GetComponent<RectTransform>().localPosition = new Vector2(-300, 75);
-                        this.Answer1.GetComponent<Text>().text = "×";
-                        this.Answer1.GetComponent<Text>().color = new Color(40f / 255f, 0f / 255f, 255f / 255f, 255f / 255f);
+                        this.OutputAnswer1(false);
                     }
                     break;
                 case 1:
-                    this.Answer2.gameObject.SetActive(true);
                     if (this.OrderBox[i] == denmoku.InputOrderBox[i])
                     {
                         if (this.OrderCounter[i] == denmoku.InputOrderCounter[i])
                         {
-                            this.Answer2.GetComponent<RectTransform>().localPosition = new Vector2(-100, 85);
-                            this.Answer2.GetComponent<Text>().text = "○";
-                            this.Answer2.GetComponent<Text>().color = new Color(255f / 255f, 0f / 255f, 0f / 255f, 255f / 255f);
-                            merter.AnswerCounter++;
+                            this.OutputAnswer2(true);
                         }
                         else
                         {
-                            this.Answer2.GetComponent<RectTransform>().localPosition = new Vector2(-100, 75);
-                            this.Answer2.GetComponent<Text>().text = "×";
-                            this.Answer2.GetComponent<Text>().color = new Color(40f / 255f, 0f / 255f, 255f / 255f, 255f / 255f);
+                            this.OutputAnswer2(false);
                         }
                     }
                     else
                     {
-                        this.Answer2.GetComponent<RectTransform>().localPosition = new Vector2(-100, 75);
-                        this.Answer2.GetComponent<Text>().text = "×";
-                        this.Answer2.GetComponent<Text>().color = new Color(40f / 255f, 0f / 255f, 255f / 255f, 255f / 255f);
+                        this.OutputAnswer2(false);
                     }
                     break;
                 case 2:
-                    this.Answer3.gameObject.SetActive(true);
                     if (this.OrderBox[i] == denmoku.InputOrderBox[i])
                     {
                         if (this.OrderCounter[i] == denmoku.InputOrderCounter[i])
                         {
-                            this.Answer3.GetComponent<RectTransform>().localPosition = new Vector2(100, 85);
-                            this.Answer3.GetComponent<Text>().text = "○";
-                            this.Answer3.GetComponent<Text>().color = new Color(255f / 255f, 0f / 255f, 0f / 255f, 255f / 255f);
-                            merter.AnswerCounter++;
+                            this.OutputAnswer3(true);
                         }
                         else
                         {
-                            this.Answer3.GetComponent<RectTransform>().localPosition = new Vector2(100, 75);
-                            this.Answer3.GetComponent<Text>().text = "×";
-                            this.Answer3.GetComponent<Text>().color = new Color(40f / 255f, 0f / 255f, 255f / 255f, 255f / 255f);
+                            this.OutputAnswer3(false);
                         }
                     }
                     else
                     {
-                        this.Answer3.GetComponent<RectTransform>().localPosition = new Vector2(100, 75);
-                        this.Answer3.GetComponent<Text>().text = "×";
-                        this.Answer3.GetComponent<Text>().color = new Color(40f / 255f, 0f / 255f, 255f / 255f, 255f / 255f);
+                        this.OutputAnswer3(false);
                     }
                     break;
                 case 3:
-                    this.Answer4.gameObject.SetActive(true);
                     if (this.OrderBox[i] == denmoku.InputOrderBox[i])
                     {
                         if (this.OrderCounter[i] == denmoku.InputOrderCounter[i])
                         {
-                            this.Answer4.GetComponent<RectTransform>().localPosition = new Vector2(300, 85);
-                            this.Answer4.GetComponent<Text>().text = "○";
-                            this.Answer4.GetComponent<Text>().color = new Color(255f / 255f, 0f / 255f, 0f / 255f, 255f / 255f);
-                            merter.AnswerCounter++;
+                            this.OutputAnswer4(true);
                         }
                         else
                         {
-                            this.Answer4.GetComponent<RectTransform>().localPosition = new Vector2(300, 75);
-                            this.Answer4.GetComponent<Text>().text = "×";
-                            this.Answer4.GetComponent<Text>().color = new Color(40f / 255f, 0f / 255f, 255f / 255f, 255f / 255f);
+                            this.OutputAnswer4(false);
                         }
                     }
                     else
                     {
-                        this.Answer4.GetComponent<RectTransform>().localPosition = new Vector2(300, 75);
-                        this.Answer4.GetComponent<Text>().text = "×";
-                        this.Answer4.GetComponent<Text>().color = new Color(40f / 255f, 0f / 255f, 255f / 255f, 255f / 255f);
+                        this.OutputAnswer4(false);
                     }
                     break;
             }
         }
-        yield return new WaitForSeconds(1.5f);
-        this.Delete();
-        this.AnswerResultOFF();
-        button.NextGame.gameObject.SetActive(true);
+        this.NextGameFlg = true;
         merter.Moving();
         merter.AnswerCounter = 0;
+        this.TapText.gameObject.SetActive(true);
     }
     
-    public void OrderNum()
+    //注文を表示する際の、吹き出しと個数を表示させるメソッド
+    public void OrderHukidashi()
     {
         switch (Num[NumCounter])
         {
             case 0:
+                this.Hukidashi1.gameObject.SetActive(true);
                 this.OrderCounter1.gameObject.SetActive(true);
                 this.OrderCounter1.GetComponent<Text>().text = "× " + this.OrderCounter[NumCounter].ToString();
                 break;
             case 1:
+                this.Hukidashi2.gameObject.SetActive(true);
                 this.OrderCounter2.gameObject.SetActive(true);
                 this.OrderCounter2.GetComponent<Text>().text = "× " + this.OrderCounter[NumCounter].ToString();
                 break;
             case 2:
+                this.Hukidashi3.gameObject.SetActive(true);
                 this.OrderCounter3.gameObject.SetActive(true);
                 this.OrderCounter3.GetComponent<Text>().text = "× " + this.OrderCounter[NumCounter].ToString();
                 break;
             case 3:
+                this.Hukidashi4.gameObject.SetActive(true);
                 this.OrderCounter4.gameObject.SetActive(true);
                 this.OrderCounter4.GetComponent<Text>().text = "× " + this.OrderCounter[NumCounter].ToString();
                 break;
         }
         NumCounter++;
-    }
-
-    public void OrderCounterON()
-    {
-        this.OrderCounter1.gameObject.SetActive(true);
-        this.OrderCounter2.gameObject.SetActive(true);
-        this.OrderCounter3.gameObject.SetActive(true);
-        this.OrderCounter4.gameObject.SetActive(true);
     }
 
     public void OrderCounterOFF()
@@ -328,7 +280,85 @@ public class DrinkScene : MonoBehaviour {
         this.Answer4.gameObject.SetActive(false);
     }
 
-	void Start () {
+    public void Hukidashi(bool HukidashiFlg)
+    {
+        this.Hukidashi1.gameObject.SetActive(HukidashiFlg);
+        this.Hukidashi2.gameObject.SetActive(HukidashiFlg);
+        this.Hukidashi3.gameObject.SetActive(HukidashiFlg);
+        this.Hukidashi4.gameObject.SetActive(HukidashiFlg);
+    }
+
+    //注文の正誤判定の表示を管理するメソッド
+    public void OutputAnswer1(bool AnswerFlg)
+    {
+        this.Answer1.gameObject.SetActive(true);
+        if (AnswerFlg)
+        {
+            this.Answer1.GetComponent<RectTransform>().localPosition = new Vector2(-300, 85);
+            this.Answer1.GetComponent<Text>().text = "○";
+            this.Answer1.GetComponent<Text>().color = new Color(255f / 255f, 0f / 255f, 0f / 255f, 255f / 255f);
+            merter.AnswerCounter++;
+        }
+        else
+        {
+            this.Answer1.GetComponent<RectTransform>().localPosition = new Vector2(-300, 75);
+            this.Answer1.GetComponent<Text>().text = "×";
+            this.Answer1.GetComponent<Text>().color = new Color(40f / 255f, 0f / 255f, 255f / 255f, 255f / 255f);
+        }
+    }
+    public void OutputAnswer2(bool AnswerFlg)
+    {
+        this.Answer2.gameObject.SetActive(true);
+        if (AnswerFlg)
+        {
+            this.Answer2.GetComponent<RectTransform>().localPosition = new Vector2(-100, 85);
+            this.Answer2.GetComponent<Text>().text = "○";
+            this.Answer2.GetComponent<Text>().color = new Color(255f / 255f, 0f / 255f, 0f / 255f, 255f / 255f);
+            merter.AnswerCounter++;
+        }
+        else
+        {
+            this.Answer2.GetComponent<RectTransform>().localPosition = new Vector2(-100, 75);
+            this.Answer2.GetComponent<Text>().text = "×";
+            this.Answer2.GetComponent<Text>().color = new Color(40f / 255f, 0f / 255f, 255f / 255f, 255f / 255f);
+        }
+    }
+    public void OutputAnswer3(bool AnswerFlg)
+    {
+        this.Answer3.gameObject.SetActive(true);
+        if (AnswerFlg)
+        {
+            this.Answer3.GetComponent<RectTransform>().localPosition = new Vector2(100, 85);
+            this.Answer3.GetComponent<Text>().text = "○";
+            this.Answer3.GetComponent<Text>().color = new Color(255f / 255f, 0f / 255f, 0f / 255f, 255f / 255f);
+            merter.AnswerCounter++;
+        }
+        else
+        {
+            this.Answer3.GetComponent<RectTransform>().localPosition = new Vector2(100, 75);
+            this.Answer3.GetComponent<Text>().text = "×";
+            this.Answer3.GetComponent<Text>().color = new Color(40f / 255f, 0f / 255f, 255f / 255f, 255f / 255f);
+        }
+    }
+    public void OutputAnswer4(bool AnswerFlg)
+    {
+        this.Answer4.gameObject.SetActive(true);
+        if (AnswerFlg)
+        {
+            this.Answer4.GetComponent<RectTransform>().localPosition = new Vector2(300, 85);
+            this.Answer4.GetComponent<Text>().text = "○";
+            this.Answer4.GetComponent<Text>().color = new Color(255f / 255f, 0f / 255f, 0f / 255f, 255f / 255f);
+            merter.AnswerCounter++;
+        }
+        else
+        {
+            this.Answer4.GetComponent<RectTransform>().localPosition = new Vector2(300, 75);
+            this.Answer4.GetComponent<Text>().text = "×";
+            this.Answer4.GetComponent<Text>().color = new Color(40f / 255f, 0f / 255f, 255f / 255f, 255f / 255f);
+        }
+    }
+
+    void Start () {
         //ゲームの初期状態を用意する処理
         button = GetComponent<ButtonController>();
         denmoku = GetComponent<Denmoku>();
@@ -338,17 +368,22 @@ public class DrinkScene : MonoBehaviour {
         this.OrderCounter2 = GameObject.Find("DrinkingCounter/OrderCounter2");
         this.OrderCounter3 = GameObject.Find("DrinkingCounter/OrderCounter3");
         this.OrderCounter4 = GameObject.Find("DrinkingCounter/OrderCounter4");
-        this.hukidashiObj = Resources.Load<GameObject>("Prefabs/MiniGame/Drinking/hukidashi");
+        this.Hukidashi1 = GameObject.Find("Hukidashi/Hukidashi1");
+        this.Hukidashi2 = GameObject.Find("Hukidashi/Hukidashi2");
+        this.Hukidashi3 = GameObject.Find("Hukidashi/Hukidashi3");
+        this.Hukidashi4 = GameObject.Find("Hukidashi/Hukidashi4");
         this.Answer1 = GameObject.Find("OrderAnswer/Answer1");
         this.Answer2 = GameObject.Find("OrderAnswer/Answer2");
         this.Answer3 = GameObject.Find("OrderAnswer/Answer3");
         this.Answer4 = GameObject.Find("OrderAnswer/Answer4");
+        this.TapText = GameObject.Find("DrinkMain/TapText");
         this.OriginPos1 = this.OrderPos[0];
         this.OriginPos2 = this.OrderPos[1];
         this.OriginPos3 = this.OrderPos[2];
         this.OrderCounterOFF();
         this.AnswerResultOFF();
-        button.NextGame.gameObject.SetActive(false);
+        this.Hukidashi(false);
+        this.TapText.gameObject.SetActive(false);
 
         //ゲーム開始に必要な処理
         this.OrderShuffle();
@@ -356,7 +391,17 @@ public class DrinkScene : MonoBehaviour {
         this.Order();
     }
 	void Update () {
-
+        if(Input.GetMouseButtonDown(0) && this.NextGameFlg)
+        {
+            Debug.Log("実行されました");
+            this.TapText.gameObject.SetActive(false);
+            this.NextGameFlg = false;
+            this.AnswerResultOFF();
+            Hukidashi(false);
+            this.OrderShuffle();
+            this.PosShuffle();
+            this.Order();
+        }
 	}
 
     
