@@ -29,6 +29,7 @@ public class DrinkScene : MonoBehaviour {
     private int[] Num = new int[4];
     private int NumCounter = 0;
     private bool NextGameFlg;
+    public float Timer = 2.0f;
     
 
     //もとのOrderPosの中身の３番目までを保存しておく変数
@@ -123,8 +124,8 @@ public class DrinkScene : MonoBehaviour {
                     sashimi.transform.parent = menuObject.transform;
                     break;
             }
-            //2秒後に表示された吹き出しと商品を消す
-            yield return new WaitForSeconds(1.0f);
+            //数秒後に表示された吹き出しと商品を消す
+            yield return new WaitForSeconds(Timer);
             this.Delete();
             this.OrderCounterOFF();
             this.Hukidashi(false);

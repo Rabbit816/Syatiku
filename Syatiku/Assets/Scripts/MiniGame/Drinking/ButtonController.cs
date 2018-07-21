@@ -8,6 +8,7 @@ public class ButtonController : MonoBehaviour {
     //インスタンスの取得
     DrinkScene drink;
     Denmoku denmoku;
+    Merter meter;
 
     public Button Remember;
     public Button Again;
@@ -69,6 +70,7 @@ public class ButtonController : MonoBehaviour {
         this.Counter2.gameObject.SetActive(false);
         this.Counter3.gameObject.SetActive(false);
         this.Counter4.gameObject.SetActive(false);
+        meter.MeterON = true;
     }
 
     //もう一度注文を聞くボタン
@@ -171,6 +173,8 @@ public class ButtonController : MonoBehaviour {
         drink.Delete();
         this.DenmokuImage.GetComponent<RectTransform>().localPosition = new Vector2(-400, -850);
         drink.Answer();
+        meter.MeterON = false;
+        meter.value = 1f;
     }
     
     public void ButtonReset()
@@ -283,6 +287,7 @@ public class ButtonController : MonoBehaviour {
     void Start () {
         drink = GetComponent<DrinkScene>();
         denmoku = GetComponent<Denmoku>();
+        meter = GetComponent<Merter>();
         this.DenmokuImage = GameObject.Find("Denmoku");
         this.Menu_Otsumami = GameObject.Find("ScrollContent/Otsumami");
         this.Menu_Drink = GameObject.Find("ScrollContent/Drink");
