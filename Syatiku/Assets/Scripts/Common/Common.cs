@@ -123,6 +123,8 @@ public class Common : MonoBehaviour {
     public void ChangeScene(SceneName name)
     {
         StartCoroutine(Fade(name));
+        var eventSystem = FindObjectOfType<EventSystem>();
+        eventSystem.enabled = false;
     }
 
     /// <summary>
@@ -134,8 +136,7 @@ public class Common : MonoBehaviour {
     {
         this.isFading = true;
         float time = 0;
-        var eventSystem = FindObjectOfType<EventSystem>();
-        eventSystem.enabled = false;
+        
         while (time <= interval)
         {
             this.fadeAlpha = Mathf.Lerp(0f, 1f, time / interval);
@@ -152,7 +153,7 @@ public class Common : MonoBehaviour {
             time += Time.deltaTime;
             yield return 0;
         }
-        eventSystem.enabled = true;
+        //eventSystem.enabled = true;
 
         this.isFading = false;
     }
