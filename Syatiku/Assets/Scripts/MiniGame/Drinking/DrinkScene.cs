@@ -28,6 +28,7 @@ public class DrinkScene : MonoBehaviour {
 
     private int[] Num = new int[4];
     private int NumCounter = 0;
+    private float[] AnswerPos = new float[4] { -300, -100, 100, 300 };
     private bool NextGameFlg;
     public float Timer = 2.0f;
     
@@ -90,9 +91,9 @@ public class DrinkScene : MonoBehaviour {
         {
             yield return new WaitForSeconds(1.0f);
             
-            //吹き出しと注文数の表示
+            //注文の表示
             this.OrderHukidashi();
-
+            
             switch (this.OrderBox[i])
             {
                 //やきとりを表示
@@ -158,76 +159,20 @@ public class DrinkScene : MonoBehaviour {
             //吹き出しを表示
             this.Hukidashi(true);
 
-            switch (this.Num[i])
+            if (this.OrderBox[i] == denmoku.InputOrderBox[i])
             {
-                case 0:
-                    if (this.OrderBox[i] == denmoku.InputOrderBox[i])
-                    {
-                        if(this.OrderCounter[i] == denmoku.InputOrderCounter[i])
-                        {
-                            this.OutputAnswer1(true);
-                        }
-                        else
-                        {
-                            this.OutputAnswer1(false);
-                        }
-                    }
-                    else
-                    {
-                        this.OutputAnswer1(false);
-                    }
-                    break;
-                case 1:
-                    if (this.OrderBox[i] == denmoku.InputOrderBox[i])
-                    {
-                        if (this.OrderCounter[i] == denmoku.InputOrderCounter[i])
-                        {
-                            this.OutputAnswer2(true);
-                        }
-                        else
-                        {
-                            this.OutputAnswer2(false);
-                        }
-                    }
-                    else
-                    {
-                        this.OutputAnswer2(false);
-                    }
-                    break;
-                case 2:
-                    if (this.OrderBox[i] == denmoku.InputOrderBox[i])
-                    {
-                        if (this.OrderCounter[i] == denmoku.InputOrderCounter[i])
-                        {
-                            this.OutputAnswer3(true);
-                        }
-                        else
-                        {
-                            this.OutputAnswer3(false);
-                        }
-                    }
-                    else
-                    {
-                        this.OutputAnswer3(false);
-                    }
-                    break;
-                case 3:
-                    if (this.OrderBox[i] == denmoku.InputOrderBox[i])
-                    {
-                        if (this.OrderCounter[i] == denmoku.InputOrderCounter[i])
-                        {
-                            this.OutputAnswer4(true);
-                        }
-                        else
-                        {
-                            this.OutputAnswer4(false);
-                        }
-                    }
-                    else
-                    {
-                        this.OutputAnswer4(false);
-                    }
-                    break;
+                if (this.OrderCounter[i] == denmoku.InputOrderCounter[i])
+                {
+                    this.OutputAnswer(Num[i], true);
+                }
+                else
+                {
+                    this.OutputAnswer(Num[i], false);
+                }
+            }
+            else
+            {
+                this.OutputAnswer(Num[i], false);
             }
         }
         this.NextGameFlg = true;
@@ -290,75 +235,77 @@ public class DrinkScene : MonoBehaviour {
     }
 
     //注文の正誤判定の表示を管理するメソッド
-    public void OutputAnswer1(bool AnswerFlg)
+    public void OutputAnswer(int i, bool b)
     {
-        this.Answer1.gameObject.SetActive(true);
-        if (AnswerFlg)
+        switch (i)
         {
-            this.Answer1.GetComponent<RectTransform>().localPosition = new Vector2(-300, 85);
-            this.Answer1.GetComponent<Text>().text = "○";
-            this.Answer1.GetComponent<Text>().color = new Color(255f / 255f, 0f / 255f, 0f / 255f, 255f / 255f);
-            merter.AnswerCounter++;
-        }
-        else
-        {
-            this.Answer1.GetComponent<RectTransform>().localPosition = new Vector2(-300, 75);
-            this.Answer1.GetComponent<Text>().text = "×";
-            this.Answer1.GetComponent<Text>().color = new Color(40f / 255f, 0f / 255f, 255f / 255f, 255f / 255f);
+            case 0:
+                this.Answer1.gameObject.SetActive(true);
+                if (b)
+                {
+                    this.Answer1.GetComponent<RectTransform>().localPosition = new Vector2(this.AnswerPos[i], 85);
+                    this.Answer1.GetComponent<Text>().text = "○";
+                    this.Answer1.GetComponent<Text>().color = new Color(255f / 255f, 0f / 255f, 0f / 255f, 255f / 255f);
+                    merter.AnswerCounter++;
+                }
+                else
+                {
+                    this.Answer1.GetComponent<RectTransform>().localPosition = new Vector2(this.AnswerPos[i], 75);
+                    this.Answer1.GetComponent<Text>().text = "×";
+                    this.Answer1.GetComponent<Text>().color = new Color(40f / 255f, 0f / 255f, 255f / 255f, 255f / 255f);
+                }
+                break;
+            case 1:
+                this.Answer2.gameObject.SetActive(true);
+                if (b)
+                {
+                    this.Answer2.GetComponent<RectTransform>().localPosition = new Vector2(this.AnswerPos[i], 85);
+                    this.Answer2.GetComponent<Text>().text = "○";
+                    this.Answer2.GetComponent<Text>().color = new Color(255f / 255f, 0f / 255f, 0f / 255f, 255f / 255f);
+                    merter.AnswerCounter++;
+                }
+                else
+                {
+                    this.Answer2.GetComponent<RectTransform>().localPosition = new Vector2(this.AnswerPos[i], 75);
+                    this.Answer2.GetComponent<Text>().text = "×";
+                    this.Answer2.GetComponent<Text>().color = new Color(40f / 255f, 0f / 255f, 255f / 255f, 255f / 255f);
+                }
+                break;
+            case 2:
+                this.Answer3.gameObject.SetActive(true);
+                if (b)
+                {
+                    this.Answer3.GetComponent<RectTransform>().localPosition = new Vector2(this.AnswerPos[i], 85);
+                    this.Answer3.GetComponent<Text>().text = "○";
+                    this.Answer3.GetComponent<Text>().color = new Color(255f / 255f, 0f / 255f, 0f / 255f, 255f / 255f);
+                    merter.AnswerCounter++;
+                }
+                else
+                {
+                    this.Answer3.GetComponent<RectTransform>().localPosition = new Vector2(this.AnswerPos[i], 75);
+                    this.Answer3.GetComponent<Text>().text = "×";
+                    this.Answer3.GetComponent<Text>().color = new Color(40f / 255f, 0f / 255f, 255f / 255f, 255f / 255f);
+                }
+                break;
+            case 3:
+                this.Answer4.gameObject.SetActive(true);
+                if (b)
+                {
+                    this.Answer4.GetComponent<RectTransform>().localPosition = new Vector2(this.AnswerPos[i], 85);
+                    this.Answer4.GetComponent<Text>().text = "○";
+                    this.Answer4.GetComponent<Text>().color = new Color(255f / 255f, 0f / 255f, 0f / 255f, 255f / 255f);
+                    merter.AnswerCounter++;
+                }
+                else
+                {
+                    this.Answer4.GetComponent<RectTransform>().localPosition = new Vector2(this.AnswerPos[i], 75);
+                    this.Answer4.GetComponent<Text>().text = "×";
+                    this.Answer4.GetComponent<Text>().color = new Color(40f / 255f, 0f / 255f, 255f / 255f, 255f / 255f);
+                }
+                break;
         }
     }
-    public void OutputAnswer2(bool AnswerFlg)
-    {
-        this.Answer2.gameObject.SetActive(true);
-        if (AnswerFlg)
-        {
-            this.Answer2.GetComponent<RectTransform>().localPosition = new Vector2(-100, 85);
-            this.Answer2.GetComponent<Text>().text = "○";
-            this.Answer2.GetComponent<Text>().color = new Color(255f / 255f, 0f / 255f, 0f / 255f, 255f / 255f);
-            merter.AnswerCounter++;
-        }
-        else
-        {
-            this.Answer2.GetComponent<RectTransform>().localPosition = new Vector2(-100, 75);
-            this.Answer2.GetComponent<Text>().text = "×";
-            this.Answer2.GetComponent<Text>().color = new Color(40f / 255f, 0f / 255f, 255f / 255f, 255f / 255f);
-        }
-    }
-    public void OutputAnswer3(bool AnswerFlg)
-    {
-        this.Answer3.gameObject.SetActive(true);
-        if (AnswerFlg)
-        {
-            this.Answer3.GetComponent<RectTransform>().localPosition = new Vector2(100, 85);
-            this.Answer3.GetComponent<Text>().text = "○";
-            this.Answer3.GetComponent<Text>().color = new Color(255f / 255f, 0f / 255f, 0f / 255f, 255f / 255f);
-            merter.AnswerCounter++;
-        }
-        else
-        {
-            this.Answer3.GetComponent<RectTransform>().localPosition = new Vector2(100, 75);
-            this.Answer3.GetComponent<Text>().text = "×";
-            this.Answer3.GetComponent<Text>().color = new Color(40f / 255f, 0f / 255f, 255f / 255f, 255f / 255f);
-        }
-    }
-    public void OutputAnswer4(bool AnswerFlg)
-    {
-        this.Answer4.gameObject.SetActive(true);
-        if (AnswerFlg)
-        {
-            this.Answer4.GetComponent<RectTransform>().localPosition = new Vector2(300, 85);
-            this.Answer4.GetComponent<Text>().text = "○";
-            this.Answer4.GetComponent<Text>().color = new Color(255f / 255f, 0f / 255f, 0f / 255f, 255f / 255f);
-            merter.AnswerCounter++;
-        }
-        else
-        {
-            this.Answer4.GetComponent<RectTransform>().localPosition = new Vector2(300, 75);
-            this.Answer4.GetComponent<Text>().text = "×";
-            this.Answer4.GetComponent<Text>().color = new Color(40f / 255f, 0f / 255f, 255f / 255f, 255f / 255f);
-        }
-    }
-
+   
     void Start () {
         //ゲームの初期状態を用意する処理
         button = GetComponent<ButtonController>();
