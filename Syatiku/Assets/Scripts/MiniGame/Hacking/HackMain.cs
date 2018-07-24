@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
-using DG.Tweening;
 
 public class HackMain : MonoBehaviour {
     
@@ -15,9 +14,7 @@ public class HackMain : MonoBehaviour {
     private string[] _chipped;
     [SerializeField,Tooltip("お題のオブジェクト")]
     private GameObject theme_obj;
-    [SerializeField, Tooltip("Canvas Scaler")]
-    private CanvasScaler canvas_scaler;
-
+    //[SerializeField, Tooltip("EventSystem")]
     public EventSystem event_system;
 
     private string str_quest;
@@ -32,6 +29,8 @@ public class HackMain : MonoBehaviour {
     private PatteringEvent patte;
     private HackMeishi hack_meishi;
     private HackBoss hack_boss;
+    [HideInInspector]
+    public EventSystem es;
 
     private bool _allClear = false;
     [HideInInspector]
@@ -46,7 +45,8 @@ public class HackMain : MonoBehaviour {
         into_pc = GetComponent<IntoPCAction>();
         patte = GetComponent<PatteringEvent>();
         hack_boss = GetComponent<HackBoss>();
-        event_system.enabled = false;
+        es = EventSystem.current;
+        es.enabled = false;
         ReadText();
         Theme();
         _allClear = false;
@@ -57,6 +57,7 @@ public class HackMain : MonoBehaviour {
 
 	// Update is called once per frame
 	void Update () {
+        Debug.Log("EventSystem.enabled: " + es.enabled);
         StartCoroutine(StartedTimer());
         if (_start_)
         {
@@ -84,7 +85,7 @@ public class HackMain : MonoBehaviour {
     private IEnumerator StartedTimer()
     {
         yield return new WaitForSeconds(3.8f);
-        event_system.enabled = true;
+        es.enabled = true;
         Timer();
     }
 

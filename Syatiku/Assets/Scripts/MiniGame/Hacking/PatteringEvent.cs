@@ -27,8 +27,8 @@ public class PatteringEvent : MonoBehaviour {
     private GameObject LowObject;
     [SerializeField, Tooltip("SpeedyAnimationで使うObject")]
     private GameObject SpeedyObject;
-    [SerializeField]
-    private EventSystem event_system;
+    //[SerializeField]
+    //private EventSystem event_system;
     [SerializeField, Tooltip("Get_YellowPeper")]
     private GameObject Get_Yellow;
     [SerializeField, Tooltip("チェックできる所に出すObject")]
@@ -37,7 +37,7 @@ public class PatteringEvent : MonoBehaviour {
     private RectTransform Title;
 
     private HackTap hack_tap;
-    private HackBoss hack_boss;
+    private HackMain hack_main;
     private int successCount = 0;
 
     //いいタイミングかどうか
@@ -51,15 +51,13 @@ public class PatteringEvent : MonoBehaviour {
     public bool _speedyAnimClear = false;
 
     private Sequence quen;
-    private Sequence sequen;
     
     // Use this for initialization
     void Start ()
     {
         quen = DOTween.Sequence();
-        sequen = DOTween.Sequence();
         hack_tap = GetComponent<HackTap>();
-        hack_boss = GetComponent<HackBoss>();
+        hack_main = GetComponent<HackMain>();
         getDocument_obj.SetActive(false);
         SpeedyObject.SetActive(false);
         LowObject.SetActive(false);
@@ -85,7 +83,6 @@ public class PatteringEvent : MonoBehaviour {
                 Low_Paper_0.GetComponent<Image>().color = new Color(255, 255, 0);
                 break;
             case 1:
-                
                 Low_Paper_1.GetComponent<Image>().color = new Color(255, 255, 255);
                 Low_Paper_2.GetComponent<Image>().color = new Color(255, 255, 255);
                 Low_Paper_0.GetComponent<Image>().color = new Color(255, 255, 255);
@@ -131,13 +128,13 @@ public class PatteringEvent : MonoBehaviour {
             SpeedyObject.SetActive(true);
 
         Title.GetChild(0).GetComponent<Text>().text = "黄色のページをタップしよう！";
-        event_system.enabled = false;
+        hack_main.es.enabled = false;
         Title.transform.localPosition = new Vector2(599, 0);
         quen.Append(Title.DOLocalMoveX(0f, 1.0f));
         yield return new WaitForSeconds(1f);
 
         quen.Append(Title.DOLocalMoveX(-600f, 1.0f)
-            .OnComplete(() => event_system.enabled = true));
+            .OnComplete(() => hack_main.es.enabled = true));
         yield return new WaitForSeconds(0.5f);
 
         if (_lowAnim)
@@ -170,16 +167,16 @@ public class PatteringEvent : MonoBehaviour {
     private IEnumerator End_Anim()
     {
         Title.transform.localPosition = new Vector2(700, 0);
-        event_system.enabled = false;
+        hack_main.es.enabled = false;
         quen.Append(Title.DOLocalMoveX(0f, 1.0f));
         yield return new WaitForSeconds(1.0f);
 
         quen.Append(Title.DOLocalMoveX(-600f, 1.0f)
-            .OnComplete(() => event_system.enabled = true));
+            .OnComplete(() => hack_main.es.enabled = true));
         yield return new WaitForSeconds(0.7f);
 
         PatteResult();
-        event_system.enabled = true;
+        hack_main.es.enabled = true;
         LowObject.SetActive(false);
         SpeedyObject.SetActive(false);
         _PatteringPlay = false;
@@ -205,11 +202,11 @@ public class PatteringEvent : MonoBehaviour {
     /// <returns></returns>
     private IEnumerator GotYellowPaperAnim()
     {
-        event_system.enabled = false;
+        hack_main.es.enabled = false;
         Get_Yellow.SetActive(true);
         yield return new WaitForSeconds(0.9f);
         Get_Yellow.SetActive(false);
-        event_system.enabled = true;
+        hack_main.es.enabled = true;
     }
 
     /// <summary>

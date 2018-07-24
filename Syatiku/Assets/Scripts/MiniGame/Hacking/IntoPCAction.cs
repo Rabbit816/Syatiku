@@ -2,6 +2,7 @@
 using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.EventSystems;
 
 public class IntoPCAction : MonoBehaviour {
 
@@ -21,13 +22,14 @@ public class IntoPCAction : MonoBehaviour {
     private GameObject wrongbtn_0;
     [SerializeField, Tooltip("間違っている箇所_1")]
     private GameObject wrongbtn_1;
+    [SerializeField, Tooltip("EventSystem")]
+    private EventSystem event_system;
 
     [Tooltip("資料比較の時に何回ミスしてもいいかの回数")]
     public int tappingCount = 6;
 
     private Transform password_child;
 
-    private HackBoss hack_boss;
     private HackMain hack_main;
     private HackTap hack_tap;
     private GameObject PC_login;
@@ -38,8 +40,6 @@ public class IntoPCAction : MonoBehaviour {
     //配置した結果の判断
     private bool _isResult = false;
 
-    //資料比較中かどうか
-    private bool _comparisoning = false;
     [HideInInspector]
     public bool _compariClear = false;
 
@@ -69,11 +69,9 @@ public class IntoPCAction : MonoBehaviour {
         NotComp.SetActive(true);
         Comparisoning.SetActive(false);
         comp_btn.SetActive(true);
-        hack_boss = GetComponent<HackBoss>();
         hack_main = GetComponent<HackMain>();
         hack_tap = GetComponent<HackTap>();
         _isResult = false;
-        _comparisoning = false;
         doc_0 = false;
         doc_1 = false;
     }
@@ -104,7 +102,6 @@ public class IntoPCAction : MonoBehaviour {
             yield return new WaitForSeconds(wait);
             hack_tap._windowFase = true;
             WindowFase.transform.SetSiblingIndex(2);
-            //Window.SetActive(true);
         }
         else
         {
@@ -125,7 +122,6 @@ public class IntoPCAction : MonoBehaviour {
             Document_1.SetActive(true);
             NotComp.SetActive(false);
         }
-        _comparisoning = true;
         Window.SetActive(false);
         Comparisoning.SetActive(true);
     }
@@ -135,7 +131,6 @@ public class IntoPCAction : MonoBehaviour {
     /// </summary>
     public void OutTap()
     {
-        _comparisoning = false;
         Comparisoning.SetActive(false);
         Window.SetActive(true);
     }
@@ -190,7 +185,7 @@ public class IntoPCAction : MonoBehaviour {
     private IEnumerator FolderAnimTime()
     {
         yield return new WaitForSeconds(3f);
-        hack_main.event_system.enabled = true;
+        event_system.enabled = true;
     }
 
     /// <summary>
@@ -200,7 +195,7 @@ public class IntoPCAction : MonoBehaviour {
     {
         hack_tap.ZoomActive(6);
         Window.SetActive(true);
-        hack_main.event_system.enabled = false;
+        event_system.enabled = false;
         StartCoroutine(FolderAnimTime());
     }
 

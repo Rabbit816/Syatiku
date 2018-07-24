@@ -114,7 +114,6 @@ public class HackTap : MonoBehaviour
     /// </summary>
     /// <param name="placeNum">どの場所かを指定</param>
     public void PlaceButton(int placeNum){
-        int selectNum = 0;
         //PC画面内を表示
         //戻るボタンで画面外に移動
         switch (placeNum)
@@ -151,6 +150,7 @@ public class HackTap : MonoBehaviour
                     return;
                 IntoPC.transform.localPosition = new Vector2(0, 0);
                 Window.SetActive(false);
+                ZoomActive(3);
                 pat.transform.SetSiblingIndex(2);
                 StartCoroutine(patte.Start_AnimWaitTime(true));
                 _lowAnim = true;
@@ -160,6 +160,7 @@ public class HackTap : MonoBehaviour
                     return;
                 IntoPC.transform.localPosition = new Vector2(0, 0);
                 Window.SetActive(false);
+                ZoomActive(4);
                 pat.transform.SetSiblingIndex(2);
                 StartCoroutine(patte.Start_AnimWaitTime(false));
                 _animloop = true;
