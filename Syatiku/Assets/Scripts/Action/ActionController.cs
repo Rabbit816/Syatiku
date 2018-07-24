@@ -4,7 +4,6 @@ using UnityEngine;
 using UnityEngine.UI;
 
 public class ActionController : MonoBehaviour {
-    // Canvas
     [SerializeField]
     private GameObject humanClone;
     // 行動回数テキスト
@@ -52,12 +51,12 @@ public class ActionController : MonoBehaviour {
 
     void Start () {
 
-        //if (Common.Instance.actionCount == 0)
-        //{
-        //    worning.gameObject.SetActive(true);
-        //    StartCoroutine(IsWorning());
-        //    return;
-        //}
+        if (Common.Instance.actionCount == 0)
+        {
+            worning.gameObject.SetActive(true);
+            StartCoroutine(IsWorning());
+            return;
+        }
 
         IsDataSelect();
 
