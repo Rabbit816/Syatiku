@@ -1,7 +1,6 @@
 ﻿using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
-using UnityEngine.EventSystems;
 using DG.Tweening;
 
 public class HackBoss : MonoBehaviour {
@@ -10,8 +9,6 @@ public class HackBoss : MonoBehaviour {
     private GameObject Boss;
     [SerializeField, Tooltip("ドアの上司Object")]
     private GameObject ComeBoss;
-    [SerializeField, Tooltip("EventSystem")]
-    private EventSystem event_system;
     [SerializeField, Tooltip("Zoom object")]
     private GameObject Zoom;
     [SerializeField, Header("ボスの質問に答える時の選択Object")]
@@ -108,7 +105,7 @@ public class HackBoss : MonoBehaviour {
     private IEnumerator WatchBoss(float time)
     {
         yield return new WaitForSeconds(time);
-        event_system.enabled = true;
+        hack_main.event_system.enabled = true;
         _commingboss = true;
         ChooseObject.SetActive(true);
     }
@@ -121,9 +118,9 @@ public class HackBoss : MonoBehaviour {
         comingCount++;
         if (comingCount%4 == 0)
         {
-            hack_tap.PlaceButton(11);
+            //hack_tap.PlaceButton(11);
             Zoom.SetActive(false);
-            event_system.enabled = false;
+            hack_main.event_system.enabled = false;
             ComeOnBoss();
         }
     }

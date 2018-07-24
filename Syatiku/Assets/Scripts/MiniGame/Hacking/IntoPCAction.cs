@@ -104,7 +104,7 @@ public class IntoPCAction : MonoBehaviour {
             yield return new WaitForSeconds(wait);
             hack_tap._windowFase = true;
             WindowFase.transform.SetSiblingIndex(2);
-            Window.SetActive(true);
+            //Window.SetActive(true);
         }
         else
         {
@@ -184,7 +184,28 @@ public class IntoPCAction : MonoBehaviour {
     }
 
     /// <summary>
-    /// パスワードチェック
+    /// フォルダアニメーション待ち処理
+    /// </summary>
+    /// <returns></returns>
+    private IEnumerator FolderAnimTime()
+    {
+        yield return new WaitForSeconds(3f);
+        hack_main.event_system.enabled = true;
+    }
+
+    /// <summary>
+    /// Windowフェーズパスワードチェック
+    /// </summary>
+    public void FolderPassWord()
+    {
+        hack_tap.ZoomActive(6);
+        Window.SetActive(true);
+        hack_main.event_system.enabled = false;
+        StartCoroutine(FolderAnimTime());
+    }
+
+    /// <summary>
+    /// PCパスワードフェーズパスワードチェック
     /// </summary>
     public void CheckPassWord()
     {

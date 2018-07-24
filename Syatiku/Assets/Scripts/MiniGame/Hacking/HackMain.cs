@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.EventSystems;
+using DG.Tweening;
 
 public class HackMain : MonoBehaviour {
     
@@ -13,10 +15,10 @@ public class HackMain : MonoBehaviour {
     private string[] _chipped;
     [SerializeField,Tooltip("お題のオブジェクト")]
     private GameObject theme_obj;
-    [SerializeField, Tooltip("画面をタップできないように遮るObject")]
-    private GameObject Dont_Tap;
     [SerializeField, Tooltip("Canvas Scaler")]
     private CanvasScaler canvas_scaler;
+
+    public EventSystem event_system;
 
     private string str_quest;
     private string str_answer;
@@ -36,12 +38,15 @@ public class HackMain : MonoBehaviour {
     public bool _timerActive = false;
     private bool _overTime = false;
 
+    private bool _start_ = false;
+    private float _time = 0f;
+
     // Use this for initialization
     void Start () {
         into_pc = GetComponent<IntoPCAction>();
         patte = GetComponent<PatteringEvent>();
         hack_boss = GetComponent<HackBoss>();
-        Dont_Tap.SetActive(true);
+        event_system.enabled = false;
         ReadText();
         Theme();
         _allClear = false;
@@ -53,6 +58,14 @@ public class HackMain : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
         StartCoroutine(StartedTimer());
+        if (_start_)
+        {
+            _time += Time.deltaTime;
+            if(_time >= 1f)
+            {
+                _time = 0f;
+            }
+        }
         if (into_pc._compariClear && patte._lowAnimClear && patte._speedyAnimClear)
         {
             if (!_allClear)
@@ -70,19 +83,9 @@ public class HackMain : MonoBehaviour {
     /// <returns></returns>
     private IEnumerator StartedTimer()
     {
-        yield return new WaitForSeconds(1.8f);
+        yield return new WaitForSeconds(3.8f);
+        event_system.enabled = true;
         Timer();
-    }
-
-    /// <summary>
-    /// time秒数内までどのボタンも押せなくする
-    /// </summary>
-    /// <param name="time">待ち時間</param>
-    /// <returns></returns>
-    private IEnumerator Wait_Time(float time)
-    {
-        yield return new WaitForSeconds(time);
-        Dont_Tap.SetActive(false);
     }
 
     /// <summary>
@@ -146,8 +149,5 @@ public class HackMain : MonoBehaviour {
         int rand_theme = Random.Range(0, _chipped.Length-1);
 
         theme_obj.GetComponentInChildren<Text>(true).text = _chipped[rand_theme].ToString();
-        Animator anim = theme_obj.GetComponent<Animator>();
-        
-        StartCoroutine(Wait_Time(1.8f));
     }
 }

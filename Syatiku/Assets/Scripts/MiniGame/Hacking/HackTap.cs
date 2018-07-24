@@ -274,8 +274,6 @@ public class HackTap : MonoBehaviour
         StartCoroutine(Wait_time(3f));
     }
 
-    
-
     /// <summary>
     /// 各場所に単語を入れる
     /// </summary>

@@ -31,6 +31,7 @@ public class HackMeishi : MonoBehaviour {
     public void MeishiPrefab()
     {
         MeishiObject.SetActive(true);
+        hack_tap.CollectWordsOpen();
         hack_tap.ZoomActive(5);
     }
 
