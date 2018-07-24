@@ -15,6 +15,8 @@ public class HackMain : MonoBehaviour {
     private GameObject theme_obj;
     [SerializeField, Tooltip("画面をタップできないように遮るObject")]
     private GameObject Dont_Tap;
+    [SerializeField, Tooltip("Canvas Scaler")]
+    private CanvasScaler canvas_scaler;
 
     private string str_quest;
     private string str_answer;

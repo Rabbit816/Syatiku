@@ -8,15 +8,16 @@ public class Denmoku : MonoBehaviour {
     ButtonController button;
 
     //メニューリスト
-    [SerializeField] Image Yakitori;
-    [SerializeField] Image Sake;
-    [SerializeField] Image Salad;
-    [SerializeField] Image Sashimi;
+    GameObject OrderList;
+    GameObject YakitoriPre;
+    GameObject SakePre;
+    GameObject SaladPre;
+    GameObject SashimiPre;
 
     //デンモク内で使う配列・変数
     public int[] InputOrderBox = new int[4];
     public int[] InputOrderCounter = new int[4];
-    private float[] OrderListPos = new float[4] { 360, 275, 190, 105 };
+    private float[] OrderListPos = new float[4] { 4, 1.85f, -0.3f, -2.45f };
     private int OrderCount = 0;
 
 
@@ -24,7 +25,10 @@ public class Denmoku : MonoBehaviour {
     {
         this.InputOrderBox[OrderCount] = 0;
         this.InputOrderCounter[OrderCount] = 1;
-        this.Yakitori.GetComponent<RectTransform>().localPosition = new Vector2(0, OrderListPos[OrderCount]);
+        this.YakitoriPre = Resources.Load<GameObject>("Prefabs/MiniGame/Drinking/yakitori");
+        var Yakitori = Instantiate(this.YakitoriPre, new Vector2(-6.5f, OrderListPos[OrderCount]), Quaternion.identity);
+        Yakitori.transform.localScale = new Vector2(0.6f, 0.6f);
+        Yakitori.transform.parent = this.OrderList.transform;
         this.OrderCount++;
         if(OrderCount == 4)
         {
@@ -37,7 +41,10 @@ public class Denmoku : MonoBehaviour {
     {
         this.InputOrderBox[OrderCount] = 1;
         this.InputOrderCounter[OrderCount] = 1;
-        this.Sake.GetComponent<RectTransform>().localPosition = new Vector2(0, OrderListPos[OrderCount]);
+        this.SakePre = Resources.Load<GameObject>("Prefabs/MiniGame/Drinking/sake");
+        var Sake = Instantiate(this.SakePre, new Vector2(-6.5f, OrderListPos[OrderCount]), Quaternion.identity);
+        Sake.transform.localScale = new Vector2(0.23f, 0.23f);
+        Sake.transform.parent = this.OrderList.transform;
         this.OrderCount++;
         if (OrderCount == 4)
         {
@@ -50,7 +57,10 @@ public class Denmoku : MonoBehaviour {
     {
         this.InputOrderBox[OrderCount] = 2;
         this.InputOrderCounter[OrderCount] = 1;
-        this.Salad.GetComponent<RectTransform>().localPosition = new Vector2(0, OrderListPos[OrderCount]);
+        this.SaladPre = Resources.Load<GameObject>("Prefabs/MiniGame/Drinking/salad");
+        var Salad = Instantiate(this.SaladPre, new Vector2(-6.5f, OrderListPos[OrderCount]), Quaternion.identity);
+        Salad.transform.localScale = new Vector2(0.3f, 0.3f);
+        Salad.transform.parent = this.OrderList.transform;
         this.OrderCount++;
         if (OrderCount == 4)
         {
@@ -63,7 +73,10 @@ public class Denmoku : MonoBehaviour {
     {
         this.InputOrderBox[OrderCount] = 3;
         this.InputOrderCounter[OrderCount] = 1;
-        this.Sashimi.GetComponent<RectTransform>().localPosition = new Vector2(0, OrderListPos[OrderCount]);
+        this.SashimiPre = Resources.Load<GameObject>("Prefabs/MiniGame/Drinking/sashimi");
+        var Sashimi = Instantiate(this.SashimiPre, new Vector2(-6.5f, OrderListPos[OrderCount]), Quaternion.identity);
+        Sashimi.transform.localScale = new Vector2(0.23f, 0.23f);
+        Sashimi.transform.parent = this.OrderList.transform;
         this.OrderCount++;
         if (OrderCount == 4)
         {
@@ -72,29 +85,8 @@ public class Denmoku : MonoBehaviour {
         }
     }
 
-    public void ResetList()
-    {
-        for(int i = 0; i < InputOrderBox.Length; i++)
-        {
-            switch (this.InputOrderBox[i])
-            {
-                case 0:
-                    this.Yakitori.GetComponent<RectTransform>().localPosition = new Vector2(0, 0);
-                    break;
-                case 1:
-                    this.Sake.GetComponent<RectTransform>().localPosition = new Vector2(0, 0);
-                    break;
-                case 2:
-                    this.Salad.GetComponent<RectTransform>().localPosition = new Vector2(0, 0);
-                    break;
-                case 3:
-                    this.Sashimi.GetComponent<RectTransform>().localPosition = new Vector2(0, 0);
-                    break;
-            }
-        }
-    }
-
     void Start () {
+        this.OrderList = GameObject.Find("MenuObject");
         button = GetComponent<ButtonController>();
 	}
 	

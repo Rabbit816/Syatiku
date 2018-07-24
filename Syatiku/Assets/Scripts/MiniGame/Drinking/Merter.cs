@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using System;
 public class Merter : MonoBehaviour {
-     public void Awake()
+    public void Awake()
      {
          rt = GameObject.Find("InfoMeter").gameObject.GetComponent<RectTransform>();
          maxValue = rt.sizeDelta.x;
@@ -18,25 +18,30 @@ public class Merter : MonoBehaviour {
     }
     public void Update()
     {
-        UpdateValue(value);
-        value -= 0.0002f;
+        if (MeterON)
+        {
 
-        if (value <= 0)
-        {
-            Common.Instance.ChangeScene(Common.SceneName.Result);
-            value = 1f;
+            UpdateValue(value);
+            value -= 0.001f;
+
+            if (value <= 0)
+            {
+                Common.Instance.ChangeScene(Common.SceneName.Result);
+                value = 1f;
+            }
+            if (value > 1)
+            {
+                value = 1f;
+            }
         }
-        if (value > 1)
-        {
-            value = 1f;
-        }
+        
     }
 
 
 
     public void Moving()
     {
-        if (AnswerCounter == 1)
+       /* if (AnswerCounter == 1)
         {
             value += 0.05f;
         }else if (AnswerCounter == 2)
@@ -48,10 +53,11 @@ public class Merter : MonoBehaviour {
         }else if (AnswerCounter == 4)
         {
             value += 0.2f;
-        }
+        }*/
     }
-    private float value = 1f;
+    public float value = 1f;
     private float maxValue;
     private RectTransform rt;
     public int AnswerCounter;
+    public bool MeterON;
 }
