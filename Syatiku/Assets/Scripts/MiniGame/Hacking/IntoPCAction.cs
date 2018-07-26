@@ -1,13 +1,16 @@
 ﻿using System;
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 
 public class IntoPCAction : MonoBehaviour {
 
-    [SerializeField,Tooltip("PC内のでる場所")]
-    private GameObject[] PassWordObject;
+    [SerializeField,Tooltip("PCPassWordフェーズ PC内のでる場所")]
+    private GameObject[] PC_PassWordObject;
+    [SerializeField, Tooltip("WindowPassWordフェーズ PC内のでる場所")]
+    private GameObject[] Window_PassWordObject;
     [SerializeField, Tooltip("資料比較グループObject")]
     private GameObject Comparisoning;
     [SerializeField, Tooltip("残り回数更新Text")]
@@ -24,6 +27,8 @@ public class IntoPCAction : MonoBehaviour {
     private GameObject wrongbtn_1;
     [SerializeField, Tooltip("EventSystem")]
     private EventSystem event_system;
+    [SerializeField, Tooltip("FolderパスワードのResultText")]
+    private GameObject folder_text;
 
     [Tooltip("資料比較の時に何回ミスしてもいいかの回数")]
     public int tappingCount = 6;
@@ -36,9 +41,7 @@ public class IntoPCAction : MonoBehaviour {
     private GameObject WindowFase;
     private GameObject Window;
     private GameObject PassWordFase;
-
-    //配置した結果の判断
-    private bool _isResult = false;
+    private GameObject[] PassWordObject;
 
     [HideInInspector]
     public bool _compariClear = false;
@@ -69,9 +72,9 @@ public class IntoPCAction : MonoBehaviour {
         NotComp.SetActive(true);
         Comparisoning.SetActive(false);
         comp_btn.SetActive(true);
+        folder_text.SetActive(false);
         hack_main = GetComponent<HackMain>();
         hack_tap = GetComponent<HackTap>();
-        _isResult = false;
         doc_0 = false;
         doc_1 = false;
     }
@@ -93,13 +96,13 @@ public class IntoPCAction : MonoBehaviour {
     /// </summary>
     /// <param name="wait">待つ時間をfloat型で記入しなはれ</param>
     /// <returns></returns>
-    private IEnumerator WaitTime(float wait)
+    private IEnumerator PcLogin_WaitTime(bool _isResult)
     {
         if (_isResult)
         {
             PC_login.GetComponent<Text>().text = "ログインできました。";
             PC_login.SetActive(true);
-            yield return new WaitForSeconds(wait);
+            yield return new WaitForSeconds(1.5f);
             hack_tap._windowFase = true;
             WindowFase.transform.SetSiblingIndex(2);
         }
@@ -107,8 +110,30 @@ public class IntoPCAction : MonoBehaviour {
         {
             PC_login.GetComponent<Text>().text = "パスワードが違います。";
             PC_login.SetActive(true);
-            yield return new WaitForSeconds(wait);
+            yield return new WaitForSeconds(1.5f);
             PC_login.SetActive(false);
+        }
+    }
+
+    private IEnumerator FolderLogin_WaitTime(bool _isResult)
+    {
+        if (_isResult)
+        {
+            hack_tap.ZoomActive(6);
+            Window.SetActive(true);
+            event_system.enabled = false;
+            folder_text.GetComponent<Text>().text = "ログインできました。";
+            folder_text.SetActive(true);
+            yield return new WaitForSeconds(3f);
+            event_system.enabled = true;
+            folder_text.SetActive(false);
+        }
+        else
+        {
+            folder_text.GetComponent<Text>().text = "パスワードが違います。";
+            folder_text.SetActive(true);
+            yield return new WaitForSeconds(1.5f);
+            folder_text.SetActive(false);
         }
     }
     
@@ -179,57 +204,60 @@ public class IntoPCAction : MonoBehaviour {
     }
 
     /// <summary>
-    /// フォルダアニメーション待ち処理
-    /// </summary>
-    /// <returns></returns>
-    private IEnumerator FolderAnimTime()
-    {
-        yield return new WaitForSeconds(3f);
-        event_system.enabled = true;
-    }
-
-    /// <summary>
-    /// Windowフェーズパスワードチェック
-    /// </summary>
-    public void FolderPassWord()
-    {
-        hack_tap.ZoomActive(6);
-        Window.SetActive(true);
-        event_system.enabled = false;
-        StartCoroutine(FolderAnimTime());
-    }
-
-    /// <summary>
     /// PCパスワードフェーズパスワードチェック
     /// </summary>
-    public void CheckPassWord()
+    /// <param name="_pcpass">true=PCパスワードフェーズ, false=Folderパスワードフェーズ</param>
+    public void CheckPassWord(bool _pcpass)
     {
+        List<string> Ans_list = new List<string>();
+        if (_pcpass)
+        {
+            PassWordObject = PC_PassWordObject;
+            Ans_list = hack_main.Quest_list;
+        }
+        else
+        {
+            PassWordObject = Window_PassWordObject;
+            Ans_list = hack_main.Folder_ans_list;
+        }
+
         for(int i=0; i < PassWordObject.Length; i++)
         {
-            GameObject password_parent = GameObject.Find("Canvas/PC/PassWordFase/PassWord/Password_" + i);
+            GameObject password_parent;
+            if (_pcpass)
+                password_parent = GameObject.Find("Canvas/PC/PassWordFase/PassWord/Password_" + i);
+            else
+                password_parent = GameObject.Find("Canvas/Zoom/AdminStrator/AdminPage/AdminPassWord/Password_" + i);
+
             if (PassWordObject[i].gameObject.transform.childCount != 0)
             {
                 password_child = password_parent.transform.GetChild(0).GetChild(0);
             }
             else
             {
-                _isResult = false;
-                StartCoroutine(WaitTime(1.5f));
+                if (_pcpass)
+                    StartCoroutine(PcLogin_WaitTime(false));
+                else
+                    StartCoroutine(FolderLogin_WaitTime(false));
                 break;
             }
             Text child_text = password_child.GetComponent<Text>();
-            if(child_text.text.Substring(0,1) == hack_main.Quest_list[i].ToString())
+            if(child_text.text.Substring(0,1) == Ans_list[i].ToString())
             {
                 if(i == PassWordObject.Length - 1)
                 {
-                    _isResult = true;
-                    StartCoroutine(WaitTime(1.5f));
+                    if (_pcpass)
+                        StartCoroutine(PcLogin_WaitTime(true));
+                    else
+                        StartCoroutine(FolderLogin_WaitTime(true));
                 }
             }
             else
             {
-                _isResult = false;
-                StartCoroutine(WaitTime(1.5f));
+                if (_pcpass)
+                    StartCoroutine(PcLogin_WaitTime(false));
+                else
+                    StartCoroutine(FolderLogin_WaitTime(false));
                 break;
             }
         }

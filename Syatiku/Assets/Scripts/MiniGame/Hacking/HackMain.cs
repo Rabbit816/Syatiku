@@ -19,11 +19,14 @@ public class HackMain : MonoBehaviour {
 
     private string str_quest;
     private string str_answer;
+    private string str_folder_ans;
 
     [HideInInspector]
     public List<string> Quest_list = new List<string>();
     [HideInInspector]
     public List<string> Answer_list = new List<string>();
+    [HideInInspector]
+    public List<string> Folder_ans_list = new List<string>();
 
     private IntoPCAction into_pc;
     private PatteringEvent patte;
@@ -57,7 +60,6 @@ public class HackMain : MonoBehaviour {
 
 	// Update is called once per frame
 	void Update () {
-        Debug.Log("EventSystem.enabled: " + es.enabled);
         StartCoroutine(StartedTimer());
         if (_start_)
         {
@@ -124,8 +126,10 @@ public class HackMain : MonoBehaviour {
     {
         TextAsset csvfile_quest = Resources.Load("Minigame/Hacking/Quest") as TextAsset;
         TextAsset csvfile_answer = Resources.Load("Minigame/Hacking/Answer") as TextAsset;
+        TextAsset csvfile_folder_ans = Resources.Load("Minigame/Hacking/Folder_answer") as TextAsset;
         System.IO.StringReader stren_quest = new System.IO.StringReader(csvfile_quest.text);
         System.IO.StringReader stren_answer = new System.IO.StringReader(csvfile_answer.text);
+        System.IO.StringReader stren_folder_ans = new System.IO.StringReader(csvfile_folder_ans.text);
 
         while (stren_quest.Peek() > -1)
         {
@@ -133,11 +137,20 @@ public class HackMain : MonoBehaviour {
             str_answer = stren_answer.ReadLine();
             string[] s_a = str_answer.Split(',');
             string[] s_q = str_quest.Split(',');
-            
+
             for (int i=0; i< s_a.Length; i++)
             {
                 Answer_list.Add(s_a[i]);
                 Quest_list.Add(s_q[i]);
+            }
+        }
+        while (stren_folder_ans.Peek() > -1)
+        {
+            str_folder_ans = stren_folder_ans.ReadLine();
+            string[] s_f = str_folder_ans.Split(',');
+            for (int i = 0; i < s_f.Length; i++)
+            {
+                Folder_ans_list.Add(s_f[i]);
             }
         }
     }
