@@ -161,7 +161,6 @@ public class HackMain : MonoBehaviour {
     private void Theme()
     {
         int rand_theme = Random.Range(0, _chipped.Length-1);
-
         theme_obj.GetComponentInChildren<Text>(true).text = _chipped[rand_theme].ToString();
     }
 }

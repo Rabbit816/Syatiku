@@ -16,6 +16,9 @@ public class Drag : MonoBehaviour, IDragHandler, IEndDragHandler
         }else if (gameObject.tag == "windows")
         {
             collect = GameObject.Find("Canvas/PC/WindowFase/Window");
+        }else if(gameObject.tag == "folder")
+        {
+            collect = GameObject.Find("Canvas/Zoom/AdminStrator/AdminPage/Collect");
         }
     }
 

@@ -10,15 +10,20 @@ public class HackTap : MonoBehaviour
         public GameObject pos;
         public string word;
     };
+    private struct FolderPlaceList
+    {
+        public GameObject pos;
+        public string word;
+    };
     //これにランダムで選ばれた場所に単語を格納していく
     private PlaceList[] place_list = new PlaceList[]
     {
         new PlaceList(){ pos=null, word = "" },
     };
-
-    [SerializeField, Tooltip("全部のタップできる場所格納")]
-    private GameObject[] place;
-
+    private FolderPlaceList[] folder_place_list = new FolderPlaceList[]
+    {
+        new FolderPlaceList(){ pos=null, word = "" },
+    };
     private string[] str;
 
     [SerializeField]
@@ -37,14 +42,27 @@ public class HackTap : MonoBehaviour
     [HideInInspector]
     public GameObject GetWord;
 
+    [SerializeField, Tooltip("Folderで使う出現単語")]
+    private GameObject AppearFolderPrefab;
+    [SerializeField, Tooltip("集めた単語(Folder内に出すObject)")]
+    private GameObject CollectFolderPrefab;
+    [SerializeField, Tooltip("集めた単語(リスト内に出すObject)")]
+    private GameObject GetWordFolderPrefab;
+    [SerializeField, Tooltip("集めた単語(Folder内に出す場所の親)")]
+    private GameObject CollectWordFolder;
+
     [SerializeField, Tooltip("集めたリストに出す資料Object")]
     private GameObject DocPrefab;
 
     [SerializeField, Tooltip("単語を取得できるボタンの場所")]
     private GameObject[] Getting_position;
+    [SerializeField, Tooltip("Drawer内で単語を取得できる場所")]
+    private GameObject[] drawer_getting_position;
 
     [SerializeField, Tooltip("PC内のposition")]
     private GameObject[] pos_list;
+    [SerializeField, Tooltip("Folder内のposition")]
+    private GameObject[] folder_pos_list;
     [SerializeField, Tooltip("資料Object")]
     private GameObject Document;
 
@@ -91,16 +109,16 @@ public class HackTap : MonoBehaviour
         DoorSide = GameObject.Find("Canvas/DoorSide");
         pat = GameObject.Find("Canvas/PC/PatteringFase");
 
-        intopc_action = GetComponent<IntoPCAction>();
-
         Document.SetActive(false);
         Common.Instance.Shuffle(pos_list);
         count = 0;
         GakuCount = 0;
         hack_main = GetComponent<HackMain>();
         patte = GetComponent<PatteringEvent>();
+        intopc_action = GetComponent<IntoPCAction>();
         Meishi.SetActive(false);
         place_list = new PlaceList[Getting_position.Length];
+        folder_place_list = new FolderPlaceList[drawer_getting_position.Length];
         _getDocument = false;
         _lowAnim = false;
         
@@ -164,6 +182,15 @@ public class HackTap : MonoBehaviour
                 pat.transform.SetSiblingIndex(2);
                 StartCoroutine(patte.Start_AnimWaitTime(false));
                 _animloop = true;
+                break;
+            case 16:
+                ZoomActive(7);
+                ZoomActive(2);
+                break;
+            case 17:
+            case 18:
+            case 19:
+                DrawerTap(placeNum-17);
                 break;
             case 26:
                 intopc_action.DocumentsComparison();
@@ -275,6 +302,36 @@ public class HackTap : MonoBehaviour
         StartCoroutine(Wait_time(3f));
     }
 
+    public void DrawerTap(int place)
+    {
+        if (drawer_getting_position[place].transform.childCount == 0)
+        {
+            //押したところに単語を表示
+            GameObject appearobj = Instantiate(AppearFolderPrefab, drawer_getting_position[place].transform);
+            drawer_getting_position[place].transform.GetComponentInChildren<Text>().text = folder_place_list[place].word.ToString();
+            Image appear_img = appearobj.GetComponent<Image>();
+            Text appearChild_text = appearobj.transform.GetChild(0).GetComponent<Text>();
+            DOTween.ToAlpha(
+                () => appear_img.color,
+                color => appear_img.color = color,
+                0f, 2.0f);
+            DOTween.ToAlpha(
+                () => appearChild_text.color,
+                color => appearChild_text.color = color,
+                0f, 2.0f);
+
+            //PC内に集めた単語を表示
+            GameObject _collected_word = Instantiate(CollectFolderPrefab, CollectWordFolder.transform);
+            _collected_word.transform.position = folder_place_list[place].pos.transform.position;
+            _collected_word.GetComponentInChildren<Text>().text = folder_place_list[place].word.ToString();
+
+            //集めたものリストの中に単語を表示
+            GameObject _get_word = Instantiate(GetWordFolderPrefab, GetWord.transform);
+            _get_word.transform.SetAsFirstSibling();
+            _get_word.GetComponentInChildren<Text>().text = folder_place_list[place].word.ToString();
+        }
+    }
+
     /// <summary>
     /// 各場所に単語を入れる
     /// </summary>
@@ -286,10 +343,18 @@ public class HackTap : MonoBehaviour
         {
             place_list[j].pos = Getting_position[j];
             if (j >= Getting_position.Length - (Getting_position.Length - pos_list.Length))
-                return;
+                continue;
             else
                 place_list[j].word = stren[j];
         }
+        string[] wd = hack_main.Folder_ans_list.ToArray();
+        for(int i=0; i<drawer_getting_position.Length; i++)
+        {
+            folder_place_list[i].pos = drawer_getting_position[i];
+            folder_place_list[i].word = wd[i];
+            Debug.Log("folder_place_list: " + folder_place_list[i].word.ToString());
+        }
+        
     }
 
     /// <summary>
