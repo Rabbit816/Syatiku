@@ -75,24 +75,24 @@ public class HumanWalk : MonoBehaviour {
                 human.DORotate(new Vector3(0, 0, 0), rotateTime).SetEase(Ease.Linear); // 元に戻す回転
 
                 transform.DOLocalMoveX(distance, moveTime).SetRelative().SetEase(Ease.Linear) // DOTweenで移動(相対距離)
-                        .OnComplete(() => // 移動処理終了後
-                        {
-                            human.DORotate(new Vector3(0, 90, 0), rotateTime).SetEase(Ease.Linear) // 回転
-                            .OnComplete(() => // 回転終了時
-                            {
-                                gameObject.transform.GetChild(0).transform.GetChild(0)
-                                .GetComponent<Image>().sprite = idle; // 待機画像に変更
+                .OnComplete(() => // 移動処理終了後
+                {
+                    human.DORotate(new Vector3(0, 90, 0), rotateTime).SetEase(Ease.Linear) // 回転
+                    .OnComplete(() => // 回転終了時
+                    {
+                        gameObject.transform.GetChild(0).transform.GetChild(0)
+                        .GetComponent<Image>().sprite = idle; // 待機画像に変更
 
-                                human.DORotate(new Vector3(0, 0, 0), rotateTime).SetEase(Ease.Linear); // 元に戻す回転
+                        human.DORotate(new Vector3(0, 0, 0), rotateTime).SetEase(Ease.Linear); // 元に戻す回転
 
-                                // ---------------------------------------------------
-                                beginTime = Random.Range(1, 5); // 新たにTimeを設定
-                                count = 0; // 開始時間を初期化
-                                isWalk = false;
-                                HumanDirection(); // 方向を指定
-                                // ---------------------------------------------------
-                            });
-                        });
+                        // ---------------------------------------------------
+                        beginTime = Random.Range(1, 5); // 新たにTimeを設定
+                        count = 0; // 開始時間を初期化
+                        isWalk = false;
+                        HumanDirection(); // 方向を指定
+                        // ---------------------------------------------------
+                    });
+                });
             })
         );
     }
@@ -110,7 +110,7 @@ public class HumanWalk : MonoBehaviour {
             humanTransform.localScale = new Vector2(1, 1);
             moveDir = -1;
         }
-        else if (transform.localPosition.x > posX + 100) // 右移動
+        else if (transform.localPosition.x > posX + 300) // 右移動
         {
             if (dirFlag) return;
 
