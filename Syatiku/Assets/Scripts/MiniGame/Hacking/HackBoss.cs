@@ -67,7 +67,7 @@ public class HackBoss : MonoBehaviour {
                 Debug.Log("Random:" + rand);
                 if ((rand == 1 && !patte._PatteringPlay) || rand_count == 3)
                 {
-                    boss_rect.transform.DOMoveX(boss_rect.transform.position.x + 2.6f, 0.5f).SetEase(Ease.Linear).OnComplete(() => MoveBoss());
+                    boss_rect.transform.DOMoveX(boss_rect.transform.position.x + 2.8f, 0.5f).SetEase(Ease.Linear).OnComplete(() => MoveBoss());
                     rand_count = 0;
                 }else
                     rand_count++;

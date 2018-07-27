@@ -120,13 +120,13 @@ public class IntoPCAction : MonoBehaviour {
         if (_isResult)
         {
             hack_tap.ZoomActive(6);
-            Window.SetActive(true);
             event_system.enabled = false;
             folder_text.GetComponent<Text>().text = "ログインできました。";
             folder_text.SetActive(true);
             yield return new WaitForSeconds(3f);
             event_system.enabled = true;
             folder_text.SetActive(false);
+            Window.SetActive(true);
         }
         else
         {

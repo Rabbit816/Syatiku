@@ -154,11 +154,11 @@ public class HackTap : MonoBehaviour
                 IntoPC.transform.localPosition = new Vector2(0, 0);
                 break;
             case 11:
-                IntoPC.transform.localPosition = new Vector2(0, -500);
+                IntoPC.transform.localPosition = new Vector2(0, -1200);
                 pat.transform.SetSiblingIndex(0);
                 break;
             case 12:
-                DoorSide.transform.localPosition = new Vector2(-800, 0);
+                DoorSide.transform.localPosition = new Vector2(-1960, 0);
                 break;
             case 13:
                 DoorSide.transform.localPosition = new Vector2(0, 0);
@@ -272,8 +272,8 @@ public class HackTap : MonoBehaviour
         Gakubuti.DOPunchRotation(new Vector3(0, 0, 30), 0.7f);
         if (GakuCount == Gakubuti_max)
         {
-            seq.Append(Gakubuti.DOLocalMoveY(-122, 0.6f))
-                .OnComplete(() => { Meishi.SetActive(true); Meishi_obj.DOLocalMove(new Vector3(253, -226, 0), 0.5f); });
+            seq.Append(Gakubuti.DOLocalMoveY(-305, 0.6f))
+                .OnComplete(() => { Meishi.SetActive(true); Meishi_obj.DOLocalMove(new Vector3(551, -551, 0), 0.5f); });
         }
     }
 
@@ -291,7 +291,7 @@ public class HackTap : MonoBehaviour
         Sequence seq = DOTween.Sequence();
         Image img_alpha = Document.GetComponent<Image>();
         RectTransform Doc_rect = Document.GetComponent<RectTransform>();
-        seq.Append(Doc_rect.DOLocalMove(new Vector3(474, 377, 0), 1.3f).SetDelay(0.3f))
+        seq.Append(Doc_rect.DOLocalMove(new Vector3(900, 377, 0), 1.3f).SetDelay(0.3f))
             .OnComplete(() =>
             {
                 DOTween.ToAlpha(
@@ -354,7 +354,6 @@ public class HackTap : MonoBehaviour
             folder_place_list[i].word = wd[i];
             Debug.Log("folder_place_list: " + folder_place_list[i].word.ToString());
         }
-        
     }
 
     /// <summary>
@@ -366,13 +365,13 @@ public class HackTap : MonoBehaviour
         {
             case 0:
                 count++;
-                collectObject.transform.localPosition = new Vector2(collectObject.transform.localPosition.x - 155, collectObject.transform.localPosition.y);
-                Black_back.transform.localPosition = new Vector2(Black_back.transform.localPosition.x - 800, Black_back.transform.localPosition.y);
+                collectObject.transform.localPosition = new Vector2(collectObject.transform.localPosition.x - 415, collectObject.transform.localPosition.y);
+                Black_back.transform.localPosition = new Vector2(Black_back.transform.localPosition.x - 1900, Black_back.transform.localPosition.y);
                 break;
             case 1:
                 count--;
-                collectObject.transform.localPosition = new Vector2(collectObject.transform.localPosition.x + 155, collectObject.transform.localPosition.y);
-                Black_back.transform.localPosition = new Vector2(Black_back.transform.localPosition.x + 800, Black_back.transform.localPosition.y);
+                collectObject.transform.localPosition = new Vector2(collectObject.transform.localPosition.x + 415, collectObject.transform.localPosition.y);
+                Black_back.transform.localPosition = new Vector2(Black_back.transform.localPosition.x + 1900, Black_back.transform.localPosition.y);
                 break;
         }
     }

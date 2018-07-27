@@ -166,12 +166,12 @@ public class PatteringEvent : MonoBehaviour {
     /// <returns></returns>
     private IEnumerator End_Anim()
     {
-        Title.transform.localPosition = new Vector2(700, 0);
+        Title.transform.localPosition = new Vector2(1400, 0);
         hack_main.es.enabled = false;
         quen.Append(Title.DOLocalMoveX(0f, 1.0f));
         yield return new WaitForSeconds(1.0f);
 
-        quen.Append(Title.DOLocalMoveX(-600f, 1.0f)
+        quen.Append(Title.DOLocalMoveX(-1400f, 1.0f)
             .OnComplete(() => hack_main.es.enabled = true));
         yield return new WaitForSeconds(0.7f);
 
