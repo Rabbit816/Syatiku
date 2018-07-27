@@ -11,8 +11,8 @@ public class FlickTextController : MonoBehaviour
     Vector3 moveForce;
     //反射中か
     bool isReflect;
-    Color wrongColor = new Color(33 / 255f, 100 / 255f, 150 / 255f);
-    Color correctColor = new Color(240 / 255f, 179 / 255f, 37 / 255f);
+    Color wrongColor = new Color(33 / 255f, 100 / 255f, 150 / 255f, 0);
+    Color correctColor = new Color(240 / 255f, 179 / 255f, 37 / 255f, 0);
 
     enum Type
     {
