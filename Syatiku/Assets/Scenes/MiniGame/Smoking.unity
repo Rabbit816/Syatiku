@@ -817,7 +817,7 @@ MonoBehaviour:
   faceSprite:
   - {fileID: 21300000, guid: 770385e832b49a942937bfa3ddc0797c, type: 3}
   - {fileID: 21300000, guid: 331d661839835744985367726e6e4747, type: 3}
-  time: 50
+  time: 200
   answerCount: 2
   qLength: 6
   selectUI: {fileID: 1654543771}
