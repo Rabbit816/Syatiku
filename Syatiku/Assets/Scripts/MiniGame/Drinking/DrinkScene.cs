@@ -24,11 +24,11 @@ public class DrinkScene : MonoBehaviour {
     //注文を表示するための配列
     private int[] OrderBox = new int[4];
     private int[] OrderCounter = new int[4];
-    private float[] OrderPos = new float[4] {-6, -2, 2, 6};
+    private float[] OrderPos = new float[4] {-5.7f, -1.85f, 2.0f, 5.85f};
 
     private int[] Num = new int[4];
     private int NumCounter = 0;
-    private float[] AnswerPos = new float[4] { -300, -100, 100, 300 };
+    private float[] AnswerPos = new float[4] { -680.0f, -220.0f, 240.0f, 700.0f };
     private bool NextGameFlg;
     public float Timer = 2.0f;
     
@@ -99,28 +99,28 @@ public class DrinkScene : MonoBehaviour {
                 //やきとりを表示
                 case 0:
                     this.yakitoriObj = Resources.Load<GameObject>("Prefabs/MiniGame/Drinking/yakitori");
-                    var yakitori = Instantiate(this.yakitoriObj, new Vector2(OrderPos[i], 2.8f), Quaternion.identity);
+                    var yakitori = Instantiate(this.yakitoriObj, new Vector2(OrderPos[i], 2.7f), Quaternion.identity);
                     yakitori.transform.localScale = new Vector2(0.7f, 0.7f);
                     yakitori.transform.parent = this.menuObject.transform;
                     break;
                 //酒を表示
                 case 1:
                     this.sakeObj = Resources.Load<GameObject>("Prefabs/MiniGame/Drinking/sake");
-                    var sake = Instantiate(this.sakeObj, new Vector2(OrderPos[i], 2.8f), Quaternion.identity);
+                    var sake = Instantiate(this.sakeObj, new Vector2(OrderPos[i], 2.7f), Quaternion.identity);
                     sake.transform.localScale = new Vector2(0.25f, 0.25f);
                     sake.transform.parent = this.menuObject.transform;
                     break;
                 //サラダを表示
                 case 2:
                     this.saladObj = Resources.Load<GameObject>("Prefabs/MiniGame/Drinking/salad");
-                    var salad = Instantiate(saladObj, new Vector2(OrderPos[i], 2.8f), Quaternion.identity);
+                    var salad = Instantiate(saladObj, new Vector2(OrderPos[i], 2.7f), Quaternion.identity);
                     salad.transform.localScale = new Vector2(0.35f, 0.35f);
                     salad.transform.parent = menuObject.transform;
                     break;
                 //刺身を表示
                 case 3:
                     this.sashimiObj = Resources.Load<GameObject>("Prefabs/MiniGame/Drinking/sashimi");
-                    var sashimi = Instantiate(sashimiObj, new Vector2(OrderPos[i], 2.8f), Quaternion.identity);
+                    var sashimi = Instantiate(sashimiObj, new Vector2(OrderPos[i], 2.7f), Quaternion.identity);
                     sashimi.transform.localScale = new Vector2(0.25f, 0.25f);
                     sashimi.transform.parent = menuObject.transform;
                     break;
@@ -243,14 +243,14 @@ public class DrinkScene : MonoBehaviour {
                 this.Answer1.gameObject.SetActive(true);
                 if (b)
                 {
-                    this.Answer1.GetComponent<RectTransform>().localPosition = new Vector2(this.AnswerPos[i], 85);
+                    this.Answer1.GetComponent<RectTransform>().localPosition = new Vector2(this.AnswerPos[i], 200);
                     this.Answer1.GetComponent<Text>().text = "○";
                     this.Answer1.GetComponent<Text>().color = new Color(255f / 255f, 0f / 255f, 0f / 255f, 255f / 255f);
                     merter.AnswerCounter++;
                 }
                 else
                 {
-                    this.Answer1.GetComponent<RectTransform>().localPosition = new Vector2(this.AnswerPos[i], 75);
+                    this.Answer1.GetComponent<RectTransform>().localPosition = new Vector2(this.AnswerPos[i], 175);
                     this.Answer1.GetComponent<Text>().text = "×";
                     this.Answer1.GetComponent<Text>().color = new Color(40f / 255f, 0f / 255f, 255f / 255f, 255f / 255f);
                 }
@@ -259,14 +259,14 @@ public class DrinkScene : MonoBehaviour {
                 this.Answer2.gameObject.SetActive(true);
                 if (b)
                 {
-                    this.Answer2.GetComponent<RectTransform>().localPosition = new Vector2(this.AnswerPos[i], 85);
+                    this.Answer2.GetComponent<RectTransform>().localPosition = new Vector2(this.AnswerPos[i], 200);
                     this.Answer2.GetComponent<Text>().text = "○";
                     this.Answer2.GetComponent<Text>().color = new Color(255f / 255f, 0f / 255f, 0f / 255f, 255f / 255f);
                     merter.AnswerCounter++;
                 }
                 else
                 {
-                    this.Answer2.GetComponent<RectTransform>().localPosition = new Vector2(this.AnswerPos[i], 75);
+                    this.Answer2.GetComponent<RectTransform>().localPosition = new Vector2(this.AnswerPos[i], 175);
                     this.Answer2.GetComponent<Text>().text = "×";
                     this.Answer2.GetComponent<Text>().color = new Color(40f / 255f, 0f / 255f, 255f / 255f, 255f / 255f);
                 }
@@ -275,14 +275,14 @@ public class DrinkScene : MonoBehaviour {
                 this.Answer3.gameObject.SetActive(true);
                 if (b)
                 {
-                    this.Answer3.GetComponent<RectTransform>().localPosition = new Vector2(this.AnswerPos[i], 85);
+                    this.Answer3.GetComponent<RectTransform>().localPosition = new Vector2(this.AnswerPos[i], 200);
                     this.Answer3.GetComponent<Text>().text = "○";
                     this.Answer3.GetComponent<Text>().color = new Color(255f / 255f, 0f / 255f, 0f / 255f, 255f / 255f);
                     merter.AnswerCounter++;
                 }
                 else
                 {
-                    this.Answer3.GetComponent<RectTransform>().localPosition = new Vector2(this.AnswerPos[i], 75);
+                    this.Answer3.GetComponent<RectTransform>().localPosition = new Vector2(this.AnswerPos[i],175);
                     this.Answer3.GetComponent<Text>().text = "×";
                     this.Answer3.GetComponent<Text>().color = new Color(40f / 255f, 0f / 255f, 255f / 255f, 255f / 255f);
                 }
@@ -291,14 +291,14 @@ public class DrinkScene : MonoBehaviour {
                 this.Answer4.gameObject.SetActive(true);
                 if (b)
                 {
-                    this.Answer4.GetComponent<RectTransform>().localPosition = new Vector2(this.AnswerPos[i], 85);
+                    this.Answer4.GetComponent<RectTransform>().localPosition = new Vector2(this.AnswerPos[i], 200);
                     this.Answer4.GetComponent<Text>().text = "○";
                     this.Answer4.GetComponent<Text>().color = new Color(255f / 255f, 0f / 255f, 0f / 255f, 255f / 255f);
                     merter.AnswerCounter++;
                 }
                 else
                 {
-                    this.Answer4.GetComponent<RectTransform>().localPosition = new Vector2(this.AnswerPos[i], 75);
+                    this.Answer4.GetComponent<RectTransform>().localPosition = new Vector2(this.AnswerPos[i], 175);
                     this.Answer4.GetComponent<Text>().text = "×";
                     this.Answer4.GetComponent<Text>().color = new Color(40f / 255f, 0f / 255f, 255f / 255f, 255f / 255f);
                 }
