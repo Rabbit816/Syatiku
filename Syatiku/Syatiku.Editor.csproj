@@ -173,6 +173,7 @@
     <None Include="Assets\Resources\Text\Smoking\Bad\SmokingTalkBad0.txt" />
     <None Include="Assets\Resources\Text\Smoking\Bad\SmokingTalkBad1.txt" />
     <None Include="Assets\Resources\Text\Smoking\Bad\SmokingTalkBad2.txt" />
+    <None Include="Assets\Resources\Text\Smoking\GoodSmokingTalk.txt" />
     <None Include="Assets\Resources\Text\Smoking\SmokingTalk.txt" />
     <None Include="Assets\Resources\Text\Smoking\SmokingTalk1.txt" />
     <None Include="Assets\Resources\Text\Smoking\SmokingTalk2.txt" />
