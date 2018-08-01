@@ -30,8 +30,6 @@ public class SmokingController : MonoBehaviour {
 
     bool onceFlag = false; // 失敗時のシーン遷移フラグ
 
-    bool successFlag = false;
-
     bool resultFlag = false;
 
     // パス-----------------------------------------------------------------------
@@ -76,12 +74,7 @@ public class SmokingController : MonoBehaviour {
                 resultFlag = false;
                 Common.Instance.ChangeScene(Common.SceneName.Result);
             }
-            //if (successFlag)
-            //{
-            //    successFlag = false;
-            //    Common.Instance.ChangeScene(Common.SceneName.Result);
-            //    return;
-            //}
+            
             if (!badFlags[answerCount])          // 成功時のシナリオ
                 StartCoroutine(SelectStart());
             else                                // 失敗時のシナリオ
@@ -105,11 +98,14 @@ public class SmokingController : MonoBehaviour {
             {
                 timeOver = true;
                 Result();
-                //Common.Instance.ChangeScene(Common.SceneName.Result);
             }
         }
     }
 
+    /// <summary>
+    /// タイマー
+    /// </summary>
+    /// <returns></returns>
     public IEnumerator TimeDown(){
         while (tabaco.rectTransform.sizeDelta.x > 0 && isTime)
         {
@@ -162,7 +158,7 @@ public class SmokingController : MonoBehaviour {
 
             if (qLength <= 0) {
                 isTime = true;
-                Invoke("AA", 0.01f);
+                Invoke("SelectFalse", 0.01f);
                 Result();
                 return;
             }
@@ -177,7 +173,7 @@ public class SmokingController : MonoBehaviour {
             if (qLength <= 0 || answerCount == 0)
             {
                 isTime = true;
-                Invoke("AA", 0.01f);
+                Invoke("SelectFalse", 0.01f);
                 Result();
                 return;
             }
@@ -186,7 +182,7 @@ public class SmokingController : MonoBehaviour {
 
             IsScenario(talkFilePath + badSmokePath + answerCount.ToString());
         }
-        Invoke("AA", 0.01f);
+        Invoke("SelectFalse", 0.01f);
     }
 
     /// <summary>
@@ -200,7 +196,7 @@ public class SmokingController : MonoBehaviour {
     }
 
     //ベータ用
-    public void AA()
+    public void SelectFalse()
     {
         selectUI.SetActive(false);
     }
@@ -215,6 +211,7 @@ public class SmokingController : MonoBehaviour {
     }
 
     public void Result() {
+        selectUI.SetActive(false);
         qLength = 0;
         resultFlag = true;
         if(succesCount >= 4)

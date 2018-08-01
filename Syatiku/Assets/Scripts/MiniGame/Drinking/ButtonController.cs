@@ -29,10 +29,11 @@ public class ButtonController : MonoBehaviour {
     GameObject DenmokuImage;
     GameObject Menu_Otsumami, Menu_Drink, Menu_Dessert;
     GameObject MenuScrollbar;
-    GameObject Counter1, Counter2, Counter3, Counter4;
+    //GameObject Counter1, Counter2, Counter3, Counter4;
 
-    private int OrderCount = 0;
+    public int OrderCount = 0;
     private bool AgainFlg = true;
+    private int CounterNum;
 
     //飲み会シーンのボタンを表示
     public void DrinkSceneButton(bool SwitchFlg)
@@ -66,10 +67,7 @@ public class ButtonController : MonoBehaviour {
         this.DrinkSceneButton(false);
         this.OtsumamiButton();
         this.OrderButton.interactable = false;
-        this.Counter1.gameObject.SetActive(false);
-        this.Counter2.gameObject.SetActive(false);
-        this.Counter3.gameObject.SetActive(false);
-        this.Counter4.gameObject.SetActive(false);
+        denmoku.CounterOFF();
         meter.MeterON = true;
     }
 
@@ -124,7 +122,7 @@ public class ButtonController : MonoBehaviour {
         {
             this.Yakitori.interactable = false;
             denmoku.ListInYakitori();
-            this.OrderListCounterON();
+            denmoku.OrderListCounterON();
             this.OrderCount++;
         }
     }
@@ -136,7 +134,7 @@ public class ButtonController : MonoBehaviour {
         {
             this.Sake.interactable = false;
             denmoku.ListInSake();
-            this.OrderListCounterON();
+            denmoku.OrderListCounterON();
             this.OrderCount++;
         }
     }
@@ -148,7 +146,7 @@ public class ButtonController : MonoBehaviour {
         {
             this.Salad.interactable = false;
             denmoku.ListInSalad();
-            this.OrderListCounterON();
+            denmoku.OrderListCounterON();
             this.OrderCount++;
         }
     }
@@ -160,7 +158,7 @@ public class ButtonController : MonoBehaviour {
         {
             this.Sashimi.interactable = false;
             denmoku.ListInSashimi();
-            this.OrderListCounterON();
+            denmoku.OrderListCounterON();
             this.OrderCount++;
         }
     }
@@ -171,7 +169,7 @@ public class ButtonController : MonoBehaviour {
         this.ButtonReset();
         this.OrderCount = 0;
         drink.Delete();
-        this.DenmokuImage.GetComponent<RectTransform>().localPosition = new Vector2(-400, -850);
+        this.DenmokuImage.GetComponent<RectTransform>().localPosition = new Vector2(-970, -2000);
         drink.Answer();
         meter.MeterON = false;
         meter.value = 1f;
@@ -199,88 +197,29 @@ public class ButtonController : MonoBehaviour {
         }
     }
 
-    public void OrderListCounterON()
+    public void CounterController(bool b)
     {
-        switch (this.OrderCount)
+        if (b)
         {
-            case 0:
-                this.Counter1.gameObject.SetActive(true);
-                break;
-            case 1:
-                this.Counter2.gameObject.SetActive(true);
-                break;
-            case 2:
-                this.Counter3.gameObject.SetActive(true);
-                break;
-            case 3:
-                this.Counter4.gameObject.SetActive(true);
-                break;
+            if (denmoku.InputOrderCounter[CounterNum] < 4)
+            {
+                denmoku.InputOrderCounter[CounterNum]++;
+            }
+        }
+        else
+        {
+            if (denmoku.InputOrderCounter[CounterNum] > 1)
+            {
+                denmoku.InputOrderCounter[CounterNum]--;
+            }
         }
     }
 
-
-    // 注文欄の増減ボタン
-    public void OrderListPlus1()
+    public void CounterButton(int i)
     {
-        if(denmoku.InputOrderCounter[0] < 4)
+        if(CounterNum != i)
         {
-            denmoku.InputOrderCounter[0]++;
-        }
-    }
-
-    public void OrderListMinus1()
-    {
-        if(denmoku.InputOrderCounter[0] > 1)
-        {
-            denmoku.InputOrderCounter[0]--;
-        }
-    }
-
-    public void OrderListPlus2()
-    {
-        if (denmoku.InputOrderCounter[1] < 4)
-        {
-            denmoku.InputOrderCounter[1]++;
-        }
-    }
-
-    public void OrderListMinus2()
-    {
-        if (denmoku.InputOrderCounter[1] > 1)
-        {
-            denmoku.InputOrderCounter[1]--;
-        }
-    }
-
-    public void OrderListPlus3()
-    {
-        if (denmoku.InputOrderCounter[2] < 4)
-        {
-            denmoku.InputOrderCounter[2]++;
-        }
-    }
-
-    public void OrderListMinus3()
-    {
-        if (denmoku.InputOrderCounter[2] > 1)
-        {
-            denmoku.InputOrderCounter[2]--;
-        }
-    }
-
-    public void OrderListPlus4()
-    {
-        if (denmoku.InputOrderCounter[3] < 4)
-        {
-            denmoku.InputOrderCounter[3]++;
-        }
-    }
-
-    public void OrderListMinus4()
-    {
-        if (denmoku.InputOrderCounter[3] > 1)
-        {
-            denmoku.InputOrderCounter[3]--;
+            CounterNum = i;
         }
     }
 
@@ -293,19 +232,12 @@ public class ButtonController : MonoBehaviour {
         this.Menu_Drink = GameObject.Find("ScrollContent/Drink");
         this.Menu_Dessert = GameObject.Find("ScrollContent/Dessert");
         this.MenuScrollbar = GameObject.Find("Scrollbar");
-        this.Counter1 = GameObject.Find("Order1/Counter1");
-        this.Counter2 = GameObject.Find("Order2/Counter2");
-        this.Counter3 = GameObject.Find("Order3/Counter3");
-        this.Counter4 = GameObject.Find("Order4/Counter4");
         this.DrinkSceneButton(false);
-        this.DenmokuImage.GetComponent<RectTransform>().localPosition = new Vector2(-400, -850);
+        this.DenmokuImage.GetComponent<RectTransform>().localPosition = new Vector2(-970, -2000);
     }
 	
 	
 	void Update () {
-        this.Counter1.GetComponent<Text>().text = "× " + denmoku.InputOrderCounter[0].ToString();
-        this.Counter2.GetComponent<Text>().text = "× " + denmoku.InputOrderCounter[1].ToString();
-        this.Counter3.GetComponent<Text>().text = "× " + denmoku.InputOrderCounter[2].ToString();
-        this.Counter4.GetComponent<Text>().text = "× " + denmoku.InputOrderCounter[3].ToString();
+        
     }
 }

@@ -11,8 +11,8 @@ public class FlickTextController : MonoBehaviour
     Vector3 moveForce;
     //反射中か
     bool isReflect;
-    Color wrongColor = new Color(33 / 255f, 100 / 255f, 150 / 255f);
-    Color correctColor = new Color(240 / 255f, 179 / 255f, 37 / 255f);
+    Color wrongColor = new Color(33 / 255f, 100 / 255f, 150 / 255f, 0);
+    Color correctColor = new Color(240 / 255f, 179 / 255f, 37 / 255f, 0);
 
     enum Type
     {
@@ -35,17 +35,17 @@ public class FlickTextController : MonoBehaviour
 
         //座標
         float posX = Random.Range(0, 2);
-        posX = (posX > 0 ? 150 : -150);
+        posX = (posX > 0 ? 450 : -450);
         float posY = Random.Range(-100, 120);
         Vector3 pos = new Vector3(posX, posY, 0);
         text.rectTransform.localPosition = pos;
         //移動
-        float moveX = posX / Random.Range(200, 600);
+        float moveX = posX / Random.Range(100, 800);
         float moveY = Random.Range(-0.5f, 0.5f);
         moveForce = new Vector3(moveX, moveY, 0);
 
         //テキスト
-        text.fontSize = Random.Range(30, 54);
+        text.fontSize = Random.Range(100, 200);
         alpha = 0;
         this.type = (Type)num;
         text.color = (type == Type.Correct ? correctColor : wrongColor);
@@ -74,10 +74,9 @@ public class FlickTextController : MonoBehaviour
         text.rectTransform.localPosition += moveForce;
 
         //画面外に外れた時
-        if (text.rectTransform.localPosition.x > 500 || text.rectTransform.localPosition.x < -500
-            || text.rectTransform.localPosition.y > 300 || text.rectTransform.localPosition.y < -300)
+        if (text.rectTransform.localPosition.x > 1400 || text.rectTransform.localPosition.x < -1400
+            || text.rectTransform.localPosition.y > 700 || text.rectTransform.localPosition.y < -700)
         {
-            if(type == Type.Correct) BossScene.Instance.MissCountUP();
             gameObject.SetActive(false);
         }
     }

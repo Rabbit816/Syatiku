@@ -180,6 +180,7 @@ public class ScenarioController : MonoBehaviour {
         else
         {
             ShowRecommendIcon();
+            if (IsReachLastInfo()) isPlayScenario = false;
         }
     }
 

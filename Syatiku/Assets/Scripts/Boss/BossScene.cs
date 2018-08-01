@@ -89,7 +89,7 @@ public class BossScene : MonoBehaviour {
         }
 
         //区切り値へ到達
-        if (damageGageController.damagePoint == separateValue)
+        if (separateValue > 0 && damageGageController.damagePoint > separateValue)
         {
             if(i >= 0) isReachStates[i] = true;
             ChangePart();

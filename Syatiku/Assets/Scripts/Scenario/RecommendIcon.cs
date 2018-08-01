@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class RecommendIcon : MonoBehaviour {
 
@@ -9,12 +7,12 @@ public class RecommendIcon : MonoBehaviour {
     Vector3 targetPos;
 
     [SerializeField, Header("上下する速さ")]
-    float speed = 6.0f;
+    float speed = 10.0f;
 
     void Start()
     {
         downPos = transform.localPosition;
-        upPos = new Vector3(downPos.x, downPos.y + 5, downPos.z);
+        upPos = new Vector3(downPos.x, downPos.y + 20, downPos.z);
         targetPos = upPos;
     }
 
