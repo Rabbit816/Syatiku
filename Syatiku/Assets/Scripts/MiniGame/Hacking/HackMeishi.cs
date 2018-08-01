@@ -50,8 +50,8 @@ public class HackMeishi : MonoBehaviour {
         _document = true;
 
         Sequence s = DOTween.Sequence();
-        s.Append(Meishi_rect.DOLocalMove(new Vector3(551, -551, 0), 0.7f))
-            .Join(Meishi_rect.DOScale(0.2f, 0.7f))
+        s.Append(Meishi_rect.DOLocalMove(new Vector3(860, 465, 0), 0.7f))
+            .Join(Meishi_rect.DOScale(0.1f, 0.7f))
             .OnComplete(() => { Meishi_rect.gameObject.SetActive(false); hack_tap.ZoomActive(5); });
     }
 }

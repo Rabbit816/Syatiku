@@ -291,7 +291,7 @@ public class HackTap : MonoBehaviour
         Sequence seq = DOTween.Sequence();
         Image img_alpha = Document.GetComponent<Image>();
         RectTransform Doc_rect = Document.GetComponent<RectTransform>();
-        seq.Append(Doc_rect.DOLocalMove(new Vector3(900, 377, 0), 1.3f).SetDelay(0.3f))
+        seq.Append(Doc_rect.DOLocalMove(new Vector3(930, 780, 0), 1.3f).SetDelay(0.3f))
             .OnComplete(() =>
             {
                 DOTween.ToAlpha(

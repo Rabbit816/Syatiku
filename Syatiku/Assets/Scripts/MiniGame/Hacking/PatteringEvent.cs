@@ -129,11 +129,11 @@ public class PatteringEvent : MonoBehaviour {
 
         Title.GetChild(0).GetComponent<Text>().text = "黄色のページをタップしよう！";
         hack_main.es.enabled = false;
-        Title.transform.localPosition = new Vector2(599, 0);
+        Title.transform.localPosition = new Vector2(1400f, 0);
         quen.Append(Title.DOLocalMoveX(0f, 1.0f));
         yield return new WaitForSeconds(1f);
 
-        quen.Append(Title.DOLocalMoveX(-600f, 1.0f)
+        quen.Append(Title.DOLocalMoveX(-1400f, 1.0f)
             .OnComplete(() => hack_main.es.enabled = true));
         yield return new WaitForSeconds(0.5f);
 
