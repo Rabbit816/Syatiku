@@ -82,7 +82,7 @@ public class HackBoss : MonoBehaviour {
             chose_text.text = Bosswait.ToString("f1");
             if (_chooseTap)
             {
-                Boss.transform.localPosition = new Vector2(-365, -130);
+                Boss.transform.localPosition = new Vector2(-885, -277);
                 ComeBoss.SetActive(false);
                 hack_tap.PlaceButton(12);
                 _chooseTap = false;

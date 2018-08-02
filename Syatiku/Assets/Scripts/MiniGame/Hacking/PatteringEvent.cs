@@ -115,20 +115,21 @@ public class PatteringEvent : MonoBehaviour {
     }
 
     /// <summary>
-    /// SpeedyAnimationをスタートさせる時の処理
+    /// Animationをスタートさせる時の処理
     /// </summary>
     /// <param name="time">待ち時間</param>
     /// <returns></returns>
     public IEnumerator Start_AnimWaitTime(bool _lowAnim)
     {
         _PatteringPlay = true;
+        successCount = 0;
         if (_lowAnim)
             LowObject.SetActive(true);
         else
             SpeedyObject.SetActive(true);
 
         Title.GetChild(0).GetComponent<Text>().text = "黄色のページをタップしよう！";
-        hack_main.es.enabled = false;
+        //hack_main.es.enabled = false;
         Title.transform.localPosition = new Vector2(1400f, 0);
         quen.Append(Title.DOLocalMoveX(0f, 1.0f));
         yield return new WaitForSeconds(1f);
@@ -171,9 +172,9 @@ public class PatteringEvent : MonoBehaviour {
         quen.Append(Title.DOLocalMoveX(0f, 1.0f));
         yield return new WaitForSeconds(1.0f);
 
-        quen.Append(Title.DOLocalMoveX(-1400f, 1.0f)
+        quen.Append(Title.DOLocalMoveX(-1450f, 1.0f)
             .OnComplete(() => hack_main.es.enabled = true));
-        yield return new WaitForSeconds(0.7f);
+        yield return new WaitForSeconds(0.9f);
 
         PatteResult();
         hack_main.es.enabled = true;
@@ -215,7 +216,7 @@ public class PatteringEvent : MonoBehaviour {
     private void LowAnim()
     {
         Sequence se = DOTween.Sequence();
-        se.Append(Low_Paper_1.DOLocalRotate(new Vector2(0, Low_Paper_1.localRotation.y + 180), 0.3f).SetDelay(0.5f).SetLoops(67, LoopType.Restart))
+        se.Append(Low_Paper_1.DOLocalRotate(new Vector2(0, Low_Paper_1.localRotation.y + 180), 0.2f).SetDelay(0.5f).SetLoops(97, LoopType.Restart))
            .InsertCallback(3.7f, () => { ChangeColor(0); _success = true; })
            .InsertCallback(4.3f, () => { ChangeColor(1); _success = false; })
            .InsertCallback(7.4f, () => { ChangeColor(0); _success = true; })
@@ -233,15 +234,15 @@ public class PatteringEvent : MonoBehaviour {
     private void SpeedyAnim()
     {
         Sequence seq = DOTween.Sequence();
-        seq.Append(Speedy_Paper_1.DOLocalRotate(new Vector2(0, Speedy_Paper_1.localRotation.y + 180), 0.2f).SetDelay(0.1f).SetLoops(90, LoopType.Restart))
-           .InsertCallback(2.8f, () => { ChangeColor(2); _success = true; })
-           .InsertCallback(3.3f, () => { ChangeColor(3); _success = false; })
+        seq.Append(Speedy_Paper_1.DOLocalRotate(new Vector2(0, Speedy_Paper_1.localRotation.y + 180), 0.16f).SetDelay(0.1f).SetLoops(120, LoopType.Restart))
+           .InsertCallback(3.0f, () => { ChangeColor(2); _success = true; })
+           .InsertCallback(3.4f, () => { ChangeColor(3); _success = false; })
            .InsertCallback(8.4f, () => { ChangeColor(2); _success = true; })
-           .InsertCallback(8.9f, () => { ChangeColor(3); _success = false; })
+           .InsertCallback(8.8f, () => { ChangeColor(3); _success = false; })
            .InsertCallback(10.6f, () => { ChangeColor(2); _success = true; })
-           .InsertCallback(11.1f, () => { ChangeColor(3); _success = false; })
+           .InsertCallback(11.0f, () => { ChangeColor(3); _success = false; })
            .InsertCallback(16.8f, () => { ChangeColor(2); _success = true; })
-           .InsertCallback(17.3f, () => { ChangeColor(3); _success = false; })
+           .InsertCallback(17.2f, () => { ChangeColor(3); _success = false; })
            .OnComplete(() => { Title.GetChild(0).GetComponent<Text>().text = "終了"; _speedyAnimClear = true; StartCoroutine(End_Anim()); });
     }
 }

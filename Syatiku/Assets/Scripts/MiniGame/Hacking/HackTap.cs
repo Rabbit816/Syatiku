@@ -149,8 +149,8 @@ public class HackTap : MonoBehaviour
                 SearchTap(placeNum);
                 break;
             case 10:
-                if (_windowFase)
-                    Window.SetActive(true);
+                //if (_windowFase)
+                //    Window.SetActive(true);
                 IntoPC.transform.localPosition = new Vector2(0, 0);
                 break;
             case 11:
