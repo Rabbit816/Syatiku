@@ -24,22 +24,26 @@ public class SmokingController : MonoBehaviour {
 
     private int succesCount,qNum; // 正解数、今が何番目の問題か
 
-    bool isTime = false; // タイマースタートフラグ
+    private int textNum;
 
-    bool timeOver = false; // タイムオーバーフラグ
+    private bool isTime = false; // タイマースタートフラグ
 
-    bool onceFlag = false; // 失敗時のシーン遷移フラグ
+    private bool timeOver = false; // タイムオーバーフラグ
 
-    bool resultFlag = false;
+    private bool onceFlag = false; // 失敗時のシーン遷移フラグ
+
+    private bool resultFlag = false;
 
     // パス-----------------------------------------------------------------------
-    private string musiFilePath = "CSV/Smoking3"; // CSVパス名
+    private string musiFilePath = "CSV/Smoking"; // CSVパス名
 
     private string talkFilePath = "Text/Smoking/"; // 会話パートテキストパス名
 
     private string smokePath = "SmokingTalk"; // 喫煙シナリオのPath
 
     private string badSmokePath = "Bad/SmokingTalkBad"; // 喫煙BadシナリオPath
+
+    private string textPath;
     // ---------------------------------------------------------------------------
 
     private bool[] badFlags = { false, false, false }; // 不正解フラグ
@@ -50,14 +54,17 @@ public class SmokingController : MonoBehaviour {
 
     // Use this for initialization
     void Start () {
-        IsScenario(talkFilePath + smokePath);
+        textNum = Random.Range(0, 2);
+        textPath = "Talk" + textNum + "/";
+        IsScenario(talkFilePath + textPath + smokePath);
+
+        qNum += 6 * textNum;
 
         selectUI.SetActive(false); // 回答選択UIを非表示
         
         succesCount = 0; // 正解数
 
         tabacoSize = tabaco.rectTransform.sizeDelta; // 制限時間のUIの長さを設定
-        //StartCoroutine(TimeDown());
 
         mushikui = new Mushikui(musiFilePath); // 虫食いデータ作成
 
@@ -90,7 +97,7 @@ public class SmokingController : MonoBehaviour {
                 answerCount--;
                 face.sprite = faceSprite[answerCount];
 
-                IsScenario(talkFilePath + smokePath + qNum.ToString());
+                IsScenario(talkFilePath + textPath + smokePath + qNum.ToString());
             }
 
         if (tabaco.rectTransform.sizeDelta.x < 0)
@@ -165,7 +172,7 @@ public class SmokingController : MonoBehaviour {
 
             qNum++; // 問題Noを加算
 
-            IsScenario(talkFilePath + smokePath + qNum.ToString());
+            IsScenario(talkFilePath + textPath + smokePath + qNum.ToString());
 
         } else {
             Debug.Log("×");
