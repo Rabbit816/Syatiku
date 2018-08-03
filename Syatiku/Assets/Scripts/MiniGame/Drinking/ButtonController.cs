@@ -30,7 +30,7 @@ public class ButtonController : MonoBehaviour {
     GameObject Menu_Otsumami, Menu_Drink, Menu_Dessert;
     GameObject MenuScrollbar;
 
-    public int OrderCount = 0;
+    [HideInInspector] public int OrderCount = 0;
     private bool AgainFlg = true;
     private int CounterNum;
 

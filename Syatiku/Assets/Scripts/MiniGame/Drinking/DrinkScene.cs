@@ -31,15 +31,11 @@ public class DrinkScene : MonoBehaviour {
     private int NumCounter = 0;
     private float[] AnswerPos = new float[4] { -680.0f, -220.0f, 240.0f, 700.0f };
     private bool NextGameFlg;
-    [SerializeField] private float Timer = 2.0f;
-    [SerializeField] private int Limit;
-    
-
-    //もとのOrderPosの中身の３番目までを保存しておく変数
+    [SerializeField, Range(0, 2), Tooltip("注文の表示時間(秒)")] private float Timer;
+    [SerializeField, Range(1, 9), Tooltip("回数制限")] private int Limit;
     private float OriginPos1;
     private float OriginPos2;
     private float OriginPos3;
-
 
     //注文の配列の用意
     public void OrderShuffle()
@@ -323,6 +319,7 @@ public class DrinkScene : MonoBehaviour {
         this.OrderShuffle();
         this.PosShuffle();
         this.Order();
+        this.TapText.GetComponent<Text>().text = "画面をタップ！";
     }
    
     void Start () {
@@ -352,13 +349,13 @@ public class DrinkScene : MonoBehaviour {
         this.AnswerResultOFF();
         this.Hukidashi(false);
         this.NextGameFlg = true;
+        this.TapText.GetComponent<Text>().text = "タップしてスタート！";
     }
 	void Update () {
         if(Input.GetMouseButtonDown(0) && this.NextGameFlg)
         {
             if(Limit > 0)
             {
-                Debug.Log("実行されました");
                 this.TapText.gameObject.SetActive(false);
                 this.NextGameFlg = false;
                 this.AnswerResultOFF();

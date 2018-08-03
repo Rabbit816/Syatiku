@@ -15,8 +15,8 @@ public class Denmoku : MonoBehaviour {
     GameObject SashimiPre;
 
     //デンモク内で使う配列・変数
-    public int[] InputOrderBox = new int[4];
-    public int[] InputOrderCounter = new int[4];
+    [HideInInspector] public int[] InputOrderBox = new int[4];
+    [HideInInspector] public int[] InputOrderCounter = new int[4];
     private float[] OrderListPos = new float[4] { 3.9f, 1.75f, -0.45f, -2.55f };
     private int OrderCount = 0;
 
