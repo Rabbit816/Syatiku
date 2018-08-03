@@ -26,6 +26,7 @@ public class HackBoss : MonoBehaviour {
     private HackTap hack_tap;
     private HackMain hack_main;
     private PatteringEvent patte;
+    private IntoPCAction into_pc;
     [Header("上司が待機してる時間")]
     public float BossTimer = 5.0f;
     private float Bosswait;
@@ -43,6 +44,7 @@ public class HackBoss : MonoBehaviour {
         hack_tap = GetComponent<HackTap>();
         hack_main = GetComponent<HackMain>();
         patte = GetComponent<PatteringEvent>();
+        into_pc = GetComponent<IntoPCAction>();
 
         boss_rect = Boss.GetComponent<RectTransform>();
         ChooseObject.SetActive(false);
@@ -58,7 +60,7 @@ public class HackBoss : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
         //ボスランダム処理
-        if (hack_main._timerActive)
+        if (hack_main._timerActive && !into_pc._isWindowAnim)
         {
             req -= Time.deltaTime;
             if (req <= 0f)
