@@ -86,7 +86,7 @@ public class HackMain : MonoBehaviour {
     /// <returns></returns>
     private IEnumerator StartedTimer()
     {
-        yield return new WaitForSeconds(3.8f);
+        yield return new WaitForSeconds(5.5f);
         es.enabled = true;
         Timer();
     }
