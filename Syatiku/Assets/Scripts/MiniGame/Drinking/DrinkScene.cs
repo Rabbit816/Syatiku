@@ -9,6 +9,7 @@ public class DrinkScene : MonoBehaviour {
     GameObject Hukidashi1, Hukidashi2, Hukidashi3, Hukidashi4;
     GameObject Answer1, Answer2, Answer3, Answer4;
     GameObject TapText;
+    GameObject LimitText;
     GameObject yakitoriObj;
     GameObject sakeObj;
     GameObject saladObj;
@@ -30,7 +31,8 @@ public class DrinkScene : MonoBehaviour {
     private int NumCounter = 0;
     private float[] AnswerPos = new float[4] { -680.0f, -220.0f, 240.0f, 700.0f };
     private bool NextGameFlg;
-    public float Timer = 2.0f;
+    [SerializeField] private float Timer = 2.0f;
+    [SerializeField] private int Limit;
     
 
     //もとのOrderPosの中身の３番目までを保存しておく変数
@@ -124,6 +126,9 @@ public class DrinkScene : MonoBehaviour {
                     sashimi.transform.localScale = new Vector2(0.25f, 0.25f);
                     sashimi.transform.parent = menuObject.transform;
                     break;
+                default:
+                    Debug.Log("エラー");
+                    break;
             }
             //数秒後に表示された吹き出しと商品を消す
             yield return new WaitForSeconds(Timer);
@@ -179,6 +184,7 @@ public class DrinkScene : MonoBehaviour {
         merter.Moving();
         merter.AnswerCounter = 0;
         this.TapText.gameObject.SetActive(true);
+        Limit--;
     }
     
     //注文を表示する際の、吹き出しと個数を表示させるメソッド
@@ -205,6 +211,9 @@ public class DrinkScene : MonoBehaviour {
                 this.Hukidashi4.gameObject.SetActive(true);
                 this.OrderCounter4.gameObject.SetActive(true);
                 this.OrderCounter4.GetComponent<Text>().text = "× " + this.OrderCounter[NumCounter].ToString();
+                break;
+            default:
+                Debug.Log("エラー");
                 break;
         }
         NumCounter++;
@@ -303,7 +312,17 @@ public class DrinkScene : MonoBehaviour {
                     this.Answer4.GetComponent<Text>().color = new Color(40f / 255f, 0f / 255f, 255f / 255f, 255f / 255f);
                 }
                 break;
+            default:
+                Debug.Log("エラー");
+                break;
         }
+    }
+
+    public void GameStart()
+    {
+        this.OrderShuffle();
+        this.PosShuffle();
+        this.Order();
     }
    
     void Start () {
@@ -325,32 +344,35 @@ public class DrinkScene : MonoBehaviour {
         this.Answer3 = GameObject.Find("OrderAnswer/Answer3");
         this.Answer4 = GameObject.Find("OrderAnswer/Answer4");
         this.TapText = GameObject.Find("DrinkMain/TapText");
+        this.LimitText = GameObject.Find("DrinkMain/Limit");
         this.OriginPos1 = this.OrderPos[0];
         this.OriginPos2 = this.OrderPos[1];
         this.OriginPos3 = this.OrderPos[2];
         this.OrderCounterOFF();
         this.AnswerResultOFF();
         this.Hukidashi(false);
-        this.TapText.gameObject.SetActive(false);
-
-        //ゲーム開始に必要な処理
-        this.OrderShuffle();
-        this.PosShuffle();
-        this.Order();
+        this.NextGameFlg = true;
     }
 	void Update () {
         if(Input.GetMouseButtonDown(0) && this.NextGameFlg)
         {
-            Debug.Log("実行されました");
-            this.TapText.gameObject.SetActive(false);
-            this.NextGameFlg = false;
-            this.AnswerResultOFF();
-            Hukidashi(false);
-            this.OrderShuffle();
-            this.PosShuffle();
-            this.Order();
+            if(Limit > 0)
+            {
+                Debug.Log("実行されました");
+                this.TapText.gameObject.SetActive(false);
+                this.NextGameFlg = false;
+                this.AnswerResultOFF();
+                Hukidashi(false);
+                this.GameStart();
+            }
+            else
+            {
+                Common.Instance.ChangeScene(Common.SceneName.Result);
+            }
+            
         }
-	}
+        this.LimitText.GetComponent<Text>().text = "あと " + this.Limit.ToString() + " 回";
+    }
 
     
 }

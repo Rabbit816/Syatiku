@@ -38,6 +38,9 @@ public class Denmoku : MonoBehaviour {
             case 3:
                 this.Counter4.gameObject.SetActive(true);
                 break;
+            default:
+                Debug.Log("エラー");
+                break;
         }
     }
 

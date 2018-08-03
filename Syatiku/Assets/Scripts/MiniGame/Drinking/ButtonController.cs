@@ -29,7 +29,6 @@ public class ButtonController : MonoBehaviour {
     GameObject DenmokuImage;
     GameObject Menu_Otsumami, Menu_Drink, Menu_Dessert;
     GameObject MenuScrollbar;
-    //GameObject Counter1, Counter2, Counter3, Counter4;
 
     public int OrderCount = 0;
     private bool AgainFlg = true;
@@ -192,6 +191,9 @@ public class ButtonController : MonoBehaviour {
                     break;
                 case 3:
                     this.Sashimi.interactable = true;
+                    break;
+                default:
+                    Debug.Log("エラー");
                     break;
             }
         }
