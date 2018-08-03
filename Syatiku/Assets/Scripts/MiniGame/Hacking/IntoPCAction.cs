@@ -92,6 +92,9 @@ public class IntoPCAction : MonoBehaviour {
         }else if (Input.GetKeyDown(KeyCode.Z))
         {
             hack_tap.PlaceButton(25);
+        }else if (Input.GetKeyDown(KeyCode.W))
+        {
+            hack_tap.PlaceButton(17); hack_tap.PlaceButton(18); hack_tap.PlaceButton(19);
         }
 	}
     
