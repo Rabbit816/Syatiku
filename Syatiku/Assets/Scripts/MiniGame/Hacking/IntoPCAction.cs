@@ -123,10 +123,10 @@ public class IntoPCAction : MonoBehaviour {
             event_system.enabled = false;
             folder_text.GetComponent<Text>().text = "ログインできました。";
             folder_text.SetActive(true);
-            yield return new WaitForSeconds(3f);
+            Window.SetActive(true);
+            yield return new WaitForSeconds(1.5f);
             event_system.enabled = true;
             folder_text.SetActive(false);
-            Window.SetActive(true);
         }
         else
         {
@@ -147,7 +147,7 @@ public class IntoPCAction : MonoBehaviour {
             Document_1.SetActive(true);
             NotComp.SetActive(false);
         }
-        Window.SetActive(false);
+        //Window.SetActive(false);
         Comparisoning.SetActive(true);
     }
 
@@ -157,7 +157,7 @@ public class IntoPCAction : MonoBehaviour {
     public void OutTap()
     {
         Comparisoning.SetActive(false);
-        Window.SetActive(true);
+        //Window.SetActive(true);
     }
 
     /// <summary>
