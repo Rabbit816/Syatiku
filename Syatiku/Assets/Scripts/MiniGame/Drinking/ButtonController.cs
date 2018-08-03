@@ -35,27 +35,27 @@ public class ButtonController : MonoBehaviour {
     private int CounterNum;
 
     //飲み会シーンのボタンを表示
-    public void DrinkSceneButton(bool SwitchFlg)
+    public void DrinkSceneButton(bool b)
     {
-        if (SwitchFlg)
+        if (b)
         {
+            this.Remember.gameObject.SetActive(b);
+            
             //もう一度注文を聞くボタンが押されたかの判定
             if (this.AgainFlg)
             {
-                this.Remember.gameObject.SetActive(true);
-                this.Again.gameObject.SetActive(true);
+                this.Again.gameObject.SetActive(b);
                 this.Remember.GetComponent<RectTransform>().localPosition = new Vector2(0, 50);
             }
             else
             {
-                this.Remember.gameObject.SetActive(true);
                 this.Remember.GetComponent<RectTransform>().localPosition = new Vector2(0, 0);
             }
         }
         else
         {
-            this.Remember.gameObject.SetActive(false);
-            this.Again.gameObject.SetActive(false);
+            this.Remember.gameObject.SetActive(b);
+            this.Again.gameObject.SetActive(b);
         }
     }
 
@@ -81,37 +81,30 @@ public class ButtonController : MonoBehaviour {
     //メニュータブのおつまみボタン
     public void OtsumamiButton()
     {
-        this.Otsumami.interactable = false;
-        this.Drink.interactable = true;
-        this.Dessert.interactable = true;
-        this.MenuScrollbar.GetComponent<Scrollbar>().value = 1;
-        this.Menu_Otsumami.gameObject.SetActive(true);
-        this.Menu_Drink.gameObject.SetActive(false);
-        this.Menu_Dessert.gameObject.SetActive(false);
+        this.MenuTabControll(false, true, true, true, false, false);
     }
 
     //メニュータブの飲み物ボタン
     public void DrinkButton()
     {
-        this.Otsumami.interactable = true;
-        this.Drink.interactable = false;
-        this.Dessert.interactable = true;
-        this.MenuScrollbar.GetComponent<Scrollbar>().value = 1;
-        this.Menu_Otsumami.gameObject.SetActive(false);
-        this.Menu_Drink.gameObject.SetActive(true);
-        this.Menu_Dessert.gameObject.SetActive(false);
+        this.MenuTabControll(true, false, true, false, true, false);
     }
 
     //メニュータブのデザートボタン
     public void DessertButton()
     {
-        this.Otsumami.interactable = true;
-        this.Drink.interactable = true;
-        this.Dessert.interactable = false;
+        this.MenuTabControll(true, true, false, false, false, true);
+    }
+
+    public void MenuTabControll(bool b1, bool b2, bool b3, bool b4, bool b5, bool b6)
+    {
         this.MenuScrollbar.GetComponent<Scrollbar>().value = 1;
-        this.Menu_Otsumami.gameObject.SetActive(false);
-        this.Menu_Drink.gameObject.SetActive(false);
-        this.Menu_Dessert.gameObject.SetActive(true);
+        this.Otsumami.interactable = b1;
+        this.Drink.interactable = b2;
+        this.Dessert.interactable = b3;
+        this.Menu_Otsumami.gameObject.SetActive(b4);
+        this.Menu_Drink.gameObject.SetActive(b5);
+        this.Menu_Dessert.gameObject.SetActive(b6);
     }
 
     //メニューのやきとりボタン

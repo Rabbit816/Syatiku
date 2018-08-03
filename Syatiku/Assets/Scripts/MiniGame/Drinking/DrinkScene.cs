@@ -235,12 +235,12 @@ public class DrinkScene : MonoBehaviour {
         this.Answer4.gameObject.SetActive(false);
     }
 
-    public void Hukidashi(bool HukidashiFlg)
+    public void Hukidashi(bool b)
     {
-        this.Hukidashi1.gameObject.SetActive(HukidashiFlg);
-        this.Hukidashi2.gameObject.SetActive(HukidashiFlg);
-        this.Hukidashi3.gameObject.SetActive(HukidashiFlg);
-        this.Hukidashi4.gameObject.SetActive(HukidashiFlg);
+        this.Hukidashi1.gameObject.SetActive(b);
+        this.Hukidashi2.gameObject.SetActive(b);
+        this.Hukidashi3.gameObject.SetActive(b);
+        this.Hukidashi4.gameObject.SetActive(b);
     }
 
     //注文の正誤判定の表示を管理するメソッド
