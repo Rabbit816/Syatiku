@@ -1089,6 +1089,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aefa95f3658f8eb469f58bb5af972721, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  InfoMeter: {fileID: 1757019744}
   value: 1
   AnswerCounter: 0
   MeterON: 0
