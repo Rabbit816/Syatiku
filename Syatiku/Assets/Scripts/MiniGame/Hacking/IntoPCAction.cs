@@ -50,6 +50,9 @@ public class IntoPCAction : MonoBehaviour {
     private bool doc_0 = false;
     private bool doc_1 = false;
 
+    [HideInInspector]
+    public bool _isWindowAnim = false;
+
     // Use this for initialization
     void Start () {
         try
@@ -77,6 +80,7 @@ public class IntoPCAction : MonoBehaviour {
         hack_tap = GetComponent<HackTap>();
         doc_0 = false;
         doc_1 = false;
+        _isWindowAnim = false;
     }
 	
 	// Update is called once per frame
@@ -119,6 +123,7 @@ public class IntoPCAction : MonoBehaviour {
     {
         if (_isResult)
         {
+            _isWindowAnim = true;
             hack_tap.ZoomActive(6);
             event_system.enabled = false;
             folder_text.GetComponent<Text>().text = "ログインできました。";
@@ -135,6 +140,7 @@ public class IntoPCAction : MonoBehaviour {
             yield return new WaitForSeconds(1.5f);
             folder_text.SetActive(false);
         }
+        _isWindowAnim = false;
     }
     
     /// <summary>
@@ -147,7 +153,6 @@ public class IntoPCAction : MonoBehaviour {
             Document_1.SetActive(true);
             NotComp.SetActive(false);
         }
-        //Window.SetActive(false);
         Comparisoning.SetActive(true);
     }
 
@@ -157,7 +162,6 @@ public class IntoPCAction : MonoBehaviour {
     public void OutTap()
     {
         Comparisoning.SetActive(false);
-        //Window.SetActive(true);
     }
 
     /// <summary>
