@@ -61,7 +61,7 @@ public class HackBoss : MonoBehaviour {
         _commingboss = false;
         _gameover = false;
         _choosing = false;
-        ReadBossText();
+        //ReadBossText();
         comingCount = 0;
         rand_count = 0;
         maxLine = 0;
@@ -170,10 +170,14 @@ public class HackBoss : MonoBehaviour {
         Zoom.SetActive(true);
     }
 
+    /// <summary>
+    /// ボスのテキスト読み込み
+    /// </summary>
     private void ReadBossText()
     {
         TextAsset csv_file = Resources.Load("Minigame/Hacking/Hack_BossText") as TextAsset;
         System.IO.StringReader str_text = new System.IO.StringReader(csv_file.text);
+        str_text.ToString().Replace("\r","");
         string[] str_line = str_text.ToString().Split('\n');
         string[] stren = str_bossText.Split(',');
         for (int i = 0; i < stren.Length; i++)
