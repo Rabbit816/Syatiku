@@ -5,14 +5,8 @@ using UnityEngine.UI;
 
 public class Denmoku : MonoBehaviour {
 
+    DrinkScene drink;
     ButtonController button;
-
-    //メニューリスト
-    GameObject OrderList;
-    GameObject YakitoriPre;
-    GameObject SakePre;
-    GameObject SaladPre;
-    GameObject SashimiPre;
 
     //デンモク内で使う配列・変数
     [HideInInspector] public int[] InputOrderBox = new int[4];
@@ -57,10 +51,10 @@ public class Denmoku : MonoBehaviour {
     {
         this.InputOrderBox[this.OrderCount] = 0;
         this.InputOrderCounter[this.OrderCount] = 1;
-        this.YakitoriPre = Resources.Load<GameObject>("Prefabs/MiniGame/Drinking/yakitori");
-        var Yakitori = Instantiate(this.YakitoriPre, new Vector2(-6.4f, OrderListPos[this.OrderCount]), Quaternion.identity);
+        drink.LoadPrefab(this.InputOrderBox[this.OrderCount]);
+        var Yakitori = Instantiate(drink.yakitoriObj, new Vector2(-6.4f, OrderListPos[this.OrderCount]), Quaternion.identity);
         Yakitori.transform.localScale = new Vector2(0.6f, 0.6f);
-        Yakitori.transform.parent = this.OrderList.transform;
+        Yakitori.transform.parent = drink.menuObject.transform;
         this.OrderCount++;
         if(this.OrderCount == 4)
         {
@@ -73,10 +67,10 @@ public class Denmoku : MonoBehaviour {
     {
         this.InputOrderBox[this.OrderCount] = 1;
         this.InputOrderCounter[this.OrderCount] = 1;
-        this.SakePre = Resources.Load<GameObject>("Prefabs/MiniGame/Drinking/sake");
-        var Sake = Instantiate(this.SakePre, new Vector2(-6.4f, OrderListPos[this.OrderCount]), Quaternion.identity);
+        drink.LoadPrefab(this.InputOrderBox[this.OrderCount]);
+        var Sake = Instantiate(drink.sakeObj, new Vector2(-6.4f, OrderListPos[this.OrderCount]), Quaternion.identity);
         Sake.transform.localScale = new Vector2(0.23f, 0.23f);
-        Sake.transform.parent = this.OrderList.transform;
+        Sake.transform.parent = drink.menuObject.transform;
         this.OrderCount++;
         if (this.OrderCount == 4)
         {
@@ -89,10 +83,10 @@ public class Denmoku : MonoBehaviour {
     {
         this.InputOrderBox[this.OrderCount] = 2;
         this.InputOrderCounter[this.OrderCount] = 1;
-        this.SaladPre = Resources.Load<GameObject>("Prefabs/MiniGame/Drinking/salad");
-        var Salad = Instantiate(this.SaladPre, new Vector2(-6.4f, OrderListPos[this.OrderCount]), Quaternion.identity);
+        drink.LoadPrefab(this.InputOrderBox[this.OrderCount]);
+        var Salad = Instantiate(drink.saladObj, new Vector2(-6.4f, OrderListPos[this.OrderCount]), Quaternion.identity);
         Salad.transform.localScale = new Vector2(0.3f, 0.3f);
-        Salad.transform.parent = this.OrderList.transform;
+        Salad.transform.parent = drink.menuObject.transform;
         this.OrderCount++;
         if (this.OrderCount == 4)
         {
@@ -105,10 +99,10 @@ public class Denmoku : MonoBehaviour {
     {
         this.InputOrderBox[this.OrderCount] = 3;
         this.InputOrderCounter[this.OrderCount] = 1;
-        this.SashimiPre = Resources.Load<GameObject>("Prefabs/MiniGame/Drinking/sashimi");
-        var Sashimi = Instantiate(this.SashimiPre, new Vector2(-6.4f, OrderListPos[this.OrderCount]), Quaternion.identity);
+        drink.LoadPrefab(this.InputOrderBox[this.OrderCount]);
+        var Sashimi = Instantiate(drink.sashimiObj, new Vector2(-6.4f, OrderListPos[this.OrderCount]), Quaternion.identity);
         Sashimi.transform.localScale = new Vector2(0.23f, 0.23f);
-        Sashimi.transform.parent = this.OrderList.transform;
+        Sashimi.transform.parent = drink.menuObject.transform;
         this.OrderCount++;
         if (this.OrderCount == 4)
         {
@@ -122,7 +116,7 @@ public class Denmoku : MonoBehaviour {
         this.Counter2 = GameObject.Find("Order2/Counter2");
         this.Counter3 = GameObject.Find("Order3/Counter3");
         this.Counter4 = GameObject.Find("Order4/Counter4");
-        this.OrderList = GameObject.Find("MenuObject");
+        drink = GetComponent<DrinkScene>();
         button = GetComponent<ButtonController>();
 	}
 	
