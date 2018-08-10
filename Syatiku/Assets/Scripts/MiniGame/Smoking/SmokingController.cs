@@ -58,8 +58,6 @@ public class SmokingController : MonoBehaviour {
         textPath = "Talk" + textNum + "/";
         IsScenario(talkFilePath + textPath + smokePath);
 
-        qNum += 6 * textNum;
-
         selectUI.SetActive(false); // 回答選択UIを非表示
         
         succesCount = 0; // 正解数
