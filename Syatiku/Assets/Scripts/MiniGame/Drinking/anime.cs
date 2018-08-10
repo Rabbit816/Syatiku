@@ -10,12 +10,12 @@ public class anime : MonoBehaviour
     public Vector2 outPos;
     public float duration = 1.0f;
 
-    public void SideIn()
+    public void SlideIn()
     {
         StartCoroutine(StartSlidePanel(true));
     }
 
-    public void SidOut()
+    public void SlideOut()
     {
         StartCoroutine(StartSlidePanel(false));
     }
