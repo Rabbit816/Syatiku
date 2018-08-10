@@ -43,6 +43,7 @@ public class FlickPartController : MonoBehaviour {
             //Correct
             { "制裁！" },
         };
+        timerText.text = gameTime.ToString("F0");
     }
 
     void Update () {
