@@ -1,10 +1,28 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using System.Collections;
 using DG.Tweening;
 
 public class BossScene : MonoBehaviour {
     public static BossScene Instance { get; private set; }
+
+    #region スタートアニメーション用
+
+    [SerializeField]
+    RectTransform footSound1;
+    [SerializeField]
+    RectTransform footSound2;
+    [SerializeField]
+    RectTransform timer;
+    [SerializeField]
+    RectTransform gage;
+    [SerializeField]
+    RectTransform bossBigSound;
+    [SerializeField]
+    RectTransform startText;
+
+    #endregion
 
     [SerializeField]
     FlickPartController flickPart;
@@ -15,7 +33,7 @@ public class BossScene : MonoBehaviour {
     [SerializeField]
     GameObject standingBoss;
     [SerializeField]
-    UnityEngine.UI.Image background;
+    Image background;
     [SerializeField]
     Sprite[] backgroundSprites; //0: FlickPart 1: SanctionPart
 
@@ -43,29 +61,56 @@ public class BossScene : MonoBehaviour {
         RectTransform boss = standingBoss.GetComponent<RectTransform>();
         yield return new WaitForSeconds(1f);
 
-        MoveBoss(boss, new Vector3(20f, 100f, 0f), new Vector3(0.6f, 0.6f, 1f));
+        Move(boss, new Vector3(20f, 100f, 0f), new Vector3(0.6f, 0.6f, 1f), 0);
+        footSound1.gameObject.SetActive(true);
+        footSound2.gameObject.SetActive(true);
         yield return new WaitForSeconds(2f);
 
-        MoveBoss(boss, new Vector3(-20f, 0f, 0f), new Vector3(0.8f, 0.8f, 1f));
+        Move(boss, new Vector3(0f, -50f, 0f), new Vector3(0.9f, 0.9f, 1f), 0);
+        Move(footSound1, new Vector3(-220f, 300f, 0f), new Vector3(1.2f, 1.2f, 1f), 0);
+        Move(footSound2, new Vector3(220f, 350f, 0f), new Vector3(1.2f, 1.2f, 1f), 0);
         yield return new WaitForSeconds(2f);
 
-        MoveBoss(boss, new Vector3(0, -100f, 0f), new Vector3(1f, 1f, 1f));
-        yield return new WaitForSeconds(2f);
+        Move(boss, new Vector3(0, -200f, 0f), new Vector3(1.2f, 1.2f, 1f), 0);
+        Move(footSound1, new Vector3(-300f, 400f, 0f), new Vector3(1.5f, 1.5f, 1f), 0);
+        Move(footSound2, new Vector3(300f, 200f, 0f), new Vector3(1.5f, 1.5f, 1f), 0);
+        yield return new WaitForSeconds(3f);
 
-        //yield return new WaitForSeconds(1f);
+        footSound1.gameObject.SetActive(false);
+        footSound2.gameObject.SetActive(false);
+        bossBigSound.gameObject.SetActive(true);
+        Move(bossBigSound, bossBigSound.localPosition, Vector3.one);
+        Move(boss, new Vector3(0, -600f, 0f), new Vector3(2f, 2f, 1f));
+        yield return new WaitForSeconds(3f);
+
+        bossBigSound.gameObject.SetActive(false);
+        Move(boss, new Vector3(0, -200f, 0f), new Vector3(1.2f, 1.2f, 1f));
+        yield return new WaitForSeconds(1f);
+
+        Move(timer, new Vector3(810f, 450f, 0f), Vector3.one);
+        yield return new WaitForSeconds(0.5f);
+        Move(gage, new Vector3(25f, -500f, 0f), Vector3.one);
+        yield return new WaitForSeconds(0.5f);
+        startText.gameObject.SetActive(true);
+        Move(startText, startText.localPosition, Vector3.one);
+        yield return new WaitForSeconds(2.0f);
+        Move(startText, startText.localPosition, Vector3.zero);
+
+        yield return new WaitForSeconds(1f);
+        startText.gameObject.SetActive(false);
         GameStart();
     }
 
-    void MoveBoss(RectTransform target, Vector3 targetPos, Vector3 targetScale)
+    void Move(RectTransform target, Vector3 targetPos, Vector3 targetScale, float time = 1f)
     {
         DOTween.To(
             () => target.localPosition,
             position => target.localPosition = position,
             targetPos,
-            1f
+            time
         );
 
-        target.DOScale(targetScale, 1f);
+        target.DOScale(targetScale, time);
     }
 
     void Update () {
