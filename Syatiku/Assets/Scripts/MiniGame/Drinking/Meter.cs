@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using System;
-public class Merter : MonoBehaviour {
+public class Meter : MonoBehaviour {
     public void Awake()
     {
-         rt = GameObject.Find("InfoMeter").gameObject.GetComponent<RectTransform>();
+         rt = GameObject.Find("TimeMeter").gameObject.GetComponent<RectTransform>();
          maxValue = rt.sizeDelta.x;
     }
     public void UpdateValue (float t)
@@ -21,7 +21,7 @@ public class Merter : MonoBehaviour {
     {
         if (MeterON == true)
         {
-            InfoMeter.SetActive(true);
+            TimeMeter.SetActive(true);
             UpdateValue(value);
             value -= 0.001f;
             if (value < 0.00f || flg == true)
@@ -29,7 +29,7 @@ public class Merter : MonoBehaviour {
                 Common.Instance.ChangeScene(Common.SceneName.Result);
                 if (value < 0.00f)
                 {
-                    InfoMeter.SetActive(false);
+                    TimeMeter.SetActive(false);
                     flg = true;
                     MeterON = false;
                 }
@@ -43,11 +43,10 @@ public class Merter : MonoBehaviour {
     /// <summary>
     /// 関数宣言
     /// </summary>
-    public GameObject InfoMeter;
+    public GameObject TimeMeter;
     private bool flg;
     public float value = 1f;
     private float maxValue;
     private RectTransform rt;
-    public int AnswerCounter;
     public bool MeterON;
 }

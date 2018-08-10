@@ -197,7 +197,7 @@ public class IntoPCAction : MonoBehaviour {
             _compariClear = true;
             Common.Instance.dataFlag[2] = true;
             Common.Instance.dataFlag[3] = true;
-            Common.Instance.clearFlag[Common.Instance.isClear] = true;
+            Common.Instance.clearFlag[Common.Instance.miniNum] = true;
             Common.Instance.ChangeScene(Common.SceneName.Result);
             OutTap();
         }
@@ -205,7 +205,7 @@ public class IntoPCAction : MonoBehaviour {
         if(tappingCount == 0)
         {
             Common.Instance.dataFlag[2] = false;
-            Common.Instance.clearFlag[Common.Instance.isClear] = true;
+            Common.Instance.clearFlag[Common.Instance.miniNum] = true;
             Common.Instance.ChangeScene(Common.SceneName.Result);
         }
     }
