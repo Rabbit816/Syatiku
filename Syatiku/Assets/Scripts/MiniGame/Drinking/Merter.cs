@@ -48,6 +48,5 @@ public class Merter : MonoBehaviour {
     public float value = 1f;
     private float maxValue;
     private RectTransform rt;
-    public int AnswerCounter;
     public bool MeterON;
 }
