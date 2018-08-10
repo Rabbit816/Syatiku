@@ -164,7 +164,7 @@ public class ButtonController : MonoBehaviour {
         this.DenmokuImage.GetComponent<RectTransform>().localPosition = new Vector2(-970, -2000);
         drink.Answer();
         meter.TimeMeterFlg = false;
-        meter.TimeMeter.value = 1.0f;
+        meter.TimeMeter.value = meter.Timer;
     }
     
     public void ButtonReset()

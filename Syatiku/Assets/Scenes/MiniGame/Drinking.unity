@@ -677,7 +677,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 0}
   m_Direction: 0
   m_MinValue: 0
-  m_MaxValue: 1
+  m_MaxValue: 100
   m_WholeNumbers: 0
   m_Value: 0
   m_OnValueChanged:
@@ -1112,7 +1112,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   TimeMeter: {fileID: 0}
   TimeMeterFlg: 0
-  Timer: 0.001
+  Timer: 20
 --- !u!1 &319333120
 GameObject:
   m_ObjectHideFlags: 0
@@ -3768,7 +3768,7 @@ MonoBehaviour:
           m_BoolArgument: 0
         m_CallState: 2
       - m_Target: {fileID: 2135548176}
-        m_MethodName: SideIn
+        m_MethodName: SlideIn
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

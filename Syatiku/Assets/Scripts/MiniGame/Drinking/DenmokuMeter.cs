@@ -7,18 +7,19 @@ public class DenmokuMeter : MonoBehaviour {
 
     [HideInInspector] public Slider TimeMeter;
     [HideInInspector] public bool TimeMeterFlg;
-    [SerializeField, Tooltip("制限時間が減る間隔")] private float Timer;
+    [Range(1, 60), Tooltip("デンモクの制限時間(秒)")] public float Timer;
 
 	void Start () {
         this.TimeMeter = GameObject.Find("Denmoku/TimeMeter").GetComponent<Slider>();
-        this.TimeMeter.value = 1.0f;
+        this.TimeMeter.maxValue = Timer;
+        this.TimeMeter.value = this.TimeMeter.maxValue;
 	}
 	
 	
 	void Update () {
         if (TimeMeterFlg)
         {
-            TimeMeter.value -= Timer;
+            TimeMeter.value -= Time.deltaTime;
             if(TimeMeter.value == 0)
             {
                 TimeMeterFlg = false;
