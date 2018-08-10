@@ -4,20 +4,25 @@ using UnityEngine;
 using UnityEngine.UI;
 
 public class DrinkScene : MonoBehaviour {
-    GameObject menuObject;
+
+    //メニューのオブジェクト
+    [HideInInspector]
+    public GameObject
+        menuObject,
+        yakitoriObj,
+        sakeObj,
+        saladObj,
+        sashimiObj;
+
     GameObject OrderCounter1, OrderCounter2, OrderCounter3, OrderCounter4;
     GameObject Hukidashi1, Hukidashi2, Hukidashi3, Hukidashi4;
     GameObject Answer1, Answer2, Answer3, Answer4;
     GameObject TapText;
     GameObject LimitText;
-    GameObject yakitoriObj;
-    GameObject sakeObj;
-    GameObject saladObj;
-    GameObject sashimiObj;
-
+    
     ButtonController button;
     Denmoku denmoku;
-    Merter merter;
+    Merter meter;
 
     //商品を格納する配列
     private int[] foodsBox = new int[4];
@@ -82,6 +87,31 @@ public class DrinkScene : MonoBehaviour {
         }
     }
 
+    //メニューのプレファブを読み込む
+    public void LoadPrefab(int i)
+    {
+        switch (i)
+        {
+            case 0:
+                this.yakitoriObj = Resources.Load<GameObject>("Prefabs/MiniGame/Drinking/yakitori");
+                break;
+            case 1:
+                this.sakeObj = Resources.Load<GameObject>("Prefabs/MiniGame/Drinking/sake");
+                break;
+            case 2:
+                this.saladObj = Resources.Load<GameObject>("Prefabs/MiniGame/Drinking/salad");
+                break;
+            case 3:
+                this.sashimiObj = Resources.Load<GameObject>("Prefabs/MiniGame/Drinking/sashimi");
+                break;
+            default:
+                Debug.Log("エラー");
+                break;
+
+
+        }
+    }
+
     //注文商品を1個ずつランダムな位置に表示して消すを繰り返す
     private IEnumerator OrderMethod()
     {
@@ -96,28 +126,28 @@ public class DrinkScene : MonoBehaviour {
             {
                 //やきとりを表示
                 case 0:
-                    this.yakitoriObj = Resources.Load<GameObject>("Prefabs/MiniGame/Drinking/yakitori");
+                    this.LoadPrefab(this.OrderBox[i]);
                     var yakitori = Instantiate(this.yakitoriObj, new Vector2(OrderPos[i], 2.7f), Quaternion.identity);
                     yakitori.transform.localScale = new Vector2(0.7f, 0.7f);
                     yakitori.transform.parent = this.menuObject.transform;
                     break;
                 //酒を表示
                 case 1:
-                    this.sakeObj = Resources.Load<GameObject>("Prefabs/MiniGame/Drinking/sake");
+                    this.LoadPrefab(this.OrderBox[i]);
                     var sake = Instantiate(this.sakeObj, new Vector2(OrderPos[i], 2.7f), Quaternion.identity);
                     sake.transform.localScale = new Vector2(0.25f, 0.25f);
                     sake.transform.parent = this.menuObject.transform;
                     break;
                 //サラダを表示
                 case 2:
-                    this.saladObj = Resources.Load<GameObject>("Prefabs/MiniGame/Drinking/salad");
+                    this.LoadPrefab(this.OrderBox[i]);
                     var salad = Instantiate(saladObj, new Vector2(OrderPos[i], 2.7f), Quaternion.identity);
                     salad.transform.localScale = new Vector2(0.35f, 0.35f);
                     salad.transform.parent = menuObject.transform;
                     break;
                 //刺身を表示
                 case 3:
-                    this.sashimiObj = Resources.Load<GameObject>("Prefabs/MiniGame/Drinking/sashimi");
+                    this.LoadPrefab(this.OrderBox[i]);
                     var sashimi = Instantiate(sashimiObj, new Vector2(OrderPos[i], 2.7f), Quaternion.identity);
                     sashimi.transform.localScale = new Vector2(0.25f, 0.25f);
                     sashimi.transform.parent = menuObject.transform;
@@ -177,8 +207,7 @@ public class DrinkScene : MonoBehaviour {
             }
         }
         this.NextGameFlg = true;
-        merter.Moving();
-        merter.AnswerCounter = 0;
+        meter.Moving();
         this.TapText.gameObject.SetActive(true);
         Limit--;
     }
@@ -251,7 +280,6 @@ public class DrinkScene : MonoBehaviour {
                     this.Answer1.GetComponent<RectTransform>().localPosition = new Vector2(this.AnswerPos[i], 200);
                     this.Answer1.GetComponent<Text>().text = "○";
                     this.Answer1.GetComponent<Text>().color = new Color(255f / 255f, 0f / 255f, 0f / 255f, 255f / 255f);
-                    merter.AnswerCounter++;
                 }
                 else
                 {
@@ -267,7 +295,6 @@ public class DrinkScene : MonoBehaviour {
                     this.Answer2.GetComponent<RectTransform>().localPosition = new Vector2(this.AnswerPos[i], 200);
                     this.Answer2.GetComponent<Text>().text = "○";
                     this.Answer2.GetComponent<Text>().color = new Color(255f / 255f, 0f / 255f, 0f / 255f, 255f / 255f);
-                    merter.AnswerCounter++;
                 }
                 else
                 {
@@ -283,7 +310,6 @@ public class DrinkScene : MonoBehaviour {
                     this.Answer3.GetComponent<RectTransform>().localPosition = new Vector2(this.AnswerPos[i], 200);
                     this.Answer3.GetComponent<Text>().text = "○";
                     this.Answer3.GetComponent<Text>().color = new Color(255f / 255f, 0f / 255f, 0f / 255f, 255f / 255f);
-                    merter.AnswerCounter++;
                 }
                 else
                 {
@@ -299,7 +325,6 @@ public class DrinkScene : MonoBehaviour {
                     this.Answer4.GetComponent<RectTransform>().localPosition = new Vector2(this.AnswerPos[i], 200);
                     this.Answer4.GetComponent<Text>().text = "○";
                     this.Answer4.GetComponent<Text>().color = new Color(255f / 255f, 0f / 255f, 0f / 255f, 255f / 255f);
-                    merter.AnswerCounter++;
                 }
                 else
                 {
@@ -326,7 +351,7 @@ public class DrinkScene : MonoBehaviour {
         //ゲームの初期状態を用意する処理
         button = GetComponent<ButtonController>();
         denmoku = GetComponent<Denmoku>();
-        merter = GetComponent<Merter>();
+        meter = GetComponent<Merter>();
         this.menuObject = GameObject.Find("MenuObject");
         this.OrderCounter1 = GameObject.Find("DrinkingCounter/OrderCounter1");
         this.OrderCounter2 = GameObject.Find("DrinkingCounter/OrderCounter2");
@@ -364,6 +389,7 @@ public class DrinkScene : MonoBehaviour {
             }
             else
             {
+                this.NextGameFlg = false;
                 Common.Instance.ChangeScene(Common.SceneName.Result);
             }
             
