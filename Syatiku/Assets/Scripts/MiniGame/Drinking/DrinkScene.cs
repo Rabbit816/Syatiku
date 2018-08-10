@@ -22,7 +22,6 @@ public class DrinkScene : MonoBehaviour {
     
     ButtonController button;
     Denmoku denmoku;
-    Merter meter;
 
     //商品を格納する配列
     private int[] foodsBox = new int[4];
@@ -207,7 +206,6 @@ public class DrinkScene : MonoBehaviour {
             }
         }
         this.NextGameFlg = true;
-        meter.Moving();
         this.TapText.gameObject.SetActive(true);
         Limit--;
     }
@@ -351,7 +349,6 @@ public class DrinkScene : MonoBehaviour {
         //ゲームの初期状態を用意する処理
         button = GetComponent<ButtonController>();
         denmoku = GetComponent<Denmoku>();
-        meter = GetComponent<Merter>();
         this.menuObject = GameObject.Find("MenuObject");
         this.OrderCounter1 = GameObject.Find("DrinkingCounter/OrderCounter1");
         this.OrderCounter2 = GameObject.Find("DrinkingCounter/OrderCounter2");
