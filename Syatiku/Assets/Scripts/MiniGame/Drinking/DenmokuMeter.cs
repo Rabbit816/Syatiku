@@ -20,6 +20,8 @@ public class DenmokuMeter : MonoBehaviour {
         if (TimeMeterFlg)
         {
             TimeMeter.value -= Time.deltaTime;
+            
+            //時間切れの処理
             if(TimeMeter.value == 0)
             {
                 TimeMeterFlg = false;

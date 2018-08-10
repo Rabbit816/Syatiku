@@ -106,8 +106,6 @@ public class DrinkScene : MonoBehaviour {
             default:
                 Debug.Log("エラー");
                 break;
-
-
         }
     }
 
@@ -156,7 +154,7 @@ public class DrinkScene : MonoBehaviour {
                     break;
             }
             //数秒後に表示された吹き出しと商品を消す
-            yield return new WaitForSeconds(Timer);
+            yield return new WaitForSeconds(this.Timer);
             this.Delete();
             this.OrderCounterOFF();
             this.Hukidashi(false);
@@ -164,7 +162,6 @@ public class DrinkScene : MonoBehaviour {
         yield return new WaitForSeconds(1.0f);
         button.DrinkSceneButton(true);
         this.NumCounter = 0;
-
     }
   
     public void Order()
