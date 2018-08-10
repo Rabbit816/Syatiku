@@ -17,12 +17,6 @@ public class HackBoss : MonoBehaviour {
     private GameObject ChooseObject;
     [SerializeField, Header("ボスの質問に答える時のText")]
     private Text chose_text;
-    [SerializeField, Tooltip("ボスの質問Text")]
-    private Text boss_textObject;
-    [SerializeField, Tooltip("答えるボタンText_0")]
-    private Text boss_textbtn_0;
-    [SerializeField, Tooltip("答えるボタンText_1")]
-    private Text boss_textbtn_1;
 
     [HideInInspector]
     public int comingCount = 0;
@@ -32,21 +26,19 @@ public class HackBoss : MonoBehaviour {
     private HackMain hack_main;
     private PatteringEvent patte;
     private IntoPCAction into_pc;
-    private string str_bossText;
-    private List<string> Boss_text = new List<string>();
+    private BossText boss_text;
     [Header("上司が待機してる時間")]
     public float BossTimer = 5.0f;
     private float Bosswait;
-    private bool _chooseTap = false;
     private bool _commingboss = false;
     private bool _gameover = false;
     [HideInInspector]
     public bool _choosing = false;
+    private bool _chooseTap = false;
+
     private int rand = 0;
     private float req = 3f;
     private int rand_count = 0;
-    private int maxLine = 0;
-    private int currentLine = 0;
 
     // Use this for initialization
     void Start () {
@@ -54,6 +46,7 @@ public class HackBoss : MonoBehaviour {
         hack_main = GetComponent<HackMain>();
         patte = GetComponent<PatteringEvent>();
         into_pc = GetComponent<IntoPCAction>();
+        boss_text = GetComponent<BossText>();
 
         boss_rect = Boss.GetComponent<RectTransform>();
         ChooseObject.SetActive(false);
@@ -61,11 +54,9 @@ public class HackBoss : MonoBehaviour {
         _commingboss = false;
         _gameover = false;
         _choosing = false;
-        //ReadBossText();
+        _chooseTap = false;
         comingCount = 0;
         rand_count = 0;
-        maxLine = 0;
-        currentLine = 0;
         Bosswait = BossTimer + 0.1f;
 	}
 	
@@ -114,8 +105,6 @@ public class HackBoss : MonoBehaviour {
                 }
             }
         }
-        if (_chooseTap)
-            AddText();
 	}
 
     /// <summary>
@@ -165,34 +154,8 @@ public class HackBoss : MonoBehaviour {
     public void ChooseButton()
     {
         _chooseTap = true;
-        ChooseObject.SetActive(false);
         _choosing = false;
         Zoom.SetActive(true);
     }
-
-    /// <summary>
-    /// ボスのテキスト読み込み
-    /// </summary>
-    private void ReadBossText()
-    {
-        TextAsset csv_file = Resources.Load("Minigame/Hacking/Hack_BossText") as TextAsset;
-        System.IO.StringReader str_text = new System.IO.StringReader(csv_file.text);
-        str_text.ToString().Replace("\r","");
-        string[] str_line = str_text.ToString().Split('\n');
-        string[] stren = str_bossText.Split(',');
-        for (int i = 0; i < stren.Length; i++)
-        {
-            Boss_text.Add(stren[i]);
-            Debug.Log("Boss_text: " + stren[i]);
-            maxLine++;
-        }
-        Debug.Log("maxLine: " + maxLine);
-        currentLine++;
-    }
-
-    private void AddText()
-    {
-        
-        _chooseTap = false;
-    }
+    
 }
