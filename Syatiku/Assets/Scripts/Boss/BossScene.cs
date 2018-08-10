@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 using System.Collections;
+using DG.Tweening;
 
 public class BossScene : MonoBehaviour {
     public static BossScene Instance { get; private set; }
@@ -31,19 +32,55 @@ public class BossScene : MonoBehaviour {
     void Awake () {
         Instance = this;
         isReachStates = new bool[SeparateValues.Length];
-
-        flickPart.gameObject.SetActive(true);
+        flickPart.gameObject.SetActive(false);
         sanctionPart.gameObject.SetActive(false);
-        SoundManager.Instance.PlayBGM(BGMName.Boss);
+
+        StartCoroutine(StartAnimation());
 	}
 
-	void Update () {
+    IEnumerator StartAnimation()
+    {
+        RectTransform boss = standingBoss.GetComponent<RectTransform>();
+        yield return new WaitForSeconds(1f);
+
+        MoveBoss(boss, new Vector3(20f, 100f, 0f), new Vector3(0.6f, 0.6f, 1f));
+        yield return new WaitForSeconds(2f);
+
+        MoveBoss(boss, new Vector3(-20f, 0f, 0f), new Vector3(0.8f, 0.8f, 1f));
+        yield return new WaitForSeconds(2f);
+
+        MoveBoss(boss, new Vector3(0, -100f, 0f), new Vector3(1f, 1f, 1f));
+        yield return new WaitForSeconds(2f);
+
+        //yield return new WaitForSeconds(1f);
+        GameStart();
+    }
+
+    void MoveBoss(RectTransform target, Vector3 targetPos, Vector3 targetScale)
+    {
+        DOTween.To(
+            () => target.localPosition,
+            position => target.localPosition = position,
+            targetPos,
+            1f
+        );
+
+        target.DOScale(targetScale, 1f);
+    }
+
+    void Update () {
         if (Input.GetMouseButtonDown(0))
         {
             //フリックの開始
             touchStartPos = Input.mousePosition;
         }
 	}
+
+    void GameStart()
+    {
+        flickPart.gameObject.SetActive(true);
+        SoundManager.Instance.PlayBGM(BGMName.Boss);
+    }
 
     /// <summary>
     /// テキストの移動速度、方向を更新
