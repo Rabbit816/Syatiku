@@ -51,7 +51,10 @@ public class Common : MonoBehaviour {
     /// 何のミニゲームやったか(0:hack,1:drink,2:smoke)
     /// </summary>
     [System.NonSerialized]
-    public int isClear; 
+    public int miniNum;
+
+    //後で消す
+    public int isClear;
 
     [System.NonSerialized]
     public int gameMode; // シナリオがどちらか

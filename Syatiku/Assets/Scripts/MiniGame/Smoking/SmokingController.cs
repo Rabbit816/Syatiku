@@ -221,12 +221,12 @@ public class SmokingController : MonoBehaviour {
         resultFlag = true;
         if(succesCount >= 4)
         {
-            Common.Instance.clearFlag[Common.Instance.isClear] = true;
+            Common.Instance.clearFlag[Common.Instance.miniNum] = true;
             IsScenario(talkFilePath + "GoodSmokingTalk");
         }
         else
         {
-            Common.Instance.clearFlag[Common.Instance.isClear] = false;
+            Common.Instance.clearFlag[Common.Instance.miniNum] = false;
             IsScenario(talkFilePath + badSmokePath + "0");
         }
     }
