@@ -109,7 +109,7 @@ public class HackBoss : MonoBehaviour {
                 if (!_gameover)
                 {
                     _gameover = true;
-                    Common.Instance.clearFlag[Common.Instance.isClear] = false;
+                    Common.Instance.clearFlag[Common.Instance.miniNum] = false;
                     Common.Instance.ChangeScene(Common.SceneName.Result);
                 }
             }

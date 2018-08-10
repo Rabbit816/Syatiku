@@ -74,7 +74,7 @@ public class HackMain : MonoBehaviour {
             if (!_allClear)
             {
                 _allClear = true;
-                Common.Instance.clearFlag[Common.Instance.isClear] = true;
+                Common.Instance.clearFlag[Common.Instance.miniNum] = true;
                 Common.Instance.ChangeScene(Common.SceneName.Result);
             }
         }
@@ -112,7 +112,7 @@ public class HackMain : MonoBehaviour {
             {
                 _overTime = true;
                 time.text = "Timer: 0.0";
-                Common.Instance.clearFlag[Common.Instance.isClear] = false;
+                Common.Instance.clearFlag[Common.Instance.miniNum] = false;
                 Common.Instance.ChangeScene(Common.SceneName.Result);
             }
         }
