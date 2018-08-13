@@ -4,36 +4,41 @@ using UnityEngine;
 using UnityEngine.UI;
 
 public class ResultController : MonoBehaviour {
+    
+    private string[] scoreText = new string[2];
+
     [SerializeField]
-    private Text scoreText;
+    private GameObject canvas;
+
+    [SerializeField]
+    private RectTransform[] proPos = new RectTransform[2];
+
+    private GameObject[] property = new GameObject[2];
 	// ミニゲームで獲得した情報を表示
 	void Start () {
-        if (Common.Instance.clearFlag[Common.Instance.isClear])
-            switch (Common.Instance.isClear) {
-                case 0: // drink
-                    Common.Instance.dataFlag[0] = true;
-                    Common.Instance.dataFlag[1] = true;
-                    scoreText.text = "情報Aを手に入れた！\n" + "情報Bを手に入れた！";
+        // ミニゲーム分岐
+        if (Common.Instance.clearFlag[Common.Instance.miniNum])
+            switch (Common.Instance.miniNum)
+            {
+                case 0:
+                    scoreText[0] = "情報A";
+                    scoreText[1] = "情報B";
                     break;
-                case 1: // hack
-                    if (!Common.Instance.dataFlag[2] || !Common.Instance.dataFlag[3])
-                    {
-                        scoreText.text = "情報Cを手に入れた！";
-                        break;
-                    }
-                    Common.Instance.dataFlag[2] = true;
-                    Common.Instance.dataFlag[3] = true;
-                    scoreText.text = "情報Cを手に入れた！\n" + "情報Dを手に入れた！";
+                case 1:
+                    scoreText[0] = "情報C";
+                    scoreText[1] = "情報D";
                     break;
-                case 2: // smoke
-                    Common.Instance.dataFlag[4] = true;
-                    scoreText.text = "情報Eを手に入れた！";
+                case 2:
+                    scoreText[0] = "情報E";
                     break;
             }
         else
         {
-            scoreText.text = "失敗...\n" + "何も手に入らなかった...";
+            scoreText[0] = "スカ";
+            scoreText[1] = "スカ";
         }
+
+        StartCoroutine(CreateProperty());
     }
 
     public void TitleBack()
@@ -41,4 +46,18 @@ public class ResultController : MonoBehaviour {
         Common.Instance.actionCount--;
         Common.Instance.ChangeScene(Common.SceneName.Action);
     }
+
+    public IEnumerator CreateProperty()
+    {
+        // prefabから情報フキダシを生成
+        for (int i = 0; i < property.Length; i++)
+        {
+            property[i] = Resources.Load("Prefabs/Result/Property") as GameObject;
+            Instantiate(property[i], canvas.transform);
+            property[i].transform.localPosition = proPos[i].transform.localPosition;
+            property[i].transform.GetChild(0).GetComponent<Text>().text = scoreText[i];
+            yield return new WaitForSeconds(0.5f);
+        }
+    }
+    
 }
