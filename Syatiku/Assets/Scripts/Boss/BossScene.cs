@@ -18,7 +18,7 @@ public class BossScene : MonoBehaviour {
     [SerializeField]
     RectTransform gage;
     [SerializeField]
-    RectTransform bossBigSound;
+    GameObject bossBigSound;
     [SerializeField]
     RectTransform startText;
     [SerializeField]
@@ -64,23 +64,30 @@ public class BossScene : MonoBehaviour {
 
     IEnumerator StartAnimation()
     {
-        RectTransform boss = standingBoss.GetComponent<RectTransform>();
+        RectTransform bossRectTransform = standingBoss.GetComponent<RectTransform>();
+        RectTransform spotRectTransform = spotLight.GetComponent<RectTransform>();
         yield return new WaitForSeconds(1f);
 
         //1歩目
-        Move(boss, new Vector3(20f, 100f, 0f), new Vector3(0.6f, 0.6f, 1f), 0);
+        Move(bossRectTransform, new Vector3(20f, 100f, 0f), new Vector3(0.6f, 0.6f, 1f), 0);
+        spotRectTransform.offsetMin = new Vector2(730f, 300f);
+        spotRectTransform.offsetMax = new Vector2(-700f, 0);
         footSound1.gameObject.SetActive(true);
         footSound2.gameObject.SetActive(true);
         yield return new WaitForSeconds(1.5f);
 
         //2歩目
-        Move(boss, new Vector3(0f, -50f, 0f), new Vector3(0.9f, 0.9f, 1f), 0);
-        Move(footSound1, new Vector3(-220f, 300f, 0f), new Vector3(1.2f, 1.2f, 1f), 0);
-        Move(footSound2, new Vector3(220f, 350f, 0f), new Vector3(1.2f, 1.2f, 1f), 0);
+        Move(bossRectTransform, new Vector3(-100f, -50f, 0f), new Vector3(0.9f, 0.9f, 1f), 0);
+        spotRectTransform.offsetMin = new Vector2(500f, 10f);
+        spotRectTransform.offsetMax = new Vector2(-700f, 0);
+        Move(footSound1, new Vector3(-300f, 300f, 0f), new Vector3(1.2f, 1.2f, 1f), 0);
+        Move(footSound2, new Vector3(140f, 350f, 0f), new Vector3(1.2f, 1.2f, 1f), 0);
         yield return new WaitForSeconds(1.5f);
 
         //3歩目
-        Move(boss, new Vector3(0, -200f, 0f), new Vector3(1.2f, 1.2f, 1f), 0);
+        Move(bossRectTransform, new Vector3(0, -200f, 0f), new Vector3(1.2f, 1.2f, 1f), 0);
+        spotRectTransform.offsetMin = new Vector2(500f, 0f);
+        spotRectTransform.offsetMax = new Vector2(-500f, 0);
         Move(footSound1, new Vector3(-300f, 400f, 0f), new Vector3(1.5f, 1.5f, 1f), 0);
         Move(footSound2, new Vector3(300f, 200f, 0f), new Vector3(1.5f, 1.5f, 1f), 0);
         yield return new WaitForSeconds(1.5f);
@@ -89,20 +96,24 @@ public class BossScene : MonoBehaviour {
         footSound1.gameObject.SetActive(false);
         footSound2.gameObject.SetActive(false);
         panel.SetActive(true);
-        Move(boss, new Vector3(0, -600f, 0f), new Vector3(2f, 2f, 1f), 0);
+        Move(bossRectTransform, new Vector3(0, -600f, 0f), new Vector3(2f, 2f, 1f), 0);
         yield return new WaitForSeconds(2f);
 
         //巨大ボス披露
         panel.SetActive(false);
-        bossBigSound.gameObject.SetActive(true);
-        Move(bossBigSound, bossBigSound.localPosition, Vector3.one);
+        bossBigSound.SetActive(true);
+        spotRectTransform.offsetMin = new Vector2(300f, 0f);
+        spotRectTransform.offsetMax = new Vector2(-300f, 0);
         yield return new WaitForSeconds(3f);
 
         //ゲームサイズに戻す
-        bossBigSound.gameObject.SetActive(false);
-        Move(boss, new Vector3(0, -200f, 0f), new Vector3(1.2f, 1.2f, 1f));
+        bossBigSound.SetActive(false);
+        Move(bossRectTransform, new Vector3(0, -200f, 0f), new Vector3(1.2f, 1.2f, 1f));
         yield return new WaitForSeconds(1f);
 
+        //背景変更
+        background.sprite = backgroundSprites[0];
+        ChangeColor(background, Color.white, 2f);
         //タイマー出現
         spotLight.SetActive(false);
         Move(timer, new Vector3(810f, 450f, 0f), Vector3.one);
@@ -110,16 +121,13 @@ public class BossScene : MonoBehaviour {
         //ゲージ出現
         Move(gage, new Vector3(25f, -500f, 0f), Vector3.one);
         yield return new WaitForSeconds(0.5f);
-        //背景変更
-        background.sprite = backgroundSprites[0];
-        background.color = Color.white;
         //スタートテキスト出現
         startText.gameObject.SetActive(true);
         Move(startText, startText.localPosition, Vector3.one);
-        yield return new WaitForSeconds(2.0f);
+        yield return new WaitForSeconds(1.5f);
         //スタートテキスト消える
-        Move(startText, startText.localPosition, Vector3.zero);
-        yield return new WaitForSeconds(1f);
+        Move(startText, startText.localPosition, Vector3.zero, 0.5f);
+        yield return new WaitForSeconds(0.5f);
 
         startText.gameObject.SetActive(false);
         GameStart();
@@ -135,6 +143,16 @@ public class BossScene : MonoBehaviour {
         );
 
         target.DOScale(targetScale, time);
+    }
+
+    void ChangeColor(Image image, Color color, float time)
+    {
+        DOTween.To(
+            () => image.color,
+            c => image.color = c,
+            color,
+            time
+        );
     }
 
     void GameStart()
