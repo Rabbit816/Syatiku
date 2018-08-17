@@ -221,7 +221,7 @@ public class SmokingController : MonoBehaviour {
         if(succesCount >= 4)
         {
             Common.Instance.clearFlag[Common.Instance.miniNum] = true;
-            IsScenario(talkFilePath + "GoodSmokingTalk");
+            IsScenario(talkFilePath + textPath + "GoodSmokingTalk");
         }
         else
         {
