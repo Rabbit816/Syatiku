@@ -1045,23 +1045,26 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   menuObject: {fileID: 1189089969}
-  yakitoriObj: {fileID: 1731001117905010, guid: b5e722ef5030e8a4680ce4897a3965d5,
-    type: 2}
-  sakeObj: {fileID: 1259599944530750, guid: 6f1ffab1b354c054eb53a2e8f35f6e9d, type: 2}
-  saladObj: {fileID: 1533739696496252, guid: 9024aef612b77424d80fb1ef41d7b271, type: 2}
-  sashimiObj: {fileID: 1390775496210214, guid: c8db6856c56699d4d88e0cc5fa0661f3, type: 2}
-  OrderCounter1: {fileID: 287708767}
-  OrderCounter2: {fileID: 537914737}
-  OrderCounter3: {fileID: 2014706464}
-  OrderCounter4: {fileID: 786774231}
-  Hukidashi1: {fileID: 804060985}
-  Hukidashi2: {fileID: 933083552}
-  Hukidashi3: {fileID: 1443755069}
-  Hukidashi4: {fileID: 8188213}
-  Answer1: {fileID: 230336169}
-  Answer2: {fileID: 48221186}
-  Answer3: {fileID: 2004916449}
-  Answer4: {fileID: 2131467282}
+  MenuList:
+  - {fileID: 1731001117905010, guid: b5e722ef5030e8a4680ce4897a3965d5, type: 2}
+  - {fileID: 1259599944530750, guid: 6f1ffab1b354c054eb53a2e8f35f6e9d, type: 2}
+  - {fileID: 1533739696496252, guid: 9024aef612b77424d80fb1ef41d7b271, type: 2}
+  - {fileID: 1390775496210214, guid: c8db6856c56699d4d88e0cc5fa0661f3, type: 2}
+  OrderCounterList:
+  - {fileID: 287708767}
+  - {fileID: 537914737}
+  - {fileID: 2014706464}
+  - {fileID: 786774231}
+  HukidashiList:
+  - {fileID: 804060985}
+  - {fileID: 933083552}
+  - {fileID: 1443755069}
+  - {fileID: 8188213}
+  AnswerList:
+  - {fileID: 230336169}
+  - {fileID: 48221186}
+  - {fileID: 2004916449}
+  - {fileID: 2131467282}
   TapText: {fileID: 1100501575}
   LimitText: {fileID: 490382266}
   Timer: 1
@@ -1092,10 +1095,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   InputOrderBox: ffffffffffffffffffffffffffffffff
   InputOrderCounter: 00000000000000000000000000000000
-  Counter1: {fileID: 1913938454}
-  Counter2: {fileID: 618714702}
-  Counter3: {fileID: 800934387}
-  Counter4: {fileID: 1146227429}
+  CounterList:
+  - {fileID: 1913938454}
+  - {fileID: 618714702}
+  - {fileID: 800934387}
+  - {fileID: 1146227429}
 --- !u!114 &307734377
 MonoBehaviour:
   m_ObjectHideFlags: 0
