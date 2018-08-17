@@ -169,7 +169,6 @@ public class SmokingController : MonoBehaviour {
             }
 
             qNum++; // 問題Noを加算
-
             IsScenario(talkFilePath + textPath + smokePath + qNum.ToString());
 
         } else {
