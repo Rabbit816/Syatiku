@@ -9,7 +9,7 @@ public class ResultController : MonoBehaviour {
     private GameObject canvas;
 
     [SerializeField]
-    private Image enemy, spot;
+    private Image enemy,spot;
 
     [SerializeField]
     private Button backAction;
@@ -18,13 +18,15 @@ public class ResultController : MonoBehaviour {
     private Sprite _enemySprite;
 
     [SerializeField]
+    private GameObject proPrefab;
+
+    [SerializeField]
     private RectTransform[] proPos = new RectTransform[2];
 
     private string[] scoreText = new string[2];
 
-    private GameObject[] property = new GameObject[2];
-
     private bool successFlag = false;
+    private bool onceFlag = false;
 	// ミニゲームで獲得した情報を表示
 	void Start () {
         // ミニゲーム分岐
@@ -41,6 +43,7 @@ public class ResultController : MonoBehaviour {
                     break;
                 case 2:
                     scoreText[0] = "情報E";
+                    onceFlag = true;
                     break;
             }
         } else {
@@ -48,7 +51,6 @@ public class ResultController : MonoBehaviour {
             scoreText[0] = "スカ";
             scoreText[1] = "スカ";
         }
-
         StartCoroutine(CreateProperty());
     }
 
@@ -74,12 +76,12 @@ public class ResultController : MonoBehaviour {
         yield return new WaitForSeconds(0.5f);
 
         // prefabから情報フキダシを生成
-        for (int i = 0; i < property.Length; i++)
+        for (int i = 0; i < 2; i++)
         {
-            property[i] = Resources.Load("Prefabs/Result/Property") as GameObject;
-            Instantiate(property[i], canvas.transform);
-            property[i].transform.localPosition = proPos[i].transform.localPosition;
-            property[i].transform.GetChild(0).GetComponent<Text>().text = scoreText[i];
+            GameObject pro = Instantiate(proPrefab, canvas.transform);
+            pro.transform.localPosition = proPos[i].localPosition;
+            pro.transform.GetChild(0).GetComponent<Text>().text = scoreText[i];
+            if (onceFlag) i++;
             yield return new WaitForSeconds(0.5f);
         }
         yield return new WaitForSeconds(1f);
