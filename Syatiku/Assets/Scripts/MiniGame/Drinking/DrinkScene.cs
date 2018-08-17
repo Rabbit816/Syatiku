@@ -6,18 +6,22 @@ using UnityEngine.UI;
 public class DrinkScene : MonoBehaviour {
 
     //メニューのオブジェクト
-    [HideInInspector]
-    public GameObject
-        menuObject,
-        yakitoriObj,
-        sakeObj,
-        saladObj,
-        sashimiObj;
+    public GameObject menuObject;
+    public GameObject[] MenuList;
 
-    GameObject OrderCounter1, OrderCounter2, OrderCounter3, OrderCounter4;
-    GameObject Hukidashi1, Hukidashi2, Hukidashi3, Hukidashi4;
-    GameObject Answer1, Answer2, Answer3, Answer4;
+    [SerializeField]
+    GameObject[] OrderCounterList;
+
+    [SerializeField]
+    GameObject[] HukidashiList;
+
+    [SerializeField]
+    GameObject[] AnswerList;
+
+    [SerializeField]
     GameObject TapText;
+
+    [SerializeField]
     GameObject LimitText;
     
     ButtonController button;
@@ -86,29 +90,6 @@ public class DrinkScene : MonoBehaviour {
         }
     }
 
-    //メニューのプレファブを読み込む
-    public void LoadPrefab(int i)
-    {
-        switch (i)
-        {
-            case 0:
-                this.yakitoriObj = Resources.Load<GameObject>("Prefabs/MiniGame/Drinking/yakitori");
-                break;
-            case 1:
-                this.sakeObj = Resources.Load<GameObject>("Prefabs/MiniGame/Drinking/sake");
-                break;
-            case 2:
-                this.saladObj = Resources.Load<GameObject>("Prefabs/MiniGame/Drinking/salad");
-                break;
-            case 3:
-                this.sashimiObj = Resources.Load<GameObject>("Prefabs/MiniGame/Drinking/sashimi");
-                break;
-            default:
-                Debug.Log("エラー");
-                break;
-        }
-    }
-
     //注文商品を1個ずつランダムな位置に表示して消すを繰り返す
     private IEnumerator OrderMethod()
     {
@@ -123,34 +104,30 @@ public class DrinkScene : MonoBehaviour {
             {
                 //やきとりを表示
                 case 0:
-                    this.LoadPrefab(this.OrderBox[i]);
-                    var yakitori = Instantiate(this.yakitoriObj, new Vector2(OrderPos[i], 2.7f), Quaternion.identity);
+                    var yakitori = Instantiate(this.MenuList[this.OrderBox[i]], new Vector2(OrderPos[i], 2.7f), Quaternion.identity);
                     yakitori.transform.localScale = new Vector2(0.7f, 0.7f);
                     yakitori.transform.parent = this.menuObject.transform;
                     break;
                 //酒を表示
                 case 1:
-                    this.LoadPrefab(this.OrderBox[i]);
-                    var sake = Instantiate(this.sakeObj, new Vector2(OrderPos[i], 2.7f), Quaternion.identity);
+                    var sake = Instantiate(this.MenuList[this.OrderBox[i]], new Vector2(OrderPos[i], 2.7f), Quaternion.identity);
                     sake.transform.localScale = new Vector2(0.25f, 0.25f);
                     sake.transform.parent = this.menuObject.transform;
                     break;
                 //サラダを表示
                 case 2:
-                    this.LoadPrefab(this.OrderBox[i]);
-                    var salad = Instantiate(saladObj, new Vector2(OrderPos[i], 2.7f), Quaternion.identity);
+                    var salad = Instantiate(this.MenuList[this.OrderBox[i]], new Vector2(OrderPos[i], 2.7f), Quaternion.identity);
                     salad.transform.localScale = new Vector2(0.35f, 0.35f);
                     salad.transform.parent = menuObject.transform;
                     break;
                 //刺身を表示
                 case 3:
-                    this.LoadPrefab(this.OrderBox[i]);
-                    var sashimi = Instantiate(sashimiObj, new Vector2(OrderPos[i], 2.7f), Quaternion.identity);
+                    var sashimi = Instantiate(this.MenuList[this.OrderBox[i]], new Vector2(OrderPos[i], 2.7f), Quaternion.identity);
                     sashimi.transform.localScale = new Vector2(0.25f, 0.25f);
                     sashimi.transform.parent = menuObject.transform;
                     break;
                 default:
-                    Debug.Log("エラー");
+                    Debug.Log("OrderMethod : エラー");
                     break;
             }
             //数秒後に表示された吹き出しと商品を消す
@@ -210,127 +187,51 @@ public class DrinkScene : MonoBehaviour {
     //注文を表示する際の、吹き出しと個数を表示させるメソッド
     public void OrderHukidashi()
     {
-        switch (Num[NumCounter])
-        {
-            case 0:
-                this.Hukidashi1.gameObject.SetActive(true);
-                this.OrderCounter1.gameObject.SetActive(true);
-                this.OrderCounter1.GetComponent<Text>().text = "× " + this.OrderCounter[NumCounter].ToString();
-                break;
-            case 1:
-                this.Hukidashi2.gameObject.SetActive(true);
-                this.OrderCounter2.gameObject.SetActive(true);
-                this.OrderCounter2.GetComponent<Text>().text = "× " + this.OrderCounter[NumCounter].ToString();
-                break;
-            case 2:
-                this.Hukidashi3.gameObject.SetActive(true);
-                this.OrderCounter3.gameObject.SetActive(true);
-                this.OrderCounter3.GetComponent<Text>().text = "× " + this.OrderCounter[NumCounter].ToString();
-                break;
-            case 3:
-                this.Hukidashi4.gameObject.SetActive(true);
-                this.OrderCounter4.gameObject.SetActive(true);
-                this.OrderCounter4.GetComponent<Text>().text = "× " + this.OrderCounter[NumCounter].ToString();
-                break;
-            default:
-                Debug.Log("エラー");
-                break;
-        }
+        this.HukidashiList[this.Num[this.NumCounter]].gameObject.SetActive(true);
+        this.OrderCounterList[this.Num[this.NumCounter]].gameObject.SetActive(true);
+        this.OrderCounterList[this.Num[this.NumCounter]].GetComponent<Text>().text = "× " + this.OrderCounter[NumCounter].ToString();
         NumCounter++;
     }
 
     public void OrderCounterOFF()
     {
-        this.OrderCounter1.gameObject.SetActive(false);
-        this.OrderCounter2.gameObject.SetActive(false);
-        this.OrderCounter3.gameObject.SetActive(false);
-        this.OrderCounter4.gameObject.SetActive(false);
+        for(int i = 0; i < this.OrderCounterList.Length; i++)
+        {
+            this.OrderCounterList[i].gameObject.SetActive(false);
+        }
     }
 
     public void AnswerResultOFF()
     {
-        this.Answer1.gameObject.SetActive(false);
-        this.Answer2.gameObject.SetActive(false);
-        this.Answer3.gameObject.SetActive(false);
-        this.Answer4.gameObject.SetActive(false);
+        for(int i = 0; i < AnswerList.Length; i++)
+        {
+            this.AnswerList[i].gameObject.SetActive(false);
+        }
     }
-
+    
     public void Hukidashi(bool b)
     {
-        this.Hukidashi1.gameObject.SetActive(b);
-        this.Hukidashi2.gameObject.SetActive(b);
-        this.Hukidashi3.gameObject.SetActive(b);
-        this.Hukidashi4.gameObject.SetActive(b);
+        for(int i = 0; i < this.HukidashiList.Length; i++)
+        {
+            this.HukidashiList[i].gameObject.SetActive(b);
+        }
     }
-
+    
     //注文の正誤判定の表示を管理するメソッド
     public void OutputAnswer(int i, bool b)
     {
-        switch (i)
+        this.AnswerList[i].gameObject.SetActive(true);
+        if (b)
         {
-            case 0:
-                this.Answer1.gameObject.SetActive(true);
-                if (b)
-                {
-                    this.Answer1.GetComponent<RectTransform>().localPosition = new Vector2(this.AnswerPos[i], 200);
-                    this.Answer1.GetComponent<Text>().text = "○";
-                    this.Answer1.GetComponent<Text>().color = new Color(255f / 255f, 0f / 255f, 0f / 255f, 255f / 255f);
-                }
-                else
-                {
-                    this.Answer1.GetComponent<RectTransform>().localPosition = new Vector2(this.AnswerPos[i], 175);
-                    this.Answer1.GetComponent<Text>().text = "×";
-                    this.Answer1.GetComponent<Text>().color = new Color(40f / 255f, 0f / 255f, 255f / 255f, 255f / 255f);
-                }
-                break;
-            case 1:
-                this.Answer2.gameObject.SetActive(true);
-                if (b)
-                {
-                    this.Answer2.GetComponent<RectTransform>().localPosition = new Vector2(this.AnswerPos[i], 200);
-                    this.Answer2.GetComponent<Text>().text = "○";
-                    this.Answer2.GetComponent<Text>().color = new Color(255f / 255f, 0f / 255f, 0f / 255f, 255f / 255f);
-                }
-                else
-                {
-                    this.Answer2.GetComponent<RectTransform>().localPosition = new Vector2(this.AnswerPos[i], 175);
-                    this.Answer2.GetComponent<Text>().text = "×";
-                    this.Answer2.GetComponent<Text>().color = new Color(40f / 255f, 0f / 255f, 255f / 255f, 255f / 255f);
-                }
-                break;
-            case 2:
-                this.Answer3.gameObject.SetActive(true);
-                if (b)
-                {
-                    this.Answer3.GetComponent<RectTransform>().localPosition = new Vector2(this.AnswerPos[i], 200);
-                    this.Answer3.GetComponent<Text>().text = "○";
-                    this.Answer3.GetComponent<Text>().color = new Color(255f / 255f, 0f / 255f, 0f / 255f, 255f / 255f);
-                }
-                else
-                {
-                    this.Answer3.GetComponent<RectTransform>().localPosition = new Vector2(this.AnswerPos[i],175);
-                    this.Answer3.GetComponent<Text>().text = "×";
-                    this.Answer3.GetComponent<Text>().color = new Color(40f / 255f, 0f / 255f, 255f / 255f, 255f / 255f);
-                }
-                break;
-            case 3:
-                this.Answer4.gameObject.SetActive(true);
-                if (b)
-                {
-                    this.Answer4.GetComponent<RectTransform>().localPosition = new Vector2(this.AnswerPos[i], 200);
-                    this.Answer4.GetComponent<Text>().text = "○";
-                    this.Answer4.GetComponent<Text>().color = new Color(255f / 255f, 0f / 255f, 0f / 255f, 255f / 255f);
-                }
-                else
-                {
-                    this.Answer4.GetComponent<RectTransform>().localPosition = new Vector2(this.AnswerPos[i], 175);
-                    this.Answer4.GetComponent<Text>().text = "×";
-                    this.Answer4.GetComponent<Text>().color = new Color(40f / 255f, 0f / 255f, 255f / 255f, 255f / 255f);
-                }
-                break;
-            default:
-                Debug.Log("エラー");
-                break;
+            this.AnswerList[i].GetComponent<RectTransform>().localPosition = new Vector2(this.AnswerPos[i], 200);
+            this.AnswerList[i].GetComponent<Text>().text = "○";
+            this.AnswerList[i].GetComponent<Text>().color = new Color(255f / 255f, 0f / 255f, 0f / 255f, 255f / 255f);
+        }
+        else
+        {
+            this.AnswerList[i].GetComponent<RectTransform>().localPosition = new Vector2(this.AnswerPos[i], 175);
+            this.AnswerList[i].GetComponent<Text>().text = "×";
+            this.AnswerList[i].GetComponent<Text>().color = new Color(40f / 255f, 0f / 255f, 255f / 255f, 255f / 255f);
         }
     }
 
@@ -339,6 +240,10 @@ public class DrinkScene : MonoBehaviour {
         this.OrderShuffle();
         this.PosShuffle();
         this.Order();
+        for(int i = 0; i < denmoku.InputOrderBox.Length; i++)
+        {
+            denmoku.InputOrderBox[i] = -1;
+        }
         this.TapText.GetComponent<Text>().text = "画面をタップ！";
     }
    
@@ -346,21 +251,6 @@ public class DrinkScene : MonoBehaviour {
         //ゲームの初期状態を用意する処理
         button = GetComponent<ButtonController>();
         denmoku = GetComponent<Denmoku>();
-        this.menuObject = GameObject.Find("MenuObject");
-        this.OrderCounter1 = GameObject.Find("DrinkingCounter/OrderCounter1");
-        this.OrderCounter2 = GameObject.Find("DrinkingCounter/OrderCounter2");
-        this.OrderCounter3 = GameObject.Find("DrinkingCounter/OrderCounter3");
-        this.OrderCounter4 = GameObject.Find("DrinkingCounter/OrderCounter4");
-        this.Hukidashi1 = GameObject.Find("Hukidashi/Hukidashi1");
-        this.Hukidashi2 = GameObject.Find("Hukidashi/Hukidashi2");
-        this.Hukidashi3 = GameObject.Find("Hukidashi/Hukidashi3");
-        this.Hukidashi4 = GameObject.Find("Hukidashi/Hukidashi4");
-        this.Answer1 = GameObject.Find("OrderAnswer/Answer1");
-        this.Answer2 = GameObject.Find("OrderAnswer/Answer2");
-        this.Answer3 = GameObject.Find("OrderAnswer/Answer3");
-        this.Answer4 = GameObject.Find("OrderAnswer/Answer4");
-        this.TapText = GameObject.Find("DrinkMain/TapText");
-        this.LimitText = GameObject.Find("DrinkMain/Limit");
         this.OriginPos1 = this.OrderPos[0];
         this.OriginPos2 = this.OrderPos[1];
         this.OriginPos3 = this.OrderPos[2];
@@ -370,6 +260,8 @@ public class DrinkScene : MonoBehaviour {
         this.NextGameFlg = true;
         this.TapText.GetComponent<Text>().text = "タップしてスタート！";
     }
+
+    //回数制限の処理
 	void Update () {
         if(Input.GetMouseButtonDown(0) && this.NextGameFlg)
         {
@@ -381,6 +273,7 @@ public class DrinkScene : MonoBehaviour {
                 Hukidashi(false);
                 this.GameStart();
             }
+            //回数が0になると画面遷移
             else
             {
                 this.NextGameFlg = false;
@@ -390,8 +283,6 @@ public class DrinkScene : MonoBehaviour {
         }
         this.LimitText.GetComponent<Text>().text = "あと " + this.Limit.ToString() + " 回";
     }
-
-    
 }
 
 
