@@ -6,8 +6,14 @@ public class SanctionPartController : MonoBehaviour {
 
     [SerializeField]
     RectTransform slappedBoss;
-
     [SerializeField]
+    RectTransform harisen;
+    [SerializeField]
+    Vector3 harisenLeftPos;
+    [SerializeField]
+    Vector3 harisenRightPos;
+
+[SerializeField]
     float endTime;
     float timer;
 
@@ -21,11 +27,17 @@ public class SanctionPartController : MonoBehaviour {
         if (Input.GetMouseButtonDown(0))
         {
             if(!slappedBoss.gameObject.activeSelf) BossScene.Instance.ChangeBossState(slappedBoss.gameObject);
+            if (!harisen.gameObject.activeSelf) harisen.gameObject.SetActive(true);
 
-            Vector3 scale = slappedBoss.localScale;
-            scale.x *= -1;
+            Vector3 bossScale = slappedBoss.localScale;
+            Vector3 harisenScale = harisen.localScale;
+            bossScale.x *= -1;
+            harisenScale.x *= -1;
             //向きの変更
-            slappedBoss.localScale = scale;
+            slappedBoss.localScale = bossScale;
+            //位置の変更
+            harisen.localScale = harisenScale;
+            harisen.localPosition = harisenScale.x > 0 ? harisenLeftPos : harisenRightPos ;
         }
         
         UpdateTimer();

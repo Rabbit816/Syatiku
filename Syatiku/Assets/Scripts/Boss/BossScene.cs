@@ -21,6 +21,10 @@ public class BossScene : MonoBehaviour {
     RectTransform bossBigSound;
     [SerializeField]
     RectTransform startText;
+    [SerializeField]
+    GameObject panel;
+    [SerializeField]
+    GameObject spotLight;
 
     #endregion
 
@@ -56,47 +60,67 @@ public class BossScene : MonoBehaviour {
         StartCoroutine(StartAnimation());
 	}
 
+    #region スタート演出
+
     IEnumerator StartAnimation()
     {
         RectTransform boss = standingBoss.GetComponent<RectTransform>();
         yield return new WaitForSeconds(1f);
 
+        //1歩目
         Move(boss, new Vector3(20f, 100f, 0f), new Vector3(0.6f, 0.6f, 1f), 0);
         footSound1.gameObject.SetActive(true);
         footSound2.gameObject.SetActive(true);
-        yield return new WaitForSeconds(2f);
+        yield return new WaitForSeconds(1.5f);
 
+        //2歩目
         Move(boss, new Vector3(0f, -50f, 0f), new Vector3(0.9f, 0.9f, 1f), 0);
         Move(footSound1, new Vector3(-220f, 300f, 0f), new Vector3(1.2f, 1.2f, 1f), 0);
         Move(footSound2, new Vector3(220f, 350f, 0f), new Vector3(1.2f, 1.2f, 1f), 0);
-        yield return new WaitForSeconds(2f);
+        yield return new WaitForSeconds(1.5f);
 
+        //3歩目
         Move(boss, new Vector3(0, -200f, 0f), new Vector3(1.2f, 1.2f, 1f), 0);
         Move(footSound1, new Vector3(-300f, 400f, 0f), new Vector3(1.5f, 1.5f, 1f), 0);
         Move(footSound2, new Vector3(300f, 200f, 0f), new Vector3(1.5f, 1.5f, 1f), 0);
-        yield return new WaitForSeconds(3f);
+        yield return new WaitForSeconds(1.5f);
 
+        //暗転
         footSound1.gameObject.SetActive(false);
         footSound2.gameObject.SetActive(false);
+        panel.SetActive(true);
+        Move(boss, new Vector3(0, -600f, 0f), new Vector3(2f, 2f, 1f), 0);
+        yield return new WaitForSeconds(2f);
+
+        //巨大ボス披露
+        panel.SetActive(false);
         bossBigSound.gameObject.SetActive(true);
         Move(bossBigSound, bossBigSound.localPosition, Vector3.one);
-        Move(boss, new Vector3(0, -600f, 0f), new Vector3(2f, 2f, 1f));
         yield return new WaitForSeconds(3f);
 
+        //ゲームサイズに戻す
         bossBigSound.gameObject.SetActive(false);
         Move(boss, new Vector3(0, -200f, 0f), new Vector3(1.2f, 1.2f, 1f));
         yield return new WaitForSeconds(1f);
 
+        //タイマー出現
+        spotLight.SetActive(false);
         Move(timer, new Vector3(810f, 450f, 0f), Vector3.one);
         yield return new WaitForSeconds(0.5f);
+        //ゲージ出現
         Move(gage, new Vector3(25f, -500f, 0f), Vector3.one);
         yield return new WaitForSeconds(0.5f);
+        //背景変更
+        background.sprite = backgroundSprites[0];
+        background.color = Color.white;
+        //スタートテキスト出現
         startText.gameObject.SetActive(true);
         Move(startText, startText.localPosition, Vector3.one);
         yield return new WaitForSeconds(2.0f);
+        //スタートテキスト消える
         Move(startText, startText.localPosition, Vector3.zero);
-
         yield return new WaitForSeconds(1f);
+
         startText.gameObject.SetActive(false);
         GameStart();
     }
@@ -113,6 +137,14 @@ public class BossScene : MonoBehaviour {
         target.DOScale(targetScale, time);
     }
 
+    void GameStart()
+    {
+        flickPart.gameObject.SetActive(true);
+        SoundManager.Instance.PlayBGM(BGMName.Boss);
+    }
+
+    #endregion
+
     void Update () {
         if (Input.GetMouseButtonDown(0))
         {
@@ -120,12 +152,6 @@ public class BossScene : MonoBehaviour {
             touchStartPos = Input.mousePosition;
         }
 	}
-
-    void GameStart()
-    {
-        flickPart.gameObject.SetActive(true);
-        SoundManager.Instance.PlayBGM(BGMName.Boss);
-    }
 
     /// <summary>
     /// テキストの移動速度、方向を更新
@@ -171,7 +197,7 @@ public class BossScene : MonoBehaviour {
         }
 
         //区切り値へ到達
-        if (separateValue > 0 && damageGageController.damagePoint > separateValue)
+        if (separateValue > 0 && damageGageController.damagePoint >= separateValue)
         {
             if(i >= 0) isReachStates[i] = true;
             ChangePart();
