@@ -1,9 +1,7 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using DG.Tweening;
-using UnityEngine.EventSystems;
 
 public class HackBoss : MonoBehaviour {
 
@@ -17,12 +15,6 @@ public class HackBoss : MonoBehaviour {
     private GameObject ChooseObject;
     [SerializeField, Header("ボスの質問に答える時のText")]
     private Text chose_text;
-    [SerializeField, Tooltip("ボスの質問Text")]
-    private Text boss_textObject;
-    [SerializeField, Tooltip("答えるボタンText_0")]
-    private Text boss_textbtn_0;
-    [SerializeField, Tooltip("答えるボタンText_1")]
-    private Text boss_textbtn_1;
 
     [HideInInspector]
     public int comingCount = 0;
@@ -32,21 +24,19 @@ public class HackBoss : MonoBehaviour {
     private HackMain hack_main;
     private PatteringEvent patte;
     private IntoPCAction into_pc;
-    private string str_bossText;
-    private List<string> Boss_text = new List<string>();
+    private BossText boss_text;
     [Header("上司が待機してる時間")]
     public float BossTimer = 5.0f;
     private float Bosswait;
-    private bool _chooseTap = false;
+    private float req = 3f;
     private bool _commingboss = false;
     private bool _gameover = false;
     [HideInInspector]
     public bool _choosing = false;
+    private bool _chooseTap = false;
+
     private int rand = 0;
-    private float req = 3f;
     private int rand_count = 0;
-    private int maxLine = 0;
-    private int currentLine = 0;
 
     // Use this for initialization
     void Start () {
@@ -54,19 +44,18 @@ public class HackBoss : MonoBehaviour {
         hack_main = GetComponent<HackMain>();
         patte = GetComponent<PatteringEvent>();
         into_pc = GetComponent<IntoPCAction>();
-
+        boss_text = GetComponent<BossText>();
         boss_rect = Boss.GetComponent<RectTransform>();
+
         ChooseObject.SetActive(false);
         ComeBoss.SetActive(false);
         _commingboss = false;
         _gameover = false;
         _choosing = false;
-        //ReadBossText();
+        _chooseTap = false;
         comingCount = 0;
         rand_count = 0;
-        maxLine = 0;
-        currentLine = 0;
-        Bosswait = BossTimer + 0.1f;
+        Bosswait = BossTimer;
 	}
 	
 	// Update is called once per frame
@@ -77,7 +66,7 @@ public class HackBoss : MonoBehaviour {
             req -= Time.deltaTime;
             if (req <= 0f)
             {
-                rand = Random.Range(0, 3);
+                rand = Random.Range(0, 4);
                 Debug.Log("Random:" + rand);
                 if ((rand == 1 && !patte._PatteringPlay) || rand_count == 3)
                 {
@@ -101,7 +90,6 @@ public class HackBoss : MonoBehaviour {
                 hack_tap.PlaceButton(12);
                 _chooseTap = false;
                 _commingboss = false;
-                Bosswait = BossTimer + 0.1f;
             }
             else if(Bosswait <= 0.0f)
             {
@@ -114,8 +102,6 @@ public class HackBoss : MonoBehaviour {
                 }
             }
         }
-        if (_chooseTap)
-            AddText();
 	}
 
     /// <summary>
@@ -164,35 +150,10 @@ public class HackBoss : MonoBehaviour {
     /// </summary>
     public void ChooseButton()
     {
-        _chooseTap = true;
-        ChooseObject.SetActive(false);
-        _choosing = false;
         Zoom.SetActive(true);
-    }
-
-    /// <summary>
-    /// ボスのテキスト読み込み
-    /// </summary>
-    private void ReadBossText()
-    {
-        TextAsset csv_file = Resources.Load("Minigame/Hacking/Hack_BossText") as TextAsset;
-        System.IO.StringReader str_text = new System.IO.StringReader(csv_file.text);
-        str_text.ToString().Replace("\r","");
-        string[] str_line = str_text.ToString().Split('\n');
-        string[] stren = str_bossText.Split(',');
-        for (int i = 0; i < stren.Length; i++)
-        {
-            Boss_text.Add(stren[i]);
-            Debug.Log("Boss_text: " + stren[i]);
-            maxLine++;
-        }
-        Debug.Log("maxLine: " + maxLine);
-        currentLine++;
-    }
-
-    private void AddText()
-    {
-        
-        _chooseTap = false;
+        Bosswait = BossTimer;
+        _chooseTap = true;
+        _choosing = false;
+        boss_text.AddText();
     }
 }
