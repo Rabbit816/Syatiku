@@ -1,9 +1,7 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using DG.Tweening;
-using UnityEngine.EventSystems;
 
 public class HackBoss : MonoBehaviour {
 
@@ -30,6 +28,7 @@ public class HackBoss : MonoBehaviour {
     [Header("上司が待機してる時間")]
     public float BossTimer = 5.0f;
     private float Bosswait;
+    private float req = 3f;
     private bool _commingboss = false;
     private bool _gameover = false;
     [HideInInspector]
@@ -37,7 +36,6 @@ public class HackBoss : MonoBehaviour {
     private bool _chooseTap = false;
 
     private int rand = 0;
-    private float req = 3f;
     private int rand_count = 0;
 
     // Use this for initialization
@@ -47,8 +45,8 @@ public class HackBoss : MonoBehaviour {
         patte = GetComponent<PatteringEvent>();
         into_pc = GetComponent<IntoPCAction>();
         boss_text = GetComponent<BossText>();
-
         boss_rect = Boss.GetComponent<RectTransform>();
+
         ChooseObject.SetActive(false);
         ComeBoss.SetActive(false);
         _commingboss = false;
@@ -57,7 +55,7 @@ public class HackBoss : MonoBehaviour {
         _chooseTap = false;
         comingCount = 0;
         rand_count = 0;
-        Bosswait = BossTimer + 0.1f;
+        Bosswait = BossTimer;
 	}
 	
 	// Update is called once per frame
@@ -68,7 +66,7 @@ public class HackBoss : MonoBehaviour {
             req -= Time.deltaTime;
             if (req <= 0f)
             {
-                rand = Random.Range(0, 3);
+                rand = Random.Range(0, 4);
                 Debug.Log("Random:" + rand);
                 if ((rand == 1 && !patte._PatteringPlay) || rand_count == 3)
                 {
@@ -92,7 +90,6 @@ public class HackBoss : MonoBehaviour {
                 hack_tap.PlaceButton(12);
                 _chooseTap = false;
                 _commingboss = false;
-                Bosswait = BossTimer + 0.1f;
             }
             else if(Bosswait <= 0.0f)
             {
@@ -153,9 +150,10 @@ public class HackBoss : MonoBehaviour {
     /// </summary>
     public void ChooseButton()
     {
+        Zoom.SetActive(true);
+        Bosswait = BossTimer;
         _chooseTap = true;
         _choosing = false;
-        Zoom.SetActive(true);
+        boss_text.AddText();
     }
-    
 }

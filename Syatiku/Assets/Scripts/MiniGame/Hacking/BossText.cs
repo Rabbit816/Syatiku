@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -19,25 +18,15 @@ public class BossText : MonoBehaviour {
     private int maxLine = 0;
     private int currentLine = 0;
 
-    private HackBoss hack_boss;
-    
-
     // Use this for initialization
     void Start ()
     {
-        hack_boss = GetComponent<HackBoss>();
         maxLine = 0;
         currentLine = 0;
         ReadBossText();
-
+        AddText();
     }
 	
-	// Update is called once per frame
-	void Update () {
-		
-	}
-
-
     /// <summary>
     /// ボスのテキスト読み込み
     /// </summary>
@@ -54,8 +43,13 @@ public class BossText : MonoBehaviour {
         }
     }
 
-    private void AddText()
+    /// <summary>
+    /// テキスト内容変更処理
+    /// </summary>
+    public void AddText()
     {
+        if (currentLine > maxLine - 1)
+            return;
         stren = Boss_text[currentLine].ToString().Split(',');
         boss_textObject.text = stren[0];
         boss_textbtn_0.text = stren[1];
