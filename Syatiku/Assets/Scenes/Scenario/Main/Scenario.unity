@@ -226,7 +226,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8e96d9a35a1353c419e2ea23aba1bd56, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  filePath: Text/chapter1
+  filePath: Text/Scenario/main/Epilogue
 --- !u!4 &641002374
 Transform:
   m_ObjectHideFlags: 0

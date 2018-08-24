@@ -23,8 +23,6 @@ public class ScenarioController : MonoBehaviour {
     #region variable
 
     [SerializeField]
-    string filePath = "Text/chapter_0_0";
-    [SerializeField]
     ScenarioWindow window;
     public List<ScenarioInfo> scenarioInfoList = new List<ScenarioInfo>();
 
