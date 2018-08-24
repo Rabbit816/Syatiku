@@ -23,8 +23,6 @@ public class ScenarioController : MonoBehaviour {
     #region variable
 
     [SerializeField]
-    string filePath = "Text/chapter_0_0";
-    [SerializeField]
     ScenarioWindow window;
     public List<ScenarioInfo> scenarioInfoList = new List<ScenarioInfo>();
 
@@ -130,6 +128,8 @@ public class ScenarioController : MonoBehaviour {
         viewMessage.Length = 0;
         nextMessageIndex = 0;
         allMessage = scenarioInfoList[infoIndex].message;
+        //ボイスストップ
+        SoundManager.Instance.StopVoice();
         //各コマンド
         foreach (var action in scenarioInfoList[infoIndex].commandActionList)
         {
@@ -192,6 +192,7 @@ public class ScenarioController : MonoBehaviour {
         if (!window.recommendLight.activeSelf)
         {
             window.recommendLight.SetActive(true);
+            //ボイスがStopか再生終了しているかの検知が必要
             if (isAuto)
             {
                 StartCoroutine(SetNextInfo(nextWaitTime));

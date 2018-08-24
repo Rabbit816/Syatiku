@@ -7,10 +7,12 @@ using System.IO;
 public class ImportScenarioInfo : MonoBehaviour {
 
     ScenarioWindow window;
+    int voiceCount;
 
     public ImportScenarioInfo(string filePath, ref List<ScenarioInfo> scenarioList, ScenarioWindow window)
     {
         this.window = window;
+        voiceCount = 0;
         List<ScenarioInfo> scenarioInfos = new List<ScenarioInfo>();
         //テキストファイルの読み込み
         TextAsset textAsset = Resources.Load<TextAsset>(filePath);
@@ -138,12 +140,12 @@ public class ImportScenarioInfo : MonoBehaviour {
         }
         else if (text.Contains("cv"))
         {
-            //Voices
+            //Voice
             scenario.commandActionList.Add(() =>
             {
-                string cueName = TakeTextInfo(text);
-                if (string.IsNullOrEmpty(cueName)) SoundManager.Instance.StopVoice();
-                else SoundManager.Instance.PlayVoice(cueName);
+                SoundManager.Instance.PlayVoice(voiceCount);
+                //上で++したらどうなるか試す
+                voiceCount++;
             });
         }
         else if (text.Contains("end"))

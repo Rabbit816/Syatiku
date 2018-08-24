@@ -31,7 +31,7 @@ public class TitleController : MonoBehaviour {
         else
             Common.Instance.actionCount = 1; // WHITE
 
-        Common.Instance.ChangeScene(Common.SceneName.Scenario);
+        Common.Instance.ChangeScene(Common.SceneName.Epilogue);
     }
     //タイトルボタンを削除
     public void Select()

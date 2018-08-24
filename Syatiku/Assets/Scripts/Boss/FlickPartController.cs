@@ -65,7 +65,7 @@ public class FlickPartController : MonoBehaviour {
         if (gameTime > 0)
         {
             gameTime -= Time.deltaTime;
-            timerText.text = gameTime.ToString("F0");
+            timerText.text = Mathf.Ceil(gameTime).ToString();
         }
         else
         {
