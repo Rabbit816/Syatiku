@@ -883,8 +883,8 @@ MonoBehaviour:
   - {fileID: 829758239}
   answer: {fileID: 1053199033}
   faceSprite:
-  - {fileID: 21300000, guid: 1a357a27bbec5fd459cb19b63f9ed78f, type: 3}
-  - {fileID: 21300000, guid: 1a357a27bbec5fd459cb19b63f9ed78f, type: 3}
+  - {fileID: 0}
+  - {fileID: 21300000, guid: a6adc4285b31ef642a17215c979ac29c, type: 3}
   time: 200
   answerCount: 2
   qLength: 6
