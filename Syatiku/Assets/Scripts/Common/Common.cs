@@ -16,7 +16,7 @@ public class Common : MonoBehaviour {
     public enum SceneName
     {
         Title = 0,
-        Scenario,
+        Epilogue,
         Action,
         Smoking,
         Hacking,
