@@ -8,6 +8,7 @@ public class HackMeishi : MonoBehaviour {
     private RectTransform Meishi_rect;
     private GameObject MeishiObject;
     private HackTap hack_tap;
+    private HackMain hack_main;
     private GameObject Damy_meishi;
 
     private GameObject GetWord;
@@ -22,6 +23,7 @@ public class HackMeishi : MonoBehaviour {
         Damy_meishi = GameObject.Find("Canvas/Desk/Meishi");
         MeishiObject.SetActive(false);
         hack_tap = GameObject.Find("controll").GetComponent<HackTap>();
+        hack_main = GameObject.Find("controll").GetComponent<HackMain>();
         _document = false;
     }
 
@@ -31,7 +33,7 @@ public class HackMeishi : MonoBehaviour {
     public void MeishiPrefab()
     {
         MeishiObject.SetActive(true);
-        hack_tap.CollectWordsOpen();
+        hack_main.CollectWordsOpen();
         hack_tap.ZoomActive(5);
     }
 
@@ -50,7 +52,7 @@ public class HackMeishi : MonoBehaviour {
         _document = true;
 
         Sequence s = DOTween.Sequence();
-        s.Append(Meishi_rect.DOLocalMove(new Vector3(860, 465, 0), 0.7f))
+        s.Append(Meishi_rect.DOLocalMove(new Vector3(930, 780, 0), 0.7f))
             .Join(Meishi_rect.DOScale(0.1f, 0.7f))
             .OnComplete(() => { Meishi_rect.gameObject.SetActive(false); hack_tap.ZoomActive(5); });
     }
