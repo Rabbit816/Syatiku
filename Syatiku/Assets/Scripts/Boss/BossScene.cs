@@ -48,6 +48,7 @@ public class BossScene : MonoBehaviour {
 
     int missCount;
     int successCount;
+    bool isEnd;
 
     private Vector3 touchStartPos;
 
@@ -56,6 +57,7 @@ public class BossScene : MonoBehaviour {
         isReachStates = new bool[SeparateValues.Length];
         flickPart.gameObject.SetActive(false);
         sanctionPart.gameObject.SetActive(false);
+        isEnd = false;
 
         StartCoroutine(StartAnimation());
 	}
@@ -254,14 +256,16 @@ public class BossScene : MonoBehaviour {
 
     public void Result()
     {
-        if (isReachStates[isReachStates.Length - 1])
+        if (isEnd) return;
+
+        if (isReachStates[isReachStates.Length - 2])
         {
-            UnityEngine.SceneManagement.SceneManager.LoadScene("GoodEnd");
+            Common.Instance.ChangeScene(Common.SceneName.GoodEnd);
         }
         else
         {
-            UnityEngine.SceneManagement.SceneManager.LoadScene("BadEnd");
+            Common.Instance.ChangeScene(Common.SceneName.BadEnd);
         }
-        Debug.Log("ゲーム終了：結果発表");
+        isEnd = true;
     }
 }

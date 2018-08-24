@@ -62,14 +62,14 @@ public class FlickPartController : MonoBehaviour {
     void UpdateTimer()
     {
         //ゲームタイマー
-        if (gameTime < 0)
-        {
-            BossScene.Instance.Result();
-        }
-        else
+        if (gameTime > 0)
         {
             gameTime -= Time.deltaTime;
             timerText.text = gameTime.ToString("F0");
+        }
+        else
+        {
+            BossScene.Instance.Result();
         }
         //テキストタイマー
         spawnTextTimer += Time.deltaTime;
