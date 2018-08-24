@@ -20,11 +20,9 @@ public class ButtonController : MonoBehaviour {
 
     //メニューのボタン
     public Button OrderButton;
-    public Button Yakitori;
-    public Button Sake;
-    public Button Salad;
-    public Button Sashimi;
-
+    public Button[] Menu;
+    private int MenuID;
+    
     [SerializeField]
     GameObject DenmokuImage;
 
@@ -32,7 +30,7 @@ public class ButtonController : MonoBehaviour {
     GameObject Menu_Otsumami, Menu_Drink, Menu_Dessert;
 
     [SerializeField]
-    GameObject MenuScrollbar;
+    Scrollbar MenuScrollbar;
 
     private int OrderCount = 0;
     private bool AgainFlg = true;
@@ -70,8 +68,7 @@ public class ButtonController : MonoBehaviour {
         this.AgainFlg = true;
         this.DrinkSceneButton(false);
         this.OtsumamiButton();
-        this.OrderButton.interactable = false;
-        denmoku.CounterOFF();
+        denmoku.MenuListOFF();
         meter.TimeMeterFlg = true;
     }
 
@@ -103,7 +100,7 @@ public class ButtonController : MonoBehaviour {
 
     public void MenuTabControll(bool b1, bool b2, bool b3, bool b4, bool b5, bool b6)
     {
-        this.MenuScrollbar.GetComponent<Scrollbar>().value = 1;
+        this.MenuScrollbar.value = 1;
         this.Otsumami.interactable = b1;
         this.Drink.interactable = b2;
         this.Dessert.interactable = b3;
@@ -112,52 +109,43 @@ public class ButtonController : MonoBehaviour {
         this.Menu_Dessert.gameObject.SetActive(b6);
     }
 
-    //メニューのやきとりボタン
-    public void YakitoriButton()
+    public void MenuController()
     {
-        if(this.OrderCount != 4)
+        if (this.OrderCount != 4)
         {
-            this.Yakitori.interactable = false;
-            denmoku.ListInYakitori();
-            denmoku.OrderListCounter(true);
+            this.Menu[this.MenuID].interactable = false;
+            denmoku.ListCheck(this.MenuID);
+            denmoku.OrderListController(true);
             this.OrderCount++;
         }
     }
 
-    //メニューの酒ボタン
-    public void SakeButton()
+    //メニューの枝豆ボタン
+    public void Edamame_Button()
     {
-        if (this.OrderCount != 4)
-        {
-            this.Sake.interactable = false;
-            denmoku.ListInSake();
-            denmoku.OrderListCounter(true);
-            this.OrderCount++;
-        }
+        this.MenuID = 0;
+        this.MenuController();
+    }
+
+    //メニューの卵焼きボタン
+    public void Tamagoyaki_Button()
+    {
+        this.MenuID = 1;
+        this.MenuController();
     }
     
+    //メニューのからあげボタン
+    public void Karaage_Button()
+    {
+        this.MenuID = 2;
+        this.MenuController();
+    }
+
     //メニューのサラダボタン
     public void SaladButton()
     {
-        if (this.OrderCount != 4)
-        {
-            this.Salad.interactable = false;
-            denmoku.ListInSalad();
-            denmoku.OrderListCounter(true);
-            this.OrderCount++;
-        }
-    }
-
-    //メニューの刺身ボタン
-    public void SashimiButton()
-    {
-        if (this.OrderCount != 4)
-        {
-            this.Sashimi.interactable = false;
-            denmoku.ListInSashimi();
-            denmoku.OrderListCounter(true);
-            this.OrderCount++;
-        }
+        this.MenuID = 3;
+        this.MenuController();
     }
     
     //注文ボタン
@@ -176,24 +164,7 @@ public class ButtonController : MonoBehaviour {
     {
         for(int i = 0; i < denmoku.InputOrderBox.Length; i++)
         {
-            switch (denmoku.InputOrderBox[i])
-            {
-                case 0:
-                    this.Yakitori.interactable = true;
-                    break;
-                case 1:
-                    this.Sake.interactable = true;
-                    break;
-                case 2:
-                    this.Salad.interactable = true;
-                    break;
-                case 3:
-                    this.Sashimi.interactable = true;
-                    break;
-                default:
-                    Debug.Log("ButtonReset : エラー");
-                    break;
-            }
+            this.Menu[denmoku.InputOrderBox[i]].interactable = true;
         }
     }
 
@@ -201,39 +172,27 @@ public class ButtonController : MonoBehaviour {
     {
         if (b)
         {
-            if (denmoku.InputOrderCounter[CounterNum] < 4)
+            if (denmoku.InputOrderCounter[this.CounterNum] < 4)
             {
-                denmoku.InputOrderCounter[CounterNum]++;
+                denmoku.InputOrderCounter[this.CounterNum]++;
             }
         }
         else
         {
-            if (denmoku.InputOrderCounter[CounterNum] > 1)
+            if (denmoku.InputOrderCounter[this.CounterNum] > 1)
             {
-                denmoku.InputOrderCounter[CounterNum]--;
+                denmoku.InputOrderCounter[this.CounterNum]--;
             }
             else
             {
-                switch (denmoku.InputOrderBox[this.CounterNum])
+                for(int i = 0; i < denmoku.InputOrderBox.Length; i++)
                 {
-                    case 0:
-                        this.Yakitori.interactable = true;
-                        break;
-                    case 1:
-                        this.Sake.interactable = true;
-                        break;
-                    case 2:
-                        this.Salad.interactable = true;
-                        break;
-                    case 3:
-                        this.Sashimi.interactable = true;
-                        break;
-                    default:
-                        Debug.Log("CounterController : エラー");
-                        break;
+                    if(this.Menu[denmoku.InputOrderBox[this.CounterNum]].interactable == false)
+                    {
+                        this.Menu[denmoku.InputOrderBox[this.CounterNum]].interactable = true;
+                    }
                 }
-                denmoku.OrderListCounter(false);
-                denmoku.ListOutMenu();
+                denmoku.OrderListController(false);
                 denmoku.InputOrderBox[this.CounterNum] = -1;
                 denmoku.InputOrderCounter[this.CounterNum] = 0;
                 if(this.OrderCount > 0)
@@ -262,7 +221,6 @@ public class ButtonController : MonoBehaviour {
 	
 	
 	void Update () {
-
         if (this.OrderCount == 4)
         {
             this.OrderButton.interactable = true;
