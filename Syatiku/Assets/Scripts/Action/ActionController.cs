@@ -133,7 +133,7 @@ public class ActionController : MonoBehaviour {
     }
 
     /// <summary>
-    /// ミニゲーム遷移
+    /// 人間生成
     /// </summary>
     public void CreateHuman()
     {

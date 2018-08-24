@@ -53,9 +53,6 @@ public class Common : MonoBehaviour {
     [System.NonSerialized]
     public int miniNum;
 
-    //後で消す
-    public int isClear;
-
     [System.NonSerialized]
     public int gameMode; // シナリオがどちらか
 
@@ -95,10 +92,10 @@ public class Common : MonoBehaviour {
         for (int i = 0; i < clearFlag.Length; i++) {
             clearFlag[i] = false;
         }
-        // isClear
-        isClear = -1;
         // gameMode
         gameMode = -1;
+        // miniNum
+        miniNum = -1;
         // actionCount
         actionCount = 0;
     }
@@ -156,8 +153,6 @@ public class Common : MonoBehaviour {
             time += Time.deltaTime;
             yield return 0;
         }
-        //eventSystem.enabled = true;
-
         this.isFading = false;
     }
 
