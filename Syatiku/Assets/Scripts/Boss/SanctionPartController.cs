@@ -50,6 +50,7 @@ public class SanctionPartController : MonoBehaviour {
         {
             timer = 0;
             slappedBoss.gameObject.SetActive(false);
+            harisen.gameObject.SetActive(false);
             BossScene.Instance.ChangePart();
         }
     }

@@ -15,98 +15,38 @@ public class Denmoku : MonoBehaviour {
     [HideInInspector]
     public int[] InputOrderCounter = new int[4];
 
-    private float[] OrderListPos = new float[4] { 3.9f, 1.75f, -0.45f, -2.55f };
+    [SerializeField]
+    Text[] OrderMenuList;
 
     [SerializeField]
-    GameObject[] CounterList;
+    Text[] CounterList;
 
     private int Num;
-    private int MenuID;
 
-    public void OrderListCounter(bool b)
+    public void OrderListController(bool b)
     {
         if (b)
         {
+            this.OrderMenuList[this.Num].gameObject.SetActive(true);
             this.CounterList[this.Num].gameObject.SetActive(true);
         }
         else
         {
+            this.OrderMenuList[button.CounterNum].gameObject.SetActive(false);
             this.CounterList[button.CounterNum].gameObject.SetActive(false);
         }
     }
 
-    public void CounterOFF()
+    public void MenuListOFF()
     {
         for(int i = 0; i < this.CounterList.Length; i++)
         {
+            this.OrderMenuList[i].gameObject.SetActive(false);
             this.CounterList[i].gameObject.SetActive(false);
         }
     }
 
-
-    public void ListInYakitori()
-    {
-        MenuID = 0;
-        this.ListCheck();
-        var Yakitori = Instantiate(drink.MenuList[this.MenuID], new Vector2(-6.4f, OrderListPos[this.Num]), Quaternion.identity);
-        Yakitori.transform.localScale = new Vector2(0.6f, 0.6f);
-        Yakitori.transform.parent = drink.menuObject.transform;
-    }
-
-    public void ListInSake()
-    {
-        MenuID = 1;
-        this.ListCheck();
-        var Sake = Instantiate(drink.MenuList[this.MenuID], new Vector2(-6.4f, OrderListPos[this.Num]), Quaternion.identity);
-        Sake.transform.localScale = new Vector2(0.23f, 0.23f);
-        Sake.transform.parent = drink.menuObject.transform;
-    }
-
-    public void ListInSalad()
-    {
-        MenuID = 2;
-        this.ListCheck();
-        var Salad = Instantiate(drink.MenuList[this.MenuID], new Vector2(-6.4f, OrderListPos[this.Num]), Quaternion.identity);
-        Salad.transform.localScale = new Vector2(0.3f, 0.3f);
-        Salad.transform.parent = drink.menuObject.transform;
-    }
-
-    public void ListInSashimi()
-    {
-        MenuID = 3;
-        this.ListCheck();
-        var Sashimi = Instantiate(drink.MenuList[this.MenuID], new Vector2(-6.4f, OrderListPos[this.Num]), Quaternion.identity);
-        Sashimi.transform.localScale = new Vector2(0.23f, 0.23f);
-        Sashimi.transform.parent = drink.menuObject.transform;
-    }
-
-    public void ListOutMenu()
-    {
-        switch (this.InputOrderBox[button.CounterNum])
-        {
-            case 0:
-                GameObject obj1 = GameObject.Find("MenuObject/yakitori(Clone)");
-                Destroy(obj1);
-                break;
-            case 1:
-                GameObject obj2 = GameObject.Find("MenuObject/sake(Clone)");
-                Destroy(obj2);
-                break;
-            case 2:
-                GameObject obj3 = GameObject.Find("MenuObject/salad(Clone)");
-                Destroy(obj3);
-                break;
-            case 3:
-                GameObject obj4 = GameObject.Find("MenuObject/sashimi(Clone)");
-                Destroy(obj4);
-                break;
-            default:
-                Debug.Log("ListoutMenu : エラー");
-                break;
-        }
-    }
-
-    public void ListCheck()
+    public void ListCheck(int MenuID)
     {
         for(int i = 0; i < this.InputOrderBox.Length; i++)
         {
@@ -118,6 +58,24 @@ public class Denmoku : MonoBehaviour {
         }
         this.InputOrderBox[this.Num] = MenuID;
         this.InputOrderCounter[this.Num] = 1;
+        switch (MenuID)
+        {
+            case 0:
+                this.OrderMenuList[this.Num].text = "枝豆";
+                break;
+            case 1:
+                this.OrderMenuList[this.Num].text = "卵焼き";
+                break;
+            case 2:
+                this.OrderMenuList[this.Num].text = "からあげ";
+                break;
+            case 3:
+                this.OrderMenuList[this.Num].text = "サラダ";
+                break;
+            default:
+                Debug.Log("ListCheck : エラー");
+                break;
+        }
     }
 
     void Start () {
@@ -126,9 +84,9 @@ public class Denmoku : MonoBehaviour {
 	}
 	
 	void Update () {
-        this.CounterList[0].GetComponent<Text>().text = "× " + this.InputOrderCounter[0].ToString();
-        this.CounterList[1].GetComponent<Text>().text = "× " + this.InputOrderCounter[1].ToString();
-        this.CounterList[2].GetComponent<Text>().text = "× " + this.InputOrderCounter[2].ToString();
-        this.CounterList[3].GetComponent<Text>().text = "× " + this.InputOrderCounter[3].ToString();
+        this.CounterList[0].text = "× " + this.InputOrderCounter[0].ToString();
+        this.CounterList[1].text = "× " + this.InputOrderCounter[1].ToString();
+        this.CounterList[2].text = "× " + this.InputOrderCounter[2].ToString();
+        this.CounterList[3].text = "× " + this.InputOrderCounter[3].ToString();
     }
 }

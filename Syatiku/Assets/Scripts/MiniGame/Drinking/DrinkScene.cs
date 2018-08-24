@@ -10,19 +10,19 @@ public class DrinkScene : MonoBehaviour {
     public GameObject[] MenuList;
 
     [SerializeField]
-    GameObject[] OrderCounterList;
+    Text[] OrderCounterList;
 
     [SerializeField]
     GameObject[] HukidashiList;
 
     [SerializeField]
-    GameObject[] AnswerList;
+    Text[] AnswerList;
 
     [SerializeField]
-    GameObject TapText;
+    Text TapText;
 
     [SerializeField]
-    GameObject LimitText;
+    Text LimitText;
     
     ButtonController button;
     Denmoku denmoku;
@@ -33,11 +33,11 @@ public class DrinkScene : MonoBehaviour {
     //注文を表示するための配列
     private int[] OrderBox = new int[4];
     private int[] OrderCounter = new int[4];
-    private float[] OrderPos = new float[4] {-5.7f, -1.85f, 2.0f, 5.85f};
+    private float[] OrderPos = new float[4] {-5.85f, -1.9f, 2.05f, 6.0f};
 
     private int[] Num = new int[4];
     private int NumCounter = 0;
-    private float[] AnswerPos = new float[4] { -680.0f, -220.0f, 240.0f, 700.0f };
+    private float[] AnswerPos = new float[4] { -710.0f, -240.0f, 240.0f, 710.0f };
     private bool NextGameFlg;
     [SerializeField, Range(0, 2), Tooltip("注文の表示時間(秒)")] private float Timer;
     [SerializeField, Range(1, 9), Tooltip("回数制限")] private int Limit;
@@ -102,29 +102,29 @@ public class DrinkScene : MonoBehaviour {
             
             switch (this.OrderBox[i])
             {
-                //やきとりを表示
+                //枝豆を表示
                 case 0:
-                    var yakitori = Instantiate(this.MenuList[this.OrderBox[i]], new Vector2(OrderPos[i], 2.7f), Quaternion.identity);
-                    yakitori.transform.localScale = new Vector2(0.7f, 0.7f);
-                    yakitori.transform.parent = this.menuObject.transform;
+                    var Menu_1 = Instantiate(this.MenuList[this.OrderBox[i]], new Vector2(OrderPos[i], 2.7f), Quaternion.identity);
+                    Menu_1.transform.localScale = new Vector2(0.85f, 0.85f);
+                    Menu_1.transform.parent = this.menuObject.transform;
                     break;
-                //酒を表示
+                //卵焼きを表示
                 case 1:
-                    var sake = Instantiate(this.MenuList[this.OrderBox[i]], new Vector2(OrderPos[i], 2.7f), Quaternion.identity);
-                    sake.transform.localScale = new Vector2(0.25f, 0.25f);
-                    sake.transform.parent = this.menuObject.transform;
+                    var Menu_2 = Instantiate(this.MenuList[this.OrderBox[i]], new Vector2(OrderPos[i], 2.7f), Quaternion.identity);
+                    Menu_2.transform.localScale = new Vector2(0.85f, 0.85f);
+                    Menu_2.transform.parent = this.menuObject.transform;
+                    break;
+                //からあげを表示
+                case 2:
+                    var Menu_3 = Instantiate(this.MenuList[this.OrderBox[i]], new Vector2(OrderPos[i], 2.7f), Quaternion.identity);
+                    Menu_3.transform.localScale = new Vector2(0.85f, 0.85f);
+                    Menu_3.transform.parent = menuObject.transform;
                     break;
                 //サラダを表示
-                case 2:
-                    var salad = Instantiate(this.MenuList[this.OrderBox[i]], new Vector2(OrderPos[i], 2.7f), Quaternion.identity);
-                    salad.transform.localScale = new Vector2(0.35f, 0.35f);
-                    salad.transform.parent = menuObject.transform;
-                    break;
-                //刺身を表示
                 case 3:
-                    var sashimi = Instantiate(this.MenuList[this.OrderBox[i]], new Vector2(OrderPos[i], 2.7f), Quaternion.identity);
-                    sashimi.transform.localScale = new Vector2(0.25f, 0.25f);
-                    sashimi.transform.parent = menuObject.transform;
+                    var Menu_4 = Instantiate(this.MenuList[this.OrderBox[i]], new Vector2(OrderPos[i], 2.7f), Quaternion.identity);
+                    Menu_4.transform.localScale = new Vector2(0.85f, 0.85f);
+                    Menu_4.transform.parent = menuObject.transform;
                     break;
                 default:
                     Debug.Log("OrderMethod : エラー");
@@ -189,7 +189,7 @@ public class DrinkScene : MonoBehaviour {
     {
         this.HukidashiList[this.Num[this.NumCounter]].gameObject.SetActive(true);
         this.OrderCounterList[this.Num[this.NumCounter]].gameObject.SetActive(true);
-        this.OrderCounterList[this.Num[this.NumCounter]].GetComponent<Text>().text = "× " + this.OrderCounter[NumCounter].ToString();
+        this.OrderCounterList[this.Num[this.NumCounter]].text = "× " + this.OrderCounter[NumCounter].ToString();
         NumCounter++;
     }
 
@@ -224,14 +224,14 @@ public class DrinkScene : MonoBehaviour {
         if (b)
         {
             this.AnswerList[i].GetComponent<RectTransform>().localPosition = new Vector2(this.AnswerPos[i], 200);
-            this.AnswerList[i].GetComponent<Text>().text = "○";
-            this.AnswerList[i].GetComponent<Text>().color = new Color(255f / 255f, 0f / 255f, 0f / 255f, 255f / 255f);
+            this.AnswerList[i].text = "○";
+            this.AnswerList[i].color = new Color(255f / 255f, 0f / 255f, 0f / 255f, 255f / 255f);
         }
         else
         {
             this.AnswerList[i].GetComponent<RectTransform>().localPosition = new Vector2(this.AnswerPos[i], 175);
-            this.AnswerList[i].GetComponent<Text>().text = "×";
-            this.AnswerList[i].GetComponent<Text>().color = new Color(40f / 255f, 0f / 255f, 255f / 255f, 255f / 255f);
+            this.AnswerList[i].text = "×";
+            this.AnswerList[i].color = new Color(40f / 255f, 0f / 255f, 255f / 255f, 255f / 255f);
         }
     }
 
@@ -244,7 +244,7 @@ public class DrinkScene : MonoBehaviour {
         {
             denmoku.InputOrderBox[i] = -1;
         }
-        this.TapText.GetComponent<Text>().text = "画面をタップ！";
+        this.TapText.text = "画面をタップ！";
     }
    
     void Start () {
@@ -258,7 +258,7 @@ public class DrinkScene : MonoBehaviour {
         this.AnswerResultOFF();
         this.Hukidashi(false);
         this.NextGameFlg = true;
-        this.TapText.GetComponent<Text>().text = "タップしてスタート！";
+        this.TapText.text = "タップしてスタート！";
     }
 
     //回数制限の処理
@@ -281,7 +281,7 @@ public class DrinkScene : MonoBehaviour {
             }
             
         }
-        this.LimitText.GetComponent<Text>().text = "あと " + this.Limit.ToString() + " 回";
+        this.LimitText.text = "あと " + this.Limit.ToString() + " 回";
     }
 }
 

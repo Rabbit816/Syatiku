@@ -5,12 +5,11 @@ using UnityEngine.UI;
 
 public class DenmokuMeter : MonoBehaviour {
 
-    [HideInInspector] public Slider TimeMeter;
+    public Slider TimeMeter;
     [HideInInspector] public bool TimeMeterFlg;
     [Range(1, 60), Tooltip("デンモクの制限時間(秒)")] public float Timer;
 
 	void Start () {
-        this.TimeMeter = GameObject.Find("Denmoku/TimeMeter").GetComponent<Slider>();
         this.TimeMeter.maxValue = Timer;
         this.TimeMeter.value = this.TimeMeter.maxValue;
 	}
