@@ -25,14 +25,19 @@ public class ButtonController : MonoBehaviour {
     public Button Salad;
     public Button Sashimi;
 
-
+    [SerializeField]
     GameObject DenmokuImage;
+
+    [SerializeField]
     GameObject Menu_Otsumami, Menu_Drink, Menu_Dessert;
+
+    [SerializeField]
     GameObject MenuScrollbar;
 
-    [HideInInspector] public int OrderCount = 0;
+    private int OrderCount = 0;
     private bool AgainFlg = true;
-    private int CounterNum;
+    [HideInInspector]
+    public int CounterNum;
 
     //飲み会シーンのボタンを表示
     public void DrinkSceneButton(bool b)
@@ -114,7 +119,7 @@ public class ButtonController : MonoBehaviour {
         {
             this.Yakitori.interactable = false;
             denmoku.ListInYakitori();
-            denmoku.OrderListCounterON();
+            denmoku.OrderListCounter(true);
             this.OrderCount++;
         }
     }
@@ -126,7 +131,7 @@ public class ButtonController : MonoBehaviour {
         {
             this.Sake.interactable = false;
             denmoku.ListInSake();
-            denmoku.OrderListCounterON();
+            denmoku.OrderListCounter(true);
             this.OrderCount++;
         }
     }
@@ -138,7 +143,7 @@ public class ButtonController : MonoBehaviour {
         {
             this.Salad.interactable = false;
             denmoku.ListInSalad();
-            denmoku.OrderListCounterON();
+            denmoku.OrderListCounter(true);
             this.OrderCount++;
         }
     }
@@ -150,7 +155,7 @@ public class ButtonController : MonoBehaviour {
         {
             this.Sashimi.interactable = false;
             denmoku.ListInSashimi();
-            denmoku.OrderListCounterON();
+            denmoku.OrderListCounter(true);
             this.OrderCount++;
         }
     }
@@ -186,7 +191,7 @@ public class ButtonController : MonoBehaviour {
                     this.Sashimi.interactable = true;
                     break;
                 default:
-                    Debug.Log("エラー");
+                    Debug.Log("ButtonReset : エラー");
                     break;
             }
         }
@@ -207,6 +212,35 @@ public class ButtonController : MonoBehaviour {
             {
                 denmoku.InputOrderCounter[CounterNum]--;
             }
+            else
+            {
+                switch (denmoku.InputOrderBox[this.CounterNum])
+                {
+                    case 0:
+                        this.Yakitori.interactable = true;
+                        break;
+                    case 1:
+                        this.Sake.interactable = true;
+                        break;
+                    case 2:
+                        this.Salad.interactable = true;
+                        break;
+                    case 3:
+                        this.Sashimi.interactable = true;
+                        break;
+                    default:
+                        Debug.Log("CounterController : エラー");
+                        break;
+                }
+                denmoku.OrderListCounter(false);
+                denmoku.ListOutMenu();
+                denmoku.InputOrderBox[this.CounterNum] = -1;
+                denmoku.InputOrderCounter[this.CounterNum] = 0;
+                if(this.OrderCount > 0)
+                {
+                    this.OrderCount--;
+                }
+            }
         }
     }
 
@@ -222,17 +256,20 @@ public class ButtonController : MonoBehaviour {
         drink = GetComponent<DrinkScene>();
         denmoku = GetComponent<Denmoku>();
         meter = GetComponent<DenmokuMeter>();
-        this.DenmokuImage = GameObject.Find("Denmoku");
-        this.Menu_Otsumami = GameObject.Find("ScrollContent/Otsumami");
-        this.Menu_Drink = GameObject.Find("ScrollContent/Drink");
-        this.Menu_Dessert = GameObject.Find("ScrollContent/Dessert");
-        this.MenuScrollbar = GameObject.Find("Scrollbar");
         this.DrinkSceneButton(false);
         this.DenmokuImage.GetComponent<RectTransform>().localPosition = new Vector2(-970, -2000);
     }
 	
 	
 	void Update () {
-        
+
+        if (this.OrderCount == 4)
+        {
+            this.OrderButton.interactable = true;
+        }
+        else
+        {
+            this.OrderButton.interactable = false;
+        }
     }
 }

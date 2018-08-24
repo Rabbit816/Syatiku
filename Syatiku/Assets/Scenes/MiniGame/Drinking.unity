@@ -279,7 +279,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: -220, y: 175}
-  m_SizeDelta: {x: 2000, y: 2000}
+  m_SizeDelta: {x: 500, y: 500}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &48221188
 MonoBehaviour:
@@ -302,9 +302,9 @@ MonoBehaviour:
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
   m_FontData:
     m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
-    m_FontSize: 300
+    m_FontSize: 249
     m_FontStyle: 0
-    m_BestFit: 1
+    m_BestFit: 0
     m_MinSize: 0
     m_MaxSize: 300
     m_Alignment: 4
@@ -788,7 +788,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: -680, y: 200}
-  m_SizeDelta: {x: 2000, y: 2000}
+  m_SizeDelta: {x: 500, y: 500}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &230336171
 MonoBehaviour:
@@ -811,9 +811,9 @@ MonoBehaviour:
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
   m_FontData:
     m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
-    m_FontSize: 300
+    m_FontSize: 249
     m_FontStyle: 0
-    m_BestFit: 1
+    m_BestFit: 0
     m_MinSize: 0
     m_MaxSize: 300
     m_Alignment: 4
@@ -862,7 +862,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: -680, y: 75}
-  m_SizeDelta: {x: 1600, y: 300}
+  m_SizeDelta: {x: 300, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &287708769
 MonoBehaviour:
@@ -1044,11 +1044,29 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 93cae47c98145f9468dd3d993079e2c1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  menuObject: {fileID: 0}
-  yakitoriObj: {fileID: 0}
-  sakeObj: {fileID: 0}
-  saladObj: {fileID: 0}
-  sashimiObj: {fileID: 0}
+  menuObject: {fileID: 1189089969}
+  MenuList:
+  - {fileID: 1731001117905010, guid: b5e722ef5030e8a4680ce4897a3965d5, type: 2}
+  - {fileID: 1259599944530750, guid: 6f1ffab1b354c054eb53a2e8f35f6e9d, type: 2}
+  - {fileID: 1533739696496252, guid: 9024aef612b77424d80fb1ef41d7b271, type: 2}
+  - {fileID: 1390775496210214, guid: c8db6856c56699d4d88e0cc5fa0661f3, type: 2}
+  OrderCounterList:
+  - {fileID: 287708767}
+  - {fileID: 537914737}
+  - {fileID: 2014706464}
+  - {fileID: 786774231}
+  HukidashiList:
+  - {fileID: 804060985}
+  - {fileID: 933083552}
+  - {fileID: 1443755069}
+  - {fileID: 8188213}
+  AnswerList:
+  - {fileID: 230336169}
+  - {fileID: 48221186}
+  - {fileID: 2004916449}
+  - {fileID: 2131467282}
+  TapText: {fileID: 1100501575}
+  LimitText: {fileID: 490382266}
   Timer: 1
   Limit: 3
 --- !u!4 &307734375
@@ -1075,8 +1093,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a0f48b6fa081c4746bcdfe676b2f4ab9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  InputOrderBox: 00000000000000000000000000000000
+  InputOrderBox: ffffffffffffffffffffffffffffffff
   InputOrderCounter: 00000000000000000000000000000000
+  CounterList:
+  - {fileID: 1913938454}
+  - {fileID: 618714702}
+  - {fileID: 800934387}
+  - {fileID: 1146227429}
 --- !u!114 &307734377
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1098,7 +1121,12 @@ MonoBehaviour:
   Sake: {fileID: 1778225818}
   Salad: {fileID: 861254432}
   Sashimi: {fileID: 1730615338}
-  OrderCount: 0
+  DenmokuImage: {fileID: 2135548172}
+  Menu_Otsumami: {fileID: 692653976}
+  Menu_Drink: {fileID: 1973819713}
+  Menu_Dessert: {fileID: 457308403}
+  MenuScrollbar: {fileID: 338063001}
+  CounterNum: 0
 --- !u!114 &307734378
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1112,7 +1140,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   TimeMeter: {fileID: 0}
   TimeMeterFlg: 0
-  Timer: 20
+  Timer: 60
 --- !u!1 &319333120
 GameObject:
   m_ObjectHideFlags: 0
@@ -1951,7 +1979,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: -220, y: 75}
-  m_SizeDelta: {x: 1600, y: 300}
+  m_SizeDelta: {x: 300, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &537914739
 MonoBehaviour:
@@ -2925,7 +2953,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 700, y: 75}
-  m_SizeDelta: {x: 1600, y: 300}
+  m_SizeDelta: {x: 300, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &786774233
 MonoBehaviour:
@@ -7527,7 +7555,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 240, y: 200}
-  m_SizeDelta: {x: 2000, y: 2000}
+  m_SizeDelta: {x: 500, y: 500}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2004916451
 MonoBehaviour:
@@ -7550,9 +7578,9 @@ MonoBehaviour:
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
   m_FontData:
     m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
-    m_FontSize: 300
+    m_FontSize: 249
     m_FontStyle: 0
-    m_BestFit: 1
+    m_BestFit: 0
     m_MinSize: 0
     m_MaxSize: 300
     m_Alignment: 4
@@ -7601,7 +7629,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 240, y: 75}
-  m_SizeDelta: {x: 1600, y: 300}
+  m_SizeDelta: {x: 300, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2014706466
 MonoBehaviour:
@@ -8008,7 +8036,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 700, y: 200}
-  m_SizeDelta: {x: 2000, y: 2000}
+  m_SizeDelta: {x: 500, y: 500}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2131467284
 MonoBehaviour:
@@ -8031,9 +8059,9 @@ MonoBehaviour:
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
   m_FontData:
     m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
-    m_FontSize: 300
+    m_FontSize: 249
     m_FontStyle: 0
-    m_BestFit: 1
+    m_BestFit: 0
     m_MinSize: 0
     m_MaxSize: 300
     m_Alignment: 4
