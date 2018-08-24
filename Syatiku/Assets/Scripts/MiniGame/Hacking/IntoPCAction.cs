@@ -7,7 +7,7 @@ using UnityEngine.EventSystems;
 
 public class IntoPCAction : MonoBehaviour {
 
-    [SerializeField,Tooltip("PCPassWordフェーズ PC内のでる場所")]
+    [SerializeField, Tooltip("PCPassWordフェーズ PC内のでる場所")]
     private GameObject[] PC_PassWordObject;
     [SerializeField, Tooltip("WindowPassWordフェーズ PC内のでる場所")]
     private GameObject[] Window_PassWordObject;
@@ -29,6 +29,8 @@ public class IntoPCAction : MonoBehaviour {
     private EventSystem event_system;
     [SerializeField, Tooltip("FolderパスワードのResultText")]
     private GameObject folder_text;
+    [SerializeField, Tooltip("WindowFase戻るボタン")]
+    private GameObject window_returnbtn;
 
     [Tooltip("資料比較の時に何回ミスしてもいいかの回数")]
     public int tappingCount = 6;
@@ -54,7 +56,7 @@ public class IntoPCAction : MonoBehaviour {
     public bool _isWindowAnim = false;
 
     // Use this for initialization
-    void Start () {
+    void Start() {
         try
         {
             PC_login = GameObject.Find("Canvas/PC/PassWordFase/Title");
@@ -82,22 +84,23 @@ public class IntoPCAction : MonoBehaviour {
         doc_1 = false;
         _isWindowAnim = false;
     }
-	
-	// Update is called once per frame
-	void Update () {
+
+    // Update is called once per frame
+    void Update() {
         if (Input.GetKeyDown(KeyCode.A))
         {
-            hack_tap.PlaceButton(0); hack_tap.PlaceButton(1); hack_tap.PlaceButton(2); hack_tap.PlaceButton(3);
-            hack_tap.PlaceButton(4); hack_tap.PlaceButton(5); hack_tap.PlaceButton(6); hack_tap.PlaceButton(7); hack_tap.PlaceButton(8);
-        }else if (Input.GetKeyDown(KeyCode.Z))
-        {
-            hack_tap.PlaceButton(25);
-        }else if (Input.GetKeyDown(KeyCode.W))
-        {
-            hack_tap.PlaceButton(17); hack_tap.PlaceButton(18); hack_tap.PlaceButton(19);
+            hack_tap.PlaceButton(0); hack_tap.PlaceButton(1); hack_tap.PlaceButton(2); hack_tap.PlaceButton(3); hack_tap.PlaceButton(4); hack_tap.PlaceButton(5); hack_tap.PlaceButton(6); hack_tap.PlaceButton(7); hack_tap.PlaceButton(8);
         }
-	}
-    
+        else if (Input.GetKeyDown(KeyCode.Z))
+            hack_tap.PlaceButton(25);
+        else if (Input.GetKeyDown(KeyCode.W))
+        {
+            hack_tap.PlaceButton(17);
+            hack_tap.PlaceButton(18);
+            hack_tap.PlaceButton(19);
+        }
+    }
+
     /// <summary>
     /// チェックした時のテキスト表示
     /// </summary>
@@ -122,18 +125,23 @@ public class IntoPCAction : MonoBehaviour {
         }
     }
 
+    /// <summary>
+    /// フォルダフェーズでログインできたかどうかの処理
+    /// </summary>
+    /// <param name="_isResult">true=ログイン成功、false=ログインできてない</param>
+    /// <returns></returns>
     private IEnumerator FolderLogin_WaitTime(bool _isResult)
     {
         if (_isResult)
         {
             _isWindowAnim = true;
             hack_tap.ZoomActive(6);
-            event_system.enabled = false;
             folder_text.GetComponent<Text>().text = "ログインできました。";
             folder_text.SetActive(true);
             Window.SetActive(true);
+            window_returnbtn.SetActive(false);
             yield return new WaitForSeconds(1.5f);
-            event_system.enabled = true;
+            window_returnbtn.SetActive(true);
             folder_text.SetActive(false);
         }
         else
@@ -237,9 +245,7 @@ public class IntoPCAction : MonoBehaviour {
                 password_parent = GameObject.Find("Canvas/Zoom/AdminStrator/AdminPage/AdminPassWord/Password_" + i);
 
             if (PassWordObject[i].gameObject.transform.childCount != 0)
-            {
                 password_child = password_parent.transform.GetChild(0).GetChild(0);
-            }
             else
             {
                 if (_pcpass)

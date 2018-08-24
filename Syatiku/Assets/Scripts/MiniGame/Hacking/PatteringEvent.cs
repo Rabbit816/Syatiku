@@ -149,11 +149,7 @@ public class PatteringEvent : MonoBehaviour {
     /// </summary>
     public void TapResult()
     {
-        if (!_success)
-        {
-            Debug.Log("ミスってますよ");
-        }
-        else
+        if (_success)
         {
             successCount++;
             getDocument_obj.SetActive(true);

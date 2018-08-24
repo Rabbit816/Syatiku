@@ -4,12 +4,12 @@ using System.Collections.Generic;
 
 public class Drag : MonoBehaviour, IDragHandler, IEndDragHandler
 {
-
     private Vector3 dragVec;
     private GameObject collect;
 
     void Start()
     {
+        //親の設定
         if(gameObject.tag == "string")
         {
             collect = GameObject.Find("Canvas/PC/PassWordFase/Collect");
@@ -22,6 +22,10 @@ public class Drag : MonoBehaviour, IDragHandler, IEndDragHandler
         }
     }
 
+    /// <summary>
+    /// ドラッグした時、ドラッグ中の処理
+    /// </summary>
+    /// <param name="pointer"></param>
     public void OnDrag(PointerEventData pointer)
     {
         transform.SetParent(collect.transform, false);
@@ -29,6 +33,10 @@ public class Drag : MonoBehaviour, IDragHandler, IEndDragHandler
         gameObject.transform.position = Camera.main.ScreenToWorldPoint(dragVec);
     }
 
+    /// <summary>
+    /// ドラッグし終わった時の処理
+    /// </summary>
+    /// <param name="pointer"></param>
     public void OnEndDrag(PointerEventData pointer)
     {
         var raycastResults = new List<RaycastResult>();
@@ -44,11 +52,8 @@ public class Drag : MonoBehaviour, IDragHandler, IEndDragHandler
                     transform.localPosition = Vector2.zero;
                 }
                 else
-                {
                     return;
-                }
             }
         }
-            
     }
 }
