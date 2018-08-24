@@ -11,6 +11,10 @@ public class SelectController : MonoBehaviour,
     [SerializeField]
     private float zoomScale;
 
+    /// <summary>
+    /// カーソルが置いてあるときの処理
+    /// </summary>
+    /// <param name="eventData"></param>
     public void OnPointerEnter(PointerEventData eventData) {
         switch (gameObject.name) {
             case "Black":
@@ -24,6 +28,10 @@ public class SelectController : MonoBehaviour,
         }
     }
 
+    /// <summary>
+    /// カーソルが置いてないときの処理
+    /// </summary>
+    /// <param name="eventData"></param>
     public void OnPointerExit(PointerEventData eventData) {
         switch (gameObject.name) {
             case "Black":
