@@ -23,8 +23,9 @@ public class Common : MonoBehaviour {
         Drinking,
         Boss,
         Result,
-        GoodEnd,
-        BadEnd,
+        MainGoodEnd,
+        MainNormalEnd,
+        MainBadEnd,
     }
 
     /// <summary>
