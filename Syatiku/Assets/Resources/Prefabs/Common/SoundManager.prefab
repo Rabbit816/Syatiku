@@ -343,6 +343,9 @@ MonoBehaviour:
   - name: Main_NormalEnd_CueSheet
     acbFile: Main_NormalEnd_CueSheet.acb
     awbFile: Main_NormalEnd_CueSheet.awb
+  - name: Main_BadEnd_CueSheet
+    acbFile: Main_BadEnd_CueSheet.acb
+    awbFile: Main_BadEnd_CueSheet.awb
   dspBusSetting: 
   dontDestroyOnLoad: 0
   dontRemoveExistsCueSheet: 0
