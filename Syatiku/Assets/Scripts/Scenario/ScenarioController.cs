@@ -192,7 +192,6 @@ public class ScenarioController : MonoBehaviour {
         if (!window.recommendLight.activeSelf)
         {
             window.recommendLight.SetActive(true);
-            //ボイスがStopか再生終了しているかの検知が必要
             if (isAuto)
             {
                 StartCoroutine(SetNextInfo(nextWaitTime));
@@ -206,6 +205,10 @@ public class ScenarioController : MonoBehaviour {
     IEnumerator SetNextInfo(float time)
     {
         yield return new WaitForSeconds(time);
+        while (!SoundManager.Instance.IsVoiceEndOrStop())
+        {
+            yield return null;
+        }
         UpdateInfoOrMessage();
     }
 
