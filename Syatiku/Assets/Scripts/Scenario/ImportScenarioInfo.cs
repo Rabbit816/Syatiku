@@ -159,6 +159,7 @@ public class ImportScenarioInfo : MonoBehaviour {
             scenario.commandActionList.Add(() =>
             {
                 string sceneName = TakeTextInfo(text);
+                //Common.Instance.Fade();
                 UnityEngine.SceneManagement.SceneManager.LoadScene(sceneName);
                 window.Init();
             });

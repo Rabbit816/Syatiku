@@ -202,7 +202,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _playOnStart: 0
-  _cueName: BossBGM
+  _cueName: TitleBGM
   _cueSheet: BGM_CueSheet
   _use3dPositioning: 0
   _loop: 1
@@ -334,6 +334,9 @@ MonoBehaviour:
   - name: SE_CueSheet
     acbFile: SE_CueSheet.acb
     awbFile: 
+  - name: Main_Epilogue_CueSheet
+    acbFile: Main_Epilogue_CueSheet.acb
+    awbFile: Main_Epilogue_CueSheet.awb
   dspBusSetting: 
   dontDestroyOnLoad: 0
   dontRemoveExistsCueSheet: 0

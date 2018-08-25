@@ -95,6 +95,11 @@ public class SoundManager : MonoBehaviour {
         voiceSource = source;
     }
 
+    public bool IsVoiceEndOrStop()
+    {
+        return (voiceSource.status == CriAtomSource.Status.PlayEnd || voiceSource.status == CriAtomSource.Status.Stop);
+    }
+
     public void StopBGM()
     {
         bgmSource.Stop();
@@ -107,7 +112,7 @@ public class SoundManager : MonoBehaviour {
 
     public void StopVoice()
     {
-        voiceSource.Stop();
+        if(voiceSource != null) voiceSource.Stop();
     }
 
 }
