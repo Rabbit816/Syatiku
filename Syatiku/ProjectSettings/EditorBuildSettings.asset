@@ -15,6 +15,9 @@ EditorBuildSettings:
     path: Assets/Scenes/Action.unity
     guid: a376aca0edf73a549b900462e145977b
   - enabled: 1
+    path: Assets/Scenes/Scenario/Main/Progress.unity
+    guid: bf8b66368df8dca4e90fd838d0cd2cdb
+  - enabled: 1
     path: Assets/Scenes/MiniGame/Smoking.unity
     guid: c56739b2e50cbf84eba1d35415066209
   - enabled: 1
@@ -23,6 +26,9 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/MiniGame/Drinking.unity
     guid: 2554a0ec0d1302e4cb9c19ddf33cc956
+  - enabled: 1
+    path: Assets/Scenes/Scenario/Main/BeforeBattle.unity
+    guid: 7e16564c21e48be4f87fef4f7200fa2c
   - enabled: 1
     path: Assets/Scenes/MiniGame/Boss.unity
     guid: c222fd56a4a0199469acea44bdf1c8e1

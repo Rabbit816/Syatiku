@@ -23,9 +23,11 @@ public class Common : MonoBehaviour {
         Drinking,
         Boss,
         Result,
-        MainGoodEnd,
-        MainNormalEnd,
-        MainBadEnd,
+        Progress_Main,
+        BeforeBattle_Main,
+        MainGoodEnd_Main,
+        MainNormalEnd_Main,
+        MainBadEnd_Main,
     }
 
     /// <summary>
