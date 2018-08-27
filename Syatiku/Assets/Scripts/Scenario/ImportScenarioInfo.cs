@@ -9,10 +9,10 @@ public class ImportScenarioInfo : MonoBehaviour {
     ScenarioWindow window;
     int voiceCount;
 
-    public ImportScenarioInfo(string filePath, ref List<ScenarioInfo> scenarioList, ScenarioWindow window)
+    public ImportScenarioInfo(string filePath, ref List<ScenarioInfo> scenarioList, ScenarioWindow window, int startVoiceIndex)
     {
         this.window = window;
-        voiceCount = 0;
+        voiceCount = startVoiceIndex;
         List<ScenarioInfo> scenarioInfos = new List<ScenarioInfo>();
         //テキストファイルの読み込み
         TextAsset textAsset = Resources.Load<TextAsset>(filePath);
@@ -169,8 +169,26 @@ public class ImportScenarioInfo : MonoBehaviour {
             //背景画像
             scenario.commandActionList.Add(() =>
             {
-                string imagePath = "Scenario/" + TakeTextInfo(text);
-                SetSprite(window.bgi, imagePath);
+                string imageName = TakeTextInfo(text);
+                if (imageName == "b")
+                {
+                    window.bgi.color = Color.black;
+                }
+                else
+                {
+                    string imagePath = "Scenario/" + imageName;
+                    SetSprite(window.bgi, imagePath);
+                }
+            });
+        }
+        else if (text.Contains("goto"))
+        {
+            //指定した所まで情報の更新
+            scenario.commandActionList.Add(() =>
+            {
+                string infoIndex = TakeTextInfo(text);
+                ScenarioController.Instance.infoIndex = int.Parse(infoIndex);
+                voiceCount = TakeVoiceNum(text);
             });
         }
     }
@@ -183,6 +201,16 @@ public class ImportScenarioInfo : MonoBehaviour {
         int beginNum = text.IndexOf("{") + 1;
         int lastNum = text.IndexOf("}");
         return text.Substring(beginNum, lastNum - beginNum);
+    }
+
+    /// <summary>
+    /// テキストのボイス番号を抜き取る ([ ]の中身)
+    /// </summary>
+    int TakeVoiceNum(string text)
+    {
+        int beginNum = text.IndexOf("[") + 1;
+        int lastNum = text.IndexOf("]");
+        return int.Parse(text.Substring(beginNum, lastNum - beginNum));
     }
 
     /// <summary>

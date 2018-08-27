@@ -346,6 +346,9 @@ MonoBehaviour:
   - name: Main_BadEnd_CueSheet
     acbFile: Main_BadEnd_CueSheet.acb
     awbFile: Main_BadEnd_CueSheet.awb
+  - name: Main_BeforeBattle_CueSheet
+    acbFile: Main_BeforeBattle_CueSheet.acb
+    awbFile: Main_BeforeBattle_CueSheet.awb
   dspBusSetting: 
   dontDestroyOnLoad: 0
   dontRemoveExistsCueSheet: 0
