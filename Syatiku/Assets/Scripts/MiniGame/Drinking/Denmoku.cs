@@ -5,24 +5,28 @@ using UnityEngine.UI;
 
 public class Denmoku : MonoBehaviour {
 
-    DrinkScene drink;
+    // スクリプトのインスタンスの取得
     ButtonController button;
 
-    //デンモク内で使う配列・変数
+    // 注文する商品の順番を保存する配列
     [HideInInspector]
     public int[] InputOrderBox = new int[4];
 
+    // 注文する商品の個数を保存する配列
     [HideInInspector]
     public int[] InputOrderCounter = new int[4];
 
+    // 注文リストに注文商品を表示する
     [SerializeField]
     Text[] OrderMenuList;
 
+    // 注文リストに注文する個数を表示する
     [SerializeField]
     Text[] CounterList;
 
     private int Num;
 
+    // 注文リストの有効・無効を管理する
     public void OrderListController(bool b)
     {
         if (b)
@@ -37,6 +41,7 @@ public class Denmoku : MonoBehaviour {
         }
     }
 
+    // 注文リストを初期化する
     public void MenuListOFF()
     {
         for(int i = 0; i < this.CounterList.Length; i++)
@@ -46,8 +51,10 @@ public class Denmoku : MonoBehaviour {
         }
     }
 
-    public void ListCheck(int MenuID)
+    // 注文リストに注文した商品を表示する
+    public void ListInMenu(int MenuID)
     {
+        // 注文リストに表示する場所を決める
         for(int i = 0; i < this.InputOrderBox.Length; i++)
         {
             if(this.InputOrderBox[i] < 0)
@@ -58,6 +65,8 @@ public class Denmoku : MonoBehaviour {
         }
         this.InputOrderBox[this.Num] = MenuID;
         this.InputOrderCounter[this.Num] = 1;
+        
+        // 注文リストに注文した商品名を表示する
         switch (MenuID)
         {
             case 0:
@@ -79,11 +88,11 @@ public class Denmoku : MonoBehaviour {
     }
 
     void Start () {
-        drink = GetComponent<DrinkScene>();
         button = GetComponent<ButtonController>();
 	}
 	
 	void Update () {
+        // 注文リストに注文数を表示
         this.CounterList[0].text = "× " + this.InputOrderCounter[0].ToString();
         this.CounterList[1].text = "× " + this.InputOrderCounter[1].ToString();
         this.CounterList[2].text = "× " + this.InputOrderCounter[2].ToString();
