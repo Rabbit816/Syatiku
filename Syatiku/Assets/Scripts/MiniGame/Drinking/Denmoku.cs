@@ -5,109 +5,53 @@ using UnityEngine.UI;
 
 public class Denmoku : MonoBehaviour {
 
-    DrinkScene drink;
+    // スクリプトのインスタンスの取得
     ButtonController button;
 
-    //デンモク内で使う配列・変数
+    // 注文する商品の順番を保存する配列
     [HideInInspector]
     public int[] InputOrderBox = new int[4];
 
+    // 注文する商品の個数を保存する配列
     [HideInInspector]
     public int[] InputOrderCounter = new int[4];
 
-    private float[] OrderListPos = new float[4] { 3.9f, 1.75f, -0.45f, -2.55f };
-
+    // 注文した商品名
     [SerializeField]
-    GameObject[] CounterList;
+    Text[] OrderMenuList;
+
+    // 注文リストの個数
+    [SerializeField]
+    Text[] Counter;
 
     private int Num;
-    private int MenuID;
 
-    public void OrderListCounter(bool b)
+    // 注文リストの有効・無効を管理する
+    public void OrderListController(bool b)
     {
         if (b)
         {
-            this.CounterList[this.Num].gameObject.SetActive(true);
+            this.OrderMenuList[this.Num].gameObject.SetActive(true);
         }
         else
         {
-            this.CounterList[button.CounterNum].gameObject.SetActive(false);
+            this.OrderMenuList[button.CounterNum].gameObject.SetActive(false);
         }
     }
 
-    public void CounterOFF()
+    // 注文リストを初期化する
+    public void MenuListOFF()
     {
-        for(int i = 0; i < this.CounterList.Length; i++)
+        for(int i = 0; i < this.OrderMenuList.Length; i++)
         {
-            this.CounterList[i].gameObject.SetActive(false);
+            this.OrderMenuList[i].gameObject.SetActive(false);
         }
     }
 
-
-    public void ListInYakitori()
+    // 注文リストに注文した商品を表示する
+    public void ListInMenu(int MenuID)
     {
-        MenuID = 0;
-        this.ListCheck();
-        var Yakitori = Instantiate(drink.MenuList[this.MenuID], new Vector2(-6.4f, OrderListPos[this.Num]), Quaternion.identity);
-        Yakitori.transform.localScale = new Vector2(0.6f, 0.6f);
-        Yakitori.transform.parent = drink.menuObject.transform;
-    }
-
-    public void ListInSake()
-    {
-        MenuID = 1;
-        this.ListCheck();
-        var Sake = Instantiate(drink.MenuList[this.MenuID], new Vector2(-6.4f, OrderListPos[this.Num]), Quaternion.identity);
-        Sake.transform.localScale = new Vector2(0.23f, 0.23f);
-        Sake.transform.parent = drink.menuObject.transform;
-    }
-
-    public void ListInSalad()
-    {
-        MenuID = 2;
-        this.ListCheck();
-        var Salad = Instantiate(drink.MenuList[this.MenuID], new Vector2(-6.4f, OrderListPos[this.Num]), Quaternion.identity);
-        Salad.transform.localScale = new Vector2(0.3f, 0.3f);
-        Salad.transform.parent = drink.menuObject.transform;
-    }
-
-    public void ListInSashimi()
-    {
-        MenuID = 3;
-        this.ListCheck();
-        var Sashimi = Instantiate(drink.MenuList[this.MenuID], new Vector2(-6.4f, OrderListPos[this.Num]), Quaternion.identity);
-        Sashimi.transform.localScale = new Vector2(0.23f, 0.23f);
-        Sashimi.transform.parent = drink.menuObject.transform;
-    }
-
-    public void ListOutMenu()
-    {
-        switch (this.InputOrderBox[button.CounterNum])
-        {
-            case 0:
-                GameObject obj1 = GameObject.Find("MenuObject/yakitori(Clone)");
-                Destroy(obj1);
-                break;
-            case 1:
-                GameObject obj2 = GameObject.Find("MenuObject/sake(Clone)");
-                Destroy(obj2);
-                break;
-            case 2:
-                GameObject obj3 = GameObject.Find("MenuObject/salad(Clone)");
-                Destroy(obj3);
-                break;
-            case 3:
-                GameObject obj4 = GameObject.Find("MenuObject/sashimi(Clone)");
-                Destroy(obj4);
-                break;
-            default:
-                Debug.Log("ListoutMenu : エラー");
-                break;
-        }
-    }
-
-    public void ListCheck()
-    {
+        // 注文リストに表示する場所を決める
         for(int i = 0; i < this.InputOrderBox.Length; i++)
         {
             if(this.InputOrderBox[i] < 0)
@@ -118,17 +62,37 @@ public class Denmoku : MonoBehaviour {
         }
         this.InputOrderBox[this.Num] = MenuID;
         this.InputOrderCounter[this.Num] = 1;
+        
+        // 注文リストに注文した商品名を表示する
+        switch (MenuID)
+        {
+            case 0:
+                this.OrderMenuList[this.Num].text = "枝豆";
+                break;
+            case 1:
+                this.OrderMenuList[this.Num].text = "卵焼き";
+                break;
+            case 2:
+                this.OrderMenuList[this.Num].text = "からあげ";
+                break;
+            case 3:
+                this.OrderMenuList[this.Num].text = "サラダ";
+                break;
+            default:
+                Debug.Log("ListCheck : エラー");
+                break;
+        }
     }
 
     void Start () {
-        drink = GetComponent<DrinkScene>();
         button = GetComponent<ButtonController>();
 	}
 	
 	void Update () {
-        this.CounterList[0].GetComponent<Text>().text = "× " + this.InputOrderCounter[0].ToString();
-        this.CounterList[1].GetComponent<Text>().text = "× " + this.InputOrderCounter[1].ToString();
-        this.CounterList[2].GetComponent<Text>().text = "× " + this.InputOrderCounter[2].ToString();
-        this.CounterList[3].GetComponent<Text>().text = "× " + this.InputOrderCounter[3].ToString();
+        // 注文リストに注文数を表示
+        this.Counter[0].text = "× " + this.InputOrderCounter[0].ToString();
+        this.Counter[1].text = "× " + this.InputOrderCounter[1].ToString();
+        this.Counter[2].text = "× " + this.InputOrderCounter[2].ToString();
+        this.Counter[3].text = "× " + this.InputOrderCounter[3].ToString();
     }
 }

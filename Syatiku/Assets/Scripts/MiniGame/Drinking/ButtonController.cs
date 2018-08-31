@@ -5,48 +5,55 @@ using UnityEngine.UI;
 
 public class ButtonController : MonoBehaviour {
 
-    //インスタンスの取得
+    // スクリプトのインスタンスの取得
     DrinkScene drink;
     Denmoku denmoku;
     DenmokuMeter meter;
 
+    // 覚えたボタン、もう一度ボタン
     public Button Remember;
     public Button Again;
 
-    //メニュータブのボタン
+    // メニュータブのボタン
     public Button Otsumami;
     public Button Drink;
     public Button Dessert;
 
-    //メニューのボタン
+    // 注文ボタン
     public Button OrderButton;
-    public Button Yakitori;
-    public Button Sake;
-    public Button Salad;
-    public Button Sashimi;
 
+    // 注文するメニューのボタン
+    public Button[] Menu;
+    
+    // デンモクのGameObject取得
     [SerializeField]
-    GameObject DenmokuImage;
+    Image DenmokuImage;
 
+    // メニューのスクロールするコンテンツ
     [SerializeField]
     GameObject Menu_Otsumami, Menu_Drink, Menu_Dessert;
 
+    // デンモクのスクロールバー
     [SerializeField]
-    GameObject MenuScrollbar;
+    Scrollbar MenuScrollbar;
 
+    // 注文数をカウントする
     private int OrderCount = 0;
+
+    // もう一度ボタンが押されたかの判定をする為のフラグ
     private bool AgainFlg = true;
+
     [HideInInspector]
     public int CounterNum;
 
-    //飲み会シーンのボタンを表示
+    // 飲み会シーンのボタンを表示
     public void DrinkSceneButton(bool b)
     {
         if (b)
         {
             this.Remember.gameObject.SetActive(b);
             
-            //もう一度注文を聞くボタンが押されたかの判定
+            // もう一度注文を聞くボタンが押されたかの判定
             if (this.AgainFlg)
             {
                 this.Again.gameObject.SetActive(b);
@@ -64,18 +71,17 @@ public class ButtonController : MonoBehaviour {
         }
     }
 
-    //覚えたボタン
+    // 覚えたボタン
     public void RememberButton()
     {
         this.AgainFlg = true;
         this.DrinkSceneButton(false);
         this.OtsumamiButton();
-        this.OrderButton.interactable = false;
-        denmoku.CounterOFF();
+        denmoku.MenuListOFF();
         meter.TimeMeterFlg = true;
     }
 
-    //もう一度注文を聞くボタン
+    // もう一度注文を聞くボタン
     public void AgainButton()
     {
         this.AgainFlg = false;
@@ -83,27 +89,28 @@ public class ButtonController : MonoBehaviour {
         drink.Order();
     }
 
-    //メニュータブのおつまみボタン
+    // メニュータブのおつまみボタン
     public void OtsumamiButton()
     {
         this.MenuTabControll(false, true, true, true, false, false);
     }
 
-    //メニュータブの飲み物ボタン
+    // メニュータブの飲み物ボタン
     public void DrinkButton()
     {
         this.MenuTabControll(true, false, true, false, true, false);
     }
 
-    //メニュータブのデザートボタン
+    // メニュータブのデザートボタン
     public void DessertButton()
     {
         this.MenuTabControll(true, true, false, false, false, true);
     }
 
+    // デンモクのメニュータブのボタン管理
     public void MenuTabControll(bool b1, bool b2, bool b3, bool b4, bool b5, bool b6)
     {
-        this.MenuScrollbar.GetComponent<Scrollbar>().value = 1;
+        this.MenuScrollbar.value = 0;
         this.Otsumami.interactable = b1;
         this.Drink.interactable = b2;
         this.Dessert.interactable = b3;
@@ -112,128 +119,67 @@ public class ButtonController : MonoBehaviour {
         this.Menu_Dessert.gameObject.SetActive(b6);
     }
 
-    //メニューのやきとりボタン
-    public void YakitoriButton()
+    // デンモクのメニューボタン
+    public void MenuButton(int i)
     {
-        if(this.OrderCount != 4)
+        if (this.OrderCount != 4)
         {
-            this.Yakitori.interactable = false;
-            denmoku.ListInYakitori();
-            denmoku.OrderListCounter(true);
+            this.Menu[i].interactable = false;
+            denmoku.ListInMenu(i);
+            denmoku.OrderListController(true);
             this.OrderCount++;
         }
     }
 
-    //メニューの酒ボタン
-    public void SakeButton()
-    {
-        if (this.OrderCount != 4)
-        {
-            this.Sake.interactable = false;
-            denmoku.ListInSake();
-            denmoku.OrderListCounter(true);
-            this.OrderCount++;
-        }
-    }
-    
-    //メニューのサラダボタン
-    public void SaladButton()
-    {
-        if (this.OrderCount != 4)
-        {
-            this.Salad.interactable = false;
-            denmoku.ListInSalad();
-            denmoku.OrderListCounter(true);
-            this.OrderCount++;
-        }
-    }
-
-    //メニューの刺身ボタン
-    public void SashimiButton()
-    {
-        if (this.OrderCount != 4)
-        {
-            this.Sashimi.interactable = false;
-            denmoku.ListInSashimi();
-            denmoku.OrderListCounter(true);
-            this.OrderCount++;
-        }
-    }
-    
-    //注文ボタン
+    // 注文ボタン
     public void Order()
     {
         this.ButtonReset();
         this.OrderCount = 0;
-        drink.Delete();
-        this.DenmokuImage.GetComponent<RectTransform>().localPosition = new Vector2(-970, -2000);
+        this.DenmokuImage.transform.localPosition = new Vector2(-970, -2000);
         drink.Answer();
         meter.TimeMeterFlg = false;
         meter.TimeMeter.value = meter.Timer;
     }
     
+    // メニューのボタンを有効にする
     public void ButtonReset()
     {
         for(int i = 0; i < denmoku.InputOrderBox.Length; i++)
         {
-            switch (denmoku.InputOrderBox[i])
+            if(denmoku.InputOrderBox[i] >= 0)
             {
-                case 0:
-                    this.Yakitori.interactable = true;
-                    break;
-                case 1:
-                    this.Sake.interactable = true;
-                    break;
-                case 2:
-                    this.Salad.interactable = true;
-                    break;
-                case 3:
-                    this.Sashimi.interactable = true;
-                    break;
-                default:
-                    Debug.Log("ButtonReset : エラー");
-                    break;
+                this.Menu[denmoku.InputOrderBox[i]].interactable = true;
             }
         }
     }
 
+    // 注文リストの個数カウンターボタン
     public void CounterController(bool b)
     {
         if (b)
         {
-            if (denmoku.InputOrderCounter[CounterNum] < 4)
+            if (denmoku.InputOrderCounter[this.CounterNum] < 4)
             {
-                denmoku.InputOrderCounter[CounterNum]++;
+                denmoku.InputOrderCounter[this.CounterNum]++;
             }
         }
         else
         {
-            if (denmoku.InputOrderCounter[CounterNum] > 1)
+            if (denmoku.InputOrderCounter[this.CounterNum] > 1)
             {
-                denmoku.InputOrderCounter[CounterNum]--;
+                denmoku.InputOrderCounter[this.CounterNum]--;
             }
             else
             {
-                switch (denmoku.InputOrderBox[this.CounterNum])
+                for(int i = 0; i < denmoku.InputOrderBox.Length; i++)
                 {
-                    case 0:
-                        this.Yakitori.interactable = true;
-                        break;
-                    case 1:
-                        this.Sake.interactable = true;
-                        break;
-                    case 2:
-                        this.Salad.interactable = true;
-                        break;
-                    case 3:
-                        this.Sashimi.interactable = true;
-                        break;
-                    default:
-                        Debug.Log("CounterController : エラー");
-                        break;
+                    if(this.Menu[denmoku.InputOrderBox[this.CounterNum]].interactable == false)
+                    {
+                        this.Menu[denmoku.InputOrderBox[this.CounterNum]].interactable = true;
+                    }
                 }
-                denmoku.OrderListCounter(false);
-                denmoku.ListOutMenu();
+                denmoku.OrderListController(false);
                 denmoku.InputOrderBox[this.CounterNum] = -1;
                 denmoku.InputOrderCounter[this.CounterNum] = 0;
                 if(this.OrderCount > 0)
@@ -244,6 +190,7 @@ public class ButtonController : MonoBehaviour {
         }
     }
 
+    // 何番目の注文リストの個数カウンターを変更するかを決める
     public void CounterButton(int i)
     {
         if(CounterNum != i)
@@ -257,12 +204,12 @@ public class ButtonController : MonoBehaviour {
         denmoku = GetComponent<Denmoku>();
         meter = GetComponent<DenmokuMeter>();
         this.DrinkSceneButton(false);
-        this.DenmokuImage.GetComponent<RectTransform>().localPosition = new Vector2(-970, -2000);
+        this.DenmokuImage.transform.localPosition = new Vector2(-970, -2000);
     }
 	
 	
 	void Update () {
-
+        // 注文ボタンの有効・無効の管理
         if (this.OrderCount == 4)
         {
             this.OrderButton.interactable = true;

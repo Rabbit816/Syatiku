@@ -5,14 +5,28 @@ using UnityEngine.UI;
 
 public class DenmokuMeter : MonoBehaviour {
 
-    [HideInInspector] public Slider TimeMeter;
-    [HideInInspector] public bool TimeMeterFlg;
-    [Range(1, 60), Tooltip("デンモクの制限時間(秒)")] public float Timer;
+    // インスタンスの取得
+    ButtonController button;
+
+    // デンモクの制限時間メーター
+    public Slider TimeMeter;
+
+    // メーターの有効・無効フラグ
+    [HideInInspector]
+    public bool TimeMeterFlg;
+
+    // デンモクの制限時間
+    [Range(1, 60), Tooltip("デンモクの制限時間(秒)")]
+    public float Timer;
+
+    // 時間切れのフラグ
+    [HideInInspector]
+    public bool TimeOverFlg;
 
 	void Start () {
-        this.TimeMeter = GameObject.Find("Denmoku/TimeMeter").GetComponent<Slider>();
-        this.TimeMeter.maxValue = Timer;
-        this.TimeMeter.value = this.TimeMeter.maxValue;
+        this.TimeMeter.maxValue = Timer;　　// メーターの最大値の設定
+        this.TimeMeter.value = this.TimeMeter.maxValue; 　// デンモクの制限時間の設定
+        this.button = GetComponent<ButtonController>();
 	}
 	
 	
@@ -21,11 +35,11 @@ public class DenmokuMeter : MonoBehaviour {
         {
             TimeMeter.value -= Time.deltaTime;
             
-            //時間切れの処理
+            // 時間切れの処理
             if(TimeMeter.value == 0)
             {
-                TimeMeterFlg = false;
-                Common.Instance.ChangeScene(Common.SceneName.Result);
+                this.TimeOverFlg = true;
+                button.Order();
             }
         }
 	}
