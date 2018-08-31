@@ -16,13 +16,13 @@ public class Denmoku : MonoBehaviour {
     [HideInInspector]
     public int[] InputOrderCounter = new int[4];
 
-    // 注文リストに注文商品を表示する
+    // 注文した商品名
     [SerializeField]
     Text[] OrderMenuList;
 
-    // 注文リストに注文する個数を表示する
+    // 注文リストの個数
     [SerializeField]
-    Text[] CounterList;
+    Text[] Counter;
 
     private int Num;
 
@@ -32,22 +32,19 @@ public class Denmoku : MonoBehaviour {
         if (b)
         {
             this.OrderMenuList[this.Num].gameObject.SetActive(true);
-            this.CounterList[this.Num].gameObject.SetActive(true);
         }
         else
         {
             this.OrderMenuList[button.CounterNum].gameObject.SetActive(false);
-            this.CounterList[button.CounterNum].gameObject.SetActive(false);
         }
     }
 
     // 注文リストを初期化する
     public void MenuListOFF()
     {
-        for(int i = 0; i < this.CounterList.Length; i++)
+        for(int i = 0; i < this.OrderMenuList.Length; i++)
         {
             this.OrderMenuList[i].gameObject.SetActive(false);
-            this.CounterList[i].gameObject.SetActive(false);
         }
     }
 
@@ -93,9 +90,9 @@ public class Denmoku : MonoBehaviour {
 	
 	void Update () {
         // 注文リストに注文数を表示
-        this.CounterList[0].text = "× " + this.InputOrderCounter[0].ToString();
-        this.CounterList[1].text = "× " + this.InputOrderCounter[1].ToString();
-        this.CounterList[2].text = "× " + this.InputOrderCounter[2].ToString();
-        this.CounterList[3].text = "× " + this.InputOrderCounter[3].ToString();
+        this.Counter[0].text = "× " + this.InputOrderCounter[0].ToString();
+        this.Counter[1].text = "× " + this.InputOrderCounter[1].ToString();
+        this.Counter[2].text = "× " + this.InputOrderCounter[2].ToString();
+        this.Counter[3].text = "× " + this.InputOrderCounter[3].ToString();
     }
 }

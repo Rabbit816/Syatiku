@@ -307,6 +307,7 @@ public class DrinkScene : MonoBehaviour {
         for(int i = 0; i < denmoku.InputOrderBox.Length; i++)
         {
             denmoku.InputOrderBox[i] = -1;
+            denmoku.InputOrderCounter[i] = 0;
         }
         this.TapText.text = "画面をタップ！";
         meter.TimeOverFlg = false;
