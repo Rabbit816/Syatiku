@@ -349,6 +349,9 @@ MonoBehaviour:
   - name: Main_BeforeBattle_CueSheet
     acbFile: Main_BeforeBattle_CueSheet.acb
     awbFile: Main_BeforeBattle_CueSheet.awb
+  - name: Another_Epilogue_CueSheet
+    acbFile: Another_Epilogue_CueSheet.acb
+    awbFile: Another_Epilogue_CueSheet.awb
   dspBusSetting: 
   dontDestroyOnLoad: 0
   dontRemoveExistsCueSheet: 0

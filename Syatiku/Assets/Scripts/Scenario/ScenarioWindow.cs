@@ -19,6 +19,8 @@ public class ScenarioWindow : MonoBehaviour
     public Sprite[] menuSprites;
     public RectTransform menu;
     public Image menuButton;
+    public Image skipButton;
+    public Image autoButton;
 
     public CanvasGroup scenarioCanvas;
 

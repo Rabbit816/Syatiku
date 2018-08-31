@@ -321,7 +321,11 @@ public class ScenarioController : MonoBehaviour {
 
     public void OnClickSkipButton()
     {
-        if (isPlayScenario) isSkip = !isSkip;
+        if (isPlayScenario)
+        {
+            isSkip = !isSkip;
+            window.skipButton.color = isSkip ? Color.white : Color.gray;
+        }
     }
 
     public void OnClickLogButton()
@@ -339,6 +343,7 @@ public class ScenarioController : MonoBehaviour {
     public void OnClickAutoButton()
     {
         isAuto = !isAuto;
+        window.autoButton.color = isAuto ? Color.white : Color.gray ;
         if (IsShowAllMessage()) StartCoroutine(SetNextInfo(nextWaitTime));
     }
 
