@@ -154,6 +154,7 @@ public class SmokingController : MonoBehaviour {
         // 回答後の共通の値変化と初期化--------------------
         isTime = false;
         qLength--;
+        qCount++;
         tabaco.transform.GetChild(0).GetComponent<Image>().color = Color.white;
         tabaco.rectTransform.sizeDelta = tabacoSize;
         //-------------------------------------------------
@@ -170,7 +171,7 @@ public class SmokingController : MonoBehaviour {
             }
 
             qNum++; // 問題Noを加算
-            qCount++;
+            
             IsScenario(talkFilePath + textPath + smokePath + qCount.ToString());
 
         } else {
