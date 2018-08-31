@@ -22,7 +22,7 @@ public class SmokingController : MonoBehaviour {
 
     private Mushikui mushikui; // Mushikuiコンストラクタ
 
-    private int succesCount,qNum; // 正解数、今が何番目の問題か
+    private int succesCount,qNum,qCount; // 正解数、今が何番目の問題か
 
     private int textNum;
 
@@ -54,9 +54,10 @@ public class SmokingController : MonoBehaviour {
 
     // Use this for initialization
     void Start () {
-        textNum = Random.Range(0, 2);
+        textNum = Random.Range(0, 3);
         textPath = "Talk" + textNum + "/";
         IsScenario(talkFilePath + textPath + smokePath);
+        qNum =  6 * textNum;
 
         selectUI.SetActive(false); // 回答選択UIを非表示
         
@@ -169,7 +170,8 @@ public class SmokingController : MonoBehaviour {
             }
 
             qNum++; // 問題Noを加算
-            IsScenario(talkFilePath + textPath + smokePath + qNum.ToString());
+            qCount++;
+            IsScenario(talkFilePath + textPath + smokePath + qCount.ToString());
 
         } else {
             Debug.Log("×");
