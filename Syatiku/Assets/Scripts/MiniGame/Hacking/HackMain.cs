@@ -19,7 +19,6 @@ public class HackMain : MonoBehaviour {
     private GameObject Black_back;
     //[SerializeField, Tooltip("EventSystem")]
     public EventSystem event_system;
-
     private GameObject collectObject;
 
     private string str_quest;
@@ -37,6 +36,7 @@ public class HackMain : MonoBehaviour {
     private PatteringEvent patte;
     private HackMeishi hack_meishi;
     private HackBoss hack_boss;
+    private HackTap hack_tap;
     [HideInInspector]
     public EventSystem es;
 
@@ -54,12 +54,14 @@ public class HackMain : MonoBehaviour {
         into_pc = GetComponent<IntoPCAction>();
         patte = GetComponent<PatteringEvent>();
         hack_boss = GetComponent<HackBoss>();
+        hack_tap = GetComponent<HackTap>();
 
         collectObject = GameObject.Find("Canvas/Check/GetWord");
         es = EventSystem.current;
         es.enabled = false;
         ReadText();
         Theme();
+        StartCoroutine(StartedTimer());
 
         _confirmActive = false;
         _allClear = false;
@@ -70,7 +72,6 @@ public class HackMain : MonoBehaviour {
 
 	// Update is called once per frame
 	void Update () {
-        StartCoroutine(StartedTimer());
         if (_start_)
         {
             _time += Time.deltaTime;
@@ -96,7 +97,9 @@ public class HackMain : MonoBehaviour {
     /// <returns></returns>
     private IEnumerator StartedTimer()
     {
-        yield return new WaitForSeconds(5.5f);
+        yield return new WaitForSeconds(5.25f);
+        hack_tap.PlaceButton(10);
+        yield return new WaitForSeconds(0.2f);
         es.enabled = true;
         Timer();
     }

@@ -77,6 +77,8 @@ public class HackTap : MonoBehaviour
     private Sprite[] img_list;
     [SerializeField, Tooltip("Zoom Object")]
     private GameObject Zoom;
+    [SerializeField, Tooltip("Check > Image")]
+    private GameObject check_img;
 
     private GameObject DoorSide;
     private HackMain hack_main;
@@ -173,10 +175,6 @@ public class HackTap : MonoBehaviour
                 StartCoroutine(patte.Start_AnimWaitTime(false));
                 _animloop = true;
                 break;
-            case 16:
-                ZoomActive(7);
-                ZoomActive(2);
-                break;
             case 17:
             case 18:
             case 19:
@@ -261,7 +259,7 @@ public class HackTap : MonoBehaviour
         Sequence seq = DOTween.Sequence();
         Image obj_img = obj.GetComponent<Image>();
         RectTransform obj_rect = obj.GetComponent<RectTransform>();
-        seq.Append(obj_rect.DOLocalMove(new Vector3(930, 780, 0), 1.3f))
+        seq.Append(obj_rect.DOMove(check_img.transform.position, 1.3f).SetEase(Ease.Linear))   //new Vector3(930, 780, 0)
             .Join(obj_rect.DOScale(new Vector2(0.5f, 0.5f), 1.3f))
             .Join((
                 DOTween.ToAlpha(
