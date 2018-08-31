@@ -18,16 +18,16 @@ public class Common : MonoBehaviour {
         Title = 0,
         Epilogue,
         Action,
+        Progress,
         Smoking,
         Hacking,
         Drinking,
+        BeforeBattle,
         Boss,
         Result,
-        Progress_Main,
-        BeforeBattle_Main,
-        MainGoodEnd_Main,
-        MainNormalEnd_Main,
-        MainBadEnd_Main,
+        MainGoodEnd,
+        MainNormalEnd,
+        MainBadEnd,
     }
 
     /// <summary>
