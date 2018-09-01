@@ -304,7 +304,7 @@ GameObject:
   - component: {fileID: 266332470}
   - component: {fileID: 266332469}
   m_Layer: 0
-  m_Name: Main_BadEnd_CueSheet
+  m_Name: Another_NormalEnd_CueSheet
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -324,7 +324,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _playOnStart: 0
   _cueName: 
-  _cueSheet: Main_BadEnd_CueSheet
+  _cueSheet: Another_NormalEnd_CueSheet
   _use3dPositioning: 0
   _loop: 0
   _volume: 1
