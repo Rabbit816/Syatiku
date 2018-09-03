@@ -178,7 +178,7 @@ public class HackTap : MonoBehaviour
             case 17:
             case 18:
             case 19:
-                DrawerTap(placeNum-17);
+                DrawerTap(gameObject,placeNum-17);
                 break;
             case 26:
                 intopc_action.DocumentsComparison();
@@ -210,7 +210,7 @@ public class HackTap : MonoBehaviour
             if (place_list[placeNum].word == null)
                 return;
 
-            //押したところに単語を表示
+            //押したらアニメーション
             GameObject appearobj = Instantiate(AppearPrefab, Getting_position[placeNum].transform);
             Getting_position[placeNum].transform.GetComponentInChildren<Text>().text = place_list[placeNum].word.ToString();
             Text appearChild_text = appearobj.transform.GetChild(0).GetComponent<Text>();
@@ -286,30 +286,25 @@ public class HackTap : MonoBehaviour
     /// Drawerで取得できる単語処理
     /// </summary>
     /// <param name="place"></param>
-    public void DrawerTap(int place)
+    public void DrawerTap(GameObject obj, int place)
     {
-        if (drawer_getting_position[place].transform.childCount == 0)
-        {
-            //押したところに単語を表示
-            GameObject appearobj = Instantiate(AppearFolderPrefab, drawer_getting_position[place].transform);
-            drawer_getting_position[place].transform.GetComponentInChildren<Text>().text = folder_place_list[place].word.ToString();
-            Text appearChild_text = appearobj.transform.GetChild(0).GetComponent<Text>();
-            GetWordAnim(appearobj);
-            DOTween.ToAlpha(
-                () => appearChild_text.color,
-                color => appearChild_text.color = color,
-                0f, 2.0f);
+        GetWordAnim(obj);
+        drawer_getting_position[place].transform.GetComponentInChildren<Text>().text = folder_place_list[place].word.ToString();
+        Text appearChild_text = obj.transform.GetChild(0).GetComponent<Text>();
+        DOTween.ToAlpha(
+            () => appearChild_text.color,
+            color => appearChild_text.color = color,
+            0f, 2.0f);
 
-            //PC内に集めた単語を表示
-            GameObject _collected_word = Instantiate(CollectFolderPrefab, CollectWordFolder.transform);
-            _collected_word.transform.position = folder_place_list[place].pos.transform.position;
-            _collected_word.GetComponentInChildren<Text>().text = folder_place_list[place].word.ToString();
+        //PC内に集めた単語を表示
+        GameObject _collected_word = Instantiate(CollectFolderPrefab, CollectWordFolder.transform);
+        _collected_word.transform.position = folder_place_list[place].pos.transform.position;
+        _collected_word.GetComponentInChildren<Text>().text = folder_place_list[place].word.ToString();
 
-            //集めたものリストの中に単語を表示
-            GameObject _get_word = Instantiate(GetWordFolderPrefab, GetWord.transform);
-            _get_word.transform.SetAsFirstSibling();
-            _get_word.GetComponentInChildren<Text>().text = folder_place_list[place].word.ToString();
-        }
+        //集めたものリストの中に単語を表示
+        GameObject _get_word = Instantiate(GetWordFolderPrefab, GetWord.transform);
+        _get_word.transform.SetAsFirstSibling();
+        _get_word.GetComponentInChildren<Text>().text = folder_place_list[place].word.ToString();
     }
 
     /// <summary>
