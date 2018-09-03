@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
 using DG.Tweening;
 
@@ -35,7 +34,6 @@ public class HackTap : MonoBehaviour
     [SerializeField, Tooltip("集めた単語(PC内に出すObject)")]
     private GameObject CollectedPrefab;
     private GameObject CollectedWord;
-    private GameObject collectObject;
 
     [SerializeField, Tooltip("集めた単語(リスト内に出すObject)")]
     private GameObject GetWordPrefab;
@@ -79,15 +77,14 @@ public class HackTap : MonoBehaviour
     private Sprite[] img_list;
     [SerializeField, Tooltip("Zoom Object")]
     private GameObject Zoom;
-    [SerializeField, Tooltip("チェックボックスとくっついてるやつ")]
-    private GameObject Black_back;
+    [SerializeField, Tooltip("Check > Image")]
+    private GameObject check_img;
 
     private GameObject DoorSide;
     private HackMain hack_main;
     private IntoPCAction intopc_action;
     private PatteringEvent patte;
     private GameObject pat;
-    private int count = 0;
     private int GakuCount = 0;
     public int Gakubuti_max = 7;
     //比較する資料を取得したかどうか
@@ -97,13 +94,11 @@ public class HackTap : MonoBehaviour
     //LowAnimが終わったかどうか
     private bool _lowAnim = false;
     private bool _animloop = false;
-    
     [HideInInspector]
     public bool _windowFase = false;
 
     // Use this for initialization
     void Start () {
-        collectObject = GameObject.Find("Canvas/Check/GetWord");
         CollectedWord = GameObject.Find("Canvas/PC/PassWordFase/Collect");
         GetWord = GameObject.Find("Canvas/Check/GetWord");
         DoorSide = GameObject.Find("Canvas/DoorSide");
@@ -111,7 +106,6 @@ public class HackTap : MonoBehaviour
 
         Document.SetActive(false);
         Common.Instance.Shuffle(pos_list);
-        count = 0;
         GakuCount = 0;
         hack_main = GetComponent<HackMain>();
         patte = GetComponent<PatteringEvent>();
@@ -181,10 +175,6 @@ public class HackTap : MonoBehaviour
                 StartCoroutine(patte.Start_AnimWaitTime(false));
                 _animloop = true;
                 break;
-            case 16:
-                ZoomActive(7);
-                ZoomActive(2);
-                break;
             case 17:
             case 18:
             case 19:
@@ -223,13 +213,9 @@ public class HackTap : MonoBehaviour
             //押したところに単語を表示
             GameObject appearobj = Instantiate(AppearPrefab, Getting_position[placeNum].transform);
             Getting_position[placeNum].transform.GetComponentInChildren<Text>().text = place_list[placeNum].word.ToString();
-            Image appear_img = appearobj.GetComponent<Image>();
             Text appearChild_text = appearobj.transform.GetChild(0).GetComponent<Text>();
             AppearPrefab.GetComponent<Image>().sprite = img_list[placeNum];
-            DOTween.ToAlpha(
-                () => appear_img.color,
-                color => appear_img.color = color,
-                0f, 2.0f);
+            GetWordAnim(appearobj);
             DOTween.ToAlpha(
                 () => appearChild_text.color,
                 color => appearChild_text.color = color,
@@ -245,17 +231,6 @@ public class HackTap : MonoBehaviour
             _get_word.transform.SetAsFirstSibling();
             _get_word.GetComponentInChildren<Text>().text = place_list[placeNum].word.ToString();
         }
-    }
-
-    /// <summary>
-    /// 待つ時間処理
-    /// </summary>
-    /// <param name="time">待つ時間</param>
-    /// <returns></returns>
-    private IEnumerator Wait_time(float time)
-    {
-        yield return new WaitForSeconds(time);
-        Document.SetActive(true);
     }
 
     /// <summary>
@@ -276,7 +251,25 @@ public class HackTap : MonoBehaviour
     }
 
     /// <summary>
-    /// 比較する資料を取得した時のアニメーションと処理
+    /// 文字取得時のDOToweenアニメーション処理
+    /// </summary>
+    /// <param name="obj">動かすオブジェクト</param>
+    private void GetWordAnim(GameObject obj)
+    {
+        Sequence seq = DOTween.Sequence();
+        Image obj_img = obj.GetComponent<Image>();
+        RectTransform obj_rect = obj.GetComponent<RectTransform>();
+        seq.Append(obj_rect.DOMove(check_img.transform.position, 1.3f).SetEase(Ease.Linear))   //new Vector3(930, 780, 0)
+            .Join(obj_rect.DOScale(new Vector2(0.5f, 0.5f), 1.3f))
+            .Join((
+                DOTween.ToAlpha(
+                () => obj_img.color,
+                color => obj_img.color = color,
+                0f, 1.6f)));
+    }
+
+    /// <summary>
+    /// 比較する資料を取得した時の処理
     /// </summary>
     public void DocumentAnim()
     {
@@ -286,20 +279,13 @@ public class HackTap : MonoBehaviour
         _get_doc.transform.SetAsLastSibling();
         _getDocument = true;
         Document.SetActive(true);
-        Sequence seq = DOTween.Sequence();
-        Image img_alpha = Document.GetComponent<Image>();
-        RectTransform Doc_rect = Document.GetComponent<RectTransform>();
-        seq.Append(Doc_rect.DOLocalMove(new Vector3(930, 780, 0), 1.3f).SetDelay(0.3f))
-            .OnComplete(() =>
-            {
-                DOTween.ToAlpha(
-                () => img_alpha.color,
-                color => img_alpha.color = color,
-                0f, 0.3f);
-            });
-        StartCoroutine(Wait_time(3f));
+        GetWordAnim(Document);
     }
 
+    /// <summary>
+    /// Drawerで取得できる単語処理
+    /// </summary>
+    /// <param name="place"></param>
     public void DrawerTap(int place)
     {
         if (drawer_getting_position[place].transform.childCount == 0)
@@ -307,12 +293,8 @@ public class HackTap : MonoBehaviour
             //押したところに単語を表示
             GameObject appearobj = Instantiate(AppearFolderPrefab, drawer_getting_position[place].transform);
             drawer_getting_position[place].transform.GetComponentInChildren<Text>().text = folder_place_list[place].word.ToString();
-            Image appear_img = appearobj.GetComponent<Image>();
             Text appearChild_text = appearobj.transform.GetChild(0).GetComponent<Text>();
-            DOTween.ToAlpha(
-                () => appear_img.color,
-                color => appear_img.color = color,
-                0f, 2.0f);
+            GetWordAnim(appearobj);
             DOTween.ToAlpha(
                 () => appearChild_text.color,
                 color => appearChild_text.color = color,
@@ -346,31 +328,10 @@ public class HackTap : MonoBehaviour
                 place_list[j].word = stren[j];
         }
         string[] wd = hack_main.Folder_ans_list.ToArray();
-        for(int i=0; i<drawer_getting_position.Length; i++)
+        for(int i = 0; i < drawer_getting_position.Length; i++)
         {
             folder_place_list[i].pos = drawer_getting_position[i];
             folder_place_list[i].word = wd[i];
-            Debug.Log("folder_place_list: " + folder_place_list[i].word.ToString());
-        }
-    }
-
-    /// <summary>
-    /// 集めた単語を確認するUIの処理
-    /// </summary>
-    public void CollectWordsOpen()
-    {
-        switch (count)
-        {
-            case 0:
-                count++;
-                collectObject.transform.localPosition = new Vector2(collectObject.transform.localPosition.x - 415, collectObject.transform.localPosition.y);
-                Black_back.transform.localPosition = new Vector2(Black_back.transform.localPosition.x - 1900, Black_back.transform.localPosition.y);
-                break;
-            case 1:
-                count--;
-                collectObject.transform.localPosition = new Vector2(collectObject.transform.localPosition.x + 415, collectObject.transform.localPosition.y);
-                Black_back.transform.localPosition = new Vector2(Black_back.transform.localPosition.x + 1900, Black_back.transform.localPosition.y);
-                break;
         }
     }
 }

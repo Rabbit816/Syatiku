@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
+using DG.Tweening;
 
 public class HackMain : MonoBehaviour {
     
@@ -14,8 +15,11 @@ public class HackMain : MonoBehaviour {
     private string[] _chipped;
     [SerializeField,Tooltip("お題のオブジェクト")]
     private GameObject theme_obj;
+    [SerializeField, Tooltip("チェックボックスとくっついてるやつ")]
+    private GameObject Black_back;
     //[SerializeField, Tooltip("EventSystem")]
     public EventSystem event_system;
+    private GameObject collectObject;
 
     private string str_quest;
     private string str_answer;
@@ -32,6 +36,7 @@ public class HackMain : MonoBehaviour {
     private PatteringEvent patte;
     private HackMeishi hack_meishi;
     private HackBoss hack_boss;
+    private HackTap hack_tap;
     [HideInInspector]
     public EventSystem es;
 
@@ -39,8 +44,9 @@ public class HackMain : MonoBehaviour {
     [HideInInspector]
     public bool _timerActive = false;
     private bool _overTime = false;
-
+    private bool _confirmActive = false;
     private bool _start_ = false;
+
     private float _time = 0f;
 
     // Use this for initialization
@@ -48,10 +54,16 @@ public class HackMain : MonoBehaviour {
         into_pc = GetComponent<IntoPCAction>();
         patte = GetComponent<PatteringEvent>();
         hack_boss = GetComponent<HackBoss>();
+        hack_tap = GetComponent<HackTap>();
+
+        collectObject = GameObject.Find("Canvas/Check/GetWord");
         es = EventSystem.current;
         es.enabled = false;
         ReadText();
         Theme();
+        StartCoroutine(StartedTimer());
+
+        _confirmActive = false;
         _allClear = false;
         _timerActive = false;
         _overTime = false;
@@ -60,7 +72,6 @@ public class HackMain : MonoBehaviour {
 
 	// Update is called once per frame
 	void Update () {
-        StartCoroutine(StartedTimer());
         if (_start_)
         {
             _time += Time.deltaTime;
@@ -86,7 +97,9 @@ public class HackMain : MonoBehaviour {
     /// <returns></returns>
     private IEnumerator StartedTimer()
     {
-        yield return new WaitForSeconds(5.5f);
+        yield return new WaitForSeconds(5.25f);
+        hack_tap.PlaceButton(10);
+        yield return new WaitForSeconds(0.2f);
         es.enabled = true;
         Timer();
     }
@@ -162,5 +175,25 @@ public class HackMain : MonoBehaviour {
     {
         int rand_theme = Random.Range(0, _chipped.Length-1);
         theme_obj.GetComponentInChildren<Text>(true).text = _chipped[rand_theme].ToString();
+    }
+
+    /// <summary>
+    /// 集めた単語を確認するUIの処理
+    /// </summary>
+    public void CollectWordsOpen()
+    {
+        switch (_confirmActive)
+        {
+            case true:
+                collectObject.GetComponent<RectTransform>().DOLocalMoveX(215, 0.2f);
+                Black_back.GetComponent<RectTransform>().DOLocalMoveX(1175, 0.2f);
+                _confirmActive = false;
+                break;
+            case false:
+                collectObject.GetComponent<RectTransform>().DOLocalMoveX(-195, 0.2f);
+                Black_back.GetComponent<RectTransform>().DOLocalMoveX(-1154, 0.2f);
+                _confirmActive = true;
+                break;
+        }
     }
 }
