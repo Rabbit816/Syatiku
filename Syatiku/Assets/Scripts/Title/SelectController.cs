@@ -10,40 +10,35 @@ public class SelectController : MonoBehaviour,
     private Image blackMan, whiteMan;
     [SerializeField]
     private float zoomScale;
-	// Use this for initialization
-	void Start () {
-		
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
-    int a;
+
+    /// <summary>
+    /// カーソルが置いてあるときの処理
+    /// </summary>
+    /// <param name="eventData"></param>
     public void OnPointerEnter(PointerEventData eventData) {
         switch (gameObject.name) {
             case "Black":
                 blackMan.transform.localScale = new Vector2(zoomScale, zoomScale);
-                Debug.Log("Black");
                 break;
             case "White":
                 whiteMan.transform.localScale = new Vector2(zoomScale, zoomScale);
-                Debug.Log("White");
                 break;
             default:
                 break;
         }
     }
 
+    /// <summary>
+    /// カーソルが置いてないときの処理
+    /// </summary>
+    /// <param name="eventData"></param>
     public void OnPointerExit(PointerEventData eventData) {
         switch (gameObject.name) {
             case "Black":
                 blackMan.transform.localScale = new Vector2(1f, 1f);
-                Debug.Log("Black");
                 break;
             case "White":
                 whiteMan.transform.localScale = new Vector2(1, 1f);
-                Debug.Log("White");
                 break;
             default:
                 break;

@@ -6,8 +6,13 @@ using UnityEngine.UI;
 public class FlickTextController : MonoBehaviour
 {
     Text text;
-    Vector3 moveForce;
     float alpha;
+    //移動速度
+    Vector3 moveForce;
+    //反射中か
+    bool isReflect;
+    Color wrongColor = new Color(33 / 255f, 100 / 255f, 150 / 255f, 0);
+    Color correctColor = new Color(240 / 255f, 179 / 255f, 37 / 255f, 0);
 
     enum Type
     {
@@ -16,7 +21,7 @@ public class FlickTextController : MonoBehaviour
     }
     Type type;
 
-    void Awake()
+    void Start()
     {
         text = GetComponent<Text>();
     }
@@ -26,24 +31,27 @@ public class FlickTextController : MonoBehaviour
     /// </summary>
     public void Initialize(int num, string t)
     {
+        if(text == null) text = GetComponent<Text>();
+
         //座標
         float posX = Random.Range(0, 2);
-        posX = (posX > 0 ? 200 : -200);
-        float posY = Random.Range(-100, 100);
+        posX = (posX > 0 ? 450 : -450);
+        float posY = Random.Range(-100, 120);
         Vector3 pos = new Vector3(posX, posY, 0);
         text.rectTransform.localPosition = pos;
-
         //移動
         float moveX = posX / Random.Range(100, 800);
         float moveY = Random.Range(-0.5f, 0.5f);
         moveForce = new Vector3(moveX, moveY, 0);
 
         //テキスト
-        text.fontSize = Random.Range(15, 41);
+        text.fontSize = Random.Range(100, 200);
         alpha = 0;
         this.type = (Type)num;
+        text.color = (type == Type.Correct ? correctColor : wrongColor);
         text.text = t;
 
+        isReflect = false;
         gameObject.SetActive(true);
     }
 
@@ -57,24 +65,25 @@ public class FlickTextController : MonoBehaviour
         else
         {
             alpha += 0.005f;
-            text.color = new Color(1, 1, 1, alpha);
+            Color c = text.color;
+            c.a = alpha;
+            text.color = c;
         }
 
         //移動
         text.rectTransform.localPosition += moveForce;
 
         //画面外に外れた時
-        if (text.rectTransform.localPosition.x > 500 || text.rectTransform.localPosition.x < -500
-            || text.rectTransform.localPosition.y > 200 || text.rectTransform.localPosition.y < -200)
+        if (text.rectTransform.localPosition.x > 1400 || text.rectTransform.localPosition.x < -1400
+            || text.rectTransform.localPosition.y > 700 || text.rectTransform.localPosition.y < -700)
         {
-            BossScene.Instance.MissCountUP();
             gameObject.SetActive(false);
         }
     }
 
     public void FlickEnd()
     {
-        BossScene.Instance.SetMoveForce(ref moveForce);
+        if(!isReflect) BossScene.Instance.SetMoveForce(ref moveForce);
     }
 
     /// <summary>
@@ -86,11 +95,13 @@ public class FlickTextController : MonoBehaviour
         if (type == Type.Correct)
         {
             BossScene.Instance.SuccessCountUP();
+            gameObject.SetActive(false);
         }
         else
         {
             BossScene.Instance.MissCountUP();
+            isReflect = true;
+            moveForce = new Vector3(-moveForce.x, moveForce.y, 0);
         }
-        gameObject.SetActive(false);
     }
 }

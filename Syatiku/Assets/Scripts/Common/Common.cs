@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using UnityEngine.EventSystems;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -15,53 +16,93 @@ public class Common : MonoBehaviour {
     public enum SceneName
     {
         Title = 0,
-        Scenario,
+        Epilogue,
         Action,
+        Progress,
         Smoking,
         Hacking,
         Drinking,
+        BeforeBattle,
         Boss,
         Result,
+        MainGoodEnd,
+        MainNormalEnd,
+        MainBadEnd,
     }
 
     /// <summary>
     /// ミニゲームで手に入る資料
     /// </summary>
-    public string[] data =
+    [System.NonSerialized]
+    public bool[] dataFlag =
     {
-        "資料A",
-        "資料B",
-        "資料C",
-        "資料D",
-        "資料E"
+        false,
+        false,
+        false,
+        false,
+        false,
     };
 
-    //ミニゲームクリアしたか（α用）
-    public static bool gameClear = true;
+    // ミニゲームクリアフラグ
+    [System.NonSerialized]
+    public bool[] clearFlag = 
+    {
+        false, // hack
+        false, // drink
+        false  // smoke
+    };
 
-    [SerializeField]
-    private float interval;
-    private static Common instance;
+    /// <summary>
+    /// 何のミニゲームやったか(0:hack,1:drink,2:smoke)
+    /// </summary>
+    [System.NonSerialized]
+    public int miniNum;
+
+    [System.NonSerialized]
+    public int gameMode; // シナリオがどちらか
+
+    // 初期化しない変数-----------------------------
+    [SerializeField,Header("シーン遷移時の時間")]
+    private float interval; // シーン遷移時の時間
     private bool isFading = false;
     private Color fadeColor = Color.black;
     private float fadeAlpha = 0;
+    private static Common instance;
+    // --------------------------------------------
+
+    [System.NonSerialized]
+    public int actionCount; // 行動回数
 
     // 同じオブジェクト(Common)があるか判定
     public static Common Instance
     {
         get
         {
-            if (instance == null)
-            {
-                instance = (Common)FindObjectOfType(typeof(Common));
-
-                if (instance == null)
-                {
-                    Debug.LogError(typeof(Common) + "is nothing");
-                }
+            if (instance == null) {
+                instance = FindObjectOfType<Common>();
             }
             return instance;
         }
+    }
+
+    /// <summary>
+    /// 初期化
+    /// </summary>
+    public void Init() {
+        // dataFlag
+        for (int i = 0; i < dataFlag.Length; i++) {
+            dataFlag[i] = false;
+        }
+        // clearFlag
+        for (int i = 0; i < clearFlag.Length; i++) {
+            clearFlag[i] = false;
+        }
+        // gameMode
+        gameMode = -1;
+        // miniNum
+        miniNum = -1;
+        // actionCount
+        actionCount = 0;
     }
 
     // フェードのUIを描画
@@ -77,12 +118,7 @@ public class Common : MonoBehaviour {
 
     void Awake()
     {
-        if (!this == Instance)
-        {
-            Destroy(this.gameObject);
-            return;
-        }
-            DontDestroyOnLoad(gameObject);
+        DontDestroyOnLoad(gameObject);
     }
 
     /// <summary>
@@ -92,6 +128,8 @@ public class Common : MonoBehaviour {
     public void ChangeScene(SceneName name)
     {
         StartCoroutine(Fade(name));
+        var eventSystem = FindObjectOfType<EventSystem>();
+        eventSystem.enabled = false;
     }
 
     /// <summary>
@@ -103,7 +141,8 @@ public class Common : MonoBehaviour {
     {
         this.isFading = true;
         float time = 0;
-        while(time <= interval)
+        
+        while (time <= interval)
         {
             this.fadeAlpha = Mathf.Lerp(0f, 1f, time / interval);
             time += Time.deltaTime;
@@ -119,7 +158,6 @@ public class Common : MonoBehaviour {
             time += Time.deltaTime;
             yield return 0;
         }
-
         this.isFading = false;
     }
 
@@ -141,6 +179,4 @@ public class Common : MonoBehaviour {
         }
         return param;
     }
-    /*Common.gameClear = false;
-      Common.Instance.ChangeScene(Common.SceneName.Result);*/
 }

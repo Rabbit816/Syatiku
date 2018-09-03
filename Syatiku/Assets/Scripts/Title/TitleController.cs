@@ -5,35 +5,39 @@ using UnityEngine.UI;
 
 public class TitleController : MonoBehaviour {
     [SerializeField]
-    private GameObject title;
-    void Start()
+    private GameObject title,modeText; // タイトル文字UI、ゲームモードテキスト
+
+    void Awake()
     {
-        
+        // Commonがなければ生成
+        if (!Common.Instance)
+        {
+            var common = Instantiate(Resources.Load("Prefabs/Common/Common"));
+            DontDestroyOnLoad(common);
+        }
     }
-    void Update()
-    {
-        
+
+    void Start() {
+        SoundManager.Instance.PlayBGM(BGMName.Title); // BGN再生
+        Common.Instance.Init(); // 各数値初期化
     }
 
     //モード選択
     public void ChangeMode(int mode)
     {
-        switch (mode)
-        {
-            case 0:
-                Common.Instance.ChangeScene(Common.SceneName.Action);
-                break;
-            case 1:
-                Common.Instance.ChangeScene(Common.SceneName.Action);
-                break;
-            default:
-                break;
-        }
-        
+        Common.Instance.gameMode = mode;
+        if (mode == 0)
+            Common.Instance.actionCount = 2; // ANOTHER
+        else
+            Common.Instance.actionCount = 1; // WHITE
+
+        Common.Instance.ChangeScene(Common.SceneName.Epilogue);
     }
     //タイトルボタンを削除
     public void Select()
     {
         title.SetActive(false);
+        modeText.SetActive(true);
     }
+
 }

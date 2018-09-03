@@ -2,8 +2,9 @@
 using UnityEngine.EventSystems;
 using System.Collections.Generic;
 
-public class Drag : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler
+public class Drag : MonoBehaviour, IDragHandler, IEndDragHandler
 {
+<<<<<<< HEAD
 <<<<<<< HEAD
     private Ray ray;
     private RaycastHit2D hit;
@@ -11,12 +12,15 @@ public class Drag : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHand
     Vector3 dragVec;
 =======
 
+=======
+>>>>>>> master
     private Vector3 dragVec;
     private GameObject collect;
 >>>>>>> 28e16f5bd3286929b5a04a3c81772ffbe166d95a
 
     void Start()
     {
+<<<<<<< HEAD
         collect = GameObject.Find("Canvas/IntoPC/CollectedWord");
     }
 
@@ -28,8 +32,25 @@ public class Drag : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHand
     public void OnBeginDrag(PointerEventData pointer)
     {
         
+=======
+        //親の設定
+        if(gameObject.tag == "string")
+        {
+            collect = GameObject.Find("Canvas/PC/PassWordFase/Collect");
+        }else if (gameObject.tag == "windows")
+        {
+            collect = GameObject.Find("Canvas/PC/WindowFase/Window");
+        }else if(gameObject.tag == "folder")
+        {
+            collect = GameObject.Find("Canvas/Zoom/AdminStrator/AdminPage/Collect");
+        }
+>>>>>>> master
     }
 
+    /// <summary>
+    /// ドラッグした時、ドラッグ中の処理
+    /// </summary>
+    /// <param name="pointer"></param>
     public void OnDrag(PointerEventData pointer)
     {
 <<<<<<< HEAD
@@ -43,16 +64,23 @@ public class Drag : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHand
 
 =======
         transform.SetParent(collect.transform, false);
+<<<<<<< HEAD
         if (gameObject.transform.tag == "asnwer")
         {
             Debug.Log("おとんみっけ");
             
         }
 >>>>>>> 28e16f5bd3286929b5a04a3c81772ffbe166d95a
+=======
+>>>>>>> master
         dragVec = new Vector3(Input.mousePosition.x, Input.mousePosition.y, 5);
         gameObject.transform.position = Camera.main.ScreenToWorldPoint(dragVec);
     }
 
+    /// <summary>
+    /// ドラッグし終わった時の処理
+    /// </summary>
+    /// <param name="pointer"></param>
     public void OnEndDrag(PointerEventData pointer)
     {
 <<<<<<< HEAD
@@ -82,8 +110,8 @@ public class Drag : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHand
                     transform.localPosition = Vector2.zero;
                 }
                 else
-                {
                     return;
+<<<<<<< HEAD
                 }
 <<<<<<< HEAD
                 
@@ -92,9 +120,10 @@ public class Drag : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHand
     }
 }
 =======
+=======
+>>>>>>> master
             }
         }
-            
     }
 }
 >>>>>>> 28e16f5bd3286929b5a04a3c81772ffbe166d95a
