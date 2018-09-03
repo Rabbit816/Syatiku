@@ -59,7 +59,6 @@ public class ResultController : MonoBehaviour {
     /// </summary>
     public void ActionBack()
     {
-        Common.Instance.actionCount--;
         Common.Instance.ChangeScene(Common.SceneName.Action);
     }
 
