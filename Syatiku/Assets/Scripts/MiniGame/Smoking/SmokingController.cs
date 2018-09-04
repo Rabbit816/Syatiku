@@ -58,6 +58,7 @@ public class SmokingController : MonoBehaviour {
         textPath = "Talk" + textNum + "/";
         IsScenario(talkFilePath + textPath + smokePath);
         qNum =  6 * textNum;
+        badSmokePath = "Bad" + textNum + badSmokePath;
 
         selectUI.SetActive(false); // 回答選択UIを非表示
         
@@ -88,7 +89,6 @@ public class SmokingController : MonoBehaviour {
                 if (answerCount == 0 && !onceFlag)
                 {
                     onceFlag = true;
-                    //Result();
                     return;
                 }
 
@@ -132,8 +132,6 @@ public class SmokingController : MonoBehaviour {
     /// <returns></returns>
     public IEnumerator SelectStart()
     {
-        //yield return new WaitForSeconds(1f);
-        
         if (!isTime)
         {
             isTime = true;
@@ -177,6 +175,7 @@ public class SmokingController : MonoBehaviour {
 
         } else {
             Debug.Log("×");
+            
             badFlags[answerCount] = true;
             if (qLength <= 0 || answerCount == 0)
             {
@@ -188,7 +187,7 @@ public class SmokingController : MonoBehaviour {
 
             qNum++;
 
-            IsScenario(talkFilePath + "Bad" + textNum + badSmokePath + qCount.ToString());
+            IsScenario(talkFilePath + badSmokePath + qCount.ToString());
         }
         Invoke("SelectFalse", 0.01f);
     }
@@ -203,6 +202,9 @@ public class SmokingController : MonoBehaviour {
         ScenarioController.Instance.hideButtons();
     }
 
+    /// <summary>
+    /// 問題と選択肢をセット
+    /// </summary>
     public void Question()
     {
         answer.text = mushikui.data[qNum].Question;
@@ -212,6 +214,9 @@ public class SmokingController : MonoBehaviour {
         }
     }
 
+    /// <summary>
+    /// 最終判定
+    /// </summary>
     public void Result() {
         selectUI.SetActive(false);
         qLength = 0;

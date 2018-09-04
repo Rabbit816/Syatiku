@@ -9,8 +9,8 @@
 //@fadeIn{background} [2]　　　　　　　
 
 //表示する名前
-@charaOn {mob01}right
-@name{社員A} right
+@charaOn {mob02}right
+@name{社員B} right
 
 まったくだよ。
 こっちは日曜家族で出かける予定があったってのに……
