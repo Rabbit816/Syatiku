@@ -9,8 +9,8 @@
 //@fadeIn{background} [2]　　　　　　　
 
 //表示する名前
-@charaOn {mob01}center
-@name{社員A} center
+@charaOn {mob02}center
+@name{社員B} center
 
 まさか、だったらこんなに落ち込んでないさ。
 上司からの一方的な話だよ

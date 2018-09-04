@@ -14,6 +14,7 @@ public class HukidashiController : MonoBehaviour {
     public void ChangeMiniGame()
     {
         Common.Instance.miniNum = miniGameNum;
+        Common.Instance.actionCount--;
         switch (miniGameNum)
         {
             case 0:

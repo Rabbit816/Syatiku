@@ -51,11 +51,11 @@ public class ActionController : MonoBehaviour {
 
     void Start () {
 
-        if (Common.Instance.actionCount == 0) {
-            worning.gameObject.SetActive(true);
-            StartCoroutine(IsWorning());
-            return;
-        }
+        //if (Common.Instance.actionCount == 0) {
+        //    worning.gameObject.SetActive(true);
+        //    StartCoroutine(IsWorning());
+        //    return;
+        //}
 
         IsDataSelect();
 
