@@ -7,16 +7,17 @@ using DG.Tweening;
 public class HackGetWord : MonoBehaviour {
 
     //-------------------引き出しで使う変数---------------------------------------
-    private struct FolderPlaceList
-    {
-        public GameObject pos;
-        public string word;
-    };
+    //private struct FolderPlaceList
+    //{
+    //    public GameObject pos;
+    //    public string word;
+    //};
 
-    private FolderPlaceList[] folder_place_list = new FolderPlaceList[]
-    {
-        new FolderPlaceList(){ pos=null, word = "" },
-    };
+    //private FolderPlaceList[] folder_place_list = new FolderPlaceList[]
+    //{
+    //    new FolderPlaceList(){ pos=null, word = "" },
+    //};
+    public int AA = 10;
 
     [Tooltip("集めた単語(Folder内に出すObject)")]
     private GameObject CollectFolderPrefab;
@@ -43,8 +44,8 @@ public class HackGetWord : MonoBehaviour {
 
     [Tooltip("集めた単語(PC内に出すObject)")]
     private GameObject CollectedPrefab;
+    [Tooltip("集めた単語(PC内に出す場所)")]
     private GameObject CollectedWord;
-
     //-----------------------------------------------------------------------------
 
     private HackMain hack_main;
@@ -58,12 +59,12 @@ public class HackGetWord : MonoBehaviour {
             hack_main = GameObject.Find("controll").GetComponent<HackMain>();
             hack_tap = GameObject.Find("controll").GetComponent<HackTap>();
             GetWord = GameObject.Find("Canvas/Check/GetWord");
-            CollectedPrefab = Resources.Load("Prefab/MiniGame/Hacking/WordImage") as GameObject;
-            CollectedWord = GameObject.Find("Canvas/PC/PassWordFase/Collect");
             check_img = GameObject.Find("Canvas/Check/Image");
-            GetWordPrefab = Resources.Load("Prefab/MiniGame/Hacking/str") as GameObject;
-            GetWordFolderPrefab = Resources.Load("Prefab/MiniGame/Hacking/folder_str") as GameObject;
-            CollectFolderPrefab = Resources.Load("Prefab/MiniGame/Hacking/FolderWordImage") as GameObject;
+            CollectedWord = GameObject.Find("Canvas/PC/PassWordFase/Collect");
+            CollectedPrefab = Resources.Load("Prefabs/MiniGame/Hacking/str") as GameObject;
+            GetWordPrefab = Resources.Load("Prefabs/MiniGame/Hacking/WordImage") as GameObject;
+            GetWordFolderPrefab = Resources.Load("Prefabs/MiniGame/Hacking/folder_str") as GameObject;
+            CollectFolderPrefab = Resources.Load("Prefabs/MiniGame/Hacking/FolderWordImage") as GameObject;
         }
         catch
         {
@@ -74,8 +75,7 @@ public class HackGetWord : MonoBehaviour {
     // Use this for initialization
     void Start ()
     {
-        folder_place_list = new FolderPlaceList[2];
-        place_list = new PlaceList[4];
+        
     }
 	
 	// Update is called once per frame
@@ -123,20 +123,20 @@ public class HackGetWord : MonoBehaviour {
 
         //PC内に集めた単語を表示
         GameObject _collected_word = Instantiate(CollectFolderPrefab, hack_tap.CollectWordFolder.transform);
-        _collected_word.transform.position = folder_place_list[place].pos.transform.position;
-        _collected_word.GetComponentInChildren<Text>().text = folder_place_list[place].word.ToString();
+        _collected_word.transform.position = hack_tap.folder_pos_list[place].transform.position;
+        _collected_word.GetComponentInChildren<Text>().text = hack_tap.folder_pos_list[place].ToString();
 
         //集めたものリストの中に単語を表示
         GameObject _get_word = Instantiate(GetWordFolderPrefab, GetWord.transform);
         _get_word.transform.SetAsFirstSibling();
-        _get_word.GetComponentInChildren<Text>().text = folder_place_list[place].word.ToString();
+        _get_word.GetComponentInChildren<Text>().text = hack_tap.folder_pos_list[place].ToString();
     }
 
     /// <summary>
     /// 文字取得時のDOToweenアニメーション処理
     /// </summary>
     /// <param name="obj">動かすオブジェクト</param>
-    private void GetWordAnim(GameObject obj)
+    public void GetWordAnim(GameObject obj)
     {
         Sequence seq = DOTween.Sequence();
         Image obj_img = obj.GetComponent<Image>();
@@ -150,25 +150,8 @@ public class HackGetWord : MonoBehaviour {
                 0f, 1.6f)));
     }
 
-    /// <summary>
-    /// 各場所に単語を入れる
-    /// </summary>
-    //private void AddPlaceWord()
-    //{
-    //    string[] stren = hack_main.Quest_list.ToArray();
-    //    //Common.Instance.Shuffle(Getting_position);
-    //    for (int j = 0; j < 4; j++)
-    //    {
-    //        place_list[j].pos = Getting_position[j];
-    //        place_list[j].word = stren[j];
-    //        Getting_position[j].transform.GetComponentInChildren<Text>().text = place_list[j].word.ToString();
-    //    }
-    //    string[] wd = hack_main.Folder_ans_list.ToArray();
-    //    for (int i = 0; i < 2; i++)
-    //    {
-    //        folder_place_list[i].pos = hack_tap.drawer_getting_position[i];
-    //        folder_place_list[i].word = wd[i];
-    //        drawer_getting_position[i].transform.GetComponentInChildren<Text>().text = folder_place_list[i].word.ToString();
-    //    }
-    //}
+    private void AddWord()
+    {
+
+    }
 }

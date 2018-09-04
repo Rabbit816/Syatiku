@@ -10,6 +10,7 @@ public class HackTap : MonoBehaviour
     [SerializeField]
     private GameObject IntoPC;
 
+    
     [Tooltip("集めた単語(Folder内に出す場所の親)")]
     public GameObject CollectWordFolder;
 
@@ -43,6 +44,7 @@ public class HackTap : MonoBehaviour
     private HackMain hack_main;
     private IntoPCAction intopc_action;
     private PatteringEvent patte;
+    private HackGetWord hack_getword;
     private GameObject pat;
     private int GakuCount = 0;
     public int Gakubuti_max = 7;
@@ -59,9 +61,20 @@ public class HackTap : MonoBehaviour
     // Use this for initialization
     void Start ()
     {
-        GetWord = GameObject.Find("Canvas/Check/GetWord");
-        DoorSide = GameObject.Find("Canvas/DoorSide");
-        pat = GameObject.Find("Canvas/PC/PatteringFase");
+        try
+        {
+            GetWord = GameObject.Find("Canvas/Check/GetWord");
+            DoorSide = GameObject.Find("Canvas/DoorSide");
+            pat = GameObject.Find("Canvas/PC/PatteringFase");
+            GameObject getword = Resources.Load("Prefabs/MiniGame/Hacking/folder_word") as GameObject;
+            hack_getword = getword.GetComponent<HackGetWord>();
+        }
+        catch
+        {
+            Debug.Log("Not Find");
+        }
+        
+        Debug.Log("hack_getword: " + hack_getword.AA);
 
         Document.SetActive(false);
         Common.Instance.Shuffle(pos_list);
@@ -183,6 +196,6 @@ public class HackTap : MonoBehaviour
         _get_doc.transform.SetAsLastSibling();
         _getDocument = true;
         Document.SetActive(true);
-        //GetWordAnim(Document);
+        hack_getword.GetWordAnim(Document);
     }
 }
