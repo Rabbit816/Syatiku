@@ -9,8 +9,8 @@
 //@fadeIn{background} [2]　　　　　　　
 
 //表示する名前
-@charaOn {mob01}center
-@name{社員A} center
+@charaOn {mob02}center
+@name{社員B} center
 
 それが出来ればいいんだけどな……。
 なんでも、取引先の接待なんだと
