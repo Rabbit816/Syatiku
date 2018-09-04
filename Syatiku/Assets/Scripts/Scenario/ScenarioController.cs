@@ -124,7 +124,7 @@ public class ScenarioController : MonoBehaviour {
         //感情アイコンの破棄
         for (int i = 0; i < window.emotionsParent.childCount; i++)
         {
-            Destroy(window.emotionsParent.GetChild(i));
+            Destroy(window.emotionsParent.GetChild(i).gameObject);
         }
         //セリフウィンドウの初期化
         viewMessage.Length = 0;
