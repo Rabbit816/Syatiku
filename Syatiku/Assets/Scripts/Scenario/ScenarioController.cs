@@ -121,10 +121,10 @@ public class ScenarioController : MonoBehaviour {
     void SetNextInfo()
     {
         window.recommendLight.SetActive(false);
-        //感情アイコンの非表示
-        for (int i = 0; i < window.characters.Length; i++)
+        //感情アイコンの破棄
+        for (int i = 0; i < window.emotionsParent.childCount; i++)
         {
-            window.icons[i].gameObject.SetActive(false);
+            Destroy(window.emotionsParent.GetChild(i));
         }
         //セリフウィンドウの初期化
         viewMessage.Length = 0;

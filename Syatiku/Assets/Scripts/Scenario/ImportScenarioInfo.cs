@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using System.IO;
@@ -84,7 +83,7 @@ public class ImportScenarioInfo : MonoBehaviour {
                 ShadeOffCharacters(pos);
             });
         }
-        else if (text.Contains("charaOn") || text.Contains("emo"))
+        else if (text.Contains("charaOn"))
         {
             //キャラクター画像表示
             scenario.commandActionList.Add(() =>
@@ -93,6 +92,17 @@ public class ImportScenarioInfo : MonoBehaviour {
                 Image target = GetTargetImage(text);
                 target.gameObject.SetActive(true);
                 SetSprite(target, imagePath);
+            });
+        }
+        else if (text.Contains("emo"))
+        {
+            //感情アイコン生成
+            scenario.commandActionList.Add(() =>
+            {
+                string emotion = TakeTextInfo(text);
+                int type = GetEmotionTypeNum(emotion);
+                int pos = GetTargetPosNum(text);
+                CreateEmotion(type, pos);
             });
         }
         else if (text.Contains("charaOff"))
@@ -243,15 +253,10 @@ public class ImportScenarioInfo : MonoBehaviour {
     {
         Image target = null;
         int pos = GetTargetPosNum(text);
-
         if (pos >= 0)
         {
-            //感情アイコン
-            if (text.IndexOf('e') == 1) target = window.icons[pos];
-            //キャラクター
-            else target = window.characters[pos];
+            target = window.characters[pos];
         }
-
         return target;
     }
 
@@ -260,7 +265,6 @@ public class ImportScenarioInfo : MonoBehaviour {
     /// </summary>
     int GetTargetPosNum(string text)
     {
-
         if (text.LastIndexOf("left") >= 0)
         {
             return 0;
@@ -275,6 +279,40 @@ public class ImportScenarioInfo : MonoBehaviour {
         }
 
         return -1;
+    }
+
+    int GetEmotionTypeNum(string text)
+    {
+        switch (text)
+        {
+            case "joy":
+                return 0;
+            case "angry":
+                return 1;
+            case "shock":
+                return 2;
+            case "sigh":
+                return 3;
+            case "question":
+                return 4;
+            case "worry":
+                return 5;
+            case "impatience":
+                return 6;
+        }
+        return -1;
+    }
+
+    /// <summary>
+    /// 感情アイコンの生成
+    /// </summary>
+    /// <param name="emotionNum">感情アイコンの番号</param>
+    /// <param name="posNum">位置番号</param>
+    void CreateEmotion(int emotionNum, int posNum)
+    {
+        if (emotionNum < 0 || posNum < 0) return;
+        GameObject emotion = Instantiate(window.emotionPrefabs[emotionNum], window.emotionsParent);
+        emotion.GetComponent<RectTransform>().localPosition = window.emotionPosList[emotionNum].list[posNum];
     }
 
     /// <summary>
