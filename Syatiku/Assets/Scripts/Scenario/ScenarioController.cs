@@ -23,13 +23,11 @@ public class ScenarioController : MonoBehaviour {
     #region variable
 
     [SerializeField]
-    string filePath = "Text/chapter_0_0";
-    [SerializeField]
     ScenarioWindow window;
     public List<ScenarioInfo> scenarioInfoList = new List<ScenarioInfo>();
 
     //参照している情報番号
-    int infoIndex;
+    public int infoIndex { private get; set; }
     //全ての情報数
     int allInfoNum;
     //表示するセリフ
@@ -86,12 +84,14 @@ public class ScenarioController : MonoBehaviour {
     /// シナリオパート開始
     /// </summary>
     /// <param name="path">読み込みたいtxtのパス</param>
-    public void BeginScenario(string path)
+    /// <param name="startIndex">最初にシナリオを始めるindex番号</param>
+    /// <param name="startVoiceNum">最初にボイスを再生するindex番号</param>
+    public void BeginScenario(string path, int startInfoIndex = 0, int startVoiceIndex = 0)
     {
         //必要なデータを取得
-        new ImportScenarioInfo(path, ref scenarioInfoList, window);
+        new ImportScenarioInfo(path, ref scenarioInfoList, window, startVoiceIndex);
 
-        Init();
+        Init(startInfoIndex);
         FadeManager.Instance.Fade(window.scenarioCanvas, 1f, 1f, () =>
         {
             SetNextInfo();
@@ -99,9 +99,9 @@ public class ScenarioController : MonoBehaviour {
         });
     }
 
-    private void Init()
+    private void Init(int startInfoIndex)
     {
-        infoIndex = 0;
+        infoIndex = startInfoIndex;
         allInfoNum = scenarioInfoList.Count;
         originMessageViewSpeed = messageViewSpeed;
         messageViewElapsedTime = 0;
@@ -128,8 +128,11 @@ public class ScenarioController : MonoBehaviour {
         }
         //セリフウィンドウの初期化
         viewMessage.Length = 0;
+        window.message.text = "";
         nextMessageIndex = 0;
         allMessage = scenarioInfoList[infoIndex].message;
+        //ボイスストップ
+        SoundManager.Instance.StopVoice();
         //各コマンド
         foreach (var action in scenarioInfoList[infoIndex].commandActionList)
         {
@@ -205,6 +208,10 @@ public class ScenarioController : MonoBehaviour {
     IEnumerator SetNextInfo(float time)
     {
         yield return new WaitForSeconds(time);
+        while (!SoundManager.Instance.IsVoiceEndOrStop())
+        {
+            yield return null;
+        }
         UpdateInfoOrMessage();
     }
 
@@ -314,7 +321,11 @@ public class ScenarioController : MonoBehaviour {
 
     public void OnClickSkipButton()
     {
-        if (isPlayScenario) isSkip = !isSkip;
+        if (isPlayScenario)
+        {
+            isSkip = !isSkip;
+            window.skipButton.color = isSkip ? Color.white : Color.gray;
+        }
     }
 
     public void OnClickLogButton()
@@ -332,6 +343,7 @@ public class ScenarioController : MonoBehaviour {
     public void OnClickAutoButton()
     {
         isAuto = !isAuto;
+        window.autoButton.color = isAuto ? Color.white : Color.gray ;
         if (IsShowAllMessage()) StartCoroutine(SetNextInfo(nextWaitTime));
     }
 

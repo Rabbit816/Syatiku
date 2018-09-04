@@ -5,9 +5,9 @@ using UnityEngine;
 
 public enum BGMName
 {
-    Title,
-    Hack,
     Boss,
+    Hack,
+    Title,
 }
 
 public enum SEName
@@ -51,21 +51,6 @@ public class SoundManager : MonoBehaviour {
         Destroy(gameObject);
     }
 
-    readonly List<string> bgmNameList = new List<string>
-    {
-        "TopBGM",
-        "HackBGM",
-        "BossBGM",
-    };
-
-    readonly List<string> seNameList = new List<string>
-    {
-        "BadSe",
-        "BossHit",
-        "GoodSe",
-        "tapSe",
-    };
-
     [SerializeField]
     CriAtomSource bgmSource;
     [SerializeField]
@@ -76,7 +61,7 @@ public class SoundManager : MonoBehaviour {
     public void PlayBGM(BGMName cueName)
     {
         bgmSource.Stop();
-        bgmSource.Play(bgmNameList[(int)cueName]);
+        bgmSource.Play((int)cueName);
     }
 
     public void PlayBGM(string cueName)
@@ -87,7 +72,7 @@ public class SoundManager : MonoBehaviour {
 
     public void PlaySE(SEName cueName)
     {
-        seSource.Play(seNameList[(int)cueName]);
+        seSource.Play((int)cueName);
     }
 
     public void PlaySE(string cueName)
@@ -95,9 +80,24 @@ public class SoundManager : MonoBehaviour {
         seSource.Play(cueName);
     }
 
+    public void PlayVoice(int cueId)
+    {
+        voiceSource.Play(cueId);
+    }
+
     public void PlayVoice(string cueName)
     {
         voiceSource.Play(cueName);
+    }
+
+    public void SetVoiceSource(CriAtomSource source)
+    {
+        voiceSource = source;
+    }
+
+    public bool IsVoiceEndOrStop()
+    {
+        return (voiceSource.status == CriAtomSource.Status.PlayEnd || voiceSource.status == CriAtomSource.Status.Stop);
     }
 
     public void StopBGM()
@@ -112,7 +112,7 @@ public class SoundManager : MonoBehaviour {
 
     public void StopVoice()
     {
-        voiceSource.Stop();
+        if(voiceSource != null) voiceSource.Stop();
     }
 
 }

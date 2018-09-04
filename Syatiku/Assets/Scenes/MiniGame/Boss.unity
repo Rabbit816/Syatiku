@@ -110,6 +110,48 @@ NavMeshSettings:
     tileSize: 256
     accuratePlacement: 0
   m_NavMeshData: {fileID: 0}
+--- !u!1001 &47222410
+Prefab:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 4178073030176854, guid: afec284546862054d9180ca93ddadd64, type: 2}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4178073030176854, guid: afec284546862054d9180ca93ddadd64, type: 2}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4178073030176854, guid: afec284546862054d9180ca93ddadd64, type: 2}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4178073030176854, guid: afec284546862054d9180ca93ddadd64, type: 2}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4178073030176854, guid: afec284546862054d9180ca93ddadd64, type: 2}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4178073030176854, guid: afec284546862054d9180ca93ddadd64, type: 2}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4178073030176854, guid: afec284546862054d9180ca93ddadd64, type: 2}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4178073030176854, guid: afec284546862054d9180ca93ddadd64, type: 2}
+      propertyPath: m_RootOrder
+      value: 5
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_ParentPrefab: {fileID: 100100000, guid: afec284546862054d9180ca93ddadd64, type: 2}
+  m_IsPrefabParent: 0
 --- !u!1 &77033694
 GameObject:
   m_ObjectHideFlags: 0
@@ -1493,7 +1535,7 @@ MonoBehaviour:
   backgroundSprites:
   - {fileID: 21300000, guid: e737ff86bee513941988d03c7c4db911, type: 3}
   - {fileID: 21300000, guid: e55d6cc9e2d9b93448eafc826dcb061f, type: 3}
-  SeparateValues: 0300000006000000
+  SeparateValues: 030000000600000009000000
 --- !u!4 &1274440718
 Transform:
   m_ObjectHideFlags: 0

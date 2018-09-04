@@ -258,13 +258,17 @@ public class BossScene : MonoBehaviour {
     {
         if (isEnd) return;
 
-        if (isReachStates[isReachStates.Length - 2])
+        if (isReachStates[isReachStates.Length - 1])
         {
-            Common.Instance.ChangeScene(Common.SceneName.GoodEnd);
+            Common.Instance.ChangeScene(Common.SceneName.MainGoodEnd);
+        }
+        else if(isReachStates[isReachStates.Length - 2])
+        {
+            Common.Instance.ChangeScene(Common.SceneName.MainNormalEnd);
         }
         else
         {
-            Common.Instance.ChangeScene(Common.SceneName.BadEnd);
+            Common.Instance.ChangeScene(Common.SceneName.MainNormalEnd);
         }
         isEnd = true;
     }

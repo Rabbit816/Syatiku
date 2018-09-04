@@ -22,7 +22,7 @@ public class SmokingController : MonoBehaviour {
 
     private Mushikui mushikui; // Mushikuiコンストラクタ
 
-    private int succesCount,qNum; // 正解数、今が何番目の問題か
+    private int succesCount,qNum,qCount; // 正解数、今が何番目の問題か
 
     private int textNum;
 
@@ -41,7 +41,7 @@ public class SmokingController : MonoBehaviour {
 
     private string smokePath = "SmokingTalk"; // 喫煙シナリオのPath
 
-    private string badSmokePath = "Bad/SmokingTalkBad"; // 喫煙BadシナリオPath
+    private string badSmokePath = "/SmokingTalkBad"; // 喫煙BadシナリオPath
 
     private string textPath;
     // ---------------------------------------------------------------------------
@@ -54,9 +54,10 @@ public class SmokingController : MonoBehaviour {
 
     // Use this for initialization
     void Start () {
-        textNum = Random.Range(0, 2);
+        textNum = Random.Range(0, 3);
         textPath = "Talk" + textNum + "/";
         IsScenario(talkFilePath + textPath + smokePath);
+        qNum =  6 * textNum;
 
         selectUI.SetActive(false); // 回答選択UIを非表示
         
@@ -95,7 +96,7 @@ public class SmokingController : MonoBehaviour {
                 answerCount--;
                 face.sprite = faceSprite[answerCount];
 
-                IsScenario(talkFilePath + textPath + smokePath + qNum.ToString());
+                IsScenario(talkFilePath + textPath + smokePath + qCount.ToString());
             }
 
         if (tabaco.rectTransform.sizeDelta.x < 0)
@@ -153,8 +154,10 @@ public class SmokingController : MonoBehaviour {
         // 回答後の共通の値変化と初期化--------------------
         isTime = false;
         qLength--;
+        qCount++;
         tabaco.transform.GetChild(0).GetComponent<Image>().color = Color.white;
         tabaco.rectTransform.sizeDelta = tabacoSize;
+        selectUI.SetActive(false);
         //-------------------------------------------------
         
         if (text.text == mushikui.data[qNum].Musikui) {
@@ -169,7 +172,8 @@ public class SmokingController : MonoBehaviour {
             }
 
             qNum++; // 問題Noを加算
-            IsScenario(talkFilePath + textPath + smokePath + qNum.ToString());
+            
+            IsScenario(talkFilePath + textPath + smokePath + qCount.ToString());
 
         } else {
             Debug.Log("×");
@@ -184,7 +188,7 @@ public class SmokingController : MonoBehaviour {
 
             qNum++;
 
-            IsScenario(talkFilePath + badSmokePath + answerCount.ToString());
+            IsScenario(talkFilePath + "Bad" + textNum + badSmokePath + qCount.ToString());
         }
         Invoke("SelectFalse", 0.01f);
     }
@@ -197,12 +201,6 @@ public class SmokingController : MonoBehaviour {
     {
         ScenarioController.Instance.BeginScenario(path);
         ScenarioController.Instance.hideButtons();
-    }
-
-    //ベータ用
-    public void SelectFalse()
-    {
-        selectUI.SetActive(false);
     }
 
     public void Question()
