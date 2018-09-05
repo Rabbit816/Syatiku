@@ -15,7 +15,10 @@ public class ResultController : MonoBehaviour {
     private Button backAction;
 
     [SerializeField]
-    private Sprite _enemySprite;
+    private Sprite[] eSprite_white;
+
+    [SerializeField]
+    private Sprite[] eSprite_another;
 
     [SerializeField]
     private GameObject proPrefab;
@@ -72,6 +75,9 @@ public class ResultController : MonoBehaviour {
         yield return new WaitForSeconds(0.5f);
         enemy.gameObject.SetActive(true);
         spot.gameObject.SetActive(true);
+        if (Common.Instance.gameMode == 0) enemy.sprite = eSprite_another[0];
+        else enemy.sprite = eSprite_white[0];
+
         yield return new WaitForSeconds(0.5f);
 
         // prefabから情報フキダシを生成
@@ -84,11 +90,19 @@ public class ResultController : MonoBehaviour {
             yield return new WaitForSeconds(0.5f);
         }
         yield return new WaitForSeconds(1f);
-        if(successFlag) enemy.sprite = _enemySprite;
-        else {
+        if (successFlag)
+        {
+            if (Common.Instance.gameMode == 0)
+            {
+                enemy.sprite = eSprite_another[1];
+            }else{
+                enemy.sprite = eSprite_white[1];
+            }
+        }
+        else
+        {
 
         }
-        
         backAction.gameObject.SetActive(true);
     }
     
