@@ -21,6 +21,7 @@ public class AngryAnimation : MonoBehaviour {
         if (isAngry)
         {
             targetPos = new Vector3(pos.x + 50, pos.y + 80, 0);
+            time = 0.5f;
         }
         else
         {
@@ -36,20 +37,20 @@ public class AngryAnimation : MonoBehaviour {
         }
         UnityEngine.UI.Image i = GetComponent<UnityEngine.UI.Image>();
 
-        Move(r, i, targetPos, time);
+        Move(r, targetPos, time);
         yield return new WaitForSeconds(time);
 
         if (isAngry)
         {
             r.localPosition = pos;
             i.color = Color.white;
-            Move(r, i, targetPos, time);
-            yield return new WaitForSeconds(1f);
+            Move(r, targetPos, time);
+            yield return new WaitForSeconds(time);
         }
         Destroy(gameObject);
     }
 
-    protected void Move(RectTransform r, UnityEngine.UI.Image i, Vector3 targetPos, float time)
+    protected void Move(RectTransform r, Vector3 targetPos, float time)
     {
         DOTween.To(
         () => r.localPosition,
@@ -57,12 +58,5 @@ public class AngryAnimation : MonoBehaviour {
         targetPos,
         time
         );
-
-        DOTween.ToAlpha(
-           () => i.color,
-           c => i.color = c,
-           0f,
-           time
-       );
     }
 }
