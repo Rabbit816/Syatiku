@@ -3,6 +3,7 @@
 //表示する名前
 @charaOn {mob02}center
 @name{社員B} center
+@cv[2]
 
 何言ってるんだ？おかしな奴だな
 

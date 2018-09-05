@@ -20,6 +20,7 @@
 
 @charaOn {main_Boy}left
 @name{白田} left
+@cv[1]
 
 （社員の私物化か。
 揺するのには十分なネタだ）

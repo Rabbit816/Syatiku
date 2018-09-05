@@ -20,6 +20,7 @@
 
 @charaOn {main_Boy}left
 @name{白田} left
+@cv[1]
 
 （セクハラか、普通にクソだな……。
  なんにしても見逃せないな）
