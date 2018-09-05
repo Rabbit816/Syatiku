@@ -52,6 +52,9 @@ public class SmokingController : MonoBehaviour {
 
     public GameObject selectUI; // 選択肢UI
 
+    [SerializeField]
+    CriAtomSource voice;
+
     // Use this for initialization
     void Start () {
         textNum = Random.Range(0, 3);
@@ -59,6 +62,8 @@ public class SmokingController : MonoBehaviour {
         IsScenario(talkFilePath + textPath + smokePath);
         qNum =  6 * textNum;
         badSmokePath = "Bad" + textNum + badSmokePath;
+        //喫煙用ボイスをセット
+        SoundManager.Instance.SetVoiceSource(voice);
 
         selectUI.SetActive(false); // 回答選択UIを非表示
         

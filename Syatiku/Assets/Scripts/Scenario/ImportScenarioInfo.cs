@@ -153,9 +153,19 @@ public class ImportScenarioInfo : MonoBehaviour {
             //Voice
             scenario.commandActionList.Add(() =>
             {
-                SoundManager.Instance.PlayVoice(voiceCount);
-                //上で++したらどうなるか試す
-                voiceCount++;
+                int voiceNum = TakeVoiceNum(text);
+                //シナリオ用
+                if (voiceNum == -1)
+                {
+                    SoundManager.Instance.PlayVoice(voiceCount);
+                    //上で++したらどうなるか試す
+                    voiceCount++;
+                }
+                //喫煙用
+                else
+                {
+                    SoundManager.Instance.PlayVoice(voiceNum);
+                }
             });
         }
         else if (text.Contains("end"))
@@ -220,7 +230,9 @@ public class ImportScenarioInfo : MonoBehaviour {
     {
         int beginNum = text.IndexOf("[") + 1;
         int lastNum = text.IndexOf("]");
-        return int.Parse(text.Substring(beginNum, lastNum - beginNum));
+        int voiceNum = -1;
+        int.TryParse(text.Substring(beginNum, lastNum - beginNum), out voiceNum);
+        return voiceNum;
     }
 
     /// <summary>

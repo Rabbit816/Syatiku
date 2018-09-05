@@ -364,6 +364,9 @@ MonoBehaviour:
   - name: Another_BeforeBattle_CueSheet
     acbFile: Another_BeforeBattle_CueSheet.acb
     awbFile: Another_BeforeBattle_CueSheet.awb
+  - name: Smoking_CueSheet
+    acbFile: Smoking_CueSheet.acb
+    awbFile: Smoking_CueSheet.awb
   dspBusSetting: 
   dontDestroyOnLoad: 0
   dontRemoveExistsCueSheet: 0

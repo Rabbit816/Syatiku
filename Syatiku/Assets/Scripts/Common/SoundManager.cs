@@ -18,6 +18,18 @@ public enum SEName
     tapSe,
 }
 
+public enum SmokingVoiceName
+{
+    Failed_shirota, //そんな...
+    Clear_shirota,  //やった!
+    Start_man1,     //お疲れ様です
+    Start_man2,     //じつは...
+    Miss_man1,      //なにいってるんだ?
+    Miss_man2,      //そんな...
+    Start_woman,    //お疲れ様です
+    Miss_woman,     //なにいってるの?
+}
+
 public class SoundManager : MonoBehaviour {
 
     static SoundManager instance;
