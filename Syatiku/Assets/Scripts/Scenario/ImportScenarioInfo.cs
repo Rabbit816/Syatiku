@@ -231,7 +231,10 @@ public class ImportScenarioInfo : MonoBehaviour {
         int beginNum = text.IndexOf("[") + 1;
         int lastNum = text.IndexOf("]");
         int voiceNum = -1;
-        int.TryParse(text.Substring(beginNum, lastNum - beginNum), out voiceNum);
+        if (beginNum > 0 && lastNum > 0)
+        {
+            int.TryParse(text.Substring(beginNum, lastNum - beginNum), out voiceNum);
+        }
         return voiceNum;
     }
 
