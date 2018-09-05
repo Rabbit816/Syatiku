@@ -39,6 +39,7 @@ public class IntoPCAction : MonoBehaviour {
 
     private HackMain hack_main;
     private HackTap hack_tap;
+    private HackGetWord hack_getword;
     private GameObject PC_login;
     private GameObject WindowFase;
     private GameObject Window;
@@ -80,6 +81,8 @@ public class IntoPCAction : MonoBehaviour {
         folder_text.SetActive(false);
         hack_main = GetComponent<HackMain>();
         hack_tap = GetComponent<HackTap>();
+        GameObject get = Resources.Load("Prefabs/MiniGame/Hacking/folder_word")as GameObject;
+        hack_getword = get.GetComponent<HackGetWord>();
         doc_0 = false;
         doc_1 = false;
         _isWindowAnim = false;
@@ -159,7 +162,7 @@ public class IntoPCAction : MonoBehaviour {
     /// </summary>
     public void DocumentsComparison()
     {
-        if (hack_tap._getDocument)
+        if (hack_getword._getDocument)
         {
             Document_1.SetActive(true);
             NotComp.SetActive(false);
@@ -181,7 +184,7 @@ public class IntoPCAction : MonoBehaviour {
     /// <param name="docNum">0.当たり 1.当たり 2.はずれ 3.何もないとこ</param>
     public void CheckDocuments(int docNum)
     {
-        if (!hack_tap._getDocument)
+        if (!hack_getword._getDocument)
             return;
         switch (docNum)
         {

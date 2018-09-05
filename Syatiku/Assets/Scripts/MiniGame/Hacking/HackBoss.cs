@@ -56,19 +56,20 @@ public class HackBoss : MonoBehaviour {
         comingCount = 0;
         rand_count = 0;
         Bosswait = BossTimer;
-	}
+        Boss.transform.localPosition = new Vector2(-885, -277);
+    }
 	
 	// Update is called once per frame
 	void Update () {
         //ボスランダム処理
-        if (hack_main._timerActive && !into_pc._isWindowAnim)
+        if (hack_main._timerActive && !into_pc._isWindowAnim && !_commingboss)
         {
             req -= Time.deltaTime;
             if (req <= 0f)
             {
                 rand = Random.Range(0, 4);
                 Debug.Log("Random:" + rand);
-                if ((rand == 1 && !patte._PatteringPlay) || rand_count == 3)
+                if (rand == 1 && !patte._PatteringPlay || rand_count == 3 && !patte._PatteringPlay)
                 {
                     boss_rect.transform.DOMoveX(boss_rect.transform.position.x + 2.8f, 0.5f).SetEase(Ease.Linear).OnComplete(() => MoveBoss());
                     rand_count = 0;

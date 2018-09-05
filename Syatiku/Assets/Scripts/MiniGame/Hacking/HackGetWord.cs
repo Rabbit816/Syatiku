@@ -50,6 +50,12 @@ public class HackGetWord : MonoBehaviour {
     private HackTap hack_tap;
     private GameObject check_img;
 
+    //比較する資料を取得したかどうか
+    [HideInInspector]
+    public bool _getDocument = false;
+    [Tooltip("集めたリストに出す資料Object")]
+    private GameObject DocPrefab;
+
     private void Awake()
     {
         try
@@ -63,11 +69,13 @@ public class HackGetWord : MonoBehaviour {
             GetWordPrefab = Resources.Load("Prefabs/MiniGame/Hacking/WordImage") as GameObject;
             GetWordFolderPrefab = Resources.Load("Prefabs/MiniGame/Hacking/folder_word") as GameObject;
             CollectFolderPrefab = Resources.Load("Prefabs/MiniGame/Hacking/FolderWordImage") as GameObject;
+            DocPrefab = Resources.Load("Prefabs/MiniGame/Hacking/DocPrefab") as GameObject;
         }
         catch
         {
             Debug.Log("Not Find");
         }
+        _getDocument = false;
     }
 
     /// <summary>
@@ -139,5 +147,18 @@ public class HackGetWord : MonoBehaviour {
                 () => obj_img.color,
                 color => obj_img.color = color,
                 0f, 1.6f)));
+    }
+
+    /// <summary>
+    /// 比較する資料を取得した時の処理
+    /// </summary>
+    public void DocumentAnim()
+    {
+        if (_getDocument)
+            return;
+        GameObject _get_doc = Instantiate(DocPrefab, GetWord.transform);
+        _get_doc.transform.SetAsLastSibling();
+        _getDocument = true;
+        GetWordAnim(gameObject);
     }
 }

@@ -11,8 +11,7 @@ public class HackTap : MonoBehaviour
     [Tooltip("集めた単語(Folder内に出す場所の親)")]
     public GameObject CollectWordFolder;
 
-    [SerializeField, Tooltip("集めたリストに出す資料Object")]
-    private GameObject DocPrefab;
+    
     [HideInInspector]
     public GameObject GetWord;
 
@@ -45,9 +44,7 @@ public class HackTap : MonoBehaviour
     private GameObject pat;
     private int GakuCount = 0;
     public int Gakubuti_max = 7;
-    //比較する資料を取得したかどうか
-    [HideInInspector]
-    public bool _getDocument = false;
+    
 
     //LowAnimが終わったかどうか
     private bool _lowAnim = false;
@@ -71,14 +68,12 @@ public class HackTap : MonoBehaviour
             Debug.Log("Not Find");
         }
         
-        Document.SetActive(false);
         Common.Instance.Shuffle(pos_list);
         GakuCount = 0;
         hack_main = GetComponent<HackMain>();
         patte = GetComponent<PatteringEvent>();
         intopc_action = GetComponent<IntoPCAction>();
         Meishi.SetActive(false);
-        _getDocument = false;
         _lowAnim = false;
         
         _windowFase = false;
@@ -175,17 +170,5 @@ public class HackTap : MonoBehaviour
     }
 
 
-    /// <summary>
-    /// 比較する資料を取得した時の処理
-    /// </summary>
-    public void DocumentAnim()
-    {
-        if (_getDocument)
-            return;
-        GameObject _get_doc = Instantiate(DocPrefab, GetWord.transform);
-        _get_doc.transform.SetAsLastSibling();
-        _getDocument = true;
-        Document.SetActive(true);
-        hack_getword.GetWordAnim(Document);
-    }
+    
 }
