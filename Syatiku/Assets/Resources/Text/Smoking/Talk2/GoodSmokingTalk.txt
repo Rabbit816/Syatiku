@@ -10,7 +10,7 @@
 
 //表示する名前
 @charaOn {mob01}right
-@name{社員A} right
+@name{社員C} right
 
 ああ。
 今からでもなんとかならないか考えてるが、

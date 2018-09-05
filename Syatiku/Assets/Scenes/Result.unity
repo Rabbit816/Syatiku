@@ -593,7 +593,12 @@ MonoBehaviour:
   enemy: {fileID: 450590671}
   spot: {fileID: 675699733}
   backAction: {fileID: 769125805}
-  _enemySprite: {fileID: 21300000, guid: 80b2a9a248520fb40a899c0a344eb5a1, type: 3}
+  eSprite_white:
+  - {fileID: 21300000, guid: 3f160c9bcc4c830449fb00fda8ffe99d, type: 3}
+  - {fileID: 21300000, guid: 07b6560ae7f3cec47a0c0551039bd17e, type: 3}
+  eSprite_another:
+  - {fileID: 21300000, guid: e164c25d9dfb46d46a2f88ef2934f2a0, type: 3}
+  - {fileID: 21300000, guid: 80b2a9a248520fb40a899c0a344eb5a1, type: 3}
   proPrefab: {fileID: 1714246161507078, guid: 18bf9824b2de8264ea3395602b4b86c3, type: 2}
   proPos:
   - {fileID: 762592588}

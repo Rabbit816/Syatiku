@@ -9,14 +9,11 @@ EditorBuildSettings:
     path: Assets/Scenes/Title.unity
     guid: 7836d209acf817949b984d1de17a92af
   - enabled: 1
-    path: Assets/Scenes/Scenario/Main/Epilogue.unity
+    path: Assets/Scenes/Scenario/Scenario.unity
     guid: 4ea38abc5edc7a34a8f214221cf9a9e7
   - enabled: 1
     path: Assets/Scenes/Action.unity
     guid: a376aca0edf73a549b900462e145977b
-  - enabled: 1
-    path: Assets/Scenes/Scenario/Main/Progress.unity
-    guid: bf8b66368df8dca4e90fd838d0cd2cdb
   - enabled: 1
     path: Assets/Scenes/MiniGame/Smoking.unity
     guid: c56739b2e50cbf84eba1d35415066209
@@ -27,20 +24,14 @@ EditorBuildSettings:
     path: Assets/Scenes/MiniGame/Drinking.unity
     guid: 2554a0ec0d1302e4cb9c19ddf33cc956
   - enabled: 1
-    path: Assets/Scenes/Scenario/Main/BeforeBattle.unity
-    guid: 7e16564c21e48be4f87fef4f7200fa2c
-  - enabled: 1
     path: Assets/Scenes/MiniGame/Boss.unity
     guid: c222fd56a4a0199469acea44bdf1c8e1
   - enabled: 1
     path: Assets/Scenes/Result.unity
     guid: d3d73020811b01e4f945f555c8df6ec8
   - enabled: 1
-    path: Assets/Scenes/Scenario/Main/GoodEnd.unity
+    path: Assets/Scenes/Scenario/GoodEnd.unity
     guid: 9b989330ee05ca6489f243f1181b598b
   - enabled: 1
-    path: Assets/Scenes/Scenario/Main/NormalEnd.unity
-    guid: 1293b286111646a4aa9ad97180333946
-  - enabled: 1
-    path: Assets/Scenes/Scenario/Main/BadEnd.unity
-    guid: bbedbeb08d9c8934fbd8c8e5d2f3fece
+    path: Assets/Scenes/Scenario/BadEnd.unity
+    guid: 00000000000000000000000000000000
