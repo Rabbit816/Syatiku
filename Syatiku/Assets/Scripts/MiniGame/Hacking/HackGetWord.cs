@@ -17,8 +17,6 @@ public class HackGetWord : MonoBehaviour {
     //{
     //    new FolderPlaceList(){ pos=null, word = "" },
     //};
-    public int AA = 10;
-
     [Tooltip("集めた単語(Folder内に出すObject)")]
     private GameObject CollectFolderPrefab;
     [Tooltip("集めた単語(リスト内に出すObject)")]
@@ -35,7 +33,7 @@ public class HackGetWord : MonoBehaviour {
     //これにランダムで選ばれた場所に単語を格納していく
     private PlaceList[] place_list = new PlaceList[]
     {
-        new PlaceList(){ pos=null, word = "" },
+        new PlaceList(){ word = "" },
     };
 
     [Tooltip("集めた単語(リスト内に出すObject)")]
@@ -63,7 +61,7 @@ public class HackGetWord : MonoBehaviour {
             CollectedWord = GameObject.Find("Canvas/PC/PassWordFase/Collect");
             CollectedPrefab = Resources.Load("Prefabs/MiniGame/Hacking/str") as GameObject;
             GetWordPrefab = Resources.Load("Prefabs/MiniGame/Hacking/WordImage") as GameObject;
-            GetWordFolderPrefab = Resources.Load("Prefabs/MiniGame/Hacking/folder_str") as GameObject;
+            GetWordFolderPrefab = Resources.Load("Prefabs/MiniGame/Hacking/folder_word") as GameObject;
             CollectFolderPrefab = Resources.Load("Prefabs/MiniGame/Hacking/FolderWordImage") as GameObject;
         }
         catch
@@ -71,17 +69,6 @@ public class HackGetWord : MonoBehaviour {
             Debug.Log("Not Find");
         }
     }
-
-    // Use this for initialization
-    void Start ()
-    {
-        
-    }
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
 
     /// <summary>
     /// 棚ver 単語のタップした時の処理
@@ -100,12 +87,12 @@ public class HackGetWord : MonoBehaviour {
         //PC内に集めた単語を表示
         GameObject _collected_word = Instantiate(CollectedPrefab, CollectedWord.transform);
         _collected_word.transform.position = hack_tap.pos_list[placeNum].transform.position;
-        _collected_word.GetComponentInChildren<Text>().text = place_list[placeNum].word.ToString();
+        _collected_word.GetComponentInChildren<Text>().text = hack_main.Answer_list[placeNum].ToString();
 
         //集めたものリストの中に単語を表示
         GameObject _get_word = Instantiate(GetWordPrefab, GetWord.transform);
         _get_word.transform.SetAsFirstSibling();
-        _get_word.GetComponentInChildren<Text>().text = place_list[placeNum].word.ToString();
+        _get_word.GetComponentInChildren<Text>().text = hack_main.Answer_list[placeNum].ToString();
     }
 
     /// <summary>
@@ -114,6 +101,10 @@ public class HackGetWord : MonoBehaviour {
     /// <param name="place"></param>
     public void DrawerTap(int place)
     {
+        string[] word = new string[3];
+        word[0] = "ゲ";
+        word[1] = "ー";
+        word[2] = "ム";
         GetWordAnim(gameObject);
         Text appearChild_text = gameObject.transform.GetChild(0).GetComponent<Text>();
         DOTween.ToAlpha(
@@ -124,12 +115,12 @@ public class HackGetWord : MonoBehaviour {
         //PC内に集めた単語を表示
         GameObject _collected_word = Instantiate(CollectFolderPrefab, hack_tap.CollectWordFolder.transform);
         _collected_word.transform.position = hack_tap.folder_pos_list[place].transform.position;
-        _collected_word.GetComponentInChildren<Text>().text = hack_tap.folder_pos_list[place].ToString();
+        _collected_word.GetComponentInChildren<Text>().text = word[place].ToString();
 
         //集めたものリストの中に単語を表示
         GameObject _get_word = Instantiate(GetWordFolderPrefab, GetWord.transform);
         _get_word.transform.SetAsFirstSibling();
-        _get_word.GetComponentInChildren<Text>().text = hack_tap.folder_pos_list[place].ToString();
+        _get_word.GetComponentInChildren<Text>().text = word[place].ToString();
     }
 
     /// <summary>
@@ -148,10 +139,5 @@ public class HackGetWord : MonoBehaviour {
                 () => obj_img.color,
                 color => obj_img.color = color,
                 0f, 1.6f)));
-    }
-
-    private void AddWord()
-    {
-
     }
 }

@@ -1,15 +1,12 @@
 ﻿using UnityEngine;
-using UnityEngine.UI;
 using DG.Tweening;
 
 public class HackTap : MonoBehaviour
 {
-    
     private string[] str;
 
     [SerializeField]
     private GameObject IntoPC;
-
     
     [Tooltip("集めた単語(Folder内に出す場所の親)")]
     public GameObject CollectWordFolder;
@@ -74,8 +71,6 @@ public class HackTap : MonoBehaviour
             Debug.Log("Not Find");
         }
         
-        Debug.Log("hack_getword: " + hack_getword.AA);
-
         Document.SetActive(false);
         Common.Instance.Shuffle(pos_list);
         GakuCount = 0;
@@ -143,11 +138,6 @@ public class HackTap : MonoBehaviour
                 pat.transform.SetSiblingIndex(2);
                 StartCoroutine(patte.Start_AnimWaitTime(false));
                 _animloop = true;
-                break;
-            case 17:
-            case 18:
-            case 19:
-                //DrawerTap(gameObject,placeNum-17);
                 break;
             case 26:
                 intopc_action.DocumentsComparison();
