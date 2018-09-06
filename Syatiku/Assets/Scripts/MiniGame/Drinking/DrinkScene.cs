@@ -122,7 +122,7 @@ public class DrinkScene : MonoBehaviour {
             //注文の表示
             this.OrderHukidashi();
 
-            var Menu_Order = Instantiate(this.MenuList[this.OrderBox[i]], new Vector2(OrderPos[i], 4.35f), Quaternion.identity);
+            var Menu_Order = Instantiate(this.MenuList[this.OrderBox[i]], new Vector2(OrderPos[i], 3.35f), Quaternion.identity);
             Menu_Order.transform.localScale = new Vector2(0.33f, 0.33f);
             Menu_Order.transform.parent = this.menuObject.transform;
 
