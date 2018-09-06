@@ -25,7 +25,9 @@ public class HackGetWord : MonoBehaviour {
 
     private HackMain hack_main;
     private HackTap hack_tap;
+    private PatteringEvent patte_event;
     private GameObject check_img;
+    private bool _ActiveUpdate = false;
 
     List<GameObject> ChildList = new List<GameObject>();
     List<GameObject> damyList = new List<GameObject>();
@@ -42,6 +44,7 @@ public class HackGetWord : MonoBehaviour {
         {
             hack_main = GameObject.Find("controll").GetComponent<HackMain>();
             hack_tap = GameObject.Find("controll").GetComponent<HackTap>();
+            patte_event = GameObject.Find("controll").GetComponent<PatteringEvent>();
             GetWord = GameObject.Find("Canvas/Check/GetWord");
             check_img = GameObject.Find("Canvas/Check/Image");
             CollectedWord = GameObject.Find("Canvas/PC/PassWordFase/Collect");
@@ -56,6 +59,26 @@ public class HackGetWord : MonoBehaviour {
             Debug.Log("Not Find");
         }
         _getDocument = false;
+    }
+
+    private void Update()
+    {
+        if (patte_event._PatteringPlay)
+        {
+            if (!_ActiveUpdate)
+            {
+                _ActiveUpdate = true;
+                MemoUI();
+            }
+        }
+        else
+        {
+            if (_ActiveUpdate)
+            {
+                _ActiveUpdate = false;
+                MemoUI();
+            }
+        }
     }
 
     /// <summary>
@@ -143,13 +166,23 @@ public class HackGetWord : MonoBehaviour {
     }
 
     /// <summary>
+    /// PCに貼ってあるメモがパラパラフェーズの時は見えなくする処理
+    /// </summary>
+    public void MemoUI()
+    {
+        if (patte_event._PatteringPlay)
+            gameObject.SetActive(false);
+        else
+            gameObject.SetActive(true);
+    }
+
+    /// <summary>
     /// ヒントを取得したらダミーで置いていた画像を消す処理
     /// </summary>
     public void GetDamy(int place)
     {
         GameObject parent = GameObject.Find("Canvas/Zoom");
         GameObject damy_parent = parent.transform.GetChild(place).gameObject;
-        Debug.Log("damy_parent name: " + damy_parent.name);
         ChildList.Clear();
         damyList.Clear();
         for (int i = 0; i < damy_parent.transform.childCount; i++)

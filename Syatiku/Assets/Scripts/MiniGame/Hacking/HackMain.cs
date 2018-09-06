@@ -77,9 +77,9 @@ public class HackMain : MonoBehaviour {
         {
             Timer();
             _time += Time.deltaTime;
-            if(_time >= 5.27f)
+            if(_time >= 1.0f)
             {
-                _time = 5.27f;
+                _time = 0;
             }
         }
         if (into_pc._compariClear) //&& patte._lowAnimClear && patte._speedyAnimClear)
