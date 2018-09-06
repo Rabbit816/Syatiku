@@ -34,7 +34,7 @@ public class HackMeishi : MonoBehaviour {
     {
         MeishiObject.SetActive(true);
         hack_main.CollectWordsOpen();
-        hack_tap.ZoomActive(5);
+        hack_tap.ZoomActive(6);
     }
 
     /// <summary>
@@ -54,6 +54,6 @@ public class HackMeishi : MonoBehaviour {
         Sequence s = DOTween.Sequence();
         s.Append(Meishi_rect.DOLocalMove(new Vector3(930, 780, 0), 0.7f))
             .Join(Meishi_rect.DOScale(0.1f, 0.7f))
-            .OnComplete(() => { Meishi_rect.gameObject.SetActive(false); hack_tap.ZoomActive(5); });
+            .OnComplete(() => { Meishi_rect.gameObject.SetActive(false); hack_tap.ZoomActive(6); });
     }
 }

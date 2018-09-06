@@ -63,22 +63,22 @@ public class HackGetWord : MonoBehaviour {
 
     private void Update()
     {
-        if (patte_event._PatteringPlay)
-        {
-            if (!_ActiveUpdate)
-            {
-                _ActiveUpdate = true;
-                MemoUI();
-            }
-        }
-        else
-        {
-            if (_ActiveUpdate)
-            {
-                _ActiveUpdate = false;
-                MemoUI();
-            }
-        }
+        //if (patte_event._PatteringPlay)
+        //{
+        //    if (!_ActiveUpdate)
+        //    {
+        //        _ActiveUpdate = true;
+        //        MemoUI();
+        //    }
+        //}
+        //else
+        //{
+        //    if (_ActiveUpdate)
+        //    {
+        //        _ActiveUpdate = false;
+        //        MemoUI();
+        //    }
+        //}
     }
 
     /// <summary>
