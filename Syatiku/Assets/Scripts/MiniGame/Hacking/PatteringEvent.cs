@@ -2,7 +2,6 @@
 using DG.Tweening;
 using UnityEngine.UI;
 using System.Collections;
-using UnityEngine.EventSystems;
 
 public class PatteringEvent : MonoBehaviour {
 

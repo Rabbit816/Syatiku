@@ -12189,7 +12189,6 @@ GameObject:
   - component: {fileID: 1240419647}
   - component: {fileID: 1240419646}
   - component: {fileID: 1240419649}
-  - component: {fileID: 1240419648}
   m_Layer: 5
   m_Name: Document
   m_TagString: Untagged
@@ -12248,18 +12247,6 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1240419644}
---- !u!114 &1240419648
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1240419644}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 371275b6300d6744ca79516e3a2a52b6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _getDocument: 0
 --- !u!114 &1240419649
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -12299,7 +12286,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1240419648}
+      - m_Target: {fileID: 1906215261}
         m_MethodName: DocumentAnim
         m_Mode: 1
         m_Arguments:
@@ -19434,8 +19421,10 @@ MonoBehaviour:
   - {fileID: 21300000, guid: c621623c1d628f74fa1f31b219530a04, type: 3}
   - {fileID: 21300000, guid: 48a0db3bb2747b647a0d7d2a9dd0c0f9, type: 3}
   Zoom: {fileID: 255212047}
+  DocPrefab: {fileID: 1001492432113786, guid: 07538012f51762749b26717c4feb4265, type: 2}
   Gakubuti_max: 7
   _windowFase: 0
+  _getDocument: 0
 --- !u!114 &1906215262
 MonoBehaviour:
   m_ObjectHideFlags: 0

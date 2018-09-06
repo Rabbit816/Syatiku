@@ -146,8 +146,8 @@ public class IntoPCAction : MonoBehaviour {
     /// </summary>
     public void DocumentsComparison()
     {
-        Debug.Log("きてるよ+_getDocument: " + hack_getword._getDocument);
-        if (hack_getword._getDocument)
+        Debug.Log("きてるよ+_getDocument: " + hack_tap._getDocument);
+        if (hack_tap._getDocument)
         {
             Document_1.SetActive(true);
             NotComp.SetActive(false);
@@ -169,7 +169,7 @@ public class IntoPCAction : MonoBehaviour {
     /// <param name="docNum">0.当たり 1.当たり 2.はずれ 3.何もないとこ</param>
     public void CheckDocuments(int docNum)
     {
-        if (!hack_getword._getDocument)
+        if (!hack_tap._getDocument)
             return;
         switch (docNum)
         {

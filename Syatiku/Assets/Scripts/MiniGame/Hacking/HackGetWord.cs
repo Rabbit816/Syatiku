@@ -32,11 +32,6 @@ public class HackGetWord : MonoBehaviour {
     List<GameObject> ChildList = new List<GameObject>();
     List<GameObject> damyList = new List<GameObject>();
 
-    //比較する資料を取得したかどうか
-    [HideInInspector]
-    public bool _getDocument = false;
-    [Tooltip("集めたリストに出す資料Object")]
-    private GameObject DocPrefab;
 
     private void Awake()
     {
@@ -46,38 +41,29 @@ public class HackGetWord : MonoBehaviour {
             hack_tap = GameObject.Find("controll").GetComponent<HackTap>();
             patte_event = GameObject.Find("controll").GetComponent<PatteringEvent>();
             GetWord = GameObject.Find("Canvas/Check/GetWord");
-            check_img = GameObject.Find("Canvas/Check/Image");
             CollectedWord = GameObject.Find("Canvas/PC/PassWordFase/Collect");
             CollectedPrefab = Resources.Load("Prefabs/MiniGame/Hacking/str") as GameObject;
             GetWordPrefab = Resources.Load("Prefabs/MiniGame/Hacking/WordImage") as GameObject;
             GetWordFolderPrefab = Resources.Load("Prefabs/MiniGame/Hacking/folder_word") as GameObject;
             CollectFolderPrefab = Resources.Load("Prefabs/MiniGame/Hacking/folder_str") as GameObject;
-            DocPrefab = Resources.Load("Prefabs/MiniGame/Hacking/DocPrefab") as GameObject;
         }
         catch
         {
             Debug.Log("Not Find");
         }
-        _getDocument = false;
     }
 
     private void Update()
     {
         //if (patte_event._PatteringPlay)
         //{
-        //    if (!_ActiveUpdate)
-        //    {
-        //        _ActiveUpdate = true;
-        //        MemoUI();
-        //    }
+        //    _ActiveUpdate = true;
+        //    MemoUI();
         //}
         //else
         //{
-        //    if (_ActiveUpdate)
-        //    {
-        //        _ActiveUpdate = false;
-        //        MemoUI();
-        //    }
+        //    _ActiveUpdate = false;
+        //    MemoUI();
         //}
     }
 
@@ -140,6 +126,7 @@ public class HackGetWord : MonoBehaviour {
     /// <param name="obj">動かすオブジェクト</param>
     public void GetWordAnim(GameObject obj)
     {
+        check_img = GameObject.Find("Canvas/Check/Image");
         Sequence seq = DOTween.Sequence();
         Image obj_img = obj.GetComponent<Image>();
         RectTransform obj_rect = obj.GetComponent<RectTransform>();
@@ -152,18 +139,6 @@ public class HackGetWord : MonoBehaviour {
                 0f, 1.6f)));
     }
 
-    /// <summary>
-    /// 比較する資料を取得した時の処理
-    /// </summary>
-    public void DocumentAnim()
-    {
-        if (_getDocument)
-            return;
-        GameObject _get_doc = Instantiate(DocPrefab, GetWord.transform);
-        _get_doc.transform.SetAsLastSibling();
-        _getDocument = true;
-        GetWordAnim(gameObject);
-    }
 
     /// <summary>
     /// PCに貼ってあるメモがパラパラフェーズの時は見えなくする処理

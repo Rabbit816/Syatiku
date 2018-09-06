@@ -34,6 +34,8 @@ public class HackTap : MonoBehaviour
     public Sprite[] img_list;
     [SerializeField, Tooltip("Zoom Object")]
     private GameObject Zoom;
+    [SerializeField, Tooltip("集めたリストに出す資料Object")]
+    private GameObject DocPrefab;
 
     private GameObject DoorSide;
     private HackMain hack_main;
@@ -49,6 +51,9 @@ public class HackTap : MonoBehaviour
     private bool _animloop = false;
     [HideInInspector]
     public bool _windowFase = false;
+    //比較する資料を取得したかどうか
+    [HideInInspector]
+    public bool _getDocument = false;
 
     // Use this for initialization
     void Start ()
@@ -76,7 +81,8 @@ public class HackTap : MonoBehaviour
         
         _windowFase = false;
         _animloop = false;
-	}
+        _getDocument = false;
+    }
 
     /// <summary>
     /// タップしたところから単語が出てくる処理
@@ -136,6 +142,17 @@ public class HackTap : MonoBehaviour
             Zoom.transform.GetChild(childNum).gameObject.SetActive(true);
         else
             Zoom.transform.GetChild(childNum).gameObject.SetActive(false);
+    }
+
+    /// <summary>
+    /// 比較する資料を取得した時の処理
+    /// </summary>
+    public void DocumentAnim()
+    {
+        GameObject _get_doc = Instantiate(DocPrefab, GetWord.transform);
+        _get_doc.transform.SetAsLastSibling();
+        _getDocument = true;
+        hack_getword.GetWordAnim(Document);
     }
 
     /// <summary>
