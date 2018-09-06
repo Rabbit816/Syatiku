@@ -16,18 +16,29 @@ public class Common : MonoBehaviour {
     public enum SceneName
     {
         Title = 0,
-        Epilogue,
         Action,
-        Progress,
         Smoking,
         Hacking,
         Drinking,
-        BeforeBattle,
         Boss,
         Result,
+
+        // Main---------------*
+        MainEpilogue,
+        Progress,
+        BeforeBattle,
         MainGoodEnd,
         MainNormalEnd,
         MainBadEnd,
+        // -------------------*
+
+        // Another------------*
+        AnotherEpilogue,
+        AnotherBeforeBattle,
+        AnotherGoodEnd,
+        AnotherNormalEnd,
+        AnotherBadEnd,
+        //--------------------*
     }
 
     /// <summary>
