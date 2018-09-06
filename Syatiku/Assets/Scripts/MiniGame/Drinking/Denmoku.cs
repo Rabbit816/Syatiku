@@ -27,7 +27,7 @@ public class Denmoku : MonoBehaviour {
 
     private int Num;
 
-    private float[] Order_List = new float[4] {4.25f, 2.94f, 1.57f, 0.15f};
+    private float[] Order_List = new float[4] {3.25f, 1.94f, 0.57f, -0.85f};
 
     // 注文リストの有効・無効を管理する
     public void OrderListController(bool b)
