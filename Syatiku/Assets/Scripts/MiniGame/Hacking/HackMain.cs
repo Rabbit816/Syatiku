@@ -75,11 +75,11 @@ public class HackMain : MonoBehaviour {
 	void Update () {
         if (_start_)
         {
+            Timer();
             _time += Time.deltaTime;
             if(_time >= 5.27f)
             {
                 _time = 5.27f;
-                Timer();
             }
         }
         if (into_pc._compariClear) //&& patte._lowAnimClear && patte._speedyAnimClear)
@@ -103,6 +103,7 @@ public class HackMain : MonoBehaviour {
         hack_tap.PlaceButton(10);
         yield return new WaitForSeconds(0.2f);
         es.enabled = true;
+        _start_ = true;
     }
 
     /// <summary>

@@ -88,22 +88,6 @@ public class IntoPCAction : MonoBehaviour {
         _isWindowAnim = false;
     }
 
-    // Update is called once per frame
-    void Update() {
-        if (Input.GetKeyDown(KeyCode.A))
-        {
-            hack_tap.PlaceButton(0); hack_tap.PlaceButton(1); hack_tap.PlaceButton(2); hack_tap.PlaceButton(3); hack_tap.PlaceButton(4); hack_tap.PlaceButton(5); hack_tap.PlaceButton(6); hack_tap.PlaceButton(7); hack_tap.PlaceButton(8);
-        }
-        else if (Input.GetKeyDown(KeyCode.Z))
-            hack_tap.PlaceButton(25);
-        else if (Input.GetKeyDown(KeyCode.W))
-        {
-            hack_tap.PlaceButton(17);
-            hack_tap.PlaceButton(18);
-            hack_tap.PlaceButton(19);
-        }
-    }
-
     /// <summary>
     /// チェックした時のテキスト表示
     /// </summary>
@@ -138,7 +122,7 @@ public class IntoPCAction : MonoBehaviour {
         if (_isResult)
         {
             _isWindowAnim = true;
-            hack_tap.ZoomActive(6);
+            hack_tap.ZoomActive(7);
             folder_text.GetComponent<Text>().text = "ログインできました。";
             folder_text.SetActive(true);
             Window.SetActive(true);

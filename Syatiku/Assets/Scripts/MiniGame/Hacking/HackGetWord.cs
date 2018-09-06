@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using DG.Tweening;
@@ -7,16 +6,6 @@ using DG.Tweening;
 public class HackGetWord : MonoBehaviour {
 
     //-------------------引き出しで使う変数---------------------------------------
-    //private struct FolderPlaceList
-    //{
-    //    public GameObject pos;
-    //    public string word;
-    //};
-
-    //private FolderPlaceList[] folder_place_list = new FolderPlaceList[]
-    //{
-    //    new FolderPlaceList(){ pos=null, word = "" },
-    //};
     [Tooltip("集めた単語(Folder内に出すObject)")]
     private GameObject CollectFolderPrefab;
     [Tooltip("集めた単語(リスト内に出すObject)")]
@@ -24,18 +13,6 @@ public class HackGetWord : MonoBehaviour {
     //-----------------------------------------------------------------------------
 
     //-------------------棚で使う変数----------------------------------------------
-    private struct PlaceList
-    {
-        public GameObject pos;
-        public string word;
-    };
-
-    //これにランダムで選ばれた場所に単語を格納していく
-    private PlaceList[] place_list = new PlaceList[]
-    {
-        new PlaceList(){ word = "" },
-    };
-
     [Tooltip("集めた単語(リスト内に出すObject)")]
     private GameObject GetWordPrefab;
     private GameObject GetWord;
@@ -49,6 +26,9 @@ public class HackGetWord : MonoBehaviour {
     private HackMain hack_main;
     private HackTap hack_tap;
     private GameObject check_img;
+
+    List<GameObject> ChildList = new List<GameObject>();
+    List<GameObject> damyList = new List<GameObject>();
 
     //比較する資料を取得したかどうか
     [HideInInspector]
@@ -68,7 +48,7 @@ public class HackGetWord : MonoBehaviour {
             CollectedPrefab = Resources.Load("Prefabs/MiniGame/Hacking/str") as GameObject;
             GetWordPrefab = Resources.Load("Prefabs/MiniGame/Hacking/WordImage") as GameObject;
             GetWordFolderPrefab = Resources.Load("Prefabs/MiniGame/Hacking/folder_word") as GameObject;
-            CollectFolderPrefab = Resources.Load("Prefabs/MiniGame/Hacking/FolderWordImage") as GameObject;
+            CollectFolderPrefab = Resources.Load("Prefabs/MiniGame/Hacking/folder_str") as GameObject;
             DocPrefab = Resources.Load("Prefabs/MiniGame/Hacking/DocPrefab") as GameObject;
         }
         catch
@@ -160,5 +140,41 @@ public class HackGetWord : MonoBehaviour {
         _get_doc.transform.SetAsLastSibling();
         _getDocument = true;
         GetWordAnim(gameObject);
+    }
+
+    /// <summary>
+    /// ヒントを取得したらダミーで置いていた画像を消す処理
+    /// </summary>
+    public void GetDamy(int place)
+    {
+        GameObject parent = GameObject.Find("Canvas/Zoom");
+        GameObject damy_parent = parent.transform.GetChild(place).gameObject;
+        Debug.Log("damy_parent name: " + damy_parent.name);
+        ChildList.Clear();
+        damyList.Clear();
+        for (int i = 0; i < damy_parent.transform.childCount; i++)
+        {
+            ChildList.Add(damy_parent.transform.GetChild(i).gameObject);
+        }
+        for (int j = 0; j < ChildList.Count; j++)
+        {
+            //  1層目のチェック
+            if (ChildList[j].tag == "Damy")
+            {
+                damyList.Add(ChildList[j]);
+            }
+            //  2層目のチェックと
+            else if (ChildList[j].transform.childCount == 1)
+            {
+                if (ChildList[j].transform.GetChild(0).tag == "Damy")
+                {
+                    damyList.Add(ChildList[j].transform.GetChild(0).gameObject);
+                }
+            }
+        }
+        foreach (var obj in damyList)
+        {
+            obj.SetActive(false);
+        }
     }
 }
