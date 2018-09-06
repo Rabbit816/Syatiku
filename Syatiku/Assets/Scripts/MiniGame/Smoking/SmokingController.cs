@@ -57,7 +57,7 @@ public class SmokingController : MonoBehaviour {
 
     // Use this for initialization
     void Start () {
-        textNum = Random.Range(0, 3);
+        textNum = Random.Range(0, 4);
         textPath = "Talk" + textNum + "/";
         IsScenario(talkFilePath + textPath + smokePath);
         qNum =  6 * textNum;

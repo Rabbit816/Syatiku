@@ -136,10 +136,11 @@ public class ButtonController : MonoBehaviour {
     {
         this.ButtonReset();
         this.OrderCount = 0;
-        this.DenmokuImage.transform.localPosition = new Vector2(-970, -2000);
+        this.DenmokuImage.transform.localPosition = new Vector2(0, -1500);
+        drink.Delete();
         drink.Answer();
         meter.TimeMeterFlg = false;
-        meter.TimeMeter.value = meter.Timer;
+        meter.TimeMeter.value = 0;
     }
     
     // メニューのボタンを有効にする
@@ -177,6 +178,38 @@ public class ButtonController : MonoBehaviour {
                     if(this.Menu[denmoku.InputOrderBox[this.CounterNum]].interactable == false)
                     {
                         this.Menu[denmoku.InputOrderBox[this.CounterNum]].interactable = true;
+
+                        // リストに表示された商品を削除する
+                        switch (denmoku.InputOrderBox[this.CounterNum])
+                        {
+                            // 枝豆を削除
+                            case 0:
+                                GameObject obj1 = GameObject.Find("MenuObject/EdamamePrefab(Clone)");
+                                Destroy(obj1);
+                                break;
+
+                            // 卵焼きを削除
+                            case 1:
+                                GameObject obj2 = GameObject.Find("MenuObject/TamagoyakiPrefab(Clone)");
+                                Destroy(obj2);
+                                break;
+
+                            // から揚げを削除
+                            case 2:
+                                GameObject obj3 = GameObject.Find("MenuObject/KaraagePrefab(Clone)");
+                                Destroy(obj3);
+                                break;
+
+                            // サラダを削除
+                            case 3:
+                                GameObject obj4 = GameObject.Find("MenuObject/SaladPrefab(Clone)");
+                                Destroy(obj4);
+                                break;
+
+                            default:
+                                Debug.Log("CounterController : エラー");
+                                break;
+                        }
                     }
                 }
                 denmoku.OrderListController(false);
@@ -204,7 +237,7 @@ public class ButtonController : MonoBehaviour {
         denmoku = GetComponent<Denmoku>();
         meter = GetComponent<DenmokuMeter>();
         this.DrinkSceneButton(false);
-        this.DenmokuImage.transform.localPosition = new Vector2(-970, -2000);
+        this.DenmokuImage.transform.localPosition = new Vector2(0, -1500);
     }
 	
 	

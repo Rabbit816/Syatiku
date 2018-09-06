@@ -14,8 +14,7 @@ public class DrinkScene : MonoBehaviour {
     public GameObject menuObject;
 
     // 商品のPrefabを格納する配列
-    [SerializeField]
-    GameObject[] MenuList;
+    public GameObject[] MenuList;
 
     // 注文数を表示する
     [SerializeField]
@@ -46,7 +45,7 @@ public class DrinkScene : MonoBehaviour {
     private int[] OrderCounter = new int[4];
 
     // オーダーが入った商品画像を表示する場所の配列
-    private float[] OrderPos = new float[4] {-5.85f, -1.9f, 2.05f, 6.0f};
+    private float[] OrderPos = new float[4] {-6.35f, -2.65f, 1.35f, 5.0f};
 
     private int[] Num = new int[4];
 
@@ -123,8 +122,8 @@ public class DrinkScene : MonoBehaviour {
             //注文の表示
             this.OrderHukidashi();
 
-            var Menu_Order = Instantiate(this.MenuList[this.OrderBox[i]], new Vector2(OrderPos[i], 2.6f), Quaternion.identity);
-            Menu_Order.transform.localScale = new Vector2(0.9f, 0.9f);
+            var Menu_Order = Instantiate(this.MenuList[this.OrderBox[i]], new Vector2(OrderPos[i], 3.35f), Quaternion.identity);
+            Menu_Order.transform.localScale = new Vector2(0.33f, 0.33f);
             Menu_Order.transform.parent = this.menuObject.transform;
 
             //数秒後に表示された吹き出しと商品を消す
@@ -164,9 +163,9 @@ public class DrinkScene : MonoBehaviour {
             for(int i = 0; i < this.AnswerList.Length; i++)
             {
                 Vector2 pos = this.AnswerList[i].transform.localPosition;
-                pos.y = 175;
+                pos.y = 30;
                 this.AnswerList[i].transform.localPosition = pos;
-                this.AnswerList[i].transform.localScale = new Vector2(0.75f, 0.75f);
+                this.AnswerList[i].transform.localScale = new Vector2(1.0f, 1.0f);
                 this.AnswerList[i].color = new Color(50f / 255f, 50f / 255f, 50f / 255f, 255f / 255f);
                 this.AnswerList[i].gameObject.SetActive(true);
             }
@@ -204,7 +203,7 @@ public class DrinkScene : MonoBehaviour {
         }
         this.NextGameFlg = true;
         this.TapText.gameObject.SetActive(true);
-        Limit--;
+        this.Limit--;
     }
     
     //注文を表示する際の、吹き出しと個数を表示させるメソッド
@@ -245,10 +244,10 @@ public class DrinkScene : MonoBehaviour {
     {
         Vector2 pos = this.AnswerList[i].transform.localPosition;
         this.AnswerList[i].gameObject.SetActive(true);
-        this.AnswerList[i].transform.localScale = new Vector2(1.5f, 1.5f);
+        this.AnswerList[i].transform.localScale = new Vector2(2.0f, 2.0f);
         if (b)
         {
-            pos.y = 200;
+            pos.y = 75;
             this.AnswerList[i].transform.localPosition = pos;
             this.AnswerList[i].text = "○";
             this.AnswerList[i].color = new Color(255f / 255f, 0f / 255f, 0f / 255f, 255f / 255f);
@@ -256,47 +255,11 @@ public class DrinkScene : MonoBehaviour {
         }
         else
         {
-            pos.y = 175;
+            pos.y = 30;
             this.AnswerList[i].transform.localPosition = pos;
             this.AnswerList[i].text = "×";
             this.AnswerList[i].color = new Color(40f / 255f, 0f / 255f, 255f / 255f, 255f / 255f);
         }
-    }
-
-    // 注文入力の時間切れの処理
-    public void TimeOver()
-    {
-        for(int i = 0; i < this.AnswerList.Length; i++)
-        {
-            Vector2 pos = this.AnswerList[i].transform.localPosition;
-            pos.y = 175;
-            this.AnswerList[i].transform.localPosition = pos;
-            this.AnswerList[i].transform.localScale = new Vector2(1.0f, 1.0f);
-            this.AnswerList[i].color = new Color(50f / 255f, 50f / 255f, 50f / 255f, 255f / 255f);
-            switch (i)
-            {
-                case 0:
-                    this.AnswerList[i].text = "時";
-                    break;
-                case 1:
-                    this.AnswerList[i].text = "間";
-                    break;
-                case 2:
-                    this.AnswerList[i].text = "切";
-                    break;
-                case 3:
-                    this.AnswerList[i].text = "れ";
-                    break;
-                default:
-                    Debug.Log("TimeOver : エラー");
-                    break;
-            }
-            this.AnswerList[i].gameObject.SetActive(true);
-        }
-        this.Hukidashi(true);
-        this.NextGameFlg = true;
-        this.TapText.gameObject.SetActive(true);
-        Limit--;
     }
 
     public void GameStart()
@@ -354,7 +317,7 @@ public class DrinkScene : MonoBehaviour {
                 this.TapText.gameObject.SetActive(false);
                 this.NextGameFlg = false;
                 this.AnswerResultOFF();
-                Hukidashi(false);
+                this.Hukidashi(false);
                 this.GameStart();
             }
             // ゲーム終了時の処理
@@ -366,7 +329,7 @@ public class DrinkScene : MonoBehaviour {
             }
             
         }
-        this.LimitText.text = "あと " + this.Limit.ToString() + " 回";
+        this.LimitText.text = this.Limit.ToString() + " 回";
     }
 }
 

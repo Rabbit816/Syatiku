@@ -11,6 +11,7 @@
 //表示する名前
 @charaOn {mob02}center
 @name{社員B} center
+@cv[1]
 
 まあな。
 ちょっとあってな

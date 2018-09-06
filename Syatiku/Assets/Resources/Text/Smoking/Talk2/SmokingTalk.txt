@@ -19,6 +19,7 @@
 
 @charaOn {mob01}right
 @name{社員C} right
+@cv[0]
 
 おう、白田。
 お疲れ様。

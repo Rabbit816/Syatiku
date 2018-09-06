@@ -20,11 +20,11 @@ public enum SEName
 
 public enum SmokingVoiceName
 {
-    Failed_shirota, //そんな...
-    Clear_shirota,  //やった!
     Start_man1,     //お疲れ様です
     Start_man2,     //じつは...
     Miss_man1,      //なにいってるんだ?
+    Clear_shirota,  //やった!
+    Failed_shirota, //そんな...
     Miss_man2,      //そんな...
     Start_woman,    //お疲れ様です
     Miss_woman,     //なにいってるの?

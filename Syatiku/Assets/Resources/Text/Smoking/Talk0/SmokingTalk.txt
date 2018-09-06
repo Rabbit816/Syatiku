@@ -18,6 +18,7 @@
 
 @charaOn {mob01}right
 @name{社員A} right
+@cv[0]
 
 お疲れ様……
 ふあぁぁ……

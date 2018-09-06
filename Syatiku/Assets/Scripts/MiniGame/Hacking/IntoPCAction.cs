@@ -39,6 +39,7 @@ public class IntoPCAction : MonoBehaviour {
 
     private HackMain hack_main;
     private HackTap hack_tap;
+    private HackGetWord hack_getword;
     private GameObject PC_login;
     private GameObject WindowFase;
     private GameObject Window;
@@ -80,25 +81,11 @@ public class IntoPCAction : MonoBehaviour {
         folder_text.SetActive(false);
         hack_main = GetComponent<HackMain>();
         hack_tap = GetComponent<HackTap>();
+        GameObject get = Resources.Load("Prefabs/MiniGame/Hacking/folder_word")as GameObject;
+        hack_getword = get.GetComponent<HackGetWord>();
         doc_0 = false;
         doc_1 = false;
         _isWindowAnim = false;
-    }
-
-    // Update is called once per frame
-    void Update() {
-        if (Input.GetKeyDown(KeyCode.A))
-        {
-            hack_tap.PlaceButton(0); hack_tap.PlaceButton(1); hack_tap.PlaceButton(2); hack_tap.PlaceButton(3); hack_tap.PlaceButton(4); hack_tap.PlaceButton(5); hack_tap.PlaceButton(6); hack_tap.PlaceButton(7); hack_tap.PlaceButton(8);
-        }
-        else if (Input.GetKeyDown(KeyCode.Z))
-            hack_tap.PlaceButton(25);
-        else if (Input.GetKeyDown(KeyCode.W))
-        {
-            hack_tap.PlaceButton(17);
-            hack_tap.PlaceButton(18);
-            hack_tap.PlaceButton(19);
-        }
     }
 
     /// <summary>
@@ -135,7 +122,7 @@ public class IntoPCAction : MonoBehaviour {
         if (_isResult)
         {
             _isWindowAnim = true;
-            hack_tap.ZoomActive(6);
+            hack_tap.ZoomActive(7);
             folder_text.GetComponent<Text>().text = "ログインできました。";
             folder_text.SetActive(true);
             Window.SetActive(true);
@@ -159,7 +146,8 @@ public class IntoPCAction : MonoBehaviour {
     /// </summary>
     public void DocumentsComparison()
     {
-        if (hack_tap._getDocument)
+        Debug.Log("きてるよ+_getDocument: " + hack_getword._getDocument);
+        if (hack_getword._getDocument)
         {
             Document_1.SetActive(true);
             NotComp.SetActive(false);
@@ -181,7 +169,7 @@ public class IntoPCAction : MonoBehaviour {
     /// <param name="docNum">0.当たり 1.当たり 2.はずれ 3.何もないとこ</param>
     public void CheckDocuments(int docNum)
     {
-        if (!hack_tap._getDocument)
+        if (!hack_getword._getDocument)
             return;
         switch (docNum)
         {
@@ -235,7 +223,6 @@ public class IntoPCAction : MonoBehaviour {
             PassWordObject = Window_PassWordObject;
             Ans_list = hack_main.Folder_ans_list;
         }
-
         for(int i=0; i < PassWordObject.Length; i++)
         {
             GameObject password_parent;

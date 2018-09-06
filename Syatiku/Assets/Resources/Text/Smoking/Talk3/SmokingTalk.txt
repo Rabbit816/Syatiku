@@ -19,6 +19,7 @@
 
 @charaOn {mob01}right
 @name{社員D} right
+@cv[6]
 
 あら、白田さん……だったわね。
 お疲れ様
