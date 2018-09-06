@@ -25,7 +25,7 @@ public class DenmokuMeter : MonoBehaviour {
 
 	void Start () {
         this.TimeMeter.maxValue = Timer;　　// メーターの最大値の設定
-        this.TimeMeter.value = this.TimeMeter.maxValue; 　// デンモクの制限時間の設定
+        this.TimeMeter.value = 0; 　// デンモクの制限時間の設定
         this.button = GetComponent<ButtonController>();
 	}
 	
@@ -33,10 +33,10 @@ public class DenmokuMeter : MonoBehaviour {
 	void Update () {
         if (TimeMeterFlg)
         {
-            TimeMeter.value -= Time.deltaTime;
+            TimeMeter.value += Time.deltaTime;
             
             // 時間切れの処理
-            if(TimeMeter.value == 0)
+            if(this.TimeMeter.value == this.TimeMeter.maxValue)
             {
                 this.TimeOverFlg = true;
                 button.Order();
