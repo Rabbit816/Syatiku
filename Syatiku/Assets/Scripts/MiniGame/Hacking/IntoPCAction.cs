@@ -146,6 +146,7 @@ public class IntoPCAction : MonoBehaviour {
     /// </summary>
     public void DocumentsComparison()
     {
+        Debug.Log("きてるよ+_getDocument: " + hack_getword._getDocument);
         if (hack_getword._getDocument)
         {
             Document_1.SetActive(true);
@@ -222,7 +223,6 @@ public class IntoPCAction : MonoBehaviour {
             PassWordObject = Window_PassWordObject;
             Ans_list = hack_main.Folder_ans_list;
         }
-
         for(int i=0; i < PassWordObject.Length; i++)
         {
             GameObject password_parent;
