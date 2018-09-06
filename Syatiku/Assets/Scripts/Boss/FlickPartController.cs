@@ -17,7 +17,6 @@ public class FlickPartController : MonoBehaviour {
     List<FlickTextController> flickTextList = new List<FlickTextController>();
 
     float spawnTextTimer;
-    [SerializeField, Header("テキスト出現頻度（秒）")]
     float spawnTextTime = 1.0f;
 
     //ボスシーンのゲーム時間
@@ -79,7 +78,7 @@ public class FlickPartController : MonoBehaviour {
     {
         //タイマー初期化
         spawnTextTimer = 0;
-        spawnTextTime = Random.Range(1, 4);
+        spawnTextTime = Random.Range(0.1f, 2f);
 
         //タイプ決定(0:Wrong, 1:Correct)
         int typeNum = Random.Range(0, 2);
