@@ -11,7 +11,6 @@ public class HackTap : MonoBehaviour
     [Tooltip("集めた単語(Folder内に出す場所の親)")]
     public GameObject CollectWordFolder;
 
-    
     [HideInInspector]
     public GameObject GetWord;
 
@@ -44,7 +43,6 @@ public class HackTap : MonoBehaviour
     private GameObject pat;
     private int GakuCount = 0;
     public int Gakubuti_max = 7;
-    
 
     //LowAnimが終わったかどうか
     private bool _lowAnim = false;
@@ -89,18 +87,6 @@ public class HackTap : MonoBehaviour
         //戻るボタンで画面外に移動
         switch (placeNum)
         {
-            case 0:
-            case 1:
-            case 2:
-            case 3:
-            case 4:
-            case 5:
-            case 6:
-            case 7:
-            case 8:
-            case 9:
-                //SearchTap(placeNum);
-                break;
             case 10:
                 IntoPC.transform.localPosition = new Vector2(0, 0);
                 break;
@@ -168,7 +154,4 @@ public class HackTap : MonoBehaviour
                 .OnComplete(() => { Meishi.SetActive(true); Meishi_obj.DOLocalMove(new Vector3(551, -551, 0), 0.5f); });
         }
     }
-
-
-    
 }
