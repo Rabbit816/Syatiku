@@ -67,6 +67,7 @@ public class HackMain : MonoBehaviour {
         _allClear = false;
         _timerActive = false;
         _overTime = false;
+        _start_ = false;
         SoundManager.Instance.PlayBGM(BGMName.Hack);
 	}
 
@@ -75,9 +76,10 @@ public class HackMain : MonoBehaviour {
         if (_start_)
         {
             _time += Time.deltaTime;
-            if(_time >= 1f)
+            if(_time >= 5.27f)
             {
-                _time = 0f;
+                _time = 5.27f;
+                Timer();
             }
         }
         if (into_pc._compariClear) //&& patte._lowAnimClear && patte._speedyAnimClear)
@@ -101,7 +103,6 @@ public class HackMain : MonoBehaviour {
         hack_tap.PlaceButton(10);
         yield return new WaitForSeconds(0.2f);
         es.enabled = true;
-        Timer();
     }
 
     /// <summary>
