@@ -67,7 +67,7 @@ public class BossScene : MonoBehaviour {
     {
         Instance = this;
         isReachStates = new bool[SeparateValues.Length];
-        int gameMode = Common.Instance.gameMode < 1 ? 2: Common.Instance.gameMode;
+        int gameMode = Common.Instance.gameMode < 1 ? 1 : Common.Instance.gameMode;
         flickPart.Initialize(gameMode);
         sanctionPart.Initialize(gameMode);
         standingBoss.GetComponent<Image>().sprite = standingBossSprites[gameMode - 1];
