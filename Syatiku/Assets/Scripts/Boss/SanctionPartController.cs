@@ -3,6 +3,8 @@
 public class SanctionPartController : MonoBehaviour {
 
     [SerializeField]
+    Sprite[] slappedBossSprites;
+    [SerializeField]
     RectTransform slappedBoss;
 
     [SerializeField]
@@ -10,6 +12,11 @@ public class SanctionPartController : MonoBehaviour {
     float timer = 0;
     //叩いた回数
     int slappedCount = 0;
+
+    public void Initialize(int gameMode)
+    {
+        slappedBoss.GetComponent<UnityEngine.UI.Image>().sprite = slappedBossSprites[gameMode - 1];
+    }
 
     public void UpdateSanctionPart()
     {

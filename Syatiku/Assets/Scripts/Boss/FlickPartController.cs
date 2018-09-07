@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 using DG.Tweening;
 
@@ -7,6 +6,8 @@ public class FlickPartController : MonoBehaviour {
 
     string[,] textContents;
 
+    [SerializeField]
+    Sprite[] slappedBossSprites;
     [SerializeField]
     GameObject slappedBoss;
     [SerializeField]
@@ -33,8 +34,10 @@ public class FlickPartController : MonoBehaviour {
     [SerializeField, Header("振動する回数")]
     int vibrate = 10;
 
-    public void Initialize()
+    public void Initialize(int gameMode)
     {
+        slappedBoss.GetComponent<UnityEngine.UI.Image>().sprite = slappedBossSprites[gameMode - 1];
+
         textContents = new string[,]
         {
             //Wrong

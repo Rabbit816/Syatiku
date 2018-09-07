@@ -1240,6 +1240,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b3e62775a3ac3b14eb3c1c00ec33177f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  slappedBossSprites:
+  - {fileID: 21300000, guid: 80b2a9a248520fb40a899c0a344eb5a1, type: 3}
+  - {fileID: 21300000, guid: 5f778617849152748bf0baff7cef64fa, type: 3}
   slappedBoss: {fileID: 1062121982}
   flickTextPrefab: {fileID: 1586700467652566, guid: 17f59855cb05d524daa4832e92746e88,
     type: 2}
@@ -1427,6 +1430,9 @@ MonoBehaviour:
   startText: {fileID: 275602796}
   panel: {fileID: 1586948284}
   spotLight: {fileID: 487302039}
+  standingBossSprites:
+  - {fileID: 21300000, guid: e164c25d9dfb46d46a2f88ef2934f2a0, type: 3}
+  - {fileID: 21300000, guid: 934de605655e21b47b6e1fd85432cb7a, type: 3}
   flickPart: {fileID: 1065099899}
   sanctionPart: {fileID: 1370587474}
   damageGageController: {fileID: 843249171}
@@ -1434,7 +1440,7 @@ MonoBehaviour:
   background: {fileID: 631412847}
   backgroundSprites:
   - {fileID: 21300000, guid: e737ff86bee513941988d03c7c4db911, type: 3}
-  - {fileID: 21300000, guid: e55d6cc9e2d9b93448eafc826dcb061f, type: 3}
+  - {fileID: 21300000, guid: f6410deb3f1a4fb40a51026a8db3fba8, type: 3}
   SeparateValues: 030000000600000009000000
 --- !u!4 &1274440718
 Transform:
@@ -1653,10 +1659,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5015734480ea62948a9cf82c8ae7f7b8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  slappedBossSprites:
+  - {fileID: 21300000, guid: 3db994316872e0f469fb779d9389e415, type: 3}
+  - {fileID: 21300000, guid: da188ca08eb0d2e4589366044cbb9369, type: 3}
   slappedBoss: {fileID: 575635908}
-  harisen: {fileID: 0}
-  harisenLeftPos: {x: -300, y: 300, z: 0}
-  harisenRightPos: {x: 300, y: 300, z: 0}
   endTime: 5
 --- !u!1 &1586948284
 GameObject:

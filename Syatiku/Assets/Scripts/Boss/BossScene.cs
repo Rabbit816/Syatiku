@@ -26,7 +26,8 @@ public class BossScene : MonoBehaviour {
     GameObject spotLight;
 
     #endregion
-
+    [SerializeField]
+    Sprite[] standingBossSprites;
     [SerializeField]
     FlickPartController flickPart;
     [SerializeField]
@@ -59,13 +60,21 @@ public class BossScene : MonoBehaviour {
     private Vector3 touchStartPos;
 
     void Awake () {
+        Initialize();
+	}
+
+    void Initialize()
+    {
         Instance = this;
         isReachStates = new bool[SeparateValues.Length];
-        flickPart.Initialize();
+        int gameMode = Common.Instance.gameMode < 1 ? 2: Common.Instance.gameMode;
+        flickPart.Initialize(gameMode);
+        sanctionPart.Initialize(gameMode);
+        standingBoss.GetComponent<Image>().sprite = standingBossSprites[gameMode - 1];
         state = 0;
-
+        
         StartCoroutine(StartAnimation());
-	}
+    }
 
     #region スタート演出
 
@@ -276,20 +285,21 @@ public class BossScene : MonoBehaviour {
     {
         state = GameState.End;
         Common.SceneName scene = Common.SceneName.MainNormalEnd;
+        int gameMode = Common.Instance.gameMode;
         // good
         if (isReachStates[isReachStates.Length - 1])
         {
-            scene = Common.Instance.gameMode > 1 ? Common.SceneName.AnotherGoodEnd : Common.SceneName.MainGoodEnd;
+            scene = gameMode > 1 ? Common.SceneName.AnotherGoodEnd : Common.SceneName.MainGoodEnd;
         }
         // notmal
         else if(isReachStates[isReachStates.Length - 2])
         {
-            scene = Common.Instance.gameMode > 1 ? Common.SceneName.AnotherNormalEnd : Common.SceneName.MainNormalEnd;
+            scene = gameMode > 1 ? Common.SceneName.AnotherNormalEnd : Common.SceneName.MainNormalEnd;
         }
         // bad
         else
         {
-            scene = Common.Instance.gameMode > 1 ? Common.SceneName.AnotherBadEnd : Common.SceneName.MainBadEnd;
+            scene = gameMode > 1 ? Common.SceneName.AnotherBadEnd : Common.SceneName.MainBadEnd;
         }
         Common.Instance.ChangeScene(scene);
     }
