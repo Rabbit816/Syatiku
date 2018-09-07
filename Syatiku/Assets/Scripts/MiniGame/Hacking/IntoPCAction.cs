@@ -146,7 +146,6 @@ public class IntoPCAction : MonoBehaviour {
     /// </summary>
     public void DocumentsComparison()
     {
-        Debug.Log("きてるよ+_getDocument: " + hack_tap._getDocument);
         if (hack_tap._getDocument)
         {
             Document_1.SetActive(true);

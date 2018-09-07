@@ -10202,10 +10202,10 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1906215265}
         m_MethodName: ChooseButton
-        m_Mode: 1
+        m_Mode: 2
         m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_ObjectArgument: {fileID: 1704837444}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.UI.Text, UnityEngine.UI
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
@@ -13698,10 +13698,10 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1906215265}
         m_MethodName: ChooseButton
-        m_Mode: 1
+        m_Mode: 2
         m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_ObjectArgument: {fileID: 1615143964}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.UI.Text, UnityEngine.UI
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
@@ -19449,6 +19449,7 @@ MonoBehaviour:
   boss_textObject: {fileID: 143984009}
   boss_textbtn_0: {fileID: 1615143964}
   boss_textbtn_1: {fileID: 1704837444}
+  stren: []
 --- !u!114 &1906215264
 MonoBehaviour:
   m_ObjectHideFlags: 0

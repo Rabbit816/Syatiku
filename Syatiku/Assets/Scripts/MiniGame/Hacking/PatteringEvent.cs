@@ -52,8 +52,7 @@ public class PatteringEvent : MonoBehaviour {
     public bool _lowAnimClear = false;
     [HideInInspector]
     public bool _speedyAnimClear = false;
-
-    private bool _ActiveUpdate = false;
+    
     private Sequence quen;
     
     // Use this for initialization
@@ -76,15 +75,9 @@ public class PatteringEvent : MonoBehaviour {
     private void Update()
     {
         if (_PatteringPlay)
-        {
-            _ActiveUpdate = true;
             MemoUI();
-        }
         else
-        {
-            _ActiveUpdate = false;
             MemoUI();
-        }
     }
 
     /// <summary>

@@ -122,9 +122,6 @@ public class HackGetWord : MonoBehaviour {
                 0f, 1.6f)));
     }
 
-
-    
-
     /// <summary>
     /// ヒントを取得したらダミーで置いていた画像を消す処理
     /// </summary>
