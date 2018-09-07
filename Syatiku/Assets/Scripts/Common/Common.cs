@@ -2,7 +2,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 
 /// <summary>
@@ -180,7 +179,6 @@ public class Common : MonoBehaviour {
     /// <returns></returns>
     public T[] Shuffle<T>(T[] param)
     {
-        //T[] randList = new T[param.Length];
         for (int i = 0; i < param.Length; i++)
         {
             T temp = param[i];

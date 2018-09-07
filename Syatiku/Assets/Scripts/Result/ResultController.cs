@@ -75,9 +75,10 @@ public class ResultController : MonoBehaviour {
         yield return new WaitForSeconds(0.5f);
         enemy.gameObject.SetActive(true);
         spot.gameObject.SetActive(true);
-        enemy.sprite = eSprite_another[0];
-        //if (Common.Instance.gameMode == 0) enemy.sprite = eSprite_another[0];
-        //else enemy.sprite = eSprite_white[0];
+        if (Common.Instance.gameMode == 0)
+            enemy.sprite = eSprite_another[0];
+        else
+            enemy.sprite = eSprite_white[0];
 
         yield return new WaitForSeconds(0.5f);
 
@@ -93,13 +94,14 @@ public class ResultController : MonoBehaviour {
         yield return new WaitForSeconds(1f);
         if (successFlag)
         {
-            enemy.sprite = eSprite_another[1];
-            //if (Common.Instance.gameMode == 0)
-            //{
-            //    enemy.sprite = eSprite_another[1];
-            //}else{
-            //    enemy.sprite = eSprite_white[1];
-            //}
+            if (Common.Instance.gameMode == 0)
+            {
+                enemy.sprite = eSprite_another[1];
+            }
+            else
+            {
+                enemy.sprite = eSprite_white[1];
+            }
         }
         else
         {
