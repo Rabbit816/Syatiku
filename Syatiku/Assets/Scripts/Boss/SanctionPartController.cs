@@ -13,22 +13,22 @@ public class SanctionPartController : MonoBehaviour {
     [SerializeField]
     Vector3 harisenRightPos;
 
-[SerializeField]
+    [SerializeField]
     float endTime;
-    float timer;
+    float timer = 0;
+    //叩いた回数
+    int slappedCount = 0;
 
-    // Use this for initialization
-    void Start () {
-        timer = 0;
-	}
-	
-	// Update is called once per frame
-	void Update () {
+    public void UpdateSanctionPart()
+    {
         if (Input.GetMouseButtonDown(0))
         {
-            if(!slappedBoss.gameObject.activeSelf) BossScene.Instance.ChangeBossState(slappedBoss.gameObject);
-            if (!harisen.gameObject.activeSelf) harisen.gameObject.SetActive(true);
-
+            if (slappedCount == 0)
+            {
+                BossScene.Instance.ChangeBossState(slappedBoss.gameObject);
+                harisen.gameObject.SetActive(true);
+            }
+            slappedCount++;
             Vector3 bossScale = slappedBoss.localScale;
             Vector3 harisenScale = harisen.localScale;
             bossScale.x *= -1;
@@ -37,18 +37,19 @@ public class SanctionPartController : MonoBehaviour {
             slappedBoss.localScale = bossScale;
             //位置の変更
             harisen.localScale = harisenScale;
-            harisen.localPosition = harisenScale.x > 0 ? harisenLeftPos : harisenRightPos ;
+            harisen.localPosition = harisenScale.x > 0 ? harisenLeftPos : harisenRightPos;
         }
-        
-        UpdateTimer();
-	}
 
-    void UpdateTimer()
+        UpdateTimer();
+    }
+
+    private void UpdateTimer()
     {
         timer += Time.deltaTime;
         if (timer > endTime)
         {
             timer = 0;
+            slappedCount = 0;
             slappedBoss.gameObject.SetActive(false);
             harisen.gameObject.SetActive(false);
             BossScene.Instance.ChangePart();

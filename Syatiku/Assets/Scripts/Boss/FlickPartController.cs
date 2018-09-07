@@ -33,7 +33,7 @@ public class FlickPartController : MonoBehaviour {
     [SerializeField, Header("振動する回数")]
     int vibrate = 10;
 
-    void Awake()
+    public void Initialize()
     {
         textContents = new string[,]
         {
@@ -45,7 +45,7 @@ public class FlickPartController : MonoBehaviour {
         timerText.text = gameTime.ToString("F0");
     }
 
-    void Update () {
+    public void UpdateFlickPart () {
         if (spawnTextTimer > spawnTextTime)
         {
             //テキストの生成
