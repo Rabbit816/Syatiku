@@ -20,17 +20,19 @@ public class JoyAnimation : MonoBehaviour {
         else
         {
             time = 0.1f;
-            max = 50;
+            max = 5;
         }
         Vector3 turn = new Vector3(-1, 1, 1);
-        for (int i = 0; i < 3; i++)
+        for (int i = 0; i < max; i++)
         {
-            yield return new WaitForSeconds(0.3f);
+            yield return new WaitForSeconds(time);
             transform.localScale = turn;
-            yield return new WaitForSeconds(0.3f);
+            yield return new WaitForSeconds(time);
             transform.localScale = Vector3.one;
         }
-        yield return new WaitForSeconds(0.3f);
+        yield return new WaitForSeconds(time);
         Destroy(gameObject);
+
+
     }
 }
