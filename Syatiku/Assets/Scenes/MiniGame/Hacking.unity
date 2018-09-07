@@ -12189,7 +12189,6 @@ GameObject:
   - component: {fileID: 1240419647}
   - component: {fileID: 1240419646}
   - component: {fileID: 1240419649}
-  - component: {fileID: 1240419648}
   m_Layer: 5
   m_Name: Document
   m_TagString: Untagged
@@ -12248,18 +12247,6 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1240419644}
---- !u!114 &1240419648
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1240419644}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 371275b6300d6744ca79516e3a2a52b6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _getDocument: 0
 --- !u!114 &1240419649
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -12299,7 +12286,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1240419648}
+      - m_Target: {fileID: 1906215261}
         m_MethodName: DocumentAnim
         m_Mode: 1
         m_Arguments:
@@ -12975,6 +12962,11 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1315048316}
+--- !u!1 &1317161037 stripped
+GameObject:
+  m_PrefabParentObject: {fileID: 1602595128832528, guid: f6bb239b97bc93147a16679dcbe56f4a,
+    type: 2}
+  m_PrefabInternal: {fileID: 1350491443}
 --- !u!1 &1332274174
 GameObject:
   m_ObjectHideFlags: 0
@@ -13197,7 +13189,7 @@ Prefab:
     - target: {fileID: 114704918581467858, guid: f6bb239b97bc93147a16679dcbe56f4a,
         type: 2}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
-      value: 2
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 224014325551720710, guid: f6bb239b97bc93147a16679dcbe56f4a,
         type: 2}
@@ -13623,6 +13615,11 @@ Prefab:
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 3ce4806979d7e194789bcc95a58f902e, type: 2}
   m_IsPrefabParent: 0
+--- !u!1 &1378604962 stripped
+GameObject:
+  m_PrefabParentObject: {fileID: 1602595128832528, guid: f6bb239b97bc93147a16679dcbe56f4a,
+    type: 2}
+  m_PrefabInternal: {fileID: 1435440729}
 --- !u!1 &1395122820
 GameObject:
   m_ObjectHideFlags: 0
@@ -14055,7 +14052,7 @@ Prefab:
     - target: {fileID: 114704918581467858, guid: f6bb239b97bc93147a16679dcbe56f4a,
         type: 2}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
-      value: 2
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 224014325551720710, guid: f6bb239b97bc93147a16679dcbe56f4a,
         type: 2}
@@ -17891,7 +17888,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 'Timer: 90.0'
+  m_Text: 'Timer: 120.0'
 --- !u!222 &1846379515
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -19384,7 +19381,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1211c08b39114ec409dfd21561710667, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  timer: 90
+  timer: 120
   time: {fileID: 1846379514}
   _chipped:
   - "\u6A5F\u5BC6\u8CC7\u6599\u3092\u63A2\u305B\uFF01\uFF01"
@@ -19434,8 +19431,10 @@ MonoBehaviour:
   - {fileID: 21300000, guid: c621623c1d628f74fa1f31b219530a04, type: 3}
   - {fileID: 21300000, guid: 48a0db3bb2747b647a0d7d2a9dd0c0f9, type: 3}
   Zoom: {fileID: 255212047}
+  DocPrefab: {fileID: 1001492432113786, guid: 07538012f51762749b26717c4feb4265, type: 2}
   Gakubuti_max: 7
   _windowFase: 0
+  _getDocument: 0
 --- !u!114 &1906215262
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -19528,6 +19527,8 @@ MonoBehaviour:
   GotYellowPaperPrefab: {fileID: 1089648475876968, guid: a83bd48dbf3303c4ea98148dc5fc01d2,
     type: 2}
   Title: {fileID: 1343869097}
+  Husen_0: {fileID: 1378604962}
+  Husen_1: {fileID: 1317161037}
   _PatteringPlay: 0
   _lowAnimClear: 0
   _speedyAnimClear: 0
