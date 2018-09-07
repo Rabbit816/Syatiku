@@ -9,7 +9,7 @@ public class Denmoku : MonoBehaviour {
     DrinkScene drink;
     ButtonController button;
 
-    // 注文する商品の順番を保存する配列
+    // 注文する商品の順番と個数を保存する配列
     [HideInInspector]
     public int[] InputOrderBox = new int[4];
 

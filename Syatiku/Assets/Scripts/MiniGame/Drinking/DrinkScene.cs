@@ -38,11 +38,8 @@ public class DrinkScene : MonoBehaviour {
     // 商品IDを保存する配列
     private int[] foodsBox = new int[4];
 
-    // オーダーが入った商品のIDを保存する配列
-    private int[] OrderBox = new int[4];
-
-    // オーダーが入った商品の個数を保存する配列
-    private int[] OrderCounter = new int[4];
+    // オーダーが入った商品のIDと個数を保存する配列
+    private int[,] OrderBox = new int[2, 4];
 
     // オーダーが入った商品画像を表示する場所の配列
     private float[] OrderPos = new float[4] {-6.35f, -2.65f, 1.35f, 5.0f};
@@ -78,10 +75,10 @@ public class DrinkScene : MonoBehaviour {
         Common.Instance.Shuffle(this.foodsBox);
         
         //注文配列・個数配列
-        for(int i = 0; i < this.OrderBox.Length; i++)
+        for(int i = 0; i < this.OrderBox.GetLength(1); i++)
         {
-            this.OrderBox[i] = this.foodsBox[i];
-            this.OrderCounter[i] = Random.Range(1, 5);
+            this.OrderBox[0,i] = this.foodsBox[i];
+            this.OrderBox[1,i] = Random.Range(1, 5);
         }
     }
     
@@ -115,14 +112,14 @@ public class DrinkScene : MonoBehaviour {
     //注文商品を1個ずつランダムな位置に表示して消すを繰り返す
     private IEnumerator OrderMethod()
     {
-        for (int i = 0; i < this.OrderBox.Length; i++)
+        for (int i = 0; i < this.OrderBox.GetLength(1); i++)
         {
             yield return new WaitForSeconds(1.0f);
             
             //注文の表示
             this.OrderHukidashi();
 
-            var Menu_Order = Instantiate(this.MenuList[this.OrderBox[i]], new Vector2(OrderPos[i], 3.35f), Quaternion.identity);
+            var Menu_Order = Instantiate(this.MenuList[this.OrderBox[0,i]], new Vector2(OrderPos[i], 3.35f), Quaternion.identity);
             Menu_Order.transform.localScale = new Vector2(0.33f, 0.33f);
             Menu_Order.transform.parent = this.menuObject.transform;
 
@@ -178,6 +175,14 @@ public class DrinkScene : MonoBehaviour {
         // 時間切れになる前に注文入力が終了した場合
         else
         {
+            for(int i = 0; i < this.OrderBox.GetLength(1); i++)
+            {
+                if(this.OrderBox[0, i] == denmoku.InputOrderBox[i])
+                {
+
+                }
+            }
+            /*
             for (int i = 0; i < this.AnswerList.Length; i++)
             {
                 if (this.OrderBox[i] == denmoku.InputOrderBox[i])
@@ -196,11 +201,14 @@ public class DrinkScene : MonoBehaviour {
                     this.OutputAnswer(Num[i], false);
                 }
             }
+            */
         }
+
         if(this.ClearCount == 4)
         {
             this.ClearScore++;
         }
+
         this.NextGameFlg = true;
         this.TapText.gameObject.SetActive(true);
         this.Limit--;
@@ -211,7 +219,7 @@ public class DrinkScene : MonoBehaviour {
     {
         this.HukidashiList[this.Num[this.NumCounter]].gameObject.SetActive(true);
         this.OrderCounterList[this.Num[this.NumCounter]].gameObject.SetActive(true);
-        this.OrderCounterList[this.Num[this.NumCounter]].text = "× " + this.OrderCounter[this.NumCounter].ToString();
+        this.OrderCounterList[this.Num[this.NumCounter]].text = "× " + this.OrderBox[1, this.NumCounter].ToString();
         this.NumCounter++;
     }
 
