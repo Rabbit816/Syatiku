@@ -25,9 +25,7 @@ public class HackGetWord : MonoBehaviour {
 
     private HackMain hack_main;
     private HackTap hack_tap;
-    private PatteringEvent patte_event;
     private GameObject check_img;
-    private bool _ActiveUpdate = false;
 
     List<GameObject> ChildList = new List<GameObject>();
     List<GameObject> damyList = new List<GameObject>();
@@ -39,7 +37,6 @@ public class HackGetWord : MonoBehaviour {
         {
             hack_main = GameObject.Find("controll").GetComponent<HackMain>();
             hack_tap = GameObject.Find("controll").GetComponent<HackTap>();
-            patte_event = GameObject.Find("controll").GetComponent<PatteringEvent>();
             GetWord = GameObject.Find("Canvas/Check/GetWord");
             CollectedWord = GameObject.Find("Canvas/PC/PassWordFase/Collect");
             CollectedPrefab = Resources.Load("Prefabs/MiniGame/Hacking/str") as GameObject;
@@ -51,20 +48,6 @@ public class HackGetWord : MonoBehaviour {
         {
             Debug.Log("Not Find");
         }
-    }
-
-    private void Update()
-    {
-        //if (patte_event._PatteringPlay)
-        //{
-        //    _ActiveUpdate = true;
-        //    MemoUI();
-        //}
-        //else
-        //{
-        //    _ActiveUpdate = false;
-        //    MemoUI();
-        //}
     }
 
     /// <summary>
@@ -140,16 +123,7 @@ public class HackGetWord : MonoBehaviour {
     }
 
 
-    /// <summary>
-    /// PCに貼ってあるメモがパラパラフェーズの時は見えなくする処理
-    /// </summary>
-    public void MemoUI()
-    {
-        if (patte_event._PatteringPlay)
-            gameObject.SetActive(false);
-        else
-            gameObject.SetActive(true);
-    }
+    
 
     /// <summary>
     /// ヒントを取得したらダミーで置いていた画像を消す処理

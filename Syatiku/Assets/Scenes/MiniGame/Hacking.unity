@@ -12962,6 +12962,11 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1315048316}
+--- !u!1 &1317161037 stripped
+GameObject:
+  m_PrefabParentObject: {fileID: 1602595128832528, guid: f6bb239b97bc93147a16679dcbe56f4a,
+    type: 2}
+  m_PrefabInternal: {fileID: 1350491443}
 --- !u!1 &1332274174
 GameObject:
   m_ObjectHideFlags: 0
@@ -13184,7 +13189,7 @@ Prefab:
     - target: {fileID: 114704918581467858, guid: f6bb239b97bc93147a16679dcbe56f4a,
         type: 2}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
-      value: 2
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 224014325551720710, guid: f6bb239b97bc93147a16679dcbe56f4a,
         type: 2}
@@ -13610,6 +13615,11 @@ Prefab:
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 3ce4806979d7e194789bcc95a58f902e, type: 2}
   m_IsPrefabParent: 0
+--- !u!1 &1378604962 stripped
+GameObject:
+  m_PrefabParentObject: {fileID: 1602595128832528, guid: f6bb239b97bc93147a16679dcbe56f4a,
+    type: 2}
+  m_PrefabInternal: {fileID: 1435440729}
 --- !u!1 &1395122820
 GameObject:
   m_ObjectHideFlags: 0
@@ -14042,7 +14052,7 @@ Prefab:
     - target: {fileID: 114704918581467858, guid: f6bb239b97bc93147a16679dcbe56f4a,
         type: 2}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
-      value: 2
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 224014325551720710, guid: f6bb239b97bc93147a16679dcbe56f4a,
         type: 2}
@@ -17878,7 +17888,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 'Timer: 90.0'
+  m_Text: 'Timer: 120.0'
 --- !u!222 &1846379515
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -19371,7 +19381,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1211c08b39114ec409dfd21561710667, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  timer: 90
+  timer: 120
   time: {fileID: 1846379514}
   _chipped:
   - "\u6A5F\u5BC6\u8CC7\u6599\u3092\u63A2\u305B\uFF01\uFF01"
@@ -19517,6 +19527,8 @@ MonoBehaviour:
   GotYellowPaperPrefab: {fileID: 1089648475876968, guid: a83bd48dbf3303c4ea98148dc5fc01d2,
     type: 2}
   Title: {fileID: 1343869097}
+  Husen_0: {fileID: 1378604962}
+  Husen_1: {fileID: 1317161037}
   _PatteringPlay: 0
   _lowAnimClear: 0
   _speedyAnimClear: 0

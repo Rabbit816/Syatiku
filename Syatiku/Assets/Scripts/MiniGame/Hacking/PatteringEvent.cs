@@ -34,6 +34,10 @@ public class PatteringEvent : MonoBehaviour {
     private GameObject GotYellowPaperPrefab;
     [SerializeField, Tooltip("Test Title")]
     private RectTransform Title;
+    [SerializeField, Tooltip("PC画面にある付箋")]
+    private GameObject Husen_0;
+    [SerializeField, Tooltip("PC画面にある付箋")]
+    private GameObject Husen_1;
 
     private HackTap hack_tap;
     private HackMain hack_main;
@@ -49,6 +53,7 @@ public class PatteringEvent : MonoBehaviour {
     [HideInInspector]
     public bool _speedyAnimClear = false;
 
+    private bool _ActiveUpdate = false;
     private Sequence quen;
     
     // Use this for initialization
@@ -66,6 +71,37 @@ public class PatteringEvent : MonoBehaviour {
         _success = false;
         _PatteringPlay = false;
         successCount = 0;
+    }
+
+    private void Update()
+    {
+        if (_PatteringPlay)
+        {
+            _ActiveUpdate = true;
+            MemoUI();
+        }
+        else
+        {
+            _ActiveUpdate = false;
+            MemoUI();
+        }
+    }
+
+    /// <summary>
+    /// PCに貼ってあるメモがパラパラフェーズの時は見えなくする処理
+    /// </summary>
+    private void MemoUI()
+    {
+        if (_PatteringPlay)
+        {
+            Husen_0.SetActive(false);
+            Husen_1.SetActive(false);
+        }
+        else
+        {
+            Husen_0.SetActive(true);
+            Husen_1.SetActive(true);
+        }
     }
 
     /// <summary>
