@@ -38,7 +38,7 @@ public class FlickPartController : MonoBehaviour {
         textContents = new string[,]
         {
             //Wrong
-            { "馬鹿者！" },
+            { "知らん！" },
             //Correct
             { "制裁！" },
         };

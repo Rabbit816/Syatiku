@@ -37,15 +37,15 @@ public class ResultController : MonoBehaviour {
             successFlag = true;
             switch (Common.Instance.miniNum) {
                 case 0:
-                    scoreText[0] = "情報A";
-                    scoreText[1] = "情報B";
+                    scoreText[0] = "書類改ざん";
+                    scoreText[1] = "セクハラ";
                     break;
                 case 1:
-                    scoreText[0] = "情報C";
-                    scoreText[1] = "情報D";
+                    scoreText[0] = "スコアノート";
+                    scoreText[1] = "ダブル\nブッキング";
                     break;
                 case 2:
-                    scoreText[0] = "情報E";
+                    scoreText[0] = "パワハラ"; 
                     onceFlag = true;
                     break;
             }
@@ -75,8 +75,9 @@ public class ResultController : MonoBehaviour {
         yield return new WaitForSeconds(0.5f);
         enemy.gameObject.SetActive(true);
         spot.gameObject.SetActive(true);
-        if (Common.Instance.gameMode == 0) enemy.sprite = eSprite_another[0];
-        else enemy.sprite = eSprite_white[0];
+        enemy.sprite = eSprite_another[0];
+        //if (Common.Instance.gameMode == 0) enemy.sprite = eSprite_another[0];
+        //else enemy.sprite = eSprite_white[0];
 
         yield return new WaitForSeconds(0.5f);
 
@@ -92,12 +93,13 @@ public class ResultController : MonoBehaviour {
         yield return new WaitForSeconds(1f);
         if (successFlag)
         {
-            if (Common.Instance.gameMode == 0)
-            {
-                enemy.sprite = eSprite_another[1];
-            }else{
-                enemy.sprite = eSprite_white[1];
-            }
+            enemy.sprite = eSprite_another[1];
+            //if (Common.Instance.gameMode == 0)
+            //{
+            //    enemy.sprite = eSprite_another[1];
+            //}else{
+            //    enemy.sprite = eSprite_white[1];
+            //}
         }
         else
         {
