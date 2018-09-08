@@ -26,6 +26,7 @@ public class BossScene : MonoBehaviour {
     GameObject spotLight;
 
     #endregion
+
     [SerializeField]
     Sprite[] standingBossSprites;
     [SerializeField]
@@ -67,7 +68,7 @@ public class BossScene : MonoBehaviour {
     {
         Instance = this;
         isReachStates = new bool[SeparateValues.Length];
-        int gameMode = Common.Instance.gameMode < 1 ? 2: Common.Instance.gameMode;
+        int gameMode = Common.Instance.gameMode < 1 ? 1 : Common.Instance.gameMode;
         flickPart.Initialize(gameMode);
         sanctionPart.Initialize(gameMode);
         standingBoss.GetComponent<Image>().sprite = standingBossSprites[gameMode - 1];
@@ -112,19 +113,27 @@ public class BossScene : MonoBehaviour {
         footSound1.gameObject.SetActive(false);
         footSound2.gameObject.SetActive(false);
         panel.SetActive(true);
-        Move(bossRectTransform, new Vector3(0, -600f, 0f), new Vector3(2f, 2f, 1f), 0);
+        Move(bossRectTransform, new Vector3(0, -600f, 0f), Vector3.one, 0);
         yield return new WaitForSeconds(2f);
 
-        //巨大ボス披露
+        //ビッグボス出現演出
         panel.SetActive(false);
         bossBigSound.SetActive(true);
-        spotRectTransform.offsetMin = new Vector2(300f, 0f);
+        RectTransform bigSoundRect = bossBigSound.GetComponent<RectTransform>();
+        Move(bossRectTransform, bossRectTransform.localPosition, new Vector3(2.2f, 2.2f, 1f), 0.2f);
+        spotRectTransform.offsetMin = new Vector2(300f, 0);
         spotRectTransform.offsetMax = new Vector2(-300f, 0);
+        yield return new WaitForSeconds(0.1f);
+        Move(bigSoundRect, bigSoundRect.localPosition, Vector3.one * 2, 0.2f);
+        yield return new WaitForSeconds(0.1f);
+        Move(bossRectTransform, bossRectTransform.localPosition, Vector3.one * 2, 0.5f);
+        yield return new WaitForSeconds(0.2f);
+        Move(bigSoundRect, bigSoundRect.localPosition, Vector3.one, 0.5f);
         yield return new WaitForSeconds(3f);
 
         //ゲームサイズに戻す
         bossBigSound.SetActive(false);
-        Move(bossRectTransform, new Vector3(0, -200f, 0f), new Vector3(1.2f, 1.2f, 1f));
+        Move(bossRectTransform, new Vector3(0, -200f, 0f), Vector3.one);
         yield return new WaitForSeconds(1f);
 
         //背景変更

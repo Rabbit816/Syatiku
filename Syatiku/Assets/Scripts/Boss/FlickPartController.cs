@@ -11,6 +11,10 @@ public class FlickPartController : MonoBehaviour {
     [SerializeField]
     GameObject slappedBoss;
     [SerializeField]
+    RectTransform bomRect;
+    [SerializeField]
+    GameObject bom;
+    [SerializeField]
     GameObject flickTextPrefab;
     [SerializeField]
     RectTransform flickTextBox;
@@ -25,6 +29,9 @@ public class FlickPartController : MonoBehaviour {
     float gameTime;
     [SerializeField]
     UnityEngine.UI.Text timerText;
+
+    float blinkInterval = 0.2f;
+    float blinkTimer = 0;
 
     [Header("ボスダメージアニメーション")]
     [SerializeField, Header("振動する時間")]
@@ -72,6 +79,18 @@ public class FlickPartController : MonoBehaviour {
         else
         {
             BossScene.Instance.Result();
+        }
+        //タイマーの点滅
+        if(gameTime < 10)
+        {
+            if (blinkTimer > blinkInterval)
+            {
+                blinkTimer = 0;
+                //少しずつインターバルを短く
+                blinkInterval -= 0.002f;
+                bom.SetActive(!bom.activeSelf);
+            }
+            blinkTimer += Time.deltaTime;
         }
         //テキストタイマー
         spawnTextTimer += Time.deltaTime;

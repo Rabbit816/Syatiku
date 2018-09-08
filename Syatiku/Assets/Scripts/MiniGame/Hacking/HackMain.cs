@@ -68,7 +68,7 @@ public class HackMain : MonoBehaviour {
         _timerActive = false;
         _overTime = false;
         _start_ = false;
-        SoundManager.Instance.PlayBGM(BGMName.Hack);
+        SoundManager.Instance.PlayBGM(BGMName.Hacking);
 	}
 
 	// Update is called once per frame
