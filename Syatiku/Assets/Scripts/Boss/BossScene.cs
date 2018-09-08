@@ -26,7 +26,8 @@ public class BossScene : MonoBehaviour {
     GameObject spotLight;
 
     #endregion
-
+    [SerializeField]
+    Sprite[] standingBossSprites;
     [SerializeField]
     FlickPartController flickPart;
     [SerializeField]
@@ -45,21 +46,35 @@ public class BossScene : MonoBehaviour {
     //区切り値への到達状態
     bool[] isReachStates;
 
+    enum GameState
+    {
+        StartAnimation,
+        FlickPart,
+        SanctionPart,
+        End,
+    }
+    GameState state;
     int missCount;
     int successCount;
-    bool isEnd;
 
     private Vector3 touchStartPos;
 
     void Awake () {
+        Initialize();
+	}
+
+    void Initialize()
+    {
         Instance = this;
         isReachStates = new bool[SeparateValues.Length];
-        flickPart.gameObject.SetActive(false);
-        sanctionPart.gameObject.SetActive(false);
-        isEnd = false;
-
+        int gameMode = Common.Instance.gameMode < 1 ? 2: Common.Instance.gameMode;
+        flickPart.Initialize(gameMode);
+        sanctionPart.Initialize(gameMode);
+        standingBoss.GetComponent<Image>().sprite = standingBossSprites[gameMode - 1];
+        state = 0;
+        
         StartCoroutine(StartAnimation());
-	}
+    }
 
     #region スタート演出
 
@@ -160,15 +175,25 @@ public class BossScene : MonoBehaviour {
     {
         flickPart.gameObject.SetActive(true);
         SoundManager.Instance.PlayBGM(BGMName.Boss);
+        state = GameState.FlickPart;
     }
 
     #endregion
 
     void Update () {
-        if (Input.GetMouseButtonDown(0))
+        if (state == GameState.FlickPart)
         {
-            //フリックの開始
-            touchStartPos = Input.mousePosition;
+            if (Input.GetMouseButtonDown(0))
+            {
+                //フリックの開始
+                touchStartPos = Input.mousePosition;
+            }
+
+            flickPart.UpdateFlickPart();
+        }
+        else if(state == GameState.SanctionPart)
+        {
+            sanctionPart.UpdateSanctionPart();
         }
 	}
 
@@ -229,10 +254,12 @@ public class BossScene : MonoBehaviour {
 
     public void ChangePart()
     {
-        flickPart.gameObject.SetActive(!flickPart.gameObject.activeSelf);
-        sanctionPart.gameObject.SetActive(!sanctionPart.gameObject.activeSelf);
+        bool isFlickPart = (state == GameState.FlickPart);
+        flickPart.gameObject.SetActive(!isFlickPart);
+        sanctionPart.gameObject.SetActive(isFlickPart);
+        state = isFlickPart ? GameState.SanctionPart : GameState.FlickPart;
         //背景の変更
-        if (flickPart.gameObject.activeSelf) background.sprite = backgroundSprites[0];
+        if (!isFlickPart) background.sprite = backgroundSprites[0];
         else background.sprite = backgroundSprites[1];
 
         standingBoss.SetActive(true);
@@ -242,11 +269,12 @@ public class BossScene : MonoBehaviour {
     {
         standingBoss.SetActive(false);
         slappedBoss.SetActive(true);
-        if(re) StartCoroutine(ReturnBossState(slappedBoss, duration));
+        if(re && state == GameState.FlickPart) StartCoroutine(ReturnBossState(slappedBoss, duration));
     }
 
     IEnumerator ReturnBossState(GameObject slappedBoss, float duration)
     {
+        // バグの原因はここ
         if (duration == 0) yield return null;
         yield return new WaitForSeconds(duration);
         standingBoss.SetActive(true);
@@ -255,20 +283,24 @@ public class BossScene : MonoBehaviour {
 
     public void Result()
     {
-        if (isEnd) return;
-
+        state = GameState.End;
+        Common.SceneName scene = Common.SceneName.MainNormalEnd;
+        int gameMode = Common.Instance.gameMode;
+        // good
         if (isReachStates[isReachStates.Length - 1])
         {
-            Common.Instance.ChangeScene(Common.SceneName.MainGoodEnd);
+            scene = gameMode > 1 ? Common.SceneName.AnotherGoodEnd : Common.SceneName.MainGoodEnd;
         }
+        // notmal
         else if(isReachStates[isReachStates.Length - 2])
         {
-            Common.Instance.ChangeScene(Common.SceneName.MainNormalEnd);
+            scene = gameMode > 1 ? Common.SceneName.AnotherNormalEnd : Common.SceneName.MainNormalEnd;
         }
+        // bad
         else
         {
-            Common.Instance.ChangeScene(Common.SceneName.MainNormalEnd);
+            scene = gameMode > 1 ? Common.SceneName.AnotherBadEnd : Common.SceneName.MainBadEnd;
         }
-        isEnd = true;
+        Common.Instance.ChangeScene(scene);
     }
 }

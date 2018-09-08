@@ -78,7 +78,6 @@ public class HackTap : MonoBehaviour
         intopc_action = GetComponent<IntoPCAction>();
         Meishi.SetActive(false);
         _lowAnim = false;
-        
         _windowFase = false;
         _animloop = false;
         _getDocument = false;
@@ -135,7 +134,7 @@ public class HackTap : MonoBehaviour
     /// <summary>
     /// ズームにする時の処理
     /// </summary>
-    /// <param name="childNum"></param>
+    /// <param name="childNum">Zoomオブジェクトの何番目の子供か指定</param>
     public void ZoomActive(int childNum)
     {
         if(!Zoom.transform.GetChild(childNum).gameObject.activeSelf)

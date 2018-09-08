@@ -13,7 +13,8 @@ public class BossText : MonoBehaviour {
 
     private List<string> Boss_text = new List<string>();
     private string str_line;
-    private string[] stren;
+    [HideInInspector]
+    public string[] stren;
 
     private int maxLine = 0;
     private int currentLine = 0;
@@ -24,7 +25,6 @@ public class BossText : MonoBehaviour {
         maxLine = 0;
         currentLine = 0;
         ReadBossText();
-        AddText();
     }
 	
     /// <summary>
@@ -34,7 +34,6 @@ public class BossText : MonoBehaviour {
     {
         TextAsset csv_file = Resources.Load("Minigame/Hacking/Hack_BossText") as TextAsset;
         System.IO.StringReader str_text = new System.IO.StringReader(csv_file.text);
-        str_text.ToString().Replace("\r", "");
         while(str_text.Peek() > -1)
         {
             str_line = str_text.ReadLine();

@@ -1,56 +1,49 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class SanctionPartController : MonoBehaviour {
 
     [SerializeField]
+    Sprite[] slappedBossSprites;
+    [SerializeField]
     RectTransform slappedBoss;
-    [SerializeField]
-    RectTransform harisen;
-    [SerializeField]
-    Vector3 harisenLeftPos;
-    [SerializeField]
-    Vector3 harisenRightPos;
 
-[SerializeField]
+    [SerializeField]
     float endTime;
-    float timer;
+    float timer = 0;
+    //叩いた回数
+    int slappedCount = 0;
 
-    // Use this for initialization
-    void Start () {
-        timer = 0;
-	}
-	
-	// Update is called once per frame
-	void Update () {
+    public void Initialize(int gameMode)
+    {
+        slappedBoss.GetComponent<UnityEngine.UI.Image>().sprite = slappedBossSprites[gameMode - 1];
+    }
+
+    public void UpdateSanctionPart()
+    {
         if (Input.GetMouseButtonDown(0))
         {
-            if(!slappedBoss.gameObject.activeSelf) BossScene.Instance.ChangeBossState(slappedBoss.gameObject);
-            if (!harisen.gameObject.activeSelf) harisen.gameObject.SetActive(true);
-
+            if (slappedCount == 0)
+            {
+                BossScene.Instance.ChangeBossState(slappedBoss.gameObject);
+            }
+            slappedCount++;
             Vector3 bossScale = slappedBoss.localScale;
-            Vector3 harisenScale = harisen.localScale;
             bossScale.x *= -1;
-            harisenScale.x *= -1;
             //向きの変更
             slappedBoss.localScale = bossScale;
-            //位置の変更
-            harisen.localScale = harisenScale;
-            harisen.localPosition = harisenScale.x > 0 ? harisenLeftPos : harisenRightPos ;
         }
-        
-        UpdateTimer();
-	}
 
-    void UpdateTimer()
+        UpdateTimer();
+    }
+
+    private void UpdateTimer()
     {
         timer += Time.deltaTime;
         if (timer > endTime)
         {
             timer = 0;
+            slappedCount = 0;
             slappedBoss.gameObject.SetActive(false);
-            harisen.gameObject.SetActive(false);
             BossScene.Instance.ChangePart();
         }
     }
