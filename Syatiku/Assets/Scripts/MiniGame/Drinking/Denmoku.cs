@@ -10,9 +10,11 @@ public class Denmoku : MonoBehaviour {
     ButtonController button;
 
     // 注文する商品のIDを保存する配列
+    [HideInInspector]
     public int[] InputOrderBox = new int[4];
 
     // 注文する商品の個数を保存する配列
+    [HideInInspector]
     public int[] InputOrderCounter = new int[4];
 
     // 注文リストの個数
