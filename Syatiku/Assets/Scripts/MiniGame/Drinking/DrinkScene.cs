@@ -40,15 +40,13 @@ public class DrinkScene : MonoBehaviour {
     private int[] foodsBox = new int[4];
 
     // オーダーが入った商品のIDを保存する配列
-    [SerializeField]
     private int[] OrderBox = new int[4];
 
     // オーダーが入った商品の個数を保存する配列
-    [SerializeField]
     private int[] OrderCounter = new int[4];
 
     // オーダーが入った商品画像を表示する場所の配列
-    private float[] OrderPos = new float[4] {-6.35f, -2.65f, 1.35f, 5.0f};
+    private float[] OrderPos = new float[] {-6.35f, -2.65f, 1.35f, 5.0f};
 
     private int[] Num = new int[4];
 
@@ -69,6 +67,10 @@ public class DrinkScene : MonoBehaviour {
     private int ClearQuota;
     private int ClearCount;
     private int ClearScore;
+
+    // デバッグ用のカンニング処理
+    [SerializeField]
+    private string[] AnswerCheck = new string[4];
 
     //注文の配列の用意
     public void OrderShuffle()
@@ -280,6 +282,9 @@ public class DrinkScene : MonoBehaviour {
         this.TapText.text = "画面をタップ！";
         meter.TimeOverFlg = false;
         this.ClearCount = 0;
+
+        // デバッグ用の処理
+        this.LookAnswer();
     }
    
     void Start () {
@@ -311,6 +316,29 @@ public class DrinkScene : MonoBehaviour {
         else
         {
             Common.Instance.clearFlag[Common.Instance.miniNum] = false;
+        }
+    }
+
+    // デバッグ用の答えカンニング
+    private void LookAnswer()
+    {
+        for(int i = 0; i < this.AnswerCheck.Length; i++)
+        {
+            switch (this.OrderBox[i])
+            {
+                case 0:
+                    this.AnswerCheck[i] = "枝豆 " + this.OrderCounter[i].ToString() + "つ";
+                    break;
+                case 1:
+                    this.AnswerCheck[i] = "卵焼き " + this.OrderCounter[i].ToString() + "つ";
+                    break;
+                case 2:
+                    this.AnswerCheck[i] = "からあげ " + this.OrderCounter[i].ToString() + "つ";
+                    break;
+                case 3:
+                    this.AnswerCheck[i] = "サラダ " + this.OrderCounter[i].ToString() + "つ";
+                    break;
+            }
         }
     }
 
