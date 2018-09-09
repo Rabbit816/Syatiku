@@ -34,18 +34,11 @@ public class BossScene : MonoBehaviour {
     [SerializeField]
     SanctionPartController sanctionPart;
     [SerializeField]
-    DamageGageController damageGageController;
-    [SerializeField]
     GameObject standingBoss;
     [SerializeField]
     Image background;
     [SerializeField]
     Sprite[] backgroundSprites; //0: FlickPart 1: SanctionPart
-
-    [SerializeField, Header("ハリセンモード移行への区切り値")]
-    int[] SeparateValues;
-    //区切り値への到達状態
-    bool[] isReachStates;
 
     enum GameState
     {
@@ -57,6 +50,8 @@ public class BossScene : MonoBehaviour {
     GameState state;
     int missCount;
     int successCount;
+    [SerializeField, Header("パートが変わる基準の回数")]
+    float changeCount;
 
     private Vector3 touchStartPos;
 
@@ -67,7 +62,6 @@ public class BossScene : MonoBehaviour {
     void Initialize()
     {
         Instance = this;
-        isReachStates = new bool[SeparateValues.Length];
         int gameMode = Common.Instance.gameMode < 1 ? 1 : Common.Instance.gameMode;
         flickPart.Initialize(gameMode);
         sanctionPart.Initialize(gameMode);
@@ -133,7 +127,7 @@ public class BossScene : MonoBehaviour {
 
         //ゲームサイズに戻す
         bossBigSound.SetActive(false);
-        Move(bossRectTransform, new Vector3(0, -200f, 0f), Vector3.one);
+        Move(bossRectTransform, new Vector3(0, -200f, 0f), Vector3.one * 1.3f);
         yield return new WaitForSeconds(1f);
 
         //背景変更
@@ -230,29 +224,15 @@ public class BossScene : MonoBehaviour {
     public void MissCountUP()
     {
         missCount++;
-        damageGageController.DamagePointDown();
     }
 
     public void SuccessCountUP()
     {
         successCount++;
-        damageGageController.DamagePointUp();
-
-        int separateValue = -1;
-        int i;
-        //到達していない区切り値を探す
-        for (i = 0; i < isReachStates.Length; i++)
-        {
-            if (!isReachStates[i]) {
-                separateValue = SeparateValues[i];
-                break;
-            }
-        }
 
         //区切り値へ到達
-        if (separateValue > 0 && damageGageController.damagePoint >= separateValue)
+        if (successCount % changeCount == 0)
         {
-            if(i >= 0) isReachStates[i] = true;
             ChangePart();
         }
         else
@@ -268,8 +248,8 @@ public class BossScene : MonoBehaviour {
         sanctionPart.gameObject.SetActive(isFlickPart);
         state = isFlickPart ? GameState.SanctionPart : GameState.FlickPart;
         //背景の変更
-        if (!isFlickPart) background.sprite = backgroundSprites[0];
-        else background.sprite = backgroundSprites[1];
+        int backgroundNum = isFlickPart ? 1 : 0;
+        background.sprite = backgroundSprites[backgroundNum];
 
         standingBoss.SetActive(true);
     }
@@ -283,11 +263,12 @@ public class BossScene : MonoBehaviour {
 
     IEnumerator ReturnBossState(GameObject slappedBoss, float duration)
     {
-        // バグの原因はここ
-        if (duration == 0) yield return null;
         yield return new WaitForSeconds(duration);
-        standingBoss.SetActive(true);
-        slappedBoss.SetActive(false);
+        if (state == GameState.FlickPart)
+        {
+            standingBoss.SetActive(true);
+            slappedBoss.SetActive(false);
+        }
     }
 
     public void Result()
@@ -295,13 +276,14 @@ public class BossScene : MonoBehaviour {
         state = GameState.End;
         Common.SceneName scene = Common.SceneName.MainNormalEnd;
         int gameMode = Common.Instance.gameMode;
+        float damagePercentage = sanctionPart.Result();
         // good
-        if (isReachStates[isReachStates.Length - 1])
+        if (damagePercentage >= 0.8)
         {
             scene = gameMode > 1 ? Common.SceneName.AnotherGoodEnd : Common.SceneName.MainGoodEnd;
         }
         // notmal
-        else if(isReachStates[isReachStates.Length - 2])
+        else if(damagePercentage >= 0.5)
         {
             scene = gameMode > 1 ? Common.SceneName.AnotherNormalEnd : Common.SceneName.MainNormalEnd;
         }
