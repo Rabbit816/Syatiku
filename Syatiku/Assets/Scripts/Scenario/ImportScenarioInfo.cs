@@ -109,7 +109,15 @@ public class ImportScenarioInfo : MonoBehaviour {
                     case 0:
                     case 1:
                     case 7:
-                        JumpMotion(pos);
+                        CharacterMotion(pos, 30f, 0.5f);
+                        break;
+                    case 4:
+                    case 5:
+                    case 6:
+                        CharacterMotion(pos, -30f, 0.5f);
+                        break;
+                    default:
+                        CharacterMotion(pos, -30f, 1.5f);
                         break;
                 }
             });
@@ -338,14 +346,14 @@ public class ImportScenarioInfo : MonoBehaviour {
         return -1;
     }
 
-    void JumpMotion(int posNum)
+    void CharacterMotion(int posNum, float jumpNum, float time)
     {
         RectTransform character = window.characters[posNum].GetComponent<RectTransform>();
         character.DOLocalJump(
             character.localPosition,
-            30f,
+            jumpNum,
             1,
-            0.5f
+            time
         );
     }
 
