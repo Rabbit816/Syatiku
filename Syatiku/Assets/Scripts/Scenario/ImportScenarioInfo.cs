@@ -211,6 +211,17 @@ public class ImportScenarioInfo : MonoBehaviour {
                 voiceCount = TakeVoiceNum(text);
             });
         }
+        else if (text.Contains("change"))
+        {
+            //アナザーエピローグの例外処理
+            scenario.commandActionList.Add(() =>
+            {
+                RectTransform leftRect = window.characters[2].GetComponent<RectTransform>();
+                leftRect.localPosition = new Vector3(540f, -390f, 0);
+                leftRect.localScale = Vector3.one * 1.3f;
+                leftRect.sizeDelta = new Vector2(800f, 1200f);
+            });
+        }
     }
 
     /// <summary>

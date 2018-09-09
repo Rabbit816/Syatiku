@@ -1437,7 +1437,6 @@ MonoBehaviour:
   - {fileID: 21300000, guid: 934de605655e21b47b6e1fd85432cb7a, type: 3}
   flickPart: {fileID: 1065099899}
   sanctionPart: {fileID: 1370587474}
-  damageGageController: {fileID: 843249171}
   standingBoss: {fileID: 796061097}
   background: {fileID: 631412847}
   backgroundSprites:
@@ -1661,6 +1660,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5015734480ea62948a9cf82c8ae7f7b8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  damageGageController: {fileID: 843249171}
   slappedBossSprites:
   - {fileID: 21300000, guid: 94fb6fadb3e671947847ff31e48f2683, type: 3}
   - {fileID: 21300000, guid: da188ca08eb0d2e4589366044cbb9369, type: 3}
