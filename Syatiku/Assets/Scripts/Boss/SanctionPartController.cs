@@ -1,4 +1,6 @@
 ﻿using UnityEngine;
+using System.Collections;
+using System.Collections.Generic;
 
 public class SanctionPartController : MonoBehaviour {
 
@@ -9,6 +11,11 @@ public class SanctionPartController : MonoBehaviour {
     [SerializeField]
     RectTransform slappedBoss;
     GameObject slappedBossGO;
+    [SerializeField]
+    GameObject impactEffect;
+    [SerializeField]
+    RectTransform effectBox;
+    List<GameObject> effectList = new List<GameObject>();
 
     [SerializeField]
     float endTime;
@@ -33,6 +40,16 @@ public class SanctionPartController : MonoBehaviour {
             bossScale.x *= -1;
             //向きの変更
             slappedBoss.localScale = bossScale;
+
+            for (int i = 0; i < effectList.Count; i++) {
+                if (!effectList[i].activeSelf)
+                {
+                    effectList[i].SetActive(true);
+                    return;
+                }
+            }
+            GameObject effect = Instantiate(impactEffect, effectBox);
+            effectList.Add(effect);
         }
 
         UpdateTimer();
@@ -45,6 +62,10 @@ public class SanctionPartController : MonoBehaviour {
         {
             timer = 0;
             slappedBoss.gameObject.SetActive(false);
+            for (int i = 0; i < effectList.Count; i++)
+            {
+                effectList[i].SetActive(false);
+            }
             BossScene.Instance.ChangePart();
         }
     }

@@ -6,12 +6,12 @@ public class ParticleController : MonoBehaviour {
 
     ParticleSystem particle;
 
-    void Awake()
+    protected virtual void Awake()
     {
         particle = GetComponent<ParticleSystem>();
     }
 
-    void OnEnable()
+    protected virtual void OnEnable()
     {
         //ループしないパーティクル
         if (!particle.loop)
