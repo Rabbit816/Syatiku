@@ -68,7 +68,7 @@ public class DrinkScene : MonoBehaviour {
     private int ClearCount;
     private int ClearScore;
 
-    // デバッグ用のカンニング処理
+    // デバッグ用のカンニング
     [SerializeField]
     private string[] AnswerCheck = new string[4];
 
@@ -117,21 +117,22 @@ public class DrinkScene : MonoBehaviour {
         }
     }
 
-    //注文商品を1個ずつランダムな位置に表示して消すを繰り返す
+    // 注文商品を1個ずつランダムな位置に表示して消すを繰り返す
     private IEnumerator OrderMethod()
     {
         for (int i = 0; i < this.OrderBox.Length; i++)
         {
             yield return new WaitForSeconds(1.0f);
             
-            //注文の表示
+            // 吹き出しと注文数の表示
             this.OrderHukidashi();
 
+            // 注文商品の表示
             var Menu_Order = Instantiate(this.MenuList[this.OrderBox[i]], new Vector2(OrderPos[i], 3.35f), Quaternion.identity);
             Menu_Order.transform.localScale = new Vector2(0.33f, 0.33f);
             Menu_Order.transform.parent = this.menuObject.transform;
 
-            //数秒後に表示された吹き出しと商品を消す
+            // 表示された吹き出しと商品を消す
             yield return new WaitForSeconds(this.Timer);
             this.Delete();
             this.OrderCounterOFF();
@@ -300,6 +301,9 @@ public class DrinkScene : MonoBehaviour {
         this.Hukidashi(false);
         this.NextGameFlg = true;
         this.TapText.text = "タップしてスタート！";
+
+        // BGM
+        //SoundManager.Instance.PlayBGM(BGMName.DrinkingParty);
 
         // クリア条件の設定
         this.ClearQuota = (int)(this.Limit * 0.8f);

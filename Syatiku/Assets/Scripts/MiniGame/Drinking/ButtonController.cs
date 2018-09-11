@@ -38,7 +38,8 @@ public class ButtonController : MonoBehaviour {
     Scrollbar MenuScrollbar;
 
     // 注文数をカウントする
-    private int OrderCount = 0;
+    [HideInInspector]
+    public int OrderCount = 0;
 
     // もう一度ボタンが押されたかの判定をする為のフラグ
     private bool AgainFlg = true;
