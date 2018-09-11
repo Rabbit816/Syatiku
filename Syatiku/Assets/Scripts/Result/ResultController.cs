@@ -27,7 +27,7 @@ public class ResultController : MonoBehaviour {
     private Image[] emotion;
 
     [SerializeField]
-    private int emoTime;
+    private float emoTime;
 
     [SerializeField]
     private RectTransform[] proPos = new RectTransform[2];
@@ -117,21 +117,22 @@ public class ResultController : MonoBehaviour {
         }
         else
         {
-            while (true)
-            {
-                IsEmotion();
-            }
+            StartCoroutine(IsEmotion());
         }
         backAction.gameObject.SetActive(true);
     }
 
     public IEnumerator IsEmotion()
     {
-        emotion[0].gameObject.SetActive(true);
-        emotion[1].gameObject.SetActive(false);
-        yield return new WaitForSeconds(emoTime);
-        emotion[0].gameObject.SetActive(false);
-        emotion[1].gameObject.SetActive(true);
-        yield return new WaitForSeconds(emoTime);
+        while (true)
+        {
+            emotion[0].gameObject.SetActive(true);
+            emotion[1].gameObject.SetActive(false);
+            yield return new WaitForSeconds(emoTime);
+            
+            emotion[0].gameObject.SetActive(false);
+            emotion[1].gameObject.SetActive(true);
+            yield return new WaitForSeconds(emoTime);
+        }
     }
 }

@@ -82,9 +82,7 @@ public class HumanWalk : MonoBehaviour {
                     {
                         gameObject.transform.GetChild(0).transform.GetChild(0)
                         .GetComponent<Image>().sprite = idle; // 待機画像に変更
-
                         human.DORotate(new Vector3(0, 0, 0), rotateTime).SetEase(Ease.Linear); // 元に戻す回転
-
                         // ---------------------------------------------------
                         beginTime = Random.Range(1, 5); // 新たにTimeを設定
                         count = 0; // 開始時間を初期化
