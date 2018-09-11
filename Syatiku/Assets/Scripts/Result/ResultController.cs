@@ -24,6 +24,12 @@ public class ResultController : MonoBehaviour {
     private GameObject proPrefab;
 
     [SerializeField]
+    private Image[] emotion;
+
+    [SerializeField]
+    private int emoTime;
+
+    [SerializeField]
     private RectTransform[] proPos = new RectTransform[2];
 
     private string[] scoreText = new string[2];
@@ -32,6 +38,12 @@ public class ResultController : MonoBehaviour {
     private bool onceFlag = false;
 	// ミニゲームで獲得した情報を表示
 	void Start () {
+        // Emotionを非表示
+        foreach(var i in emotion)
+        {
+            i.gameObject.SetActive(false);
+        }
+
         // ミニゲーム分岐
         if (Common.Instance.clearFlag[Common.Instance.miniNum]) {
             successFlag = true;
@@ -105,9 +117,21 @@ public class ResultController : MonoBehaviour {
         }
         else
         {
-
+            while (true)
+            {
+                IsEmotion();
+            }
         }
         backAction.gameObject.SetActive(true);
     }
-    
+
+    public IEnumerator IsEmotion()
+    {
+        emotion[0].gameObject.SetActive(true);
+        emotion[1].gameObject.SetActive(false);
+        yield return new WaitForSeconds(emoTime);
+        emotion[0].gameObject.SetActive(false);
+        emotion[1].gameObject.SetActive(true);
+        yield return new WaitForSeconds(emoTime);
+    }
 }
