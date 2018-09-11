@@ -593,8 +593,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 50}
-  m_SizeDelta: {x: 1536, y: 1239}
+  m_AnchoredPosition: {x: 0, y: -20}
+  m_SizeDelta: {x: 1600, y: 2400}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &575635912
 MonoBehaviour:
@@ -615,7 +615,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_Sprite: {fileID: 21300000, guid: 3db994316872e0f469fb779d9389e415, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 94fb6fadb3e671947847ff31e48f2683, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -807,7 +807,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: -50, y: 200}
-  m_SizeDelta: {x: 600, y: 1200}
+  m_SizeDelta: {x: 800, y: 1200}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &796061099
 MonoBehaviour:
@@ -828,7 +828,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_Sprite: {fileID: 21300000, guid: e164c25d9dfb46d46a2f88ef2934f2a0, type: 3}
+  m_Sprite: {fileID: 21300000, guid: a7d73fc8a40869b4383e7dea87411c5b, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -1098,7 +1098,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: -99.997574}
-  m_SizeDelta: {x: 600, y: 1200}
+  m_SizeDelta: {x: 800, y: 1200}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!50 &1062121984
 Rigidbody2D:
@@ -1241,9 +1241,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   slappedBossSprites:
-  - {fileID: 21300000, guid: 80b2a9a248520fb40a899c0a344eb5a1, type: 3}
+  - {fileID: 21300000, guid: 0f586d5ca04c3e944b2686c0dd19dbcb, type: 3}
   - {fileID: 21300000, guid: 5f778617849152748bf0baff7cef64fa, type: 3}
   slappedBoss: {fileID: 1062121982}
+  bomRect: {fileID: 1224289851}
+  bom: {fileID: 1224289850}
   flickTextPrefab: {fileID: 1586700467652566, guid: 17f59855cb05d524daa4832e92746e88,
     type: 2}
   flickTextBox: {fileID: 812280369}
@@ -1337,7 +1339,7 @@ GameObject:
   - component: {fileID: 1224289853}
   - component: {fileID: 1224289852}
   m_Layer: 5
-  m_Name: Timer
+  m_Name: TimerFrame
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1431,11 +1433,10 @@ MonoBehaviour:
   panel: {fileID: 1586948284}
   spotLight: {fileID: 487302039}
   standingBossSprites:
-  - {fileID: 21300000, guid: e164c25d9dfb46d46a2f88ef2934f2a0, type: 3}
+  - {fileID: 21300000, guid: a7d73fc8a40869b4383e7dea87411c5b, type: 3}
   - {fileID: 21300000, guid: 934de605655e21b47b6e1fd85432cb7a, type: 3}
   flickPart: {fileID: 1065099899}
   sanctionPart: {fileID: 1370587474}
-  damageGageController: {fileID: 843249171}
   standingBoss: {fileID: 796061097}
   background: {fileID: 631412847}
   backgroundSprites:
@@ -1659,8 +1660,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5015734480ea62948a9cf82c8ae7f7b8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  damageGageController: {fileID: 843249171}
   slappedBossSprites:
-  - {fileID: 21300000, guid: 3db994316872e0f469fb779d9389e415, type: 3}
+  - {fileID: 21300000, guid: 94fb6fadb3e671947847ff31e48f2683, type: 3}
   - {fileID: 21300000, guid: da188ca08eb0d2e4589366044cbb9369, type: 3}
   slappedBoss: {fileID: 575635908}
   endTime: 5

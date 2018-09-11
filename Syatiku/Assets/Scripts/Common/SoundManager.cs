@@ -6,16 +6,39 @@ using UnityEngine;
 public enum BGMName
 {
     Boss,
-    Hack,
+    Hacking,
     Title,
+    DrinkingParty,
+    Smoking,
+    Action,
+    BadEnd,
+    NormalEnd,
+    GoodEnd,
 }
 
 public enum SEName
 {
-    BadSe,
-    BossHit,
-    GoodSe,
-    tapSe,
+    DenmokuTap,     //飲み会デンモクタップ
+    Cancel,         //戻るボタン系
+    CorrectChoice,  //喫煙で正解選択
+    EnemyCome,      //ハッキングで敵(社長、課長)が来たとき
+    FrameFell,      //ハッキングで額縁が落ちた時
+    FindInfo,       //ハッキングで資料、パスワードが見つかったとき
+    Flick,          //テキストフリック
+    Harisen,        //ハリセン
+    CorrectHit,     //正解のテキスト衝突
+    WrongChoice,    //喫煙で不正解選択
+    Locker,         //ハッキングの引き出しあけたとき
+    Message,        //
+    Failed ,        //リザルト失敗
+    Success,        //リザルト成功
+    WrongHit,       //不正解テキスト衝突
+    PasswordMiss,   //パスワードミスった
+    Page,           //ハッキングのペラペラ
+    SetPassword,    //パスワードの文字をはめるとき
+    SeVondnidle,    //
+    TapAction,      //ミニゲーム選択音
+    Timer,          //
 }
 
 public enum SmokingVoiceName

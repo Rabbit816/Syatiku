@@ -2,6 +2,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 using System.IO;
+using DG.Tweening;
 
 public class ImportScenarioInfo : MonoBehaviour {
 
@@ -103,6 +104,22 @@ public class ImportScenarioInfo : MonoBehaviour {
                 int type = GetEmotionTypeNum(emotion);
                 int pos = GetTargetPosNum(text);
                 CreateEmotion(type, pos);
+                switch (type)
+                {
+                    case 0:
+                    case 1:
+                    case 7:
+                        CharacterMotion(pos, 30f, 0.5f);
+                        break;
+                    case 4:
+                    case 5:
+                    case 6:
+                        CharacterMotion(pos, -30f, 0.5f);
+                        break;
+                    default:
+                        CharacterMotion(pos, -30f, 1.5f);
+                        break;
+                }
             });
         }
         else if (text.Contains("charaOff"))
@@ -211,6 +228,17 @@ public class ImportScenarioInfo : MonoBehaviour {
                 voiceCount = TakeVoiceNum(text);
             });
         }
+        else if (text.Contains("change"))
+        {
+            //アナザーエピローグの例外処理
+            scenario.commandActionList.Add(() =>
+            {
+                RectTransform leftRect = window.characters[2].GetComponent<RectTransform>();
+                leftRect.localPosition = new Vector3(540f, -390f, 0);
+                leftRect.localScale = Vector3.one * 1.3f;
+                leftRect.sizeDelta = new Vector2(800f, 1200f);
+            });
+        }
     }
 
     /// <summary>
@@ -316,6 +344,17 @@ public class ImportScenarioInfo : MonoBehaviour {
                 return 6;
         }
         return -1;
+    }
+
+    void CharacterMotion(int posNum, float jumpNum, float time)
+    {
+        RectTransform character = window.characters[posNum].GetComponent<RectTransform>();
+        character.DOLocalJump(
+            character.localPosition,
+            jumpNum,
+            1,
+            time
+        );
     }
 
     /// <summary>
