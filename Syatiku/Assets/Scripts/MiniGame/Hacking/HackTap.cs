@@ -38,7 +38,6 @@ public class HackTap : MonoBehaviour
     private GameObject DocPrefab;
 
     private GameObject DoorSide;
-    private HackMain hack_main;
     private IntoPCAction intopc_action;
     private PatteringEvent patte;
     private HackGetWord hack_getword;
@@ -73,7 +72,6 @@ public class HackTap : MonoBehaviour
         
         Common.Instance.Shuffle(pos_list);
         GakuCount = 0;
-        hack_main = GetComponent<HackMain>();
         patte = GetComponent<PatteringEvent>();
         intopc_action = GetComponent<IntoPCAction>();
         Meishi.SetActive(false);

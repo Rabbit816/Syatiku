@@ -181,6 +181,10 @@ public class PatteringEvent : MonoBehaviour {
         {
             successCount++;
             getDocument_obj.SetActive(true);
+            if(successCount == 2)
+            {
+                PatteResult();
+            }
         }
         StartCoroutine(Wait_Time(2f));
     }
@@ -250,6 +254,10 @@ public class PatteringEvent : MonoBehaviour {
            .InsertCallback(18.5f, () => { ChangeColor(0); _success = true; })
            .InsertCallback(19.1f, () => { ChangeColor(1); _success = false; })
            .OnComplete(() => { Title.GetChild(0).GetComponent<Text>().text = "終了"; _lowAnimClear = true; StartCoroutine(End_Anim()); });
+        if (successCount == 2)
+        {
+            se.Kill();
+        }
     }
 
     /// <summary>
@@ -268,5 +276,9 @@ public class PatteringEvent : MonoBehaviour {
            .InsertCallback(16.8f, () => { ChangeColor(2); _success = true; })
            .InsertCallback(17.2f, () => { ChangeColor(3); _success = false; })
            .OnComplete(() => { Title.GetChild(0).GetComponent<Text>().text = "終了"; _speedyAnimClear = true; StartCoroutine(End_Anim()); });
+        if (successCount == 2)
+        {
+            seq.Kill();
+        }
     }
 }
