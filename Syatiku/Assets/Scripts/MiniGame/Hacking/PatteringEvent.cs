@@ -244,6 +244,11 @@ public class PatteringEvent : MonoBehaviour {
     private void LowAnim()
     {
         Sequence se = DOTween.Sequence();
+        if (successCount == 2)
+        {
+            Debug.Log("KILL");
+            se.Kill();
+        }
         se.Append(Low_Paper_1.DOLocalRotate(new Vector2(0, Low_Paper_1.localRotation.y + 180), 0.2f).SetDelay(0.5f).SetLoops(97, LoopType.Restart))
            .InsertCallback(3.7f, () => { ChangeColor(0); _success = true; })
            .InsertCallback(4.3f, () => { ChangeColor(1); _success = false; })
@@ -254,10 +259,6 @@ public class PatteringEvent : MonoBehaviour {
            .InsertCallback(18.5f, () => { ChangeColor(0); _success = true; })
            .InsertCallback(19.1f, () => { ChangeColor(1); _success = false; })
            .OnComplete(() => { Title.GetChild(0).GetComponent<Text>().text = "終了"; _lowAnimClear = true; StartCoroutine(End_Anim()); });
-        if (successCount == 2)
-        {
-            se.Kill();
-        }
     }
 
     /// <summary>
@@ -266,6 +267,11 @@ public class PatteringEvent : MonoBehaviour {
     private void SpeedyAnim()
     {
         Sequence seq = DOTween.Sequence();
+        if (successCount == 2)
+        {
+            Debug.Log("KILL");
+            seq.Kill();
+        }
         seq.Append(Speedy_Paper_1.DOLocalRotate(new Vector2(0, Speedy_Paper_1.localRotation.y + 180), 0.16f).SetDelay(0.1f).SetLoops(120, LoopType.Restart))
            .InsertCallback(3.0f, () => { ChangeColor(2); _success = true; })
            .InsertCallback(3.4f, () => { ChangeColor(3); _success = false; })
@@ -276,9 +282,5 @@ public class PatteringEvent : MonoBehaviour {
            .InsertCallback(16.8f, () => { ChangeColor(2); _success = true; })
            .InsertCallback(17.2f, () => { ChangeColor(3); _success = false; })
            .OnComplete(() => { Title.GetChild(0).GetComponent<Text>().text = "終了"; _speedyAnimClear = true; StartCoroutine(End_Anim()); });
-        if (successCount == 2)
-        {
-            seq.Kill();
-        }
     }
 }
