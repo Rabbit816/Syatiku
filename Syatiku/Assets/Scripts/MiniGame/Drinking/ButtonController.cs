@@ -38,7 +38,8 @@ public class ButtonController : MonoBehaviour {
     Scrollbar MenuScrollbar;
 
     // 注文数をカウントする
-    private int OrderCount = 0;
+    [HideInInspector]
+    public int OrderCount = 0;
 
     // もう一度ボタンが押されたかの判定をする為のフラグ
     private bool AgainFlg = true;
@@ -126,7 +127,6 @@ public class ButtonController : MonoBehaviour {
         {
             this.Menu[i].interactable = false;
             denmoku.ListInMenu(i);
-            denmoku.OrderListController(true);
             this.OrderCount++;
         }
     }
@@ -178,43 +178,10 @@ public class ButtonController : MonoBehaviour {
                     if(this.Menu[denmoku.InputOrderBox[this.CounterNum]].interactable == false)
                     {
                         this.Menu[denmoku.InputOrderBox[this.CounterNum]].interactable = true;
-
-                        // リストに表示された商品を削除する
-                        switch (denmoku.InputOrderBox[this.CounterNum])
-                        {
-                            // 枝豆を削除
-                            case 0:
-                                GameObject obj1 = GameObject.Find("MenuObject/EdamamePrefab(Clone)");
-                                Destroy(obj1);
-                                break;
-
-                            // 卵焼きを削除
-                            case 1:
-                                GameObject obj2 = GameObject.Find("MenuObject/TamagoyakiPrefab(Clone)");
-                                Destroy(obj2);
-                                break;
-
-                            // から揚げを削除
-                            case 2:
-                                GameObject obj3 = GameObject.Find("MenuObject/KaraagePrefab(Clone)");
-                                Destroy(obj3);
-                                break;
-
-                            // サラダを削除
-                            case 3:
-                                GameObject obj4 = GameObject.Find("MenuObject/SaladPrefab(Clone)");
-                                Destroy(obj4);
-                                break;
-
-                            default:
-                                Debug.Log("CounterController : エラー");
-                                break;
-                        }
+                        break;
                     }
                 }
-                denmoku.OrderListController(false);
-                denmoku.InputOrderBox[this.CounterNum] = -1;
-                denmoku.InputOrderCounter[this.CounterNum] = 0;
+                denmoku.OrderListArrange();
                 if(this.OrderCount > 0)
                 {
                     this.OrderCount--;
@@ -226,9 +193,9 @@ public class ButtonController : MonoBehaviour {
     // 何番目の注文リストの個数カウンターを変更するかを決める
     public void CounterButton(int i)
     {
-        if(CounterNum != i)
+        if(this.CounterNum != i)
         {
-            CounterNum = i;
+            this.CounterNum = i;
         }
     }
 

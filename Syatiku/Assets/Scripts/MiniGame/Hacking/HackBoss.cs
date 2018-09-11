@@ -135,9 +135,10 @@ public class HackBoss : MonoBehaviour {
     /// </summary>
     public void ComeOnBoss()
     {
+        boss_text.AddText();
         hack_tap.PlaceButton(13);
         hack_tap.PlaceButton(11);
-        
+
         _choosing = true;
         if (!ComeBoss.activeSelf)
         {
@@ -149,12 +150,24 @@ public class HackBoss : MonoBehaviour {
     /// <summary>
     /// 選択ボタン処理
     /// </summary>
-    public void ChooseButton()
+    public void ChooseButton(Text tx)
     {
         Zoom.SetActive(true);
         Bosswait = BossTimer;
         _chooseTap = true;
         _choosing = false;
-        boss_text.AddText();
+        ChooseCheck(tx);
+    }
+
+    /// <summary>
+    /// 選択ボタンで正解をおしたかどうか
+    /// </summary>
+    private void ChooseCheck(Text btn)
+    {
+        string boss_str = boss_text.stren[boss_text.stren.Length-1];
+        if (btn.text == boss_str)
+            Debug.Log("正解！");
+        else
+            Debug.Log("不正解");
     }
 }

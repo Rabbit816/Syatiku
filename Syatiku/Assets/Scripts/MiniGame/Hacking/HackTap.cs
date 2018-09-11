@@ -38,7 +38,6 @@ public class HackTap : MonoBehaviour
     private GameObject DocPrefab;
 
     private GameObject DoorSide;
-    private HackMain hack_main;
     private IntoPCAction intopc_action;
     private PatteringEvent patte;
     private HackGetWord hack_getword;
@@ -73,12 +72,10 @@ public class HackTap : MonoBehaviour
         
         Common.Instance.Shuffle(pos_list);
         GakuCount = 0;
-        hack_main = GetComponent<HackMain>();
         patte = GetComponent<PatteringEvent>();
         intopc_action = GetComponent<IntoPCAction>();
         Meishi.SetActive(false);
         _lowAnim = false;
-        
         _windowFase = false;
         _animloop = false;
         _getDocument = false;
@@ -135,7 +132,7 @@ public class HackTap : MonoBehaviour
     /// <summary>
     /// ズームにする時の処理
     /// </summary>
-    /// <param name="childNum"></param>
+    /// <param name="childNum">Zoomオブジェクトの何番目の子供か指定</param>
     public void ZoomActive(int childNum)
     {
         if(!Zoom.transform.GetChild(childNum).gameObject.activeSelf)

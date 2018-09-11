@@ -9,7 +9,7 @@ public class Denmoku : MonoBehaviour {
     DrinkScene drink;
     ButtonController button;
 
-    // 注文する商品の順番を保存する配列
+    // 注文する商品のIDを保存する配列
     [HideInInspector]
     public int[] InputOrderBox = new int[4];
 
@@ -29,18 +29,7 @@ public class Denmoku : MonoBehaviour {
 
     private float[] Order_List = new float[4] {3.25f, 1.94f, 0.57f, -0.85f};
 
-    // 注文リストの有効・無効を管理する
-    public void OrderListController(bool b)
-    {
-        if (b)
-        {
-            this.CounterButton[this.Num].gameObject.SetActive(true);
-        }
-        else
-        {
-            this.CounterButton[button.CounterNum].gameObject.SetActive(false);
-        }
-    }
+    GameObject[] OrderList_Object = new GameObject[4];
 
     // 注文リストを初期化する
     public void MenuListOFF()
@@ -50,9 +39,12 @@ public class Denmoku : MonoBehaviour {
             this.CounterButton[i].gameObject.SetActive(false);
         }
     }
+
     // 注文リストに注文した商品を表示する
     public void ListInMenu(int MenuID)
     {
+        int ListNum = button.OrderCount;
+
         // 注文リストに表示する場所を決める
         for(int i = 0; i < this.InputOrderBox.Length; i++)
         {
@@ -64,11 +56,50 @@ public class Denmoku : MonoBehaviour {
         }
         this.InputOrderBox[this.Num] = MenuID;
         this.InputOrderCounter[this.Num] = 1;
+        this.CounterButton[this.Num].gameObject.SetActive(true);
 
         // 注文リストに注文した商品を表示する
-        var MenuObject = Instantiate(drink.MenuList[MenuID], new Vector2(5.0f, this.Order_List[this.Num]), Quaternion.identity);
-        MenuObject.transform.localScale = new Vector2(0.37f, 0.37f);
-        MenuObject.transform.parent = drink.menuObject.transform;
+        this.OrderList_Object[ListNum] = Instantiate(drink.MenuList[MenuID], new Vector2(5.0f, this.Order_List[this.Num]), Quaternion.identity);
+        this.OrderList_Object[ListNum].transform.localScale = new Vector2(0.37f, 0.37f);
+        this.OrderList_Object[ListNum].transform.parent = drink.menuObject.transform;
+    }
+
+    // 注文リストを整理するメソッド
+    public void OrderListArrange()
+    {
+        int LoopLimit = 0;
+        int LoopCounter = button.CounterNum;
+        // 注文リストに表示されている商品の数をカウント
+        for (int i = 1; i < this.Counter.Length; i++)
+        {
+            if(this.InputOrderBox[i] >= 0)
+            {
+                LoopLimit++;
+            }
+            else
+            {
+                break;
+            }
+        }
+        while (LoopCounter < LoopLimit)
+        {
+            // 商品の表示位置を上に移動
+            Vector2 pos = this.OrderList_Object[LoopCounter + 1].transform.localPosition;
+            pos.y = this.Order_List[LoopCounter];
+            this.OrderList_Object[LoopCounter + 1].transform.localPosition = pos;
+            // 商品データの移動
+            this.InputOrderBox[LoopCounter] = this.InputOrderBox[LoopCounter + 1];
+            this.InputOrderCounter[LoopCounter] = this.InputOrderCounter[LoopCounter + 1];
+            GameObject obj = this.OrderList_Object[LoopCounter];
+            this.OrderList_Object[LoopCounter] = this.OrderList_Object[LoopCounter + 1];
+            this.OrderList_Object[LoopCounter + 1] = obj;
+            LoopCounter++;
+        }
+        // 注文リストから商品を削除する
+        Destroy(this.OrderList_Object[LoopCounter]);
+        this.CounterButton[LoopCounter].gameObject.SetActive(false);
+        this.InputOrderBox[LoopCounter] = -1;
+        this.InputOrderCounter[LoopCounter] = 0;
     }
 
     void Start () {
