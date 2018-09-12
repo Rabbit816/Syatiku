@@ -5,6 +5,9 @@ using System.IO;
 using UnityEngine;
 public class Mushikui {
 
+    /// <summary>
+    /// データ作成
+    /// </summary>
     public struct MushikuiData
     {
         private string musikui; 
@@ -36,6 +39,7 @@ public class Mushikui {
             }
         }
 
+        //「」内の文字を抽出して置き換え
         private void LoadMessage(string message)
         {
             // mushikui を検出
@@ -57,21 +61,10 @@ public class Mushikui {
         // 選択肢取得
         public string[] Select { get { return select; } }
 
-
-        public void Log()
-        {
-            Debug.Log("Mushikui=" + Musikui);
-            Debug.Log("Question=" + Question);
-            Debug.Log("Answer=" + Answer);
-            for (int i = 0; i < Select.Length; i++) {
-                Debug.Log("Select" + i + "=" + Select[i]);
-            }
-        }
     }
     
     public Mushikui(string filepath)
     {
-        
         Load(filepath);
     }
 
