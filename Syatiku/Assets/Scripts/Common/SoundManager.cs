@@ -14,6 +14,7 @@ public enum BGMName
     BadEnd,
     NormalEnd,
     GoodEnd,
+    Scenario,
 }
 
 public enum SEName
@@ -29,7 +30,7 @@ public enum SEName
     CorrectHit,     //正解のテキスト衝突
     WrongChoice,    //喫煙で不正解選択
     Locker,         //ハッキングの引き出しあけたとき
-    Message,        //
+    Message,        //シナリオ中タップ音
     Failed ,        //リザルト失敗
     Success,        //リザルト成功
     WrongHit,       //不正解テキスト衝突
@@ -41,6 +42,8 @@ public enum SEName
     Timer,          //喫煙所の選択肢表示中のタイマー音
     Hukidashi,      //リザルトの吹き出し音
     Spot,           //リザルトスポットライト音
+    Impact,         //ボスドアップ音
+    FootSound,      //ボス足音
 }
 
 public enum SmokingVoiceName
@@ -94,6 +97,7 @@ public class SoundManager : MonoBehaviour {
     CriAtomSource seSource;
     [SerializeField]
     CriAtomSource voiceSource;
+    int currentSeIndex;
 
     public void PlayBGM(BGMName cueName)
     {
@@ -109,7 +113,13 @@ public class SoundManager : MonoBehaviour {
 
     public void PlaySE(SEName cueName)
     {
-        seSource.Play((int)cueName);
+        //Timerが鳴っていたら止める
+        if (currentSeIndex == 20)
+        {
+            seSource.Stop();
+        }
+        currentSeIndex = (int)cueName;
+        seSource.Play(currentSeIndex);
     }
 
     public void PlaySE(string cueName)

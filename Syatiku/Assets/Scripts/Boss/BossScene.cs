@@ -67,6 +67,7 @@ public class BossScene : MonoBehaviour {
         sanctionPart.Initialize(gameMode);
         standingBoss.GetComponent<Image>().sprite = standingBossSprites[gameMode - 1];
         state = 0;
+        SoundManager.Instance.StopBGM();
         
         StartCoroutine(StartAnimation());
     }
@@ -80,12 +81,13 @@ public class BossScene : MonoBehaviour {
         yield return new WaitForSeconds(1f);
 
         //1歩目
+        SoundManager.Instance.PlaySE(SEName.FootSound);
         Move(bossRectTransform, new Vector3(20f, 100f, 0f), new Vector3(0.6f, 0.6f, 1f), 0);
         spotRectTransform.offsetMin = new Vector2(730f, 300f);
         spotRectTransform.offsetMax = new Vector2(-700f, 0);
         footSound1.gameObject.SetActive(true);
         footSound2.gameObject.SetActive(true);
-        yield return new WaitForSeconds(1.5f);
+        yield return new WaitForSeconds(1.4f);
 
         //2歩目
         Move(bossRectTransform, new Vector3(-100f, -50f, 0f), new Vector3(0.9f, 0.9f, 1f), 0);
@@ -111,6 +113,7 @@ public class BossScene : MonoBehaviour {
         yield return new WaitForSeconds(2f);
 
         //ビッグボス出現演出
+        SoundManager.Instance.PlaySE(SEName.Impact);
         panel.SetActive(false);
         bossBigSound.SetActive(true);
         RectTransform bigSoundRect = bossBigSound.GetComponent<RectTransform>();
@@ -126,6 +129,7 @@ public class BossScene : MonoBehaviour {
         yield return new WaitForSeconds(3f);
 
         //ゲームサイズに戻す
+        SoundManager.Instance.PlayBGM(BGMName.Boss);
         bossBigSound.SetActive(false);
         Move(bossRectTransform, new Vector3(0, -200f, 0f), Vector3.one * 1.3f);
         yield return new WaitForSeconds(1f);
@@ -177,7 +181,6 @@ public class BossScene : MonoBehaviour {
     void GameStart()
     {
         flickPart.gameObject.SetActive(true);
-        SoundManager.Instance.PlayBGM(BGMName.Boss);
         state = GameState.FlickPart;
     }
 
@@ -217,6 +220,7 @@ public class BossScene : MonoBehaviour {
         {
             //値を変更
             moveForce = newMoveForce;
+            SoundManager.Instance.PlaySE(SEName.Flick);
         }
 
     }
