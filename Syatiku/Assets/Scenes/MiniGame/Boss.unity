@@ -1057,10 +1057,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e222b87b48263054697a7ac13318ce07, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  damagePointMax: 9
-  damagePoint: 0
-  damageUpNum: 1
-  damageDownNum: 0.5
+  damagePointMax: 200
   changeTime: 1
 --- !u!1 &1062121982
 GameObject:
@@ -1442,7 +1439,7 @@ MonoBehaviour:
   backgroundSprites:
   - {fileID: 21300000, guid: e737ff86bee513941988d03c7c4db911, type: 3}
   - {fileID: 21300000, guid: f6410deb3f1a4fb40a51026a8db3fba8, type: 3}
-  SeparateValues: 030000000600000009000000
+  changeCount: 3
 --- !u!4 &1274440718
 Transform:
   m_ObjectHideFlags: 0
@@ -1641,6 +1638,7 @@ RectTransform:
   m_Children:
   - {fileID: 575635908}
   - {fileID: 77033695}
+  - {fileID: 1505985324}
   m_Father: {fileID: 1795605960}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -1665,7 +1663,43 @@ MonoBehaviour:
   - {fileID: 21300000, guid: 94fb6fadb3e671947847ff31e48f2683, type: 3}
   - {fileID: 21300000, guid: da188ca08eb0d2e4589366044cbb9369, type: 3}
   slappedBoss: {fileID: 575635908}
+  impactEffect: {fileID: 1803021589519446, guid: 7fb367c4c2c5ba54bad8f03998bb83b1,
+    type: 2}
+  effectBox: {fileID: 1505985324}
   endTime: 5
+--- !u!1 &1505985323
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 1505985324}
+  m_Layer: 5
+  m_Name: Effect
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &1505985324
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1505985323}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1370587473}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: 370}
+  m_SizeDelta: {x: 100, y: 100}
+  m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &1586948284
 GameObject:
   m_ObjectHideFlags: 0
