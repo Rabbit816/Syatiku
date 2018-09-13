@@ -34,6 +34,8 @@ public class IntoPCAction : MonoBehaviour {
 
     [Tooltip("資料比較の時に何回ミスしてもいいかの回数")]
     public int tappingCount = 6;
+    [SerializeField, Tooltip("成功エフェクト")]
+    private GameObject cleareffect;
 
     private Transform password_child;
 
@@ -94,6 +96,8 @@ public class IntoPCAction : MonoBehaviour {
     {
         if (_isResult)
         {
+            cleareffect.SetActive(true);
+            SoundManager.Instance.PlaySE(SEName.TapAction);
             PC_login.GetComponent<Text>().text = "ログインできました。";
             PC_login.SetActive(true);
             yield return new WaitForSeconds(1.5f);
@@ -102,6 +106,7 @@ public class IntoPCAction : MonoBehaviour {
         }
         else
         {
+            SoundManager.Instance.PlaySE(SEName.PasswordMiss);
             PC_login.GetComponent<Text>().text = "パスワードが違います。";
             PC_login.SetActive(true);
             yield return new WaitForSeconds(1.5f);
@@ -118,6 +123,8 @@ public class IntoPCAction : MonoBehaviour {
     {
         if (_isResult)
         {
+            cleareffect.SetActive(true);
+            SoundManager.Instance.PlaySE(SEName.TapAction);
             _isWindowAnim = true;
             hack_tap.ZoomActive(7);
             folder_text.GetComponent<Text>().text = "ログインできました。";
@@ -130,6 +137,7 @@ public class IntoPCAction : MonoBehaviour {
         }
         else
         {
+            SoundManager.Instance.PlaySE(SEName.PasswordMiss);
             folder_text.GetComponent<Text>().text = "パスワードが違います。";
             folder_text.SetActive(true);
             yield return new WaitForSeconds(1.5f);

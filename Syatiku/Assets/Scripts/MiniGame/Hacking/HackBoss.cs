@@ -110,6 +110,7 @@ public class HackBoss : MonoBehaviour {
     /// <returns></returns>
     private IEnumerator WatchBoss(float time)
     {
+        SoundManager.Instance.PlaySE(SEName.EnemyCome);
         yield return new WaitForSeconds(time);
         hack_main.es.enabled = true;
         _commingboss = true;
@@ -135,11 +136,11 @@ public class HackBoss : MonoBehaviour {
     /// </summary>
     public void ComeOnBoss()
     {
+        _choosing = true;
         boss_text.AddText();
         hack_tap.PlaceButton(13);
         hack_tap.PlaceButton(11);
 
-        _choosing = true;
         if (!ComeBoss.activeSelf)
         {
             ComeBoss.SetActive(true);

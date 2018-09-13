@@ -57,6 +57,7 @@ public class HackGetWord : MonoBehaviour {
     public void SearchTap(int placeNum)
     {
         //押したらアニメーション
+        SoundManager.Instance.PlaySE(SEName.FindInfo);
         Text appearChild_text = gameObject.transform.GetChild(0).GetComponent<Text>();
         GetWordAnim(gameObject);
         DOTween.ToAlpha(
@@ -86,6 +87,7 @@ public class HackGetWord : MonoBehaviour {
         word[1] = "ー";
         word[2] = "ム";
         GetWordAnim(gameObject);
+        SoundManager.Instance.PlaySE(SEName.FindInfo);
         Text appearChild_text = gameObject.transform.GetChild(0).GetComponent<Text>();
         DOTween.ToAlpha(
             () => appearChild_text.color,
