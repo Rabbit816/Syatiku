@@ -41,6 +41,7 @@ public class HackTap : MonoBehaviour
     private IntoPCAction intopc_action;
     private PatteringEvent patte;
     private HackGetWord hack_getword;
+    private HackBoss hack_boss;
     private GameObject pat;
     private int GakuCount = 0;
     public int Gakubuti_max = 7;
@@ -74,6 +75,7 @@ public class HackTap : MonoBehaviour
         GakuCount = 0;
         patte = GetComponent<PatteringEvent>();
         intopc_action = GetComponent<IntoPCAction>();
+        hack_boss = GetComponent<HackBoss>();
         Meishi.SetActive(false);
         _lowAnim = false;
         _windowFase = false;
@@ -94,6 +96,8 @@ public class HackTap : MonoBehaviour
                 IntoPC.transform.localPosition = new Vector2(0, 0);
                 break;
             case 11:
+                if(!hack_boss._choosing)
+                    SoundManager.Instance.PlaySE(SEName.Cancel);
                 IntoPC.transform.localPosition = new Vector2(0, -1200);
                 pat.transform.SetSiblingIndex(0);
                 break;
@@ -135,10 +139,15 @@ public class HackTap : MonoBehaviour
     /// <param name="childNum">Zoomオブジェクトの何番目の子供か指定</param>
     public void ZoomActive(int childNum)
     {
+        if (childNum == 8)
+            SoundManager.Instance.PlaySE(SEName.Locker);
         if(!Zoom.transform.GetChild(childNum).gameObject.activeSelf)
             Zoom.transform.GetChild(childNum).gameObject.SetActive(true);
         else
+        {
+                SoundManager.Instance.PlaySE(SEName.Cancel);
             Zoom.transform.GetChild(childNum).gameObject.SetActive(false);
+        }
     }
 
     /// <summary>
@@ -149,6 +158,7 @@ public class HackTap : MonoBehaviour
         GameObject _get_doc = Instantiate(DocPrefab, GetWord.transform);
         _get_doc.transform.SetAsLastSibling();
         _getDocument = true;
+        SoundManager.Instance.PlaySE(SEName.FindInfo);
         hack_getword.GetWordAnim(Document);
     }
 
@@ -162,10 +172,11 @@ public class HackTap : MonoBehaviour
             return;
         Sequence seq = DOTween.Sequence();
         Gakubuti.DOPunchRotation(new Vector3(0, 0, 30), 0.7f);
+        SoundManager.Instance.PlaySE(SEName.CorrectHit);
         if (GakuCount == Gakubuti_max)
         {
             seq.Append(Gakubuti.DOLocalMoveY(-305, 0.6f))
-                .OnComplete(() => { Meishi.SetActive(true); Meishi_obj.DOLocalMove(new Vector3(551, -551, 0), 0.5f); });
+                .OnComplete(() => { Meishi.SetActive(true); Meishi_obj.DOLocalMove(new Vector3(551, -551, 0), 0.5f); SoundManager.Instance.PlaySE(SEName.FrameFell); });
         }
     }
 }

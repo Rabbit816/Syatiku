@@ -50,6 +50,7 @@ public class Drag : MonoBehaviour, IDragHandler, IEndDragHandler
                 {
                     transform.SetParent(hit.gameObject.transform, false);
                     transform.localPosition = Vector2.zero;
+                    SoundManager.Instance.PlaySE(SEName.SetPassword);
                 }
                 else
                     return;
