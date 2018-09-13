@@ -54,6 +54,7 @@ public class HackTap : MonoBehaviour
     //比較する資料を取得したかどうか
     [HideInInspector]
     public bool _getDocument = false;
+    private bool _playSE = false;
 
     // Use this for initialization
     void Start ()
@@ -141,13 +142,22 @@ public class HackTap : MonoBehaviour
     {
         if (childNum == 8)
             SoundManager.Instance.PlaySE(SEName.Locker);
+
         if(!Zoom.transform.GetChild(childNum).gameObject.activeSelf)
             Zoom.transform.GetChild(childNum).gameObject.SetActive(true);
         else
         {
-                SoundManager.Instance.PlaySE(SEName.Cancel);
             Zoom.transform.GetChild(childNum).gameObject.SetActive(false);
+            SoundManager.Instance.PlaySE(SEName.Cancel);
         }
+    }
+
+    /// <summary>
+    /// キャンセルSEを呼ぶ処理
+    /// </summary>
+    public void CancelSE()
+    {
+        SoundManager.Instance.PlaySE(SEName.Cancel);
     }
 
     /// <summary>
