@@ -50,6 +50,7 @@ public class ActionController : MonoBehaviour {
     // -----------------------------------------------
 
     void Start () {
+        SoundManager.Instance.PlayBGM(BGMName.Action);
 
         if (Common.Instance.actionCount == 0)
         {

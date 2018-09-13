@@ -20,6 +20,16 @@ public class SmokingController : MonoBehaviour {
     [SerializeField]
     private int qLength; // 合計問題数
 
+    // 背景画像---------------------
+    [SerializeField]
+    private Image back; 
+    [SerializeField]
+    private Sprite backSprite;
+    // -----------------------------
+    
+    [SerializeField]
+    private CriAtomSource voice; // セリフ音
+
     private Mushikui mushikui; // Mushikuiコンストラクタ
 
     private int succesCount,qNum,qCount; // 正解数、今が何番目の問題か
@@ -52,12 +62,14 @@ public class SmokingController : MonoBehaviour {
 
     public GameObject selectUI; // 選択肢UI
 
-    [SerializeField]
-    CriAtomSource voice;
 
     // Use this for initialization
     void Start () {
+        SoundManager.Instance.PlayBGM(BGMName.Smoking);
+
         textNum = Random.Range(0, 4);
+        if (textNum == 4) back.sprite = backSprite; // 女性社員なら背景変更
+
         textPath = "Talk" + textNum + "/";
         IsScenario(talkFilePath + textPath + smokePath);
         qNum =  6 * textNum;
@@ -175,7 +187,7 @@ public class SmokingController : MonoBehaviour {
             }
 
             qNum++; // 問題Noを加算
-            
+            SoundManager.Instance.PlaySE(SEName.CorrectChoice);
             IsScenario(talkFilePath + textPath + smokePath + qCount.ToString());
 
         } else {
@@ -192,8 +204,10 @@ public class SmokingController : MonoBehaviour {
 
             qNum++;
 
+            SoundManager.Instance.PlaySE(SEName.WrongChoice);
             IsScenario(talkFilePath + badSmokePath + qCount.ToString());
         }
+        
         Invoke("SelectFalse", 0.01f);
     }
 

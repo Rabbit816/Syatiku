@@ -13,6 +13,7 @@ public class HukidashiController : MonoBehaviour {
 
     public void ChangeMiniGame()
     {
+        SoundManager.Instance.PlaySE(SEName.TapAction);
         Common.Instance.miniNum = miniGameNum;
         Common.Instance.actionCount--;
         switch (miniGameNum)

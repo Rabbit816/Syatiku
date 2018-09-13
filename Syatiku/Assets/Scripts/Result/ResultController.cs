@@ -24,6 +24,12 @@ public class ResultController : MonoBehaviour {
     private GameObject proPrefab;
 
     [SerializeField]
+    private Image[] emotion;
+
+    [SerializeField]
+    private float emoTime;
+
+    [SerializeField]
     private RectTransform[] proPos = new RectTransform[2];
 
     private string[] scoreText = new string[2];
@@ -32,6 +38,12 @@ public class ResultController : MonoBehaviour {
     private bool onceFlag = false;
 	// ミニゲームで獲得した情報を表示
 	void Start () {
+        // Emotionを非表示
+        foreach(var i in emotion)
+        {
+            i.gameObject.SetActive(false);
+        }
+
         // ミニゲーム分岐
         if (Common.Instance.clearFlag[Common.Instance.miniNum]) {
             successFlag = true;
@@ -75,6 +87,7 @@ public class ResultController : MonoBehaviour {
         yield return new WaitForSeconds(0.5f);
         enemy.gameObject.SetActive(true);
         spot.gameObject.SetActive(true);
+        SoundManager.Instance.PlaySE(SEName.Harisen);
         if (Common.Instance.gameMode == 0)
             enemy.sprite = eSprite_another[0];
         else
@@ -94,6 +107,7 @@ public class ResultController : MonoBehaviour {
         yield return new WaitForSeconds(1f);
         if (successFlag)
         {
+            SoundManager.Instance.PlaySE(SEName.Success);
             if (Common.Instance.gameMode == 0)
             {
                 enemy.sprite = eSprite_another[1];
@@ -105,9 +119,23 @@ public class ResultController : MonoBehaviour {
         }
         else
         {
-
+            SoundManager.Instance.PlaySE(SEName.Failed);
+            StartCoroutine(IsEmotion());
         }
         backAction.gameObject.SetActive(true);
     }
-    
+
+    public IEnumerator IsEmotion()
+    {
+        while (true)
+        {
+            emotion[0].gameObject.SetActive(true);
+            emotion[1].gameObject.SetActive(false);
+            yield return new WaitForSeconds(emoTime);
+            
+            emotion[0].gameObject.SetActive(false);
+            emotion[1].gameObject.SetActive(true);
+            yield return new WaitForSeconds(emoTime);
+        }
+    }
 }

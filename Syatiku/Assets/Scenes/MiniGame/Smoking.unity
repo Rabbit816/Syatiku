@@ -970,8 +970,10 @@ MonoBehaviour:
   time: 100
   answerCount: 2
   qLength: 6
-  selectUI: {fileID: 1654543771}
+  back: {fileID: 33998014}
+  backSprite: {fileID: 0}
   voice: {fileID: 1493216929}
+  selectUI: {fileID: 1654543771}
 --- !u!4 &930555886
 Transform:
   m_ObjectHideFlags: 0

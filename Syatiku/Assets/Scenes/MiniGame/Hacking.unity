@@ -3575,7 +3575,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 409}
+  m_AnchoredPosition: {x: 40.5, y: 409}
   m_SizeDelta: {x: 1245, y: 201}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &362718454
@@ -6937,7 +6937,7 @@ Prefab:
     - target: {fileID: 114433800118012264, guid: 00a16f3e04169124096b580a1cd4ee07,
         type: 2}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 224776752048411584, guid: 00a16f3e04169124096b580a1cd4ee07,
         type: 2}
@@ -11588,6 +11588,22 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1154786454}
+--- !u!1 &1168429194 stripped
+GameObject:
+  m_PrefabParentObject: {fileID: 1233526202175798, guid: e9a08734e17e84f488a8b027ac46b543,
+    type: 2}
+  m_PrefabInternal: {fileID: 1233430283}
+--- !u!114 &1168429198
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1168429194}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ba2177cfc4e212e4690adba484636e56, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1179912229
 GameObject:
   m_ObjectHideFlags: 0
@@ -12187,15 +12203,15 @@ Prefab:
     m_Modifications:
     - target: {fileID: 4087074560642532, guid: e9a08734e17e84f488a8b027ac46b543, type: 2}
       propertyPath: m_LocalPosition.x
-      value: -0.017750025
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4087074560642532, guid: e9a08734e17e84f488a8b027ac46b543, type: 2}
       propertyPath: m_LocalPosition.y
-      value: -4.24
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4087074560642532, guid: e9a08734e17e84f488a8b027ac46b543, type: 2}
       propertyPath: m_LocalPosition.z
-      value: 90
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4087074560642532, guid: e9a08734e17e84f488a8b027ac46b543, type: 2}
       propertyPath: m_LocalRotation.x
@@ -12219,15 +12235,15 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 4087074560642532, guid: e9a08734e17e84f488a8b027ac46b543, type: 2}
       propertyPath: m_LocalScale.x
-      value: 3
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 4087074560642532, guid: e9a08734e17e84f488a8b027ac46b543, type: 2}
       propertyPath: m_LocalScale.y
-      value: 3
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 4087074560642532, guid: e9a08734e17e84f488a8b027ac46b543, type: 2}
       propertyPath: m_LocalScale.z
-      value: 3
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 198556910388134328, guid: e9a08734e17e84f488a8b027ac46b543,
         type: 2}
@@ -12248,6 +12264,10 @@ Prefab:
         type: 2}
       propertyPath: m_RenderAlignment
       value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1233526202175798, guid: e9a08734e17e84f488a8b027ac46b543, type: 2}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: e9a08734e17e84f488a8b027ac46b543, type: 2}
@@ -13683,7 +13703,7 @@ Prefab:
     - target: {fileID: 114182540148501734, guid: 3ce4806979d7e194789bcc95a58f902e,
         type: 2}
       propertyPath: _volume
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 114182540148501734, guid: 3ce4806979d7e194789bcc95a58f902e,
         type: 2}
@@ -19560,6 +19580,7 @@ MonoBehaviour:
   folder_text: {fileID: 378949408}
   window_returnbtn: {fileID: 157474560}
   tappingCount: 6
+  cleareffect: {fileID: 1168429194}
   _compariClear: 0
   _isWindowAnim: 0
 --- !u!114 &1906215265
