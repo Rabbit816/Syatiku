@@ -181,10 +181,10 @@ public class PatteringEvent : MonoBehaviour {
         {
             successCount++;
             getDocument_obj.SetActive(true);
-            if(successCount == 2)
-            {
-                PatteResult();
-            }
+            //if(successCount == 2)
+            //{
+            //    PatteResult();
+            //}
         }
         StartCoroutine(Wait_Time(2f));
     }
@@ -245,7 +245,7 @@ public class PatteringEvent : MonoBehaviour {
             if(_low && _lowAnimClear || !_low && _speedyAnimClear)
             {
                 SoundManager.Instance.StopSE();
-                i = 70;
+                break;
             }
                 
             yield return new WaitForSeconds(time);
@@ -264,7 +264,7 @@ public class PatteringEvent : MonoBehaviour {
         //    Debug.Log("KILL");
         //    se.Kill();
         //}
-        StartCoroutine(SEWaitTime(0.5f,true));
+        StartCoroutine(SEWaitTime(0.35f,true));
         se.Append(Low_Paper_1.DOLocalRotate(new Vector2(0, Low_Paper_1.localRotation.y + 180), 0.2f).SetDelay(0.5f).SetLoops(97, LoopType.Restart))
            .InsertCallback(3.7f, () => { ChangeColor(0); _success = true; })
            .InsertCallback(4.3f, () => { ChangeColor(1); _success = false; })
@@ -288,7 +288,7 @@ public class PatteringEvent : MonoBehaviour {
         //    Debug.Log("KILL");
         //    seq.Kill();
         //}
-        StartCoroutine(SEWaitTime(0.3f,false));
+        StartCoroutine(SEWaitTime(0.2f,false));
         seq.Append(Speedy_Paper_1.DOLocalRotate(new Vector2(0, Speedy_Paper_1.localRotation.y + 180), 0.16f).SetDelay(0.1f).SetLoops(120, LoopType.Restart))
            .InsertCallback(3.0f, () => { ChangeColor(2); _success = true; })
            .InsertCallback(3.4f, () => { ChangeColor(3); _success = false; })
