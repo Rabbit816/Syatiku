@@ -140,11 +140,6 @@ public class SoundManager : MonoBehaviour {
         bgmSource.Stop();
     }
 
-    public bool IsSeEndOrStop()
-    {
-        return (seSource.status == CriAtomSource.Status.PlayEnd || seSource.status == CriAtomSource.Status.Stop);
-    }
-
     public void StopSE()
     {
         seSource.Stop();
