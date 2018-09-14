@@ -304,7 +304,7 @@ public class ScenarioController : MonoBehaviour {
     /// </summary>
     void AddLogMessage()
     {
-        logMessage.Insert(0, "【 " + window.name.text + " 】" + n + allMessage + n);
+        logMessage.Append("【 " + window.name.text + " 】" + n + allMessage + n);
         window.logText.text = logMessage.ToString();
     }
 
@@ -328,6 +328,7 @@ public class ScenarioController : MonoBehaviour {
             {
                 isLogView = false;
                 window.log.SetActive(isLogView);
+                window.logButton.color = Color.gray;
                 SoundManager.Instance.PlaySE(SEName.DenmokuTap);
             }
         }
@@ -347,6 +348,8 @@ public class ScenarioController : MonoBehaviour {
     {
         isLogView = true;
         window.log.SetActive(isLogView);
+        window.logButton.color = Color.white;
+        window.scroll.verticalNormalizedPosition = 0;
         SoundManager.Instance.PlaySE(SEName.DenmokuTap);
     }
 
