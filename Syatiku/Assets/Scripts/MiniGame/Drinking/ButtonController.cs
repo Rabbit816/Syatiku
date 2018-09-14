@@ -90,7 +90,7 @@ public class ButtonController : MonoBehaviour {
     {
         this.AgainFlg = false;
         this.DrinkSceneButton(false);
-        drink.Order();
+        StartCoroutine(drink.OrderMethod());
     }
 
     // メニュータブのおつまみボタン
@@ -129,6 +129,7 @@ public class ButtonController : MonoBehaviour {
     {
         if (this.OrderCount != 4)
         {
+            SoundManager.Instance.PlaySE(SEName.DenmokuTap);
             this.Menu[i].interactable = false;
             denmoku.ListInMenu(i);
             this.OrderCount++;
@@ -142,7 +143,7 @@ public class ButtonController : MonoBehaviour {
         this.OrderCount = 0;
         this.DenmokuImage.transform.localPosition = new Vector2(0, -1500);
         drink.Delete();
-        drink.Answer();
+        StartCoroutine(drink.Answer());
         meter.TimeMeterFlg = false;
         meter.TimeMeter.value = 0;
     }
@@ -166,11 +167,14 @@ public class ButtonController : MonoBehaviour {
         {
             if (denmoku.InputOrderCounter[this.CounterNum] < 4)
             {
+                SoundManager.Instance.PlaySE(SEName.DenmokuTap);
                 denmoku.InputOrderCounter[this.CounterNum]++;
             }
         }
         else
         {
+            SoundManager.Instance.PlaySE(SEName.DenmokuTap);
+
             if (denmoku.InputOrderCounter[this.CounterNum] > 1)
             {
                 denmoku.InputOrderCounter[this.CounterNum]--;
@@ -203,7 +207,7 @@ public class ButtonController : MonoBehaviour {
         }
     }
 
-    // SEの再生
+    // ボタンを押したときにSEを再生
     public void StartSE()
     {
         SoundManager.Instance.PlaySE(SEName.DenmokuTap);

@@ -118,7 +118,7 @@ public class DrinkScene : MonoBehaviour {
     }
 
     // 注文商品を1個ずつランダムな位置に表示して消すを繰り返す
-    private IEnumerator OrderMethod()
+    public IEnumerator OrderMethod()
     {
         for (int i = 0; i < this.OrderBox.Length; i++)
         {
@@ -138,14 +138,9 @@ public class DrinkScene : MonoBehaviour {
             this.OrderCounterOFF();
             this.Hukidashi(false);
         }
-        yield return new WaitForSeconds(1.0f);
+        yield return new WaitForSeconds(0.5f);
         button.DrinkSceneButton(true);
         this.NumCounter = 0;
-    }
-  
-    public void Order()
-    {
-        StartCoroutine(this.OrderMethod());
     }
 
     public void Delete()
@@ -158,7 +153,7 @@ public class DrinkScene : MonoBehaviour {
     }
 
     //注文の答えの表示
-    public void Answer()
+    public IEnumerator Answer()
     {
         //吹き出しを表示
         this.Hukidashi(true);
@@ -209,9 +204,11 @@ public class DrinkScene : MonoBehaviour {
         {
             this.ClearScore++;
         }
-        this.NextGameFlg = true;
         this.TapText.gameObject.SetActive(true);
         this.Limit--;
+
+        yield return new WaitForSeconds(1.0f);
+        this.NextGameFlg = true;
     }
     
     //注文を表示する際の、吹き出しと個数を表示させるメソッド
@@ -274,8 +271,8 @@ public class DrinkScene : MonoBehaviour {
     {
         this.OrderShuffle();
         this.PosShuffle();
-        this.Order();
-        for(int i = 0; i < denmoku.InputOrderBox.Length; i++)
+        StartCoroutine(this.OrderMethod());
+        for (int i = 0; i < denmoku.InputOrderBox.Length; i++)
         {
             denmoku.InputOrderBox[i] = -1;
             denmoku.InputOrderCounter[i] = 0;
@@ -324,7 +321,7 @@ public class DrinkScene : MonoBehaviour {
     }
 
     // デバッグ用の答えカンニング
-    private void LookAnswer()
+    void LookAnswer()
     {
         for(int i = 0; i < this.AnswerCheck.Length; i++)
         {
