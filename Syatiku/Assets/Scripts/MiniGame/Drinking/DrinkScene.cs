@@ -37,7 +37,7 @@ public class DrinkScene : MonoBehaviour {
     Text LimitText;
     
     // 商品IDを保存する配列
-    private int[] foodsBox = new int[4];
+    private int[] foodsBox = new int[14];
 
     // オーダーが入った商品のIDを保存する配列
     private int[] OrderBox = new int[4];
@@ -303,7 +303,7 @@ public class DrinkScene : MonoBehaviour {
         this.TapText.text = "タップしてスタート！";
 
         // BGM
-        //SoundManager.Instance.PlayBGM(BGMName.DrinkingParty);
+        SoundManager.Instance.PlayBGM(BGMName.DrinkingParty);
 
         // クリア条件の設定
         this.ClearQuota = (int)(this.Limit * 0.8f);
@@ -331,16 +331,46 @@ public class DrinkScene : MonoBehaviour {
             switch (this.OrderBox[i])
             {
                 case 0:
-                    this.AnswerCheck[i] = "枝豆 " + this.OrderCounter[i].ToString() + "つ";
+                    this.AnswerCheck[i] = "ソフトクリーム " + this.OrderCounter[i].ToString() + "つ";
                     break;
                 case 1:
-                    this.AnswerCheck[i] = "卵焼き " + this.OrderCounter[i].ToString() + "つ";
+                    this.AnswerCheck[i] = "ワイン " + this.OrderCounter[i].ToString() + "つ";
                     break;
                 case 2:
-                    this.AnswerCheck[i] = "からあげ " + this.OrderCounter[i].ToString() + "つ";
+                    this.AnswerCheck[i] = "ハイボール " + this.OrderCounter[i].ToString() + "つ";
                     break;
                 case 3:
+                    this.AnswerCheck[i] = "アイス " + this.OrderCounter[i].ToString() + "つ";
+                    break;
+                case 4:
+                    this.AnswerCheck[i] = "うぃんぽて " + this.OrderCounter[i].ToString() + "つ";
+                    break;
+                case 5:
+                    this.AnswerCheck[i] = "えだまめ " + this.OrderCounter[i].ToString() + "つ";
+                    break;
+                case 6:
+                    this.AnswerCheck[i] = "ウィスキー " + this.OrderCounter[i].ToString() + "つ";
+                    break;
+                case 7:
+                    this.AnswerCheck[i] = "りんごてぃー " + this.OrderCounter[i].ToString() + "つ";
+                    break;
+                case 8:
+                    this.AnswerCheck[i] = "からあげ " + this.OrderCounter[i].ToString() + "つ";
+                    break;
+                case 9:
                     this.AnswerCheck[i] = "サラダ " + this.OrderCounter[i].ToString() + "つ";
+                    break;
+                case 10:
+                    this.AnswerCheck[i] = "なすび " + this.OrderCounter[i].ToString() + "つ";
+                    break;
+                case 11:
+                    this.AnswerCheck[i] = "からぽて " + this.OrderCounter[i].ToString() + "つ";
+                    break;
+                case 12:
+                    this.AnswerCheck[i] = "ビール " + this.OrderCounter[i].ToString() + "つ";
+                    break;
+                case 13:
+                    this.AnswerCheck[i] = "チヂミ " + this.OrderCounter[i].ToString() + "つ";
                     break;
             }
         }
