@@ -34,6 +34,8 @@ public class BossScene : MonoBehaviour {
     [SerializeField]
     SanctionPartController sanctionPart;
     [SerializeField]
+    DamageGageController damageGageController;
+    [SerializeField]
     GameObject standingBoss;
     [SerializeField]
     Image background;
@@ -51,7 +53,9 @@ public class BossScene : MonoBehaviour {
     int missCount;
     int successCount;
     [SerializeField, Header("パートが変わる基準の回数")]
-    float changeCount;
+    float partChangeCount;
+    [SerializeField, Header("フリック失敗時のダメージ減少量")]
+    int wrongPoint = -5;
 
     private Vector3 touchStartPos;
 
@@ -228,6 +232,7 @@ public class BossScene : MonoBehaviour {
     public void MissCountUP()
     {
         missCount++;
+        damageGageController.ChangeDamagePoint(wrongPoint);
     }
 
     public void SuccessCountUP()
@@ -235,7 +240,7 @@ public class BossScene : MonoBehaviour {
         successCount++;
 
         //区切り値へ到達
-        if (successCount % changeCount == 0)
+        if (successCount % partChangeCount == 0)
         {
             ChangePart();
         }
@@ -243,6 +248,11 @@ public class BossScene : MonoBehaviour {
         {
             flickPart.FlickSuccess();
         }
+    }
+
+    public void ChangeDamageGage(int damage)
+    {
+        damageGageController.ChangeDamagePoint(damage);
     }
 
     public void ChangePart()
@@ -280,7 +290,7 @@ public class BossScene : MonoBehaviour {
         state = GameState.End;
         Common.SceneName scene = Common.SceneName.MainNormalEnd;
         int gameMode = Common.Instance.gameMode;
-        float damagePercentage = sanctionPart.Result();
+        float damagePercentage = damageGageController.Result();
         // good
         if (damagePercentage >= 0.8)
         {

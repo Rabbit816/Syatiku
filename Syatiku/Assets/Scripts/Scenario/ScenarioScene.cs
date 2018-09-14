@@ -92,11 +92,10 @@ public class ScenarioScene : MonoBehaviour {
         {
             //Bad or Normal
             case 0:
-            case 1:
                 startVoiceIndex = 1;
                 break;
             //Good
-            case 2:
+            case 1:
                 startInfoIndex = 4;
                 break;
         }

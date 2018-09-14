@@ -317,8 +317,19 @@ public class ScenarioController : MonoBehaviour {
     {
         if (isPlayScenario)
         {
-            UpdateInfoOrMessage(ShowAllMessage);
-            SoundManager.Instance.PlaySE(SEName.Message);
+            //テキスト更新
+            if (!isLogView)
+            {
+                UpdateInfoOrMessage(ShowAllMessage);
+                SoundManager.Instance.PlaySE(SEName.Message);
+            }
+            //ログ非表示
+            else
+            {
+                isLogView = false;
+                window.log.SetActive(isLogView);
+                SoundManager.Instance.PlaySE(SEName.DenmokuTap);
+            }
         }
     }
 
@@ -335,14 +346,7 @@ public class ScenarioController : MonoBehaviour {
     public void OnClickLogButton()
     {
         isLogView = true;
-        window.log.SetActive(true);
-        SoundManager.Instance.PlaySE(SEName.DenmokuTap);
-    }
-
-    public void OnClickBackButton()
-    {
-        isLogView = false;
-        window.log.SetActive(false);
+        window.log.SetActive(isLogView);
         SoundManager.Instance.PlaySE(SEName.DenmokuTap);
     }
 
