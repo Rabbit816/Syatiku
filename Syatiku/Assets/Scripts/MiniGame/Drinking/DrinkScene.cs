@@ -207,7 +207,7 @@ public class DrinkScene : MonoBehaviour {
         this.TapText.gameObject.SetActive(true);
         this.Limit--;
 
-        yield return new WaitForSeconds(1.0f);
+        yield return new WaitForSeconds(0.5f);
         this.NextGameFlg = true;
     }
     
