@@ -10,12 +10,11 @@ public class ScenarioController : MonoBehaviour {
     {
         get
         {
-            if (instance != null)
+            if (instance == null)
             {
-                return instance;
+                instance = FindObjectOfType<ScenarioController>();
             }
 
-            instance = FindObjectOfType<ScenarioController>();
             return instance;
         }
     }
@@ -316,7 +315,11 @@ public class ScenarioController : MonoBehaviour {
     /// </summary>
     public void OnPointerClick()
     {
-        if (isPlayScenario) UpdateInfoOrMessage(ShowAllMessage);
+        if (isPlayScenario)
+        {
+            UpdateInfoOrMessage(ShowAllMessage);
+            SoundManager.Instance.PlaySE(SEName.Message);
+        }
     }
 
     public void OnClickSkipButton()
@@ -325,6 +328,7 @@ public class ScenarioController : MonoBehaviour {
         {
             isSkip = !isSkip;
             window.skipButton.color = isSkip ? Color.white : Color.gray;
+            SoundManager.Instance.PlaySE(SEName.DenmokuTap);
         }
     }
 
@@ -332,16 +336,19 @@ public class ScenarioController : MonoBehaviour {
     {
         isLogView = true;
         window.log.SetActive(true);
+        SoundManager.Instance.PlaySE(SEName.DenmokuTap);
     }
 
     public void OnClickBackButton()
     {
         isLogView = false;
         window.log.SetActive(false);
+        SoundManager.Instance.PlaySE(SEName.DenmokuTap);
     }
 
     public void OnClickAutoButton()
     {
+        SoundManager.Instance.PlaySE(SEName.DenmokuTap);
         isAuto = !isAuto;
         window.autoButton.color = isAuto ? Color.white : Color.gray ;
         if (IsShowAllMessage()) StartCoroutine(SetNextInfo(nextWaitTime));
@@ -362,7 +369,7 @@ public class ScenarioController : MonoBehaviour {
             MoveMenu(window.closeMenuPos);
             window.menuButton.sprite = window.menuSprites[0];
         }
-
+        SoundManager.Instance.PlaySE(SEName.DenmokuTap);
     }
 
     void MoveMenu(Vector3 targetPos)

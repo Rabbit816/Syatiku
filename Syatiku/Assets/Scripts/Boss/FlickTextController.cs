@@ -94,11 +94,13 @@ public class FlickTextController : MonoBehaviour
     {
         if (type == Type.Correct)
         {
+            SoundManager.Instance.PlaySE(SEName.CorrectHit);
             BossScene.Instance.SuccessCountUP();
             gameObject.SetActive(false);
         }
         else
         {
+            SoundManager.Instance.PlaySE(SEName.WrongHit);
             BossScene.Instance.MissCountUP();
             isReflect = true;
             moveForce = new Vector3(-moveForce.x, moveForce.y, 0);

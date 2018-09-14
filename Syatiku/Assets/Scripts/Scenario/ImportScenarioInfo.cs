@@ -152,7 +152,7 @@ public class ImportScenarioInfo : MonoBehaviour {
             {
                 string cueName = TakeTextInfo(text);
                 if (string.IsNullOrEmpty(cueName)) SoundManager.Instance.StopBGM();
-                else SoundManager.Instance.PlayBGM(TakeTextInfo(text));
+                else SoundManager.Instance.PlaySE(cueName);
             });
         }
         else if (text.Contains("bgm"))
@@ -162,7 +162,7 @@ public class ImportScenarioInfo : MonoBehaviour {
             {
                 string cueName = TakeTextInfo(text);
                 if (string.IsNullOrEmpty(cueName)) SoundManager.Instance.StopSE();
-                else SoundManager.Instance.PlaySE(cueName);
+                else SoundManager.Instance.PlayBGM(cueName);
             });
         }
         else if (text.Contains("cv"))

@@ -31,6 +31,7 @@ public class SanctionPartController : MonoBehaviour {
     {
         if (Input.GetMouseButtonDown(0))
         {
+            SoundManager.Instance.PlaySE(SEName.Harisen);
             if (!slappedBossGO.activeSelf)
             {
                 BossScene.Instance.ChangeBossState(slappedBossGO);
@@ -41,6 +42,7 @@ public class SanctionPartController : MonoBehaviour {
             //向きの変更
             slappedBoss.localScale = bossScale;
 
+            //エフェクトのオブジェクトプール
             for (int i = 0; i < effectList.Count; i++) {
                 if (!effectList[i].activeSelf)
                 {
