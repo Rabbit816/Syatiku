@@ -179,8 +179,15 @@ public class PatteringEvent : MonoBehaviour {
     {
         if (_success)
         {
+            getDocument.transform.position = new Vector3(0, 0, 0);
             successCount++;
             getDocument_obj.SetActive(true);
+            Sequence seque = DOTween.Sequence();
+            seque.Append(getDocument.DOLocalMove(new Vector3(805, 320, 0), 1.4f))
+                .Join(getDocument.DORotate(new Vector3(0, 0, 720f), 1.0f))
+                .Join(getDocument.DOScale(new Vector3(0.6f, 0.6f, 0.6f), 1.0f));
+            _success = false;
+            Debug.Log("TapResult");
         }
         StartCoroutine(Wait_Time(2f));
     }
@@ -234,16 +241,21 @@ public class PatteringEvent : MonoBehaviour {
         hack_main.es.enabled = true;
     }
 
-    IEnumerator SEWaitTime(float time, bool _low)
+    /// <summary>
+    /// SEName.Pageのループ処理
+    /// </summary>
+    /// <param name="time">time秒ごとに鳴らす</param>
+    /// <param name="_low">true=LowAnim, false=SpeedAnim</param>
+    /// <returns></returns>
+    private IEnumerator SEWaitTime(float time, bool _low)
     {
-        for (int i = 0; i < 70; i++)
+        for (int i = 0; i < 100; i++)
         {
             if(_low && _lowAnimClear || !_low && _speedyAnimClear)
             {
                 SoundManager.Instance.StopSE();
                 break;
             }
-                
             yield return new WaitForSeconds(time);
             SoundManager.Instance.PlaySE(SEName.Page);
         }
