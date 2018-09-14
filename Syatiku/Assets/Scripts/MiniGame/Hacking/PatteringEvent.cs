@@ -54,6 +54,8 @@ public class PatteringEvent : MonoBehaviour {
     public bool _speedyAnimClear = false;
     
     private Sequence quen;
+    //一回だけ通したい時に使う
+    private bool _onece = false;
     
     // Use this for initialization
     void Start ()
@@ -140,6 +142,7 @@ public class PatteringEvent : MonoBehaviour {
     {
         yield return new WaitForSeconds(time);
         getDocument_obj.SetActive(false);
+        _onece = false;
     }
 
     /// <summary>
@@ -179,15 +182,17 @@ public class PatteringEvent : MonoBehaviour {
     {
         if (_success)
         {
-            getDocument.transform.position = new Vector3(0, 0, 0);
-            successCount++;
-            getDocument_obj.SetActive(true);
-            Sequence seque = DOTween.Sequence();
-            seque.Append(getDocument.DOLocalMove(new Vector3(805, 320, 0), 1.4f))
-                .Join(getDocument.DORotate(new Vector3(0, 0, 720f), 1.0f))
-                .Join(getDocument.DOScale(new Vector3(0.6f, 0.6f, 0.6f), 1.0f));
-            _success = false;
-            Debug.Log("TapResult");
+            if (!_onece)
+            {
+                getDocument.transform.position = new Vector3(0, 0, 0);
+                successCount++;
+                getDocument_obj.SetActive(true);
+                Sequence seque = DOTween.Sequence();
+                seque.Join(getDocument.DOLocalMove(new Vector3(805, 320, 0), 1.4f))
+                    .Join(getDocument.DORotate(new Vector3(0, 0, 720f), 1.0f))
+                    .Join(getDocument.DOScale(new Vector3(0.6f, 0.6f, 0.6f), 1.0f));
+                _onece = true;
+            }
         }
         StartCoroutine(Wait_Time(2f));
     }

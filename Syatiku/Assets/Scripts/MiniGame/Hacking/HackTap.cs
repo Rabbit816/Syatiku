@@ -54,7 +54,6 @@ public class HackTap : MonoBehaviour
     //比較する資料を取得したかどうか
     [HideInInspector]
     public bool _getDocument = false;
-    private bool _playSE = false;
 
     // Use this for initialization
     void Start ()
