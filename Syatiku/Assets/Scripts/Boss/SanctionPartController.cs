@@ -5,8 +5,6 @@ using System.Collections.Generic;
 public class SanctionPartController : MonoBehaviour {
 
     [SerializeField]
-    DamageGageController damageGageController;
-    [SerializeField]
     Sprite[] slappedBossSprites;
     [SerializeField]
     RectTransform slappedBoss;
@@ -36,7 +34,7 @@ public class SanctionPartController : MonoBehaviour {
             {
                 BossScene.Instance.ChangeBossState(slappedBossGO);
             }
-            damageGageController.ChangeDamagePoint();
+            BossScene.Instance.ChangeDamageGage(1);
             Vector3 bossScale = slappedBoss.localScale;
             bossScale.x *= -1;
             //向きの変更
@@ -70,10 +68,5 @@ public class SanctionPartController : MonoBehaviour {
             }
             BossScene.Instance.ChangePart();
         }
-    }
-
-    public float Result()
-    {
-        return damageGageController.Result();
     }
 }

@@ -16,11 +16,14 @@ public class DamageGageController : MonoBehaviour {
         damageGage.fillAmount = 0;
 	}
 
-    public void ChangeDamagePoint()
+    public void ChangeDamagePoint(int point)
     {
-        if (damage >= damagePointMax) return;
+        //最大ならスルー
+        if (point > 0 && damage >= damagePointMax) return;
 
-        damage++;
+        damage += point;
+        //マイナスなら0に
+        if (damage + point < 0) damage = 0;
         float targetNum = damage / damagePointMax;
         DOTween.To(
             () => damageGage.fillAmount,
