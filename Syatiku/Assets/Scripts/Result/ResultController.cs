@@ -74,7 +74,21 @@ public class ResultController : MonoBehaviour {
     /// </summary>
     public void ActionBack()
     {
-        Common.Instance.ChangeScene(Common.SceneName.Action);
+        if (Common.Instance.gameMode == 0)
+        {
+            if (Common.Instance.actionCount == 0)
+                Common.Instance.ChangeScene(Common.SceneName.AnotherBeforeBattle);
+            else
+                Common.Instance.ChangeScene(Common.SceneName.Action);
+        }
+        else
+        {
+            if (Common.Instance.actionCount == 0)
+                Common.Instance.ChangeScene(Common.SceneName.BeforeBattle);
+            else
+                Common.Instance.ChangeScene(Common.SceneName.Action);
+        }
+           
     }
 
     /// <summary>
@@ -87,7 +101,7 @@ public class ResultController : MonoBehaviour {
         yield return new WaitForSeconds(0.5f);
         enemy.gameObject.SetActive(true);
         spot.gameObject.SetActive(true);
-        SoundManager.Instance.PlaySE(SEName.Harisen);
+        SoundManager.Instance.PlaySE(SEName.Spot);
         if (Common.Instance.gameMode == 0)
             enemy.sprite = eSprite_another[0];
         else
@@ -101,6 +115,7 @@ public class ResultController : MonoBehaviour {
             GameObject pro = Instantiate(proPrefab, canvas.transform);
             pro.transform.localPosition = proPos[i].localPosition;
             pro.transform.GetChild(0).GetComponent<Text>().text = scoreText[i];
+            SoundManager.Instance.PlaySE(SEName.Hukidashi);
             if (onceFlag) i++;
             yield return new WaitForSeconds(0.5f);
         }
