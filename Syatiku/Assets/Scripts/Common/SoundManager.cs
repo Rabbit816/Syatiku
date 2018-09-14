@@ -37,13 +37,14 @@ public enum SEName
     PasswordMiss,   //パスワードミスった
     Page,           //ハッキングのペラペラ
     SetPassword,    //パスワードの文字をはめるとき
-    SeVondnidle,    //使わないもの（気が向いたら消す）
     TapAction,      //ミニゲーム選択音
     Timer,          //喫煙所の選択肢表示中のタイマー音
     Hukidashi,      //リザルトの吹き出し音
     Spot,           //リザルトスポットライト音
     Impact,         //ボスドアップ音
     FootSound,      //ボス足音
+    Spot2,
+    Warning,
 }
 
 public enum SmokingVoiceName
