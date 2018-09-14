@@ -31,12 +31,18 @@ public class ScenarioWindow : MonoBehaviour
     public Image menuButton;
     public Image skipButton;
     public Image autoButton;
+    public Image logButton;
+    public ScrollRect scroll;
 
     public CanvasGroup scenarioCanvas;
 
     void Start()
     {
-        closeMenuPos = menu.localPosition;
+        //バグの強制回避
+        closeMenuPos = new Vector3(-300, 180, 0);
+        menu.localPosition = closeMenuPos;
+        //これだけでいいはずなのに...
+        //closeMenuPos = menu.localPosition;
     }
 
     public void Init()
