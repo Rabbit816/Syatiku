@@ -179,6 +179,8 @@ public class SmokingController : MonoBehaviour {
             Debug.Log("〇");
             succesCount++; // 正解数を加算
 
+            SoundManager.Instance.PlaySE(SEName.CorrectChoice);
+
             if (qLength <= 0) {
                 isTime = true;
                 Invoke("SelectFalse", 0.01f);
@@ -187,12 +189,13 @@ public class SmokingController : MonoBehaviour {
             }
 
             qNum++; // 問題Noを加算
-            SoundManager.Instance.PlaySE(SEName.CorrectChoice);
+            
             IsScenario(talkFilePath + textPath + smokePath + qCount.ToString());
 
         } else {
             Debug.Log("×");
-            
+            SoundManager.Instance.PlaySE(SEName.WrongChoice);
+
             badFlags[answerCount] = true;
             if (qLength <= 0 || answerCount == 0)
             {
@@ -204,7 +207,6 @@ public class SmokingController : MonoBehaviour {
 
             qNum++;
 
-            SoundManager.Instance.PlaySE(SEName.WrongChoice);
             IsScenario(talkFilePath + badSmokePath + qCount.ToString());
         }
         
