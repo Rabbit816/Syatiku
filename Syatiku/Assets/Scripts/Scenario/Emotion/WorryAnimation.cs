@@ -7,6 +7,7 @@ public class WorryAnimation : MonoBehaviour {
     void Start()
     {
         StartCoroutine(StartAnimation());
+        SoundManager.Instance.PlaySE(SEName.Worry);
     }
 
     IEnumerator StartAnimation()

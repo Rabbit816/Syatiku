@@ -133,12 +133,19 @@ public class ScenarioController : MonoBehaviour {
         //ボイスストップ
         SoundManager.Instance.StopVoice();
         //各コマンド
-        if (scenarioInfoList[infoIndex].commandActionList.Count > 0)
+        if (scenarioInfoList[infoIndex].commandActionList.Count > 0 && scenarioInfoList[infoIndex].fadeTimeList.Count > 0)
         {
             int index = infoIndex;
             float time;
             scenarioInfoList[index].fadeTimeList.TryGetValue(0, out time);
             StartCoroutine(StartCommand(scenarioInfoList[index].commandActionList[0], time, index));
+        }
+        else
+        {
+            foreach (var action in scenarioInfoList[infoIndex].commandActionList)
+            {
+                action();
+            }
         }
         infoIndex++;
     }
@@ -344,7 +351,6 @@ public class ScenarioController : MonoBehaviour {
                 isLogView = false;
                 window.log.SetActive(isLogView);
                 window.logButton.color = Color.gray;
-                SoundManager.Instance.PlaySE(SEName.DenmokuTap);
             }
         }
     }
@@ -355,7 +361,6 @@ public class ScenarioController : MonoBehaviour {
         {
             isSkip = !isSkip;
             window.skipButton.color = isSkip ? Color.white : Color.gray;
-            SoundManager.Instance.PlaySE(SEName.DenmokuTap);
         }
     }
 
@@ -365,12 +370,10 @@ public class ScenarioController : MonoBehaviour {
         window.log.SetActive(isLogView);
         window.logButton.color = Color.white;
         window.scroll.verticalNormalizedPosition = 0;
-        SoundManager.Instance.PlaySE(SEName.DenmokuTap);
     }
 
     public void OnClickAutoButton()
     {
-        SoundManager.Instance.PlaySE(SEName.DenmokuTap);
         isAuto = !isAuto;
         window.autoButton.color = isAuto ? Color.white : Color.gray ;
         if (IsShowAllMessage()) StartCoroutine(SetNextInfo(nextWaitTime));
@@ -391,7 +394,7 @@ public class ScenarioController : MonoBehaviour {
             MoveMenu(window.closeMenuPos);
             window.menuButton.sprite = window.menuSprites[0];
         }
-        SoundManager.Instance.PlaySE(SEName.DenmokuTap);
+        SoundManager.Instance.PlaySE(SEName.Menu);
     }
 
     void MoveMenu(Vector3 targetPos)

@@ -16,11 +16,13 @@ public class JoyAnimation : MonoBehaviour {
         {
             time = 0.3f;
             max = 3;
+            SoundManager.Instance.PlaySE(SEName.Joy);
         }
         else
         {
             time = 0.1f;
             max = 5;
+            //SoundManager.Instance.PlaySE(SEName.);
         }
         Vector3 turn = new Vector3(-1, 1, 1);
         for (int i = 0; i < max; i++)

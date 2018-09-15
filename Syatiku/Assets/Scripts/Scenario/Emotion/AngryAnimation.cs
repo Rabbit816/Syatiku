@@ -22,17 +22,20 @@ public class AngryAnimation : MonoBehaviour {
         {
             targetPos = new Vector3(pos.x + 50, pos.y + 80, 0);
             time = 0.5f;
+            SoundManager.Instance.PlaySE(SEName.Angry);
         }
         else
         {
             if (gameObject.name.Contains("Sigh"))
             {
                 targetPos = new Vector3(pos.x - 60, pos.y - 60, 0);
+                SoundManager.Instance.PlaySE(SEName.Sigh);
             }
             else
             {
                 targetPos = new Vector3(pos.x + 40, pos.y + 80, 0);
                 time = 2f;
+                SoundManager.Instance.PlaySE(SEName.Question);
             }
         }
         UnityEngine.UI.Image i = GetComponent<UnityEngine.UI.Image>();

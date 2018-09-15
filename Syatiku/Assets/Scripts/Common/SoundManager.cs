@@ -40,11 +40,18 @@ public enum SEName
     TapAction,      //ミニゲーム選択音
     Timer,          //喫煙所の選択肢表示中のタイマー音
     Hukidashi,      //リザルトの吹き出し音
-    Spot,           //リザルトスポットライト音
     Impact,         //ボスドアップ音
     FootSound,      //ボス足音
-    Spot2,
-    Warning,
+    Spot2,          //スポットライト音
+    Warning,        //ボス決戦アラート
+    Menu,
+    Joy,
+    Angry,
+    Sigh,
+    Worry,
+    Shock,
+    Impatience,
+    Question,
 }
 
 public enum SmokingVoiceName

@@ -96,7 +96,7 @@ public class ImportScenarioInfo : MonoBehaviour {
                 target.gameObject.SetActive(true);
                 FadeManager.Instance.Fade(target, time, 1f);
             });
-            scenario.fadeTimeList.Add(scenario.commandActionList.Count - 1, time);
+            if (time > 0) scenario.fadeTimeList.Add(scenario.commandActionList.Count - 1, time);
         }
         else if (text.Contains("emo"))
         {
@@ -135,7 +135,7 @@ public class ImportScenarioInfo : MonoBehaviour {
                 target.gameObject.SetActive(false);
                 FadeManager.Instance.Fade(target, time, 0);
             });
-            scenario.fadeTimeList.Add(scenario.commandActionList.Count - 1, time);
+            if(time > 0) scenario.fadeTimeList.Add(scenario.commandActionList.Count - 1, time);
         }
         else if (text.Contains("se"))
         {

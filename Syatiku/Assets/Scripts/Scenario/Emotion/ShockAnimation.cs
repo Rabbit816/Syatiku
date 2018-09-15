@@ -7,6 +7,7 @@ public class ShockAnimation : MonoBehaviour {
     void Start()
     {
         StartCoroutine(StartAnimation());
+        SoundManager.Instance.PlaySE(SEName.Shock);
     }
 
     IEnumerator StartAnimation()

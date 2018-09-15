@@ -101,7 +101,7 @@ public class ResultController : MonoBehaviour {
         yield return new WaitForSeconds(0.5f);
         enemy.gameObject.SetActive(true);
         spot.gameObject.SetActive(true);
-        SoundManager.Instance.PlaySE(SEName.Spot);
+        SoundManager.Instance.PlaySE(SEName.Spot2);
         if (Common.Instance.gameMode == 0)
             enemy.sprite = eSprite_another[0];
         else

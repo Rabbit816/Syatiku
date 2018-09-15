@@ -7,6 +7,7 @@ public class ImpatienceAnimation : MonoBehaviour {
     void Start()
     {
         StartCoroutine(StartAnimation());
+        SoundManager.Instance.PlaySE(SEName.Impatience);
     }
 
     IEnumerator StartAnimation()
