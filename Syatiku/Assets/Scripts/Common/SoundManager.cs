@@ -141,6 +141,7 @@ public class SoundManager : MonoBehaviour {
     public void SetVoiceSource(CriAtomSource source)
     {
         voiceSource = source;
+        voiceSource.volume = 2f;
     }
 
     public bool IsVoiceEndOrStop()

@@ -112,15 +112,15 @@ public class ImportScenarioInfo : MonoBehaviour {
                     case 0:
                     case 1:
                     case 7:
-                        CharacterMotion(pos, 30f, 0.5f);
+                        ActiveMotion(pos, 30f, 0.5f);
                         break;
                     case 4:
                     case 5:
                     case 6:
-                        CharacterMotion(pos, -30f, 0.5f);
+                        ActiveMotion(pos, -30f, 0.5f);
                         break;
                     default:
-                        CharacterMotion(pos, -30f, 1.5f);
+                        ActiveMotion(pos, -30f, 1.5f);
                         break;
                 }
             });
@@ -166,9 +166,7 @@ public class ImportScenarioInfo : MonoBehaviour {
                 //シナリオ用
                 if (voiceNum == -1)
                 {
-                    SoundManager.Instance.PlayVoice(voiceCount);
-                    //上で++したらどうなるか試す
-                    voiceCount++;
+                    SoundManager.Instance.PlayVoice(voiceCount++);
                 }
                 //喫煙用
                 else
@@ -338,7 +336,7 @@ public class ImportScenarioInfo : MonoBehaviour {
         return -1;
     }
 
-    void CharacterMotion(int posNum, float jumpNum, float time)
+    void ActiveMotion(int posNum, float jumpNum, float time)
     {
         RectTransform character = window.characters[posNum].GetComponent<RectTransform>();
         character.DOLocalJump(
