@@ -35,7 +35,10 @@ public class ButtonController : MonoBehaviour {
 
     // デンモクのスクロールバー
     [SerializeField]
-    Scrollbar MenuScrollbar;
+    Scrollbar Scrollbar_Otsumami;
+
+    [SerializeField]
+    Scrollbar Scrollbar_Drink;
 
     // 注文数をカウントする
     [HideInInspector]
@@ -87,7 +90,7 @@ public class ButtonController : MonoBehaviour {
     {
         this.AgainFlg = false;
         this.DrinkSceneButton(false);
-        drink.Order();
+        StartCoroutine(drink.OrderMethod());
     }
 
     // メニュータブのおつまみボタン
@@ -111,7 +114,8 @@ public class ButtonController : MonoBehaviour {
     // デンモクのメニュータブのボタン管理
     public void MenuTabControll(bool b1, bool b2, bool b3, bool b4, bool b5, bool b6)
     {
-        this.MenuScrollbar.value = 0;
+        this.Scrollbar_Otsumami.value = 0;
+        this.Scrollbar_Drink.value = 0;
         this.Otsumami.interactable = b1;
         this.Drink.interactable = b2;
         this.Dessert.interactable = b3;
@@ -125,6 +129,7 @@ public class ButtonController : MonoBehaviour {
     {
         if (this.OrderCount != 4)
         {
+            SoundManager.Instance.PlaySE(SEName.DenmokuTap);
             this.Menu[i].interactable = false;
             denmoku.ListInMenu(i);
             this.OrderCount++;
@@ -138,7 +143,7 @@ public class ButtonController : MonoBehaviour {
         this.OrderCount = 0;
         this.DenmokuImage.transform.localPosition = new Vector2(0, -1500);
         drink.Delete();
-        drink.Answer();
+        StartCoroutine(drink.Answer());
         meter.TimeMeterFlg = false;
         meter.TimeMeter.value = 0;
     }
@@ -162,11 +167,14 @@ public class ButtonController : MonoBehaviour {
         {
             if (denmoku.InputOrderCounter[this.CounterNum] < 4)
             {
+                SoundManager.Instance.PlaySE(SEName.DenmokuTap);
                 denmoku.InputOrderCounter[this.CounterNum]++;
             }
         }
         else
         {
+            SoundManager.Instance.PlaySE(SEName.DenmokuTap);
+
             if (denmoku.InputOrderCounter[this.CounterNum] > 1)
             {
                 denmoku.InputOrderCounter[this.CounterNum]--;
@@ -197,6 +205,12 @@ public class ButtonController : MonoBehaviour {
         {
             this.CounterNum = i;
         }
+    }
+
+    // ボタンを押したときにSEを再生
+    public void StartSE()
+    {
+        SoundManager.Instance.PlaySE(SEName.DenmokuTap);
     }
 
     void Start () {

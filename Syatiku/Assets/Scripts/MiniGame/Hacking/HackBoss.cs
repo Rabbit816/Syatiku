@@ -167,8 +167,14 @@ public class HackBoss : MonoBehaviour {
     {
         string boss_str = boss_text.stren[boss_text.stren.Length-1];
         if (btn.text == boss_str)
+        {
             Debug.Log("正解！");
+            SoundManager.Instance.PlaySE(SEName.TapAction);
+        }
         else
+        {
             Debug.Log("不正解");
+            SoundManager.Instance.PlaySE(SEName.PasswordMiss);
+        }
     }
 }

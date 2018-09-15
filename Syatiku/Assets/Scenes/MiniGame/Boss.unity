@@ -1439,7 +1439,7 @@ MonoBehaviour:
   background: {fileID: 631412847}
   backgroundSprites:
   - {fileID: 21300000, guid: e737ff86bee513941988d03c7c4db911, type: 3}
-  - {fileID: 21300000, guid: f6410deb3f1a4fb40a51026a8db3fba8, type: 3}
+  - {fileID: 21300000, guid: de0129796f6ff81449b7a0d6a97ffc82, type: 3}
   partChangeCount: 3
   wrongPoint: -5
 --- !u!4 &1274440718

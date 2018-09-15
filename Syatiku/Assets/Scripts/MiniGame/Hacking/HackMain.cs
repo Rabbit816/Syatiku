@@ -82,7 +82,7 @@ public class HackMain : MonoBehaviour {
                 _time = 0;
             }
         }
-        if (into_pc._compariClear) //&& patte._lowAnimClear && patte._speedyAnimClear)
+        if (into_pc._compariClear)
         {
             if (!_allClear)
             {

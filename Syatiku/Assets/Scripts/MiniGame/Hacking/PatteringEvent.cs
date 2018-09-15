@@ -54,6 +54,8 @@ public class PatteringEvent : MonoBehaviour {
     public bool _speedyAnimClear = false;
     
     private Sequence quen;
+    //一回だけ通したい時に使う
+    private bool _onece = false;
     
     // Use this for initialization
     void Start ()
@@ -140,6 +142,7 @@ public class PatteringEvent : MonoBehaviour {
     {
         yield return new WaitForSeconds(time);
         getDocument_obj.SetActive(false);
+        _onece = false;
     }
 
     /// <summary>
@@ -179,11 +182,16 @@ public class PatteringEvent : MonoBehaviour {
     {
         if (_success)
         {
-            successCount++;
-            getDocument_obj.SetActive(true);
-            if(successCount == 2)
+            if (!_onece)
             {
-                PatteResult();
+                getDocument.transform.position = new Vector3(0, 0, 0);
+                successCount++;
+                getDocument_obj.SetActive(true);
+                Sequence seque = DOTween.Sequence();
+                seque.Join(getDocument.DOLocalMove(new Vector3(805, 320, 0), 1.4f))
+                    .Join(getDocument.DORotate(new Vector3(0, 0, 720f), 1.0f))
+                    .Join(getDocument.DOScale(new Vector3(0.6f, 0.6f, 0.6f), 1.0f));
+                _onece = true;
             }
         }
         StartCoroutine(Wait_Time(2f));
@@ -238,12 +246,21 @@ public class PatteringEvent : MonoBehaviour {
         hack_main.es.enabled = true;
     }
 
-    IEnumerator SEWaitTime(float time, bool _low)
+    /// <summary>
+    /// SEName.Pageのループ処理
+    /// </summary>
+    /// <param name="time">time秒ごとに鳴らす</param>
+    /// <param name="_low">true=LowAnim, false=SpeedAnim</param>
+    /// <returns></returns>
+    private IEnumerator SEWaitTime(float time, bool _low)
     {
-        for (int i = 0; i < 70; i++)
+        for (int i = 0; i < 100; i++)
         {
             if(_low && _lowAnimClear || !_low && _speedyAnimClear)
+            {
                 SoundManager.Instance.StopSE();
+                break;
+            }
             yield return new WaitForSeconds(time);
             SoundManager.Instance.PlaySE(SEName.Page);
         }
@@ -255,12 +272,7 @@ public class PatteringEvent : MonoBehaviour {
     private void LowAnim()
     {
         Sequence se = DOTween.Sequence();
-        if (successCount == 2)
-        {
-            Debug.Log("KILL");
-            se.Kill();
-        }
-        StartCoroutine(SEWaitTime(0.5f,true));
+        StartCoroutine(SEWaitTime(0.35f,true));
         se.Append(Low_Paper_1.DOLocalRotate(new Vector2(0, Low_Paper_1.localRotation.y + 180), 0.2f).SetDelay(0.5f).SetLoops(97, LoopType.Restart))
            .InsertCallback(3.7f, () => { ChangeColor(0); _success = true; })
            .InsertCallback(4.3f, () => { ChangeColor(1); _success = false; })
@@ -279,12 +291,7 @@ public class PatteringEvent : MonoBehaviour {
     private void SpeedyAnim()
     {
         Sequence seq = DOTween.Sequence();
-        if (successCount == 2)
-        {
-            Debug.Log("KILL");
-            seq.Kill();
-        }
-        StartCoroutine(SEWaitTime(0.3f,false));
+        StartCoroutine(SEWaitTime(0.2f,false));
         seq.Append(Speedy_Paper_1.DOLocalRotate(new Vector2(0, Speedy_Paper_1.localRotation.y + 180), 0.16f).SetDelay(0.1f).SetLoops(120, LoopType.Restart))
            .InsertCallback(3.0f, () => { ChangeColor(2); _success = true; })
            .InsertCallback(3.4f, () => { ChangeColor(3); _success = false; })
