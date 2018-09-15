@@ -87,13 +87,16 @@ public class ImportScenarioInfo : MonoBehaviour {
         else if (text.Contains("charaOn"))
         {
             //キャラクター画像表示
+            float time = GetTime(text);
             scenario.commandActionList.Add(() =>
             {
                 string imagePath = "Scenario/" + TakeTextInfo(text);
                 Image target = GetTargetImage(text);
-                target.gameObject.SetActive(true);
                 SetSprite(target, imagePath);
+                target.gameObject.SetActive(true);
+                FadeManager.Instance.Fade(target, time, 1f);
             });
+            scenario.fadeTimeList.Add(scenario.commandActionList.Count - 1, time);
         }
         else if (text.Contains("emo"))
         {
@@ -125,25 +128,14 @@ public class ImportScenarioInfo : MonoBehaviour {
         else if (text.Contains("charaOff"))
         {
             //キャラクター画像非表示
+            float time = GetTime(text);
             scenario.commandActionList.Add(() =>
             {
                 Image target = GetTargetImage(text);
                 target.gameObject.SetActive(false);
+                FadeManager.Instance.Fade(target, time, 0);
             });
-        }
-        else if (text.Contains("fadeIn"))
-        {
-            scenario.commandActionList.Add(() =>
-            {
-                FadeImage(text, 0f, 1f);
-            });
-        }
-        else if (text.Contains("fadeOut"))
-        {
-            scenario.commandActionList.Add(() =>
-            {
-                FadeImage(text, 1f, 0f);
-            });
+            scenario.fadeTimeList.Add(scenario.commandActionList.Count - 1, time);
         }
         else if (text.Contains("se"))
         {
@@ -215,6 +207,7 @@ public class ImportScenarioInfo : MonoBehaviour {
                 {
                     string imagePath = "Scenario/" + imageName;
                     SetSprite(window.bgi, imagePath);
+                    window.bgi.color = Color.white;
                 }
             });
         }
@@ -286,7 +279,6 @@ public class ImportScenarioInfo : MonoBehaviour {
     void SetSprite(Image image, string path)
     {
         image.sprite = Resources.Load<Sprite>(path);
-        image.color = Color.white;
     }
 
     /// <summary>
@@ -370,38 +362,13 @@ public class ImportScenarioInfo : MonoBehaviour {
     }
 
     /// <summary>
-    /// フェード
-    /// </summary>
-    void FadeImage(string text, float startAlpha, float targetAlpha)
-    {
-        string targetName = TakeTextInfo(text);
-
-        Image target = null;
-        float waitTime = GetTime(text);
-
-        switch (targetName)
-        {
-            case "character":
-                target = GetTargetImage(text);
-                break;
-            case "background":
-                target = window.bgi;
-                break;
-        }
-
-        if (target == null) Debug.logger.LogError("ArgumentNullException", "ターゲットが指定されていません");
-
-        target.color = new Color(1f, 1f, 1f, startAlpha);
-        FadeManager.Instance.Fade(target, waitTime, targetAlpha);
-    }
-
-    /// <summary>
     /// 時間を取得
     /// </summary>
     float GetTime(string text)
     {
         int beginNum = text.IndexOf("[") + 1;
         int lastNum = text.IndexOf("]");
+        if (beginNum < 1 || lastNum < 0) return 0;
         string timeString = text.Substring(beginNum, lastNum - beginNum);
         float time;
         //中身がなければ0を返す

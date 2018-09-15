@@ -133,12 +133,27 @@ public class ScenarioController : MonoBehaviour {
         //ボイスストップ
         SoundManager.Instance.StopVoice();
         //各コマンド
-        foreach (var action in scenarioInfoList[infoIndex].commandActionList)
+        if (scenarioInfoList[infoIndex].commandActionList.Count > 0)
         {
-            action();
+            int index = infoIndex;
+            float time;
+            scenarioInfoList[index].fadeTimeList.TryGetValue(0, out time);
+            StartCoroutine(StartCommand(scenarioInfoList[index].commandActionList[0], time, index));
         }
-
         infoIndex++;
+    }
+
+    IEnumerator StartCommand(System.Action action, float time, int index, int count = 0)
+    {
+        action();
+        yield return new WaitForSeconds(time);
+        count++;
+        if (count < scenarioInfoList[index].commandActionList.Count)
+        {
+            System.Action nextAction = scenarioInfoList[index].commandActionList[count];
+            scenarioInfoList[index].fadeTimeList.TryGetValue(count, out time);
+            yield return StartCommand(nextAction, time, index, count);
+        }
     }
 
     public void hideButtons()
