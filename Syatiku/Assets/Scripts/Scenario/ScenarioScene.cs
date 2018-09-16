@@ -51,19 +51,19 @@ public class ScenarioScene : MonoBehaviour {
         }
         switch (clearCount)
         {
-            //Good
+            //Bad
             case 0:
             case 1:
+                startInfoIndex = 11;
+                startVoiceIndex = 2;
                 break;
             //Normal
             case 2:
                 startInfoIndex = 6;
                 startVoiceIndex = 1;
                 break;
-            //Bad
+            //Good
             case 3:
-                startInfoIndex = 11;
-                startVoiceIndex = 2;
                 break;
         }
         ScenarioController.Instance.BeginScenario(filePath, startInfoIndex, startVoiceIndex);
