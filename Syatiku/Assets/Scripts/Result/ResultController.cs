@@ -83,7 +83,9 @@ public class ResultController : MonoBehaviour {
         }
         else
         {
-            if (Common.Instance.actionCount == 0)
+            if (Common.Instance.actionCount == 2)
+                Common.Instance.ChangeScene(Common.SceneName.Progress);
+            else if(Common.Instance.actionCount == 0)
                 Common.Instance.ChangeScene(Common.SceneName.BeforeBattle);
             else
                 Common.Instance.ChangeScene(Common.SceneName.Action);
