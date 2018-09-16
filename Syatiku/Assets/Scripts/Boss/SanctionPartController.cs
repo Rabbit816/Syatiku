@@ -21,7 +21,7 @@ public class SanctionPartController : MonoBehaviour {
 
     public void Initialize(int gameMode)
     {
-        slappedBoss.GetComponent<UnityEngine.UI.Image>().sprite = slappedBossSprites[gameMode - 1];
+        slappedBoss.GetComponent<UnityEngine.UI.Image>().sprite = slappedBossSprites[gameMode];
         slappedBossGO = slappedBoss.gameObject;
     }
 

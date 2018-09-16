@@ -1238,8 +1238,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   slappedBossSprites:
-  - {fileID: 21300000, guid: 0f586d5ca04c3e944b2686c0dd19dbcb, type: 3}
   - {fileID: 21300000, guid: 5f778617849152748bf0baff7cef64fa, type: 3}
+  - {fileID: 21300000, guid: 0f586d5ca04c3e944b2686c0dd19dbcb, type: 3}
   slappedBoss: {fileID: 1062121982}
   bomRect: {fileID: 1224289851}
   bom: {fileID: 1224289850}
@@ -1430,8 +1430,8 @@ MonoBehaviour:
   panel: {fileID: 1586948284}
   spotLight: {fileID: 487302039}
   standingBossSprites:
-  - {fileID: 21300000, guid: a7d73fc8a40869b4383e7dea87411c5b, type: 3}
   - {fileID: 21300000, guid: 934de605655e21b47b6e1fd85432cb7a, type: 3}
+  - {fileID: 21300000, guid: a7d73fc8a40869b4383e7dea87411c5b, type: 3}
   flickPart: {fileID: 1065099899}
   sanctionPart: {fileID: 1370587474}
   damageGageController: {fileID: 843249171}
@@ -1661,8 +1661,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   slappedBossSprites:
-  - {fileID: 21300000, guid: 94fb6fadb3e671947847ff31e48f2683, type: 3}
   - {fileID: 21300000, guid: da188ca08eb0d2e4589366044cbb9369, type: 3}
+  - {fileID: 21300000, guid: 94fb6fadb3e671947847ff31e48f2683, type: 3}
   slappedBoss: {fileID: 575635908}
   impactEffect: {fileID: 1803021589519446, guid: 7fb367c4c2c5ba54bad8f03998bb83b1,
     type: 2}

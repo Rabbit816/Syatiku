@@ -66,10 +66,10 @@ public class BossScene : MonoBehaviour {
     void Initialize()
     {
         Instance = this;
-        int gameMode = Common.Instance.gameMode < 1 ? 1 : Common.Instance.gameMode;
+        int gameMode = Common.Instance.gameMode < 0 ? 0 : Common.Instance.gameMode;
         flickPart.Initialize(gameMode);
         sanctionPart.Initialize(gameMode);
-        standingBoss.GetComponent<Image>().sprite = standingBossSprites[gameMode - 1];
+        standingBoss.GetComponent<Image>().sprite = standingBossSprites[gameMode];
         state = 0;
         SoundManager.Instance.StopBGM();
         
@@ -294,17 +294,17 @@ public class BossScene : MonoBehaviour {
         // good
         if (damagePercentage >= 0.8)
         {
-            scene = gameMode > 1 ? Common.SceneName.AnotherGoodEnd : Common.SceneName.MainGoodEnd;
+            scene = gameMode > 0 ? Common.SceneName.MainGoodEnd : Common.SceneName.AnotherGoodEnd;
         }
         // notmal
         else if(damagePercentage >= 0.5)
         {
-            scene = gameMode > 1 ? Common.SceneName.AnotherNormalEnd : Common.SceneName.MainNormalEnd;
+            scene = gameMode > 0 ? Common.SceneName.MainNormalEnd : Common.SceneName.AnotherNormalEnd;
         }
         // bad
         else
         {
-            scene = gameMode > 1 ? Common.SceneName.AnotherBadEnd : Common.SceneName.MainBadEnd;
+            scene = gameMode > 0 ? Common.SceneName.MainBadEnd : Common.SceneName.AnotherBadEnd;
         }
         Common.Instance.ChangeScene(scene);
     }
