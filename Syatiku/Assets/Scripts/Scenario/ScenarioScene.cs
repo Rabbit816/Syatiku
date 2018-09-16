@@ -14,7 +14,6 @@ public class ScenarioScene : MonoBehaviour {
         string sceneName = UnityEngine.SceneManagement.SceneManager.GetActiveScene().name;
         SoundManager.Instance.StopBGM();
         SoundManager.Instance.SetVoiceSource(voiceSource);
-
         //決戦前のシナリオの場合
         if (sceneName == "BeforeBattle")
         {
@@ -38,7 +37,6 @@ public class ScenarioScene : MonoBehaviour {
     /// <summary>
     /// ボス決戦前のメインシナリオ再生(シナリオを始める番号:最初のボイス番号)
     /// vs社長(bad 0:0 normal 6:1 good 11:2)
-    /// vs課長
     /// </summary>
     private void BeginScenarioMainBeforeBattle()
     {
@@ -53,7 +51,7 @@ public class ScenarioScene : MonoBehaviour {
         }
         switch (clearCount)
         {
-            //Bad
+            //Good
             case 0:
             case 1:
                 break;
@@ -62,13 +60,12 @@ public class ScenarioScene : MonoBehaviour {
                 startInfoIndex = 6;
                 startVoiceIndex = 1;
                 break;
-            //Good
+            //Bad
             case 3:
                 startInfoIndex = 11;
                 startVoiceIndex = 2;
                 break;
         }
-
         ScenarioController.Instance.BeginScenario(filePath, startInfoIndex, startVoiceIndex);
     }
 

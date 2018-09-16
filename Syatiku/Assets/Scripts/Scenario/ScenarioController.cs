@@ -132,6 +132,7 @@ public class ScenarioController : MonoBehaviour {
         allMessage = scenarioInfoList[infoIndex].message;
         //ボイスストップ
         SoundManager.Instance.StopVoice();
+        SoundManager.Instance.StopSE();
         //各コマンド
         if (scenarioInfoList[infoIndex].commandActionList.Count > 0 && scenarioInfoList[infoIndex].fadeTimeList.Count > 0)
         {
