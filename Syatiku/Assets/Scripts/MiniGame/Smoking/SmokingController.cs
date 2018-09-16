@@ -20,6 +20,9 @@ public class SmokingController : MonoBehaviour {
     [SerializeField]
     private int qLength; // 合計問題数
 
+    [SerializeField]
+    private Material smokeMate;
+
     // 背景画像---------------------
     [SerializeField]
     private Image back; 
@@ -35,6 +38,8 @@ public class SmokingController : MonoBehaviour {
     private int succesCount,qNum,qCount; // 正解数、今が何番目の問題か
 
     private int textNum;
+
+    private float smokeTime;
 
     private bool isTime = false; // タイマースタートフラグ
 
@@ -62,9 +67,9 @@ public class SmokingController : MonoBehaviour {
 
     public GameObject selectUI; // 選択肢UI
 
-
     // Use this for initialization
     void Start () {
+
         SoundManager.Instance.PlayBGM(BGMName.Smoking);
 
         textNum = Random.Range(0, 4);
@@ -90,6 +95,9 @@ public class SmokingController : MonoBehaviour {
 
     
     void Update(){
+        smokeTime += 0.1f * Time.deltaTime;
+        smokeMate.SetFloat("_FillValue", smokeTime);
+
         if (ScenarioController.Instance.IsReachLastInfo())
         {
             if (resultFlag)
