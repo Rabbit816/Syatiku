@@ -2630,7 +2630,7 @@ MonoBehaviour:
   miniGameImage:
   - {fileID: 21300000, guid: 46f03b0deec5ba343885de730ff26aeb, type: 3}
   - {fileID: 21300000, guid: 1856296ba72d22d459872f98b38014b7, type: 3}
-  - {fileID: 21300000, guid: f382b1d18232c3d4fa6c4a61a5546de2, type: 3}
+  - {fileID: 21300000, guid: d0f44d060280907419533ac159203831, type: 3}
 --- !u!1 &1450165033
 GameObject:
   m_ObjectHideFlags: 0
