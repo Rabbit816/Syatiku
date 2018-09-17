@@ -36,7 +36,7 @@ public class FlickTextController : MonoBehaviour
         //座標
         float posX = Random.Range(0, 2);
         posX = (posX > 0 ? 450 : -450);
-        float posY = Random.Range(-100, 120);
+        float posY = Random.Range(-150, 150);
         Vector3 pos = new Vector3(posX, posY, 0);
         text.rectTransform.localPosition = pos;
         //移動
