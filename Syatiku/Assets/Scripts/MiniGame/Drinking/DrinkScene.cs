@@ -129,14 +129,14 @@ public class DrinkScene : MonoBehaviour {
 
             // 注文商品の表示
             var Menu_Order = Instantiate(this.MenuList[this.OrderBox[i]], new Vector2(OrderPos[i], 3.35f), Quaternion.identity);
-            Menu_Order.transform.localScale = new Vector2(0.33f, 0.33f);
+            Menu_Order.transform.localScale = new Vector2(0.345f, 0.345f);
             Menu_Order.transform.parent = this.menuObject.transform;
 
             // 表示された吹き出しと商品を消す
             yield return new WaitForSeconds(this.Timer);
             this.Delete();
             this.OrderCounterOFF();
-            this.Hukidashi(false);
+            this.HukidashiOFF();
         }
         yield return new WaitForSeconds(0.5f);
         button.DrinkSceneButton(true);
@@ -155,8 +155,8 @@ public class DrinkScene : MonoBehaviour {
     //注文の答えの表示
     public IEnumerator Answer()
     {
-        //吹き出しを表示
-        this.Hukidashi(true);
+        // 残りゲーム回数を減算
+        this.Limit--;
 
         // 注文入力が時間切れの場合
         if (meter.TimeOverFlg)
@@ -199,15 +199,20 @@ public class DrinkScene : MonoBehaviour {
                     this.OutputAnswer(Num[i], false);
                 }
             }
+            if (this.ClearCount == 4)
+            {
+                this.ClearScore++;
+            }
         }
-        if(this.ClearCount == 4)
+        
+        // 吹き出しを表示
+        for(int i = 0; i < this.HukidashiList.Length; i++)
         {
-            this.ClearScore++;
+            yield return new WaitForSeconds(0.5f);
+            this.HukidashiList[i].gameObject.SetActive(true);
         }
+        yield return new WaitForSeconds(1.0f);
         this.TapText.gameObject.SetActive(true);
-        this.Limit--;
-
-        yield return new WaitForSeconds(0.5f);
         this.NextGameFlg = true;
     }
     
@@ -236,11 +241,11 @@ public class DrinkScene : MonoBehaviour {
         }
     }
     
-    public void Hukidashi(bool b)
+    public void HukidashiOFF()
     {
         for(int i = 0; i < this.HukidashiList.Length; i++)
         {
-            this.HukidashiList[i].gameObject.SetActive(b);
+            this.HukidashiList[i].gameObject.SetActive(false);
         }
     }
     
@@ -282,7 +287,7 @@ public class DrinkScene : MonoBehaviour {
         this.ClearCount = 0;
 
         // デバッグ用の処理
-        this.LookAnswer();
+        //this.LookAnswer();
     }
    
     void Start () {
@@ -295,7 +300,7 @@ public class DrinkScene : MonoBehaviour {
         this.OriginPos3 = this.OrderPos[2];
         this.OrderCounterOFF();
         this.AnswerResultOFF();
-        this.Hukidashi(false);
+        this.HukidashiOFF();
         this.NextGameFlg = true;
         this.TapText.text = "タップしてスタート！";
 
@@ -381,7 +386,7 @@ public class DrinkScene : MonoBehaviour {
                 this.TapText.gameObject.SetActive(false);
                 this.NextGameFlg = false;
                 this.AnswerResultOFF();
-                this.Hukidashi(false);
+                this.HukidashiOFF();
                 this.GameStart();
             }
             // ゲーム終了時の処理
