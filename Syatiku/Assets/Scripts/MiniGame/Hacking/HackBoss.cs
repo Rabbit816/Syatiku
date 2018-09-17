@@ -26,7 +26,7 @@ public class HackBoss : MonoBehaviour {
     private IntoPCAction into_pc;
     private BossText boss_text;
     [Header("上司が待機してる時間")]
-    public float BossTimer = 5.0f;
+    public float BossTimer = 10.0f;
     private float Bosswait;
     private float req = 3f;
     private bool _commingboss = false;
@@ -34,6 +34,8 @@ public class HackBoss : MonoBehaviour {
     [HideInInspector]
     public bool _choosing = false;
     private bool _chooseTap = false;
+    //ボスのテキストがmaxまで来た時の判定
+    private bool _maxtext = false;
 
     private int rand = 0;
     private int rand_count = 0;
@@ -53,6 +55,7 @@ public class HackBoss : MonoBehaviour {
         _gameover = false;
         _choosing = false;
         _chooseTap = false;
+        _maxtext = false;
         comingCount = 0;
         rand_count = 0;
         Bosswait = BossTimer;
@@ -70,8 +73,11 @@ public class HackBoss : MonoBehaviour {
                 rand = Random.Range(0, 4);
                 if (rand == 1 && !patte._PatteringPlay || rand_count == 3 && !patte._PatteringPlay)
                 {
-                    boss_rect.transform.DOMoveX(boss_rect.transform.position.x + 2.8f, 0.5f).SetEase(Ease.Linear).OnComplete(() => MoveBoss());
-                    rand_count = 0;
+                    if (!_maxtext)
+                    {
+                        boss_rect.transform.DOMoveX(boss_rect.transform.position.x + 2.8f, 0.5f).SetEase(Ease.Linear).OnComplete(() => MoveBoss());
+                        rand_count = 0;
+                    }
                 }else
                     rand_count++;
 
@@ -93,13 +99,13 @@ public class HackBoss : MonoBehaviour {
             }
             else if(Bosswait <= 0.0f)
             {
-                Bosswait = 0.0f;
-                if (!_gameover)
-                {
-                    _gameover = true;
-                    Common.Instance.clearFlag[Common.Instance.miniNum] = false;
-                    Common.Instance.ChangeScene(Common.SceneName.Result);
-                }
+                Boss.transform.localPosition = new Vector2(-885, -277);
+                ComeBoss.SetActive(false);
+                hack_tap.PlaceButton(12);
+                _chooseTap = false;
+                _commingboss = false;
+                Zoom.SetActive(true);
+                _choosing = false;
             }
         }
 	}
@@ -123,6 +129,9 @@ public class HackBoss : MonoBehaviour {
     public void MoveBoss()
     {
         comingCount++;
+        if (comingCount == 8)
+            _maxtext = true;
+
         if (comingCount%4 == 0)
         {
             Zoom.SetActive(false);
@@ -136,6 +145,8 @@ public class HackBoss : MonoBehaviour {
     /// </summary>
     public void ComeOnBoss()
     {
+        Bosswait = BossTimer;
+        chose_text.text = Bosswait.ToString("f1");
         _choosing = true;
         boss_text.AddText();
         hack_tap.PlaceButton(13);
