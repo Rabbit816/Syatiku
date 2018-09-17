@@ -52,13 +52,18 @@ public class ResultController : MonoBehaviour {
                 case 0:
                     scoreText[0] = "書類改ざん";
                     scoreText[1] = "セクハラ";
+                    Common.Instance.dataFlag[0] = true;
+                    Common.Instance.dataFlag[1] = true;
                     break;
                 case 1:
                     scoreText[0] = "スコアノート";
                     scoreText[1] = "ダブル\nブッキング";
+                    Common.Instance.dataFlag[2] = true;
+                    Common.Instance.dataFlag[3] = true;
                     break;
                 case 2:
-                    scoreText[0] = "パワハラ"; 
+                    scoreText[0] = "パワハラ";
+                    Common.Instance.dataFlag[4] = true;
                     onceFlag = true;
                     break;
             }

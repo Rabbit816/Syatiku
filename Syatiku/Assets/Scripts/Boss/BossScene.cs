@@ -60,6 +60,9 @@ public class BossScene : MonoBehaviour {
     private Vector3 touchStartPos;
 
     void Awake () {
+        SoundManager.Instance.StopBGM();
+        SoundManager.Instance.StopSE();
+        SoundManager.Instance.StopVoice();
         Initialize();
 	}
 

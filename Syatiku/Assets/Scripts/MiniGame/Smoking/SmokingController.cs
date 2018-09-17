@@ -65,7 +65,7 @@ public class SmokingController : MonoBehaviour {
 
         SoundManager.Instance.PlayBGM(BGMName.Smoking);
 
-        textNum = 2/*Random.Range(0, 4)*/;
+        textNum = Random.Range(0, 4);
 
         textPath = "Talk" + textNum + "/";
         IsScenario(talkFilePath + textPath + smokePath);

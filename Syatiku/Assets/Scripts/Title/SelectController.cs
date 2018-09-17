@@ -17,10 +17,10 @@ public class SelectController : MonoBehaviour,
     /// <param name="eventData"></param>
     public void OnPointerEnter(PointerEventData eventData) {
         switch (gameObject.name) {
-            case "Another":
+            case "White":
                 blackMan.transform.localScale = new Vector2(zoomScale, zoomScale);
                 break;
-            case "White":
+            case "Another":
                 whiteMan.transform.localScale = new Vector2(zoomScale, zoomScale);
                 break;
             default:
@@ -34,10 +34,10 @@ public class SelectController : MonoBehaviour,
     /// <param name="eventData"></param>
     public void OnPointerExit(PointerEventData eventData) {
         switch (gameObject.name) {
-            case "Another":
+            case "White":
                 blackMan.transform.localScale = new Vector2(1f, 1f);
                 break;
-            case "White":
+            case "Another":
                 whiteMan.transform.localScale = new Vector2(1, 1f);
                 break;
             default:

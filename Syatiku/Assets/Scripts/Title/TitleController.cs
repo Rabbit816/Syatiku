@@ -28,13 +28,13 @@ public class TitleController : MonoBehaviour {
         Common.Instance.gameMode = mode;
         if (mode == 1)
         {
-            Common.Instance.actionCount = 1; // ANOTHER
-            Common.Instance.ChangeScene(Common.SceneName.AnotherEpilogue);
+            Common.Instance.actionCount = 3; // WHITE
+            Common.Instance.ChangeScene(Common.SceneName.MainEpilogue);
         }
         else
         {
-            Common.Instance.actionCount = 3; // WHITE
-            Common.Instance.ChangeScene(Common.SceneName.MainEpilogue);
+            Common.Instance.actionCount = 1; // ANOTHER
+            Common.Instance.ChangeScene(Common.SceneName.AnotherEpilogue);
         }
 
         

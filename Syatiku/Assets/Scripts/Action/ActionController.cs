@@ -14,6 +14,10 @@ public class ActionController : MonoBehaviour {
     [SerializeField]
     private Text action;
 
+    // 資料の詳細
+    [SerializeField]
+    private Image ProDImage;
+
     // 獲得資料配列
     [SerializeField]
     private Image[] getData;
@@ -48,6 +52,13 @@ public class ActionController : MonoBehaviour {
     private bool dataOpen = true;   // 獲得資料リスト
     private bool datailOpen = true; // 獲得資料詳細
     // -----------------------------------------------
+    void DebugTest() {
+        foreach (var num in getData) {
+            num.GetComponent<Button>().interactable = true;
+            num.color = Color.white;
+        }
+    }
+
 
     void Awake() {
         SoundManager.Instance.StopBGM();
@@ -57,8 +68,7 @@ public class ActionController : MonoBehaviour {
 
     void Start () {
 
-        if (Common.Instance.actionCount == 0)
-        {
+        if (Common.Instance.actionCount == 0) {
             SoundManager.Instance.PlaySE(SEName.Warning);
             worning.gameObject.SetActive(true);
             StartCoroutine(IsWorning());
@@ -82,7 +92,10 @@ public class ActionController : MonoBehaviour {
         Common.Instance.Shuffle(sceneNum);
 
         CreateHuman();
+
         
+
+
     }
 
     /// <summary>
@@ -135,11 +148,16 @@ public class ActionController : MonoBehaviour {
     /// <summary>
     /// 資料詳細表示
     /// </summary>
-    public void IsDataDetail()
+    public void IsDataDetail(Sprite s)
     {
+
+        if (datailOpen) {
+            datailOpen = false;
+        } else {
+            datailOpen = true;
+            ProDImage.sprite = s;
+        }
         dataDetail.gameObject.SetActive(datailOpen);
-        if (datailOpen) datailOpen = false;
-        else datailOpen = true;
     }
 
     /// <summary>
