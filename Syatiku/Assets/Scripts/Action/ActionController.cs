@@ -49,6 +49,12 @@ public class ActionController : MonoBehaviour {
     private bool datailOpen = true; // 獲得資料詳細
     // -----------------------------------------------
 
+    void Awake() {
+        SoundManager.Instance.StopBGM();
+        SoundManager.Instance.StopSE();
+        SoundManager.Instance.StopVoice();
+    }
+
     void Start () {
 
         if (Common.Instance.actionCount == 0)

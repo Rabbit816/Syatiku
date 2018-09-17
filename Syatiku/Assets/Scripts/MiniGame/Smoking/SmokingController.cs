@@ -65,7 +65,7 @@ public class SmokingController : MonoBehaviour {
 
         SoundManager.Instance.PlayBGM(BGMName.Smoking);
 
-        textNum = Random.Range(0, 4);
+        textNum = 2/*Random.Range(0, 4)*/;
 
         textPath = "Talk" + textNum + "/";
         IsScenario(talkFilePath + textPath + smokePath);
@@ -185,7 +185,7 @@ public class SmokingController : MonoBehaviour {
 
             qNum++;
 
-            IsScenario(talkFilePath + badSmokePath + qCount.ToString());
+            IsScenario(talkFilePath + badSmokePath + answerCount.ToString());
         }
         
         Invoke("SelectFalse", 0.01f);

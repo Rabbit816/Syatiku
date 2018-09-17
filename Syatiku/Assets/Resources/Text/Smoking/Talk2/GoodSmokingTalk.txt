@@ -21,7 +21,7 @@
 
 @charaOn {main_Boy}left
 @name{白田} left
-@cv[1]
+@cv[3]
 
 （手柄を盗む、そんなせこい事もやるのか。
 　ますます許せないな）
