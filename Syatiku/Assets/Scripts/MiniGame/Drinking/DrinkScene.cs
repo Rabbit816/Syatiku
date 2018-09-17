@@ -336,7 +336,6 @@ public class DrinkScene : MonoBehaviour {
             this.ClearQuota = (int)(this.Limit * 0.8f);
         }
         this.ClearScore = 0;
-        Debug.Log(this.ClearQuota);
     }
 
     // 飲み会のゲームクリア判定
