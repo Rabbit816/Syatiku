@@ -9,7 +9,7 @@
 //@fadeIn{background} [2]　　　　　　　
 
 //表示する名前
-@charaOn {mob01}center
+@charaOn {mob03}center
 @name{社員D} center
 
 

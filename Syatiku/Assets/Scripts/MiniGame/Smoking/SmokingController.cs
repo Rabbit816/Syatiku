@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 public class SmokingController : MonoBehaviour {
     [SerializeField]
-    private Image tabaco,face; // タバコUI、機嫌UI
+    private Image face; // タバコUI、機嫌UI
     [SerializeField]
     private Text[] wordText = new Text[4]; // 選択肢テキスト
     [SerializeField]
@@ -21,15 +21,8 @@ public class SmokingController : MonoBehaviour {
     private int qLength; // 合計問題数
 
     [SerializeField]
-    private Material smokeMate;
+    private Material smokeMate; // 煙UI
 
-    // 背景画像---------------------
-    [SerializeField]
-    private Image back; 
-    [SerializeField]
-    private Sprite backSprite;
-    // -----------------------------
-    
     [SerializeField]
     private CriAtomSource voice; // セリフ音
 
@@ -37,9 +30,9 @@ public class SmokingController : MonoBehaviour {
 
     private int succesCount,qNum,qCount; // 正解数、今が何番目の問題か
 
-    private int textNum;
+    private float smokeTime; // 煙の数値
 
-    private float smokeTime; // 煙減少値
+    private int textNum;
 
     private bool isTime = false; // タイマースタートフラグ
 
@@ -73,7 +66,6 @@ public class SmokingController : MonoBehaviour {
         SoundManager.Instance.PlayBGM(BGMName.Smoking);
 
         textNum = Random.Range(0, 4);
-        if (textNum == 4) back.sprite = backSprite; // 女性社員なら背景変更
 
         textPath = "Talk" + textNum + "/";
         IsScenario(talkFilePath + textPath + smokePath);
@@ -86,8 +78,6 @@ public class SmokingController : MonoBehaviour {
         
         succesCount = 0; // 正解数
 
-        //tabacoSize = tabaco.rectTransform.sizeDelta; // 制限時間のUIの長さを設定
-
         mushikui = new Mushikui(musiFilePath); // 虫食いデータ作成
 
         Question(); // 問題読み込み
@@ -95,11 +85,12 @@ public class SmokingController : MonoBehaviour {
 
     
     void Update(){
-        smokeTime += 0.1f * Time.deltaTime;
-        smokeMate.SetFloat("_FillValue", smokeTime);
 
         if (ScenarioController.Instance.IsReachLastInfo())
         {
+            smokeTime += 0.1f * Time.deltaTime;
+            smokeMate.SetFloat("_FillValue", smokeTime);
+
             if (resultFlag)
             {
                 answerCount = 2;
@@ -133,24 +124,6 @@ public class SmokingController : MonoBehaviour {
     }
 
     /// <summary>
-    /// タイマー
-    /// </summary>
-    /// <returns></returns>
-    //public IEnumerator TimeDown(){
-    //    while (tabaco.rectTransform.sizeDelta.x > 0 && isTime)
-    //    {
-    //        tabaco.rectTransform.sizeDelta -= new Vector2(time * Time.deltaTime,0);
-    //        if(tabaco.rectTransform.sizeDelta.x <= tabacoSize.x / 2 &&
-    //            tabaco.rectTransform.sizeDelta.x >= tabacoSize.x / 4) {
-    //            tabaco.transform.GetChild(0).GetComponent<Image>().color = Color.yellow;
-    //        } else if(tabaco.rectTransform.sizeDelta.x < tabacoSize.x / 4) {
-    //            tabaco.transform.GetChild(0).GetComponent<Image>().color = Color.red;
-    //        }
-    //        yield return null;
-    //    }
-    //}
-
-    /// <summary>
     /// 回答選択UIを表示
     /// </summary>
     /// <returns></returns>
@@ -160,8 +133,6 @@ public class SmokingController : MonoBehaviour {
         {
             isTime = true;
             selectUI.SetActive(true);
-            //if (selectUI.activeSelf)
-            //    StartCoroutine(TimeDown());
             Question();
         }
         yield return null;
@@ -179,8 +150,6 @@ public class SmokingController : MonoBehaviour {
         qCount++;
         smokeTime = 0;
         smokeMate.SetFloat("_FillValue", smokeTime);
-        //tabaco.transform.GetChild(0).GetComponent<Image>().color = Color.white;
-        //tabaco.rectTransform.sizeDelta = tabacoSize;
         selectUI.SetActive(false);
         //-------------------------------------------------
         
