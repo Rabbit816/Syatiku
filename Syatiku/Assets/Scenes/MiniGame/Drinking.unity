@@ -1564,7 +1564,7 @@ MonoBehaviour:
   LimitText: {fileID: 490382268}
   Timer: 1.5
   Limit: 3
-  EasyGameMode: 0
+  ChangeGameMode: 0
 --- !u!4 &307734375
 Transform:
   m_ObjectHideFlags: 0
@@ -2157,7 +2157,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
   m_AnchoredPosition: {x: 250, y: -140}
-  m_SizeDelta: {x: 430, y: 175}
+  m_SizeDelta: {x: 430, y: 185}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &366779106
 MonoBehaviour:
@@ -5784,7 +5784,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
   m_AnchoredPosition: {x: 685, y: -140}
-  m_SizeDelta: {x: 430, y: 175}
+  m_SizeDelta: {x: 430, y: 185}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1475817006
 MonoBehaviour:
@@ -6688,7 +6688,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
   m_AnchoredPosition: {x: 1120, y: -140}
-  m_SizeDelta: {x: 430, y: 175}
+  m_SizeDelta: {x: 430, y: 185}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1723692259
 MonoBehaviour:
