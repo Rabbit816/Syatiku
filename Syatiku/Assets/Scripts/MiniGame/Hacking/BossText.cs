@@ -49,6 +49,7 @@ public class BossText : MonoBehaviour {
     {
         if (currentLine > maxLine - 1)
             return;
+            
         stren = Boss_text[currentLine].ToString().Split(',');
         boss_textObject.text = stren[0];
         boss_textbtn_0.text = stren[1];
