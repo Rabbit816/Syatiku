@@ -39,7 +39,7 @@ public class SmokingController : MonoBehaviour {
 
     private int textNum;
 
-    private float smokeTime;
+    private float smokeTime; // 煙減少値
 
     private bool isTime = false; // タイマースタートフラグ
 
@@ -86,7 +86,7 @@ public class SmokingController : MonoBehaviour {
         
         succesCount = 0; // 正解数
 
-        tabacoSize = tabaco.rectTransform.sizeDelta; // 制限時間のUIの長さを設定
+        //tabacoSize = tabaco.rectTransform.sizeDelta; // 制限時間のUIの長さを設定
 
         mushikui = new Mushikui(musiFilePath); // 虫食いデータ作成
 
@@ -124,12 +124,11 @@ public class SmokingController : MonoBehaviour {
                 IsScenario(talkFilePath + textPath + smokePath + qCount.ToString());
             }
 
-        if (tabaco.rectTransform.sizeDelta.x < 0)
-            if (!timeOver)
-            {
-                timeOver = true;
-                Result();
-            }
+            if (smokeMate.GetFloat("_FillValue") >= 1)
+                if (!timeOver) {
+                    timeOver = true;
+                    Result();
+                }
         }
     }
 
@@ -137,19 +136,19 @@ public class SmokingController : MonoBehaviour {
     /// タイマー
     /// </summary>
     /// <returns></returns>
-    public IEnumerator TimeDown(){
-        while (tabaco.rectTransform.sizeDelta.x > 0 && isTime)
-        {
-            tabaco.rectTransform.sizeDelta -= new Vector2(time * Time.deltaTime,0);
-            if(tabaco.rectTransform.sizeDelta.x <= tabacoSize.x / 2 &&
-                tabaco.rectTransform.sizeDelta.x >= tabacoSize.x / 4) {
-                tabaco.transform.GetChild(0).GetComponent<Image>().color = Color.yellow;
-            } else if(tabaco.rectTransform.sizeDelta.x < tabacoSize.x / 4) {
-                tabaco.transform.GetChild(0).GetComponent<Image>().color = Color.red;
-            }
-            yield return null;
-        }
-    }
+    //public IEnumerator TimeDown(){
+    //    while (tabaco.rectTransform.sizeDelta.x > 0 && isTime)
+    //    {
+    //        tabaco.rectTransform.sizeDelta -= new Vector2(time * Time.deltaTime,0);
+    //        if(tabaco.rectTransform.sizeDelta.x <= tabacoSize.x / 2 &&
+    //            tabaco.rectTransform.sizeDelta.x >= tabacoSize.x / 4) {
+    //            tabaco.transform.GetChild(0).GetComponent<Image>().color = Color.yellow;
+    //        } else if(tabaco.rectTransform.sizeDelta.x < tabacoSize.x / 4) {
+    //            tabaco.transform.GetChild(0).GetComponent<Image>().color = Color.red;
+    //        }
+    //        yield return null;
+    //    }
+    //}
 
     /// <summary>
     /// 回答選択UIを表示
@@ -161,8 +160,8 @@ public class SmokingController : MonoBehaviour {
         {
             isTime = true;
             selectUI.SetActive(true);
-            if (selectUI.activeSelf)
-                StartCoroutine(TimeDown());
+            //if (selectUI.activeSelf)
+            //    StartCoroutine(TimeDown());
             Question();
         }
         yield return null;
@@ -178,8 +177,10 @@ public class SmokingController : MonoBehaviour {
         isTime = false;
         qLength--;
         qCount++;
-        tabaco.transform.GetChild(0).GetComponent<Image>().color = Color.white;
-        tabaco.rectTransform.sizeDelta = tabacoSize;
+        smokeTime = 0;
+        smokeMate.SetFloat("_FillValue", smokeTime);
+        //tabaco.transform.GetChild(0).GetComponent<Image>().color = Color.white;
+        //tabaco.rectTransform.sizeDelta = tabacoSize;
         selectUI.SetActive(false);
         //-------------------------------------------------
         

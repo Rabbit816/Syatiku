@@ -50,14 +50,16 @@ public class ActionController : MonoBehaviour {
     // -----------------------------------------------
 
     void Start () {
-        SoundManager.Instance.PlayBGM(BGMName.Action);
 
         if (Common.Instance.actionCount == 0)
         {
+            SoundManager.Instance.PlaySE(SEName.Warning);
             worning.gameObject.SetActive(true);
             StartCoroutine(IsWorning());
             return;
         }
+
+        SoundManager.Instance.PlayBGM(BGMName.Action);
 
         IsDataSelect();
 
