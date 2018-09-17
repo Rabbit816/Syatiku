@@ -1564,11 +1564,7 @@ MonoBehaviour:
   LimitText: {fileID: 490382268}
   Timer: 1.5
   Limit: 3
-  AnswerCheck:
-  - 
-  - 
-  - 
-  - 
+  EasyGameMode: 0
 --- !u!4 &307734375
 Transform:
   m_ObjectHideFlags: 0

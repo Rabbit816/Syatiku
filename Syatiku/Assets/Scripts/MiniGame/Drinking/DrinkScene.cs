@@ -69,8 +69,12 @@ public class DrinkScene : MonoBehaviour {
     private int ClearScore;
 
     // デバッグ用のカンニング
-    [SerializeField]
+    //[SerializeField]
     private string[] AnswerCheck = new string[4];
+
+    [SerializeField, Tooltip("クリア条件を緩くする")]
+    private bool ChangeGameMode;
+    private bool GameMode;
 
     //注文の配列の用意
     public void OrderShuffle()
@@ -199,9 +203,16 @@ public class DrinkScene : MonoBehaviour {
                     this.OutputAnswer(Num[i], false);
                 }
             }
-            if (this.ClearCount == 4)
+            if (this.GameMode)
             {
-                this.ClearScore++;
+                this.ClearScore += this.ClearCount;
+            }
+            else
+            {
+                if (this.ClearCount == 4)
+                {
+                    this.ClearScore++;
+                }
             }
         }
         
@@ -292,6 +303,14 @@ public class DrinkScene : MonoBehaviour {
    
     void Start () {
         //ゲームの初期状態を用意する処理
+        if (this.ChangeGameMode)
+        {
+            this.GameMode = true;
+        }
+        else
+        {
+            this.GameMode = false;
+        }
         button = GetComponent<ButtonController>();
         denmoku = GetComponent<Denmoku>();
         meter = GetComponent<DenmokuMeter>();
@@ -308,8 +327,16 @@ public class DrinkScene : MonoBehaviour {
         SoundManager.Instance.PlayBGM(BGMName.DrinkingParty);
 
         // クリア条件の設定
-        this.ClearQuota = (int)(this.Limit * 0.8f);
+        if (this.GameMode)
+        {
+            this.ClearQuota = (int)(this.Limit * 0.8f) * this.HukidashiList.Length;
+        }
+        else
+        {
+            this.ClearQuota = (int)(this.Limit * 0.8f);
+        }
         this.ClearScore = 0;
+        Debug.Log(this.ClearQuota);
     }
 
     // 飲み会のゲームクリア判定
