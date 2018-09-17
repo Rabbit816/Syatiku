@@ -26,7 +26,7 @@ public class TitleController : MonoBehaviour {
     public void ChangeMode(int mode)
     {
         Common.Instance.gameMode = mode;
-        if (mode == 0)
+        if (mode == 1)
         {
             Common.Instance.actionCount = 1; // ANOTHER
             Common.Instance.ChangeScene(Common.SceneName.AnotherEpilogue);
