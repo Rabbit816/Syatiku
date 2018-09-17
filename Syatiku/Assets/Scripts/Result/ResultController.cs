@@ -38,6 +38,7 @@ public class ResultController : MonoBehaviour {
     private bool onceFlag = false;
 	// ミニゲームで獲得した情報を表示
 	void Start () {
+        SoundManager.Instance.StopBGM();
         // Emotionを非表示
         foreach(var i in emotion)
         {
