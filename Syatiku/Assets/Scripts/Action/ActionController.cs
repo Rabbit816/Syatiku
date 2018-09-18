@@ -30,6 +30,12 @@ public class ActionController : MonoBehaviour {
     [SerializeField]
     private Image missionSeat,isData,dataDetail;
 
+    [SerializeField]
+    private Sprite[] missionSprite;
+
+    [SerializeField]
+    private Image mission;
+
     // BossUI
     [SerializeField]
     private Image worningChara;
@@ -88,6 +94,8 @@ public class ActionController : MonoBehaviour {
         IsDataSelect();
 
         action.text = Common.Instance.actionCount.ToString();
+
+        mission.sprite = missionSprite[Common.Instance.gameMode];
 
         // 各UIを非表示に------------------------
         missionSeat.gameObject.SetActive(false);
