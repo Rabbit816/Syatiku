@@ -21,6 +21,17 @@ public class DrinkScene : MonoBehaviour {
     [SerializeField]
     Text[] OrderCounterList;
 
+    // フキダシ-----------------------
+    [SerializeField]
+    private Sprite[] timeOut;
+
+    [SerializeField]
+    private Sprite[] successSprite;
+
+    [SerializeField]
+    private Image[] hukidashiImage;
+    // ------------------------------
+
     // 吹き出しを表示する
     [SerializeField]
     GameObject[] HukidashiList;
@@ -174,6 +185,12 @@ public class DrinkScene : MonoBehaviour {
                 this.AnswerList[i].color = new Color(50f / 255f, 50f / 255f, 50f / 255f, 255f / 255f);
                 this.AnswerList[i].gameObject.SetActive(true);
             }
+
+            for(int i = 0; i < hukidashiImage.Length; i++)
+            {
+                hukidashiImage[i].sprite = timeOut[i];
+            }
+
             this.AnswerList[0].text = "時";
             this.AnswerList[1].text = "間";
             this.AnswerList[2].text = "切";
@@ -273,6 +290,9 @@ public class DrinkScene : MonoBehaviour {
             this.AnswerList[i].text = "○";
             this.AnswerList[i].color = new Color(255f / 255f, 0f / 255f, 0f / 255f, 255f / 255f);
             this.ClearCount++;
+            hukidashiImage[i].sprite = successSprite[0];
+            hukidashiImage[i].gameObject.SetActive(true);
+            AnswerList[i].gameObject.SetActive(false);
         }
         else
         {
@@ -280,6 +300,9 @@ public class DrinkScene : MonoBehaviour {
             this.AnswerList[i].transform.localPosition = pos;
             this.AnswerList[i].text = "×";
             this.AnswerList[i].color = new Color(40f / 255f, 0f / 255f, 255f / 255f, 255f / 255f);
+            hukidashiImage[i].sprite = successSprite[1];
+            hukidashiImage[i].gameObject.SetActive(true);
+            AnswerList[i].gameObject.SetActive(false);
         }
     }
 
@@ -297,11 +320,23 @@ public class DrinkScene : MonoBehaviour {
         meter.TimeOverFlg = false;
         this.ClearCount = 0;
 
+        for (int i = 0; i < hukidashiImage.Length; i++)
+        {
+            //AnswerList[i].gameObject.SetActive(false);
+            hukidashiImage[i].gameObject.SetActive(false);
+        }
+
         // デバッグ用の処理
         //this.LookAnswer();
     }
    
     void Start () {
+        for(int i = 0; i < hukidashiImage.Length; i++)
+        {
+            AnswerList[i].gameObject.SetActive(false);
+            hukidashiImage[i].gameObject.SetActive(false);
+        }
+
         //ゲームの初期状態を用意する処理
         if (this.ChangeGameMode)
         {

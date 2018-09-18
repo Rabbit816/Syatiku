@@ -30,6 +30,20 @@ public class ActionController : MonoBehaviour {
     [SerializeField]
     private Image missionSeat,isData,dataDetail;
 
+    [SerializeField]
+    private Sprite[] missionSprite;
+
+    [SerializeField]
+    private Image mission;
+
+    // BossUI
+    [SerializeField]
+    private Image worningChara;
+
+    // boss画像
+    [SerializeField]
+    private Sprite[] charaSprite; 
+
     // 人間生成座標
     [SerializeField]
     private GameObject[] createPos = new GameObject[4];
@@ -59,7 +73,6 @@ public class ActionController : MonoBehaviour {
         }
     }
 
-
     void Awake() {
         SoundManager.Instance.StopBGM();
         SoundManager.Instance.StopSE();
@@ -67,9 +80,10 @@ public class ActionController : MonoBehaviour {
     }
 
     void Start () {
-
         if (Common.Instance.actionCount == 0) {
             SoundManager.Instance.PlaySE(SEName.Warning);
+            worningChara.sprite = charaSprite[Common.Instance.gameMode];
+
             worning.gameObject.SetActive(true);
             StartCoroutine(IsWorning());
             return;
@@ -80,6 +94,8 @@ public class ActionController : MonoBehaviour {
         IsDataSelect();
 
         action.text = Common.Instance.actionCount.ToString();
+
+        mission.sprite = missionSprite[Common.Instance.gameMode];
 
         // 各UIを非表示に------------------------
         missionSeat.gameObject.SetActive(false);
@@ -92,10 +108,6 @@ public class ActionController : MonoBehaviour {
         Common.Instance.Shuffle(sceneNum);
 
         CreateHuman();
-
-        
-
-
     }
 
     /// <summary>
@@ -150,7 +162,6 @@ public class ActionController : MonoBehaviour {
     /// </summary>
     public void IsDataDetail(Sprite s)
     {
-
         if (datailOpen) {
             datailOpen = false;
         } else {
