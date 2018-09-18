@@ -49,6 +49,7 @@ public class HackBoss : MonoBehaviour {
     private float time = 0f;
 
     private Sequence sequence;
+    private Sequence seq2;
 
     // Use this for initialization
     void Start () {
@@ -169,9 +170,11 @@ public class HackBoss : MonoBehaviour {
     /// </summary>
     private void BossAnim()
     {
-        sequence.Play();
-        sequence.InsertCallback(22f, () => { sequence.Append(sequence.Pause()); MoveBoss(); Debug.Log("一回目"); })
+        seq2 = DOTween.Sequence();
+        seq2.InsertCallback(22f, () => { sequence.Append(sequence.Pause()); MoveBoss(); Debug.Log("一回目"); })
                 .InsertCallback(102f, () => { sequence.Append(sequence.Pause()); MoveBoss(); Debug.Log("二回目"); });
+        sequence.Play();
+        seq2.Play();
     }
 
     /// <summary>
