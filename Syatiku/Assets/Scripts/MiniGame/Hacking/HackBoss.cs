@@ -15,6 +15,8 @@ public class HackBoss : MonoBehaviour {
     private GameObject ChooseObject;
     [SerializeField, Header("ボスの質問に答える時のText")]
     private Text chose_text;
+    [SerializeField, Tooltip("矢印")]
+    private RectTransform Yazirusi;
 
     [HideInInspector]
     public int comingCount = 0;
@@ -28,7 +30,7 @@ public class HackBoss : MonoBehaviour {
     [Header("上司が待機してる時間")]
     public float BossTimer = 10.0f;
     private float Bosswait;
-    private float req = 3f;
+    private float req = 5f;
     private bool _commingboss = false;
     private bool _gameover = false;
     [HideInInspector]
@@ -36,9 +38,17 @@ public class HackBoss : MonoBehaviour {
     private bool _chooseTap = false;
     //ボスのテキストがmaxまで来た時の判定
     private bool _maxtext = false;
+    //ゲージのアニメーション判定
+    private bool _onece = false;
+
+    private bool _tapSuccece = false;
 
     private int rand = 0;
     private int rand_count = 0;
+    private float time_plus = 0f;
+    private float time = 0f;
+
+    private Sequence sequence;
 
     // Use this for initialization
     void Start () {
@@ -56,42 +66,72 @@ public class HackBoss : MonoBehaviour {
         _choosing = false;
         _chooseTap = false;
         _maxtext = false;
+        _onece = false;
+        _tapSuccece = false;
         comingCount = 0;
         rand_count = 0;
+        time_plus = 0f;
         Bosswait = BossTimer;
+        req = 5f;
+        sequence = DOTween.Sequence();
         Boss.transform.localPosition = new Vector2(-885, -277);
+        time = hack_main.timer;
+        sequence.Append(Yazirusi.DOLocalMoveX(875, time).SetEase(Ease.Linear));
     }
 	
 	// Update is called once per frame
 	void Update () {
-        //ボスランダム処理
-        if (hack_main._timerActive && !into_pc._isWindowAnim && !_commingboss)
+        if (hack_main._timerActive && !into_pc._isWindowAnim && !_commingboss && !patte._PatteringPlay)
         {
-            req -= Time.deltaTime;
-            if (req <= 0f)
+            if (!_onece)
             {
-                rand = Random.Range(0, 4);
-                if (rand == 1 && !patte._PatteringPlay || rand_count == 3 && !patte._PatteringPlay)
-                {
-                    if (!_maxtext)
-                    {
-                        boss_rect.transform.DOMoveX(boss_rect.transform.position.x + 2.8f, 0.5f).SetEase(Ease.Linear).OnComplete(() => MoveBoss());
-                        rand_count = 0;
-                    }
-                }else
-                    rand_count++;
-
-                req = 3f;
+                _onece = true;
+                BossAnim();
             }
         }
-       //ボスが来た時のタイマー処理
+        else
+        {
+            sequence.Pause();
+            _onece = false;
+        }
+        if (_tapSuccece)
+        {
+            req -= Time.deltaTime;
+            sequence.Pause();
+            if (req <= 0.0f)
+            {
+                _tapSuccece = false;
+                sequence.Play();
+            }
+        }
+        //ボスランダム処理
+        //if (hack_main._timerActive && !into_pc._isWindowAnim && !_commingboss)
+        //{
+        //    req -= Time.deltaTime;
+        //    if (req <= 0f)
+        //    {
+        //        rand = Random.Range(0, 4);
+        //        if (rand == 1 && !patte._PatteringPlay || rand_count == 3 && !patte._PatteringPlay)
+        //        {
+        //            if (!_maxtext)
+        //            {
+        //                boss_rect.transform.DOMoveX(boss_rect.transform.position.x + 2.8f, 0.5f).SetEase(Ease.Linear).OnComplete(() => MoveBoss());
+        //                rand_count = 0;
+        //            }
+        //        }else
+        //            rand_count++;
+
+        //        req = 3f;
+        //    }
+        //}
+        //ボスが来た時のタイマー処理
         if (_commingboss)
         {
             Bosswait -= Time.deltaTime;
             chose_text.text = Bosswait.ToString("f1");
             if (_chooseTap)
             {
-                Boss.transform.localPosition = new Vector2(-885, -277);
+                //Boss.transform.localPosition = new Vector2(-885, -277);
                 ComeBoss.SetActive(false);
                 hack_tap.PlaceButton(12);
                 _chooseTap = false;
@@ -99,13 +139,14 @@ public class HackBoss : MonoBehaviour {
             }
             else if(Bosswait <= 0.0f)
             {
-                Boss.transform.localPosition = new Vector2(-885, -277);
+                //Boss.transform.localPosition = new Vector2(-885, -277);
                 ComeBoss.SetActive(false);
                 hack_tap.PlaceButton(12);
+                _choosing = false;
                 _chooseTap = false;
                 _commingboss = false;
                 Zoom.SetActive(true);
-                _choosing = false;
+                sequence.Append(sequence.Play());
             }
         }
 	}
@@ -124,7 +165,17 @@ public class HackBoss : MonoBehaviour {
     }
 
     /// <summary>
-    /// メーターの上司が動く処理 
+    /// ゲージの矢印アニメーション
+    /// </summary>
+    private void BossAnim()
+    {
+        sequence.Play();
+        sequence.InsertCallback(22f, () => { sequence.Append(sequence.Pause()); MoveBoss(); Debug.Log("一回目"); })
+                .InsertCallback(102f, () => { sequence.Append(sequence.Pause()); MoveBoss(); Debug.Log("二回目"); });
+    }
+
+    /// <summary>
+    /// メーターの上司が動く処理
     /// </summary>
     public void MoveBoss()
     {
@@ -132,12 +183,16 @@ public class HackBoss : MonoBehaviour {
         if (comingCount == 8)
             _maxtext = true;
 
-        if (comingCount%4 == 0)
-        {
-            Zoom.SetActive(false);
-            hack_main.es.enabled = false;
-            ComeOnBoss();
-        }
+        _onece = false;
+        Zoom.SetActive(false);
+        hack_main.es.enabled = false;
+        ComeOnBoss();
+        //if (comingCount%4 == 0)
+        //{
+        //    Zoom.SetActive(false);
+        //    hack_main.es.enabled = false;
+        //    ComeOnBoss();
+        //}
     }
 
     /// <summary>
@@ -166,8 +221,9 @@ public class HackBoss : MonoBehaviour {
     {
         Zoom.SetActive(true);
         Bosswait = BossTimer;
-        _chooseTap = true;
+        sequence.Append(sequence.Play());
         _choosing = false;
+        _chooseTap = true;
         ChooseCheck(tx);
     }
 
@@ -181,11 +237,15 @@ public class HackBoss : MonoBehaviour {
         {
             Debug.Log("正解！");
             SoundManager.Instance.PlaySE(SEName.TapAction);
+            _tapSuccece = true;
+            time += 5f;
         }
         else
         {
             Debug.Log("不正解");
             SoundManager.Instance.PlaySE(SEName.PasswordMiss);
+            _tapSuccece = false;
         }
+        Debug.Log("timer + time_plus: " + hack_main.timer + time_plus);
     }
 }

@@ -41,7 +41,7 @@ public class HackGetWord : MonoBehaviour {
             CollectedWord = GameObject.Find("Canvas/PC/PassWordFase/Collect");
             CollectedPrefab = Resources.Load("Prefabs/MiniGame/Hacking/str") as GameObject;
             GetWordPrefab = Resources.Load("Prefabs/MiniGame/Hacking/WordImage") as GameObject;
-            GetWordFolderPrefab = Resources.Load("Prefabs/MiniGame/Hacking/folder_word") as GameObject;
+            GetWordFolderPrefab = Resources.Load("Prefabs/MiniGame/Hacking/folder_str") as GameObject;
             CollectFolderPrefab = Resources.Load("Prefabs/MiniGame/Hacking/folder_str") as GameObject;
         }
         catch

@@ -121,7 +121,7 @@ public class HackMain : MonoBehaviour {
         else
             _timerActive = false;
         
-        if(timer < 0f)
+        if(timer <= 0f)
         {
             if (!_overTime)
             {
