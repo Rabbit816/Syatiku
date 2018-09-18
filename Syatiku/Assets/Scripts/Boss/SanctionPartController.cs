@@ -34,7 +34,7 @@ public class SanctionPartController : MonoBehaviour {
             {
                 BossScene.Instance.ChangeBossState(slappedBossGO);
             }
-            BossScene.Instance.ChangeDamageGage(1);
+            BossScene.Instance.ChangeDamageGage(2);
             Vector3 bossScale = slappedBoss.localScale;
             bossScale.x *= -1;
             //向きの変更
