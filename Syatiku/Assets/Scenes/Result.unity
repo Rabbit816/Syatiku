@@ -522,11 +522,11 @@ MonoBehaviour:
   spot: {fileID: 675699733}
   backAction: {fileID: 851982403}
   eSprite_white:
-  - {fileID: 21300000, guid: 05fe363a31325844883d8aba2d2700c5, type: 3}
-  - {fileID: 21300000, guid: d251f5c900f5e2e47a493e7ae85c3361, type: 3}
-  eSprite_another:
   - {fileID: 21300000, guid: e54c38d9240b5d24193f5a3457698f54, type: 3}
   - {fileID: 21300000, guid: c0aeeda1985723c44bddfac46ec8cada, type: 3}
+  eSprite_another:
+  - {fileID: 21300000, guid: 05fe363a31325844883d8aba2d2700c5, type: 3}
+  - {fileID: 21300000, guid: d251f5c900f5e2e47a493e7ae85c3361, type: 3}
   proPrefab: {fileID: 1714246161507078, guid: 18bf9824b2de8264ea3395602b4b86c3, type: 2}
   emotion:
   - {fileID: 1401762448}
