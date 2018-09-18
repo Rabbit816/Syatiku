@@ -30,7 +30,7 @@ public class HackBoss : MonoBehaviour {
     [Header("上司が待機してる時間")]
     public float BossTimer = 10.0f;
     private float Bosswait;
-    private float req = 5f;
+    private float req = 0f;
     private bool _commingboss = false;
     private bool _gameover = false;
     [HideInInspector]
@@ -45,8 +45,9 @@ public class HackBoss : MonoBehaviour {
 
     private int rand = 0;
     private int rand_count = 0;
-    private float time_plus = 0f;
+    private int time_state = 0;
     private float time = 0f;
+    private float timer = 0f;
 
     private Sequence sequence;
     private Sequence seq2;
@@ -71,23 +72,44 @@ public class HackBoss : MonoBehaviour {
         _tapSuccece = false;
         comingCount = 0;
         rand_count = 0;
-        time_plus = 0f;
+        time_state = 0;
         Bosswait = BossTimer;
-        req = 5f;
+        req = 0f;
+        timer = hack_main.timer;
         sequence = DOTween.Sequence();
+        seq2 = DOTween.Sequence();
         Boss.transform.localPosition = new Vector2(-885, -277);
-        time = hack_main.timer;
-        sequence.Append(Yazirusi.DOLocalMoveX(875, time).SetEase(Ease.Linear));
+        time = 5f;
+        sequence.Append(Yazirusi.DOLocalMoveX(875, timer).SetEase(Ease.Linear));
     }
 	
 	// Update is called once per frame
 	void Update () {
-        if (hack_main._timerActive && !into_pc._isWindowAnim && !_commingboss && !patte._PatteringPlay)
+        if (hack_main._timerActive && !into_pc._isWindowAnim && !_commingboss && !patte._PatteringPlay && !_tapSuccece)
         {
-            if (!_onece)
+            req += Time.deltaTime;
+            sequence.Play();
+            switch (time_state)
             {
-                _onece = true;
-                BossAnim();
+                case 0:
+                    if (req > 23f)
+                    {
+                        seq2.Append(sequence.Pause()); MoveBoss(); Debug.Log("一回目");
+                        time_state++;
+                    }
+                    break;
+                case 1:
+                    if (req > 102f)
+                    {
+                        seq2.Append(sequence.Pause()); MoveBoss(); Debug.Log("二回目");
+                        time_state++;
+                    }
+                    break;
+                case 2:
+                    sequence.Append(sequence.OnComplete(() => {
+                        Common.Instance.clearFlag[Common.Instance.miniNum] = false;
+                        Common.Instance.ChangeScene(Common.SceneName.Result); }));
+                    return;
             }
         }
         else
@@ -97,10 +119,12 @@ public class HackBoss : MonoBehaviour {
         }
         if (_tapSuccece)
         {
-            req -= Time.deltaTime;
+            time -= Time.deltaTime;
             sequence.Pause();
-            if (req <= 0.0f)
+
+            if (time <= 0.0f)
             {
+                //req += 5f;
                 _tapSuccece = false;
                 sequence.Play();
             }
@@ -147,7 +171,7 @@ public class HackBoss : MonoBehaviour {
                 _chooseTap = false;
                 _commingboss = false;
                 Zoom.SetActive(true);
-                sequence.Append(sequence.Play());
+                seq2.Append(sequence.Play());
             }
         }
 	}
@@ -224,7 +248,7 @@ public class HackBoss : MonoBehaviour {
     {
         Zoom.SetActive(true);
         Bosswait = BossTimer;
-        sequence.Append(sequence.Play());
+        seq2.Append(sequence.Play());
         _choosing = false;
         _chooseTap = true;
         ChooseCheck(tx);
@@ -249,6 +273,5 @@ public class HackBoss : MonoBehaviour {
             SoundManager.Instance.PlaySE(SEName.PasswordMiss);
             _tapSuccece = false;
         }
-        Debug.Log("timer + time_plus: " + hack_main.timer + time_plus);
     }
 }

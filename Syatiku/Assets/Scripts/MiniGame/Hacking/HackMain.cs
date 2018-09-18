@@ -115,22 +115,22 @@ public class HackMain : MonoBehaviour {
         if (!patte._PatteringPlay && !hack_boss._choosing)
         {
             _timerActive = true;
-            timer -= Time.deltaTime;
-            time.text = "Timer: " + timer.ToString("f1");
+            //timer -= Time.deltaTime;
+            //time.text = "Timer: " + timer.ToString("f1");
         }
         else
             _timerActive = false;
         
-        if(timer <= 0f)
-        {
-            if (!_overTime)
-            {
-                _overTime = true;
-                time.text = "Timer: 0.0";
-                Common.Instance.clearFlag[Common.Instance.miniNum] = false;
-                Common.Instance.ChangeScene(Common.SceneName.Result);
-            }
-        }
+        //if(timer <= 0f)
+        //{
+        //    if (!_overTime)
+        //    {
+        //        _overTime = true;
+        //        time.text = "Timer: 0.0";
+        //        Common.Instance.clearFlag[Common.Instance.miniNum] = false;
+        //        Common.Instance.ChangeScene(Common.SceneName.Result);
+        //    }
+        //}
         return (timer < 0f);
     }
 
