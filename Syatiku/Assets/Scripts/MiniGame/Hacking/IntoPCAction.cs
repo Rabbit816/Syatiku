@@ -178,11 +178,11 @@ public class IntoPCAction : MonoBehaviour {
         switch (docNum)
         {
             case 0:
-                wrongbtn_0.GetComponent<Image>().color = new Color(255, 255, 0);
+                wrongbtn_0.GetComponent<Image>().color = new Color(255, 0, 0, 0.5f);
                 doc_0 = true;
                 break;
             case 1:
-                wrongbtn_1.GetComponent<Image>().color = new Color(255, 255, 0);
+                wrongbtn_1.GetComponent<Image>().color = new Color(255, 0, 0, 0.5f);
                 doc_1 = true;
                 break;
             case 2:
