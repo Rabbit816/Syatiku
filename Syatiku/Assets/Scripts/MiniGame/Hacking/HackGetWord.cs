@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections;
+using System;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using DG.Tweening;
@@ -10,6 +12,8 @@ public class HackGetWord : MonoBehaviour {
     private GameObject CollectFolderPrefab;
     [Tooltip("集めた単語(リスト内に出すObject)")]
     private GameObject GetWordFolderPrefab;
+
+    private List<int> getDrawerNum = new List<int>();
     //-----------------------------------------------------------------------------
 
     //-------------------棚で使う変数----------------------------------------------
@@ -21,6 +25,8 @@ public class HackGetWord : MonoBehaviour {
     private GameObject CollectedPrefab;
     [Tooltip("集めた単語(PC内に出す場所)")]
     private GameObject CollectedWord;
+
+    private List<int> getNum = new List<int>();
     //-----------------------------------------------------------------------------
 
     private HackMain hack_main;
@@ -48,6 +54,8 @@ public class HackGetWord : MonoBehaviour {
         {
             Debug.Log("Not Find");
         }
+        getNum.Clear();
+        getDrawerNum.Clear();
     }
 
     /// <summary>
@@ -56,24 +64,32 @@ public class HackGetWord : MonoBehaviour {
     /// <param name="placeNum"></param>
     public void SearchTap(int placeNum)
     {
-        //押したらアニメーション
-        SoundManager.Instance.PlaySE(SEName.FindInfo);
-        Text appearChild_text = gameObject.transform.GetChild(0).GetComponent<Text>();
-        GetWordAnim(gameObject);
-        DOTween.ToAlpha(
-            () => appearChild_text.color,
-            color => appearChild_text.color = color,
-            0f, 2.0f);
+        if (!getNum.Contains(placeNum))
+        {
+            getNum.Add(placeNum);
 
-        //PC内に集めた単語を表示
-        GameObject _collected_word = Instantiate(CollectedPrefab, CollectedWord.transform);
-        _collected_word.transform.position = hack_tap.pos_list[placeNum].transform.position;
-        _collected_word.GetComponentInChildren<Text>().text = hack_main.Answer_list[placeNum].ToString();
+            //押したらアニメーション
+            SoundManager.Instance.PlaySE(SEName.FindInfo);
+            Text appearChild_text = gameObject.transform.GetChild(0).GetComponent<Text>();
+            GetWordAnim(gameObject);
+            DOTween.ToAlpha(
+                () => appearChild_text.color,
+                color => appearChild_text.color = color,
+                0f, 2.0f);
 
-        //集めたものリストの中に単語を表示
-        GameObject _get_word = Instantiate(GetWordPrefab, GetWord.transform);
-        _get_word.transform.SetAsFirstSibling();
-        _get_word.GetComponentInChildren<Text>().text = hack_main.Answer_list[placeNum].ToString();
+            //PC内に集めた単語を表示
+            GameObject _collected_word = Instantiate(CollectedPrefab, CollectedWord.transform);
+            _collected_word.transform.position = hack_tap.pos_list[placeNum].transform.position;
+            _collected_word.GetComponentInChildren<Text>().text = hack_main.Answer_list[placeNum].ToString();
+
+            //集めたものリストの中に単語を表示
+            GameObject _get_word = Instantiate(GetWordPrefab, GetWord.transform);
+            _get_word.transform.SetAsFirstSibling();
+            _get_word.GetComponentInChildren<Text>().text = hack_main.Answer_list[placeNum].ToString();
+        }
+        else
+            return;
+        
     }
 
     /// <summary>
@@ -86,23 +102,29 @@ public class HackGetWord : MonoBehaviour {
         word[0] = "ゲ";
         word[1] = "ー";
         word[2] = "ム";
-        GetWordAnim(gameObject);
-        SoundManager.Instance.PlaySE(SEName.FindInfo);
-        Text appearChild_text = gameObject.transform.GetChild(0).GetComponent<Text>();
-        DOTween.ToAlpha(
-            () => appearChild_text.color,
-            color => appearChild_text.color = color,
-            0f, 2.0f);
+        if (!getDrawerNum.Contains(place))
+        {
+            getDrawerNum.Add(place);
+            GetWordAnim(gameObject);
+            SoundManager.Instance.PlaySE(SEName.FindInfo);
+            Text appearChild_text = gameObject.transform.GetChild(0).GetComponent<Text>();
+            DOTween.ToAlpha(
+                () => appearChild_text.color,
+                color => appearChild_text.color = color,
+                0f, 2.0f);
 
-        //PC内に集めた単語を表示
-        GameObject _collected_word = Instantiate(CollectFolderPrefab, hack_tap.CollectWordFolder.transform);
-        _collected_word.transform.position = hack_tap.folder_pos_list[place].transform.position;
-        _collected_word.GetComponentInChildren<Text>().text = word[place].ToString();
+            //PC内に集めた単語を表示
+            GameObject _collected_word = Instantiate(CollectFolderPrefab, hack_tap.CollectWordFolder.transform);
+            _collected_word.transform.position = hack_tap.folder_pos_list[place].transform.position;
+            _collected_word.GetComponentInChildren<Text>().text = word[place].ToString();
 
-        //集めたものリストの中に単語を表示
-        GameObject _get_word = Instantiate(GetWordFolderPrefab, GetWord.transform);
-        _get_word.transform.SetAsFirstSibling();
-        _get_word.GetComponentInChildren<Text>().text = word[place].ToString();
+            //集めたものリストの中に単語を表示
+            GameObject _get_word = Instantiate(GetWordFolderPrefab, GetWord.transform);
+            _get_word.transform.SetAsFirstSibling();
+            _get_word.GetComponentInChildren<Text>().text = word[place].ToString();
+        }
+        else
+            return;
     }
 
     /// <summary>
