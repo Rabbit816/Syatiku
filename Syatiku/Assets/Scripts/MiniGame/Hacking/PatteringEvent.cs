@@ -187,10 +187,6 @@ public class PatteringEvent : MonoBehaviour {
                 getDocument.transform.position = new Vector3(0, 0, 0);
                 successCount++;
                 getDocument_obj.SetActive(true);
-                //Sequence seque = DOTween.Sequence();
-                //seque.Join(getDocument.DOLocalMove(new Vector3(805, 320, 0), 1.4f))
-                //    .Join(getDocument.DORotate(new Vector3(0, 0, 720f), 1.0f))
-                //    .Join(getDocument.DOScale(new Vector3(0.6f, 0.6f, 0.6f), 1.0f));
                 _onece = true;
             }
         }

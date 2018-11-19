@@ -108,24 +108,26 @@ public class HackTap : MonoBehaviour
                 DoorSide.transform.localPosition = new Vector2(0, 0);
                 break;
             case 14:
-                if (_lowAnim)
-                    return;
-                IntoPC.transform.localPosition = new Vector2(0, 0);
-                Window.SetActive(false);
-                ZoomActive(3);
-                pat.transform.SetSiblingIndex(2);
-                StartCoroutine(patte.Start_AnimWaitTime(true));
-                _lowAnim = true;
+                //ゆっくりパラパラする処理
+                //if (_lowAnim)
+                //    return;
+                //IntoPC.transform.localPosition = new Vector2(0, 0);
+                //Window.SetActive(false);
+                //ZoomActive(3);
+                //pat.transform.SetSiblingIndex(2);
+                //StartCoroutine(patte.Start_AnimWaitTime(true));
+                //_lowAnim = true;
                 break;
             case 15:
-                if (_animloop)
-                    return;
-                IntoPC.transform.localPosition = new Vector2(0, 0);
-                Window.SetActive(false);
-                ZoomActive(4);
-                pat.transform.SetSiblingIndex(2);
-                StartCoroutine(patte.Start_AnimWaitTime(false));
-                _animloop = true;
+                //速くパラパラする処理
+                //if (_animloop)
+                //    return;
+                //IntoPC.transform.localPosition = new Vector2(0, 0);
+                //Window.SetActive(false);
+                //ZoomActive(4);
+                //pat.transform.SetSiblingIndex(2);
+                //StartCoroutine(patte.Start_AnimWaitTime(false));
+                //_animloop = true;
                 break;
             case 26:
                 intopc_action.DocumentsComparison();
